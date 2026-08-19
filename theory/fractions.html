@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="hy">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Կոտորակներ 5-6 | Ուսումնական ուղեցույց</title>
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$', '$']], displayMath: [['$$', '$$']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js" id="MathJax-script" async></script>
+<style>
+  :root{
+    --bg:#0f1f2e;
+    --paper:#f6f8fb;
+    --ink:#152233;
+    --accent:#1e5f8c;
+    --accent2:#c0562b;
+    --crust:#8fb3cc;
+    --muted:#5b7188;
+    --card:#ffffff;
+    --line:#dde6ee;
+  }
+  *{box-sizing:border-box;}
+  
+  /* Ընթեռնելի հայերեն ֆոնտ */
+  body{
+    margin:0; 
+    font-family:'Sylfaen', 'Arial', serif; 
+    background:var(--paper); 
+    color:var(--ink); 
+    font-size:18px; 
+    line-height:1.7;
+  }
+  
+  .hero{
+    background:
+      radial-gradient(circle at 82% 20%, rgba(143,179,204,.18), transparent 45%),
+      conic-gradient(from 200deg at 88% 78%, rgba(192,86,43,.35) 0deg 40deg, transparent 40deg 360deg),
+      var(--bg);
+    color:#eaf2f8; padding:64px 24px 56px; position:relative; overflow:hidden;
+  }
+  .hero-inner{max-width:820px; margin:0 auto; position:relative; z-index:2;}
+  h1.title{font-size:2.3rem; margin:0 0 14px; font-weight:bold; color:#fff;}
+  .hero p{color:#cfe0ec; max-width:640px; font-size:1.1rem;}
+
+  nav.toc{
+    max-width:820px;margin:-30px auto 0; position:relative; z-index:3;
+    background:var(--card); border-radius:10px; box-shadow:0 12px 30px rgba(15,31,46,.18);
+    padding:22px 26px; border:1px solid var(--line);
+  }
+  nav.toc h2{font-size:1.1rem; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); margin:0 0 12px; font-weight:bold;}
+  nav.toc ol{margin:0; padding-left:20px; columns:2; column-gap:28px;}
+  nav.toc li{margin-bottom:8px; font-size:1rem;}
+  nav.toc a{color:var(--accent2); text-decoration:none; border-bottom:1px dotted var(--accent2);}
+  nav.toc a:hover{color:var(--accent); border-color:var(--accent);}
+
+  main{max-width:820px; margin:44px auto 90px; padding:0 24px;}
+  section.chapter{margin-bottom:64px;}
+  .chapter-head{display:flex; align-items:baseline; gap:16px; border-bottom:3px solid var(--accent2); padding-bottom:10px; margin-bottom:22px;}
+  .chapter-num{font-size:2.1rem; color:var(--accent); font-weight:bold;}
+  .chapter-head h2{margin:0; font-size:1.6rem; color:var(--ink); font-weight:bold;}
+  .chapter-grade{font-size:.85rem; color:var(--muted); text-transform:uppercase; letter-spacing:.05em;}
+
+  .theory{background:var(--card); border:1px solid var(--line); border-radius:10px; padding:22px 24px; margin-bottom:24px;}
+  .theory h3{margin-top:0; color:var(--accent2); font-size:1.2rem; font-weight:bold;}
+  .theory ul{padding-left:22px;} .theory li{margin-bottom:10px;}
+  .term{color:var(--accent); font-weight:bold;}
+  .why{background:#eef4f9; border-left:3px solid var(--crust); padding:10px 16px; margin:12px 0; border-radius:0 8px 8px 0; font-size:1rem;}
+  .why b{color:var(--accent2);}
+
+  table{border-collapse:collapse; width:100%; margin:14px 0; display:block; overflow-x:auto; -webkit-overflow-scrolling:touch;}
+  svg{max-width:100%; height:auto;}
+  html, body{overflow-x:hidden;}
+  .chapter-head > *{min-width:0;}
+  th,td{border:1px solid var(--line); padding:8px 12px; text-align:center; font-size:1rem;}
+  th{background:#eaf1f7; font-weight:bold;}
+
+  .example{border-left:4px solid var(--accent2); background:#fff; padding:18px 22px; margin:20px 0; border-radius:0 10px 10px 0; box-shadow:0 2px 8px rgba(15,31,46,.05);}
+  .example .tag{display:inline-block; font-size:.85rem; text-transform:uppercase; letter-spacing:.08em; color:#fff; background:var(--accent2); padding:4px 10px; border-radius:20px; margin-bottom:10px; font-weight:bold;}
+  .example p{margin:.5em 0;} .example .solution-step{margin:6px 0 6px 4px;}
+  .example .answer{margin-top:12px; padding:10px 14px; background:#eef4f9; border-radius:8px; border-left:3px solid var(--accent); font-weight:bold;}
+
+  /* Բաց և ընթեռնելի առաջադրանքներ թեմայի ներսում */
+  .practice{background:#fff8ee; border:1px solid #ecd9b6; border-radius:10px; padding:20px; margin:20px 0;}
+  .practice-title{font-weight:bold; color:var(--accent); margin:0 0 12px 0; font-size: 1.1rem;}
+  .practice-title::before{content:"✎ Առաջադրանք. ";}
+  .practice .question{margin-bottom: 12px; font-weight: 500;}
+  .practice .reveal{padding-top:12px; border-top:1px dashed #ecd9b6;}
+  .practice .see-answer{font-size:.85rem; text-transform:uppercase; color:var(--muted); letter-spacing:.06em; margin-bottom:6px; font-weight:bold;}
+
+  /* Ամփոփիչ թեստի հարցեր (Առանց լուծումների) */
+  .test-question{background:#fff; border:1px solid var(--line); border-radius:8px; padding:16px 20px; margin-bottom:16px; box-shadow:0 2px 5px rgba(0,0,0,0.03);}
+  .test-question-num{font-weight:bold; color:var(--accent); margin-right:8px; font-size:1.1rem;}
+
+  /* Պատասխանների բլոկ վերջում */
+  .answers-section{background:#fff; padding:30px; border-radius:10px; border:2px solid var(--accent2); margin-top:50px;}
+  .answers-section h2{color:var(--accent2); margin-top:0; font-weight:bold;}
+  .answers-list{columns: 2; column-gap: 40px; padding-left: 20px; margin:0;}
+  .answers-list li{margin-bottom: 10px; font-weight:bold;}
+
+  .mistake{background:#fdeeec; border:1px solid #f0c6bf; border-radius:10px; padding:16px 22px; margin:20px 0;}
+  .mistake .tag{font-size:.85rem; text-transform:uppercase; letter-spacing:.08em; color:#c0562b; font-weight:bold;}
+  .mistake p{margin:.5em 0;}
+  .mistake .step-label{font-weight:bold; color:var(--accent2);}
+
+  .think{background:#f3ede0; border-left:4px solid var(--crust); border-radius:0 10px 10px 0; padding:14px 20px; margin:20px 0; font-style:italic; color:#4a3a1f;}
+
+  hr.div{border:none; border-top:1px dashed var(--line); margin:40px 0;}
+
+  .backtop{position:fixed; right:18px; bottom:18px; width:42px; height:42px; border-radius:50%; background:var(--accent); color:#fff; display:flex; align-items:center; justify-content:center; text-decoration:none; font-size:1.3rem; box-shadow:0 4px 12px rgba(15,31,46,.25); opacity:.85;}
+  .backtop:hover{opacity:1;}
+
+  @media (max-width:600px){
+    nav.toc ol{columns:1;}
+    .answers-list{columns:1;}
+    main{padding:0 14px;}
+  }
+
+  @media print {
+      body { background: white !important; color: black !important; font-size: 12pt; }
+      .hero { padding: 10px 0; background: none !important; color: black !important; }
+      .hero::after { display: none !important; }
+      h1.title { color: black !important; }
+      nav.toc { display: none !important; }
+      .theory, .example, .practice, .test-question, .answers-section, .mistake { page-break-inside: avoid !important; box-shadow: none !important; border: 1px solid #ccc !important; }
+      .chapter { page-break-before: always; }
+      .chapter:first-of-type { page-break-before: auto; }
+      .answers-list { columns: 3; }
+      .backtop{display:none !important;}
+  }
+</style>
+
+<style id="tj-unified">
+  /* ԸՆԴՀԱՆՈՒՐ ՎԵՐԻՆ ՎԱՀԱՆԱԿ — նույնական բոլոր 19 ուղեցույցում։
+     Class-երը սկսվում են tj- նախածանցով, որ երբեք չբախվեն էջի
+     սեփական ոճերի հետ։ */
+  .tj-bar{background:#0f1f2e;color:#eaf2f8;font-family:'Sylfaen','Arial',serif;}
+  .tj-bar-in{max-width:840px;margin:0 auto;padding:10px 20px;display:flex;
+             align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+  .tj-back{color:#eaf2f8;text-decoration:none;font-weight:bold;font-size:.95rem;
+           border:1px solid rgba(234,242,248,.35);border-radius:8px;padding:5px 12px;}
+  .tj-back:hover{background:rgba(234,242,248,.12);}
+  .tj-grade{font-size:.85rem;color:#cfe0ec;letter-spacing:.03em;}
+  @media print{ .tj-bar{display:none;} }
+</style>
+</head>
+<body>
+<div class="tj-bar"><div class="tj-bar-in"><a class="tj-back" href="../index.html">← Տրենաժոր</a><span class="tj-grade">5–6 դասարան</span></div></div>
+
+
+<div class="hero">
+  <div class="hero-inner">
+    <h1 class="title">Կոտորակների աշխարհը՝ բաժինից մինչև տասնորդական</h1>
+  </div>
+</div>
+
+<nav class="toc">
+  <h2>Բովանդակություն</h2>
+  <ol>
+    <li><a href="#ch1">5-րդ դասարան · Ա. Բաժիններ և կոտորակի իմաստը</a></li>
+    <li><a href="#ch2">5-րդ դասարան · Բ. Խառը թվեր և կրճատում</a></li>
+    <li><a href="#ch3">5-րդ դասարան · Գ. Գործողություններ կոտորակներով</a></li>
+    <li><a href="#ch4">6-րդ դասարան · Ա. Տասնորդական կոտորակ և կլորացում</a></li>
+    <li><a href="#ch5">6-րդ դասարան · Բ. Գործողություններ տասնորդականներով</a></li>
+    <li><a href="#ch6">Ամփոփիչ Ինքնուրույն Աշխատանք</a></li>
+  </ol>
+</nav>
+
+<main>
+
+<!-- ============ CHAPTER 1 ============ -->
+<section class="chapter" id="ch1">
+  <div class="chapter-head">
+    <span class="chapter-num">01</span>
+    <div><div class="chapter-grade">5-րդ դասարան</div><h2>Բաժիններ և կոտորակի իմաստը</h2></div>
+  </div>
+
+  <div class="theory">
+    <h3>Ինչու՞ է կոտորակն անհրաժեշտ</h3>
+    <p>Ոչ միշտ է հնարավոր առարկաները հաշվել միայն ամբողջ թվերով։ Երբ ամբողջն բաժանվում է հավասար մասերի, ամեն մասը կոչվում է <span class="term">բաժին</span> (օրինակ՝ կեսը՝ $\frac{1}{2}$, քառորդը՝ $\frac{1}{4}$)։</p>
+    <h3>Կոտորակի կառուցվածքը</h3>
+    <p><span class="term">Սովորական կոտորակ</span> — $\dfrac{a}{b}$ տեսքի գրառում.</p>
+    <ul>
+      <li>$b$ — <b>հայտարար</b>. ցույց է տալիս, թե ամբողջը քանի՞ հավասար մասի է բաժանված։</li>
+      <li>$a$ — <b>համարիչ</b>. ցույց է տալիս, թե քանի՞ մաս է վերցված։</li>
+      <li>մեջտեղի գիծը՝ <b>կոտորակի գիծ</b>, կարող է ներկայացնել բաժանման գործողություն ($a:b = \frac{a}{b}$)։</li>
+    </ul>
+  </div>
+
+  <div class="theory">
+    <h3>Թվի մասը հաշվելը</h3>
+    <p>Թվի $\frac{a}{b}$ մասը հաշվելու համար՝ նախ գտնում ենք <b>մեկ բաժնի արժեքը</b> (թիվը բաժանում ենք $b$-ի), ապա բազմապատկում ենք $a$-ով.</p>
+    $$\text{Թվի } \tfrac{a}{b} \text{ մասը} = (\text{Թիվ} : b)\cdot a$$
+  </div>
+
+  <div class="example">
+    <span class="tag">Օրինակ · Հաջորդական մասեր</span>
+    <p>Արամն ունի 120 կգ խնձոր։ Նա $3/5$ մասը նվիրեց մանկապարտեզին, մնացածի $1/4$ մասը՝ ընկերոջը։ Քանի՞ կգ մնաց Արամի մոտ։</p>
+    <div class="solution-step">Մանկապարտեզին. $120:5=24$ (մեկ բաժինը), $24\cdot 3=72$ կգ։</div>
+    <div class="solution-step">Մնացորդ 1-ին քայլից հետո. $120-72=48$ կգ։</div>
+    <div class="solution-step">Ընկերոջը. $48:4=12$ կգ (48-ի $1/4$ մասը)։</div>
+    <div class="answer">Պատասխան. 48 − 12 = 36 կգ</div>
+  </div>
+
+  <div class="mistake">
+    <span class="tag">⚠ Հաճախակի սխալ</span>
+    <p><span class="step-label">Ինչ է սխալ.</span> Ուշադրություն. երկրորդ քայլում $1/4$-ը վերցվում է <i>48</i> կգ-ից, ոչ թե սկզբնական 120 կգ-ից։</p>
+    <p><span class="step-label">Ինչու՞</span> Խնդրում ասված է «մնացածի» $1/4$ մասը, այսինքն՝ նոր ամբողջը դառնում է 48 կգ-ը։</p>
+    <p><span class="step-label">Ինչպես ստուգել.</span> Ամեն քայլից հետո հարցրու. «Ինչի՞ց է վերցվում մասը հիմա»։</p>
+  </div>
+
+  <div class="practice">
+    <div class="practice-title"></div>
+    <div class="question">Ճանապարհորդն անցավ ամբողջ ճանապարհի $4/9$ մասը, մնաց գնալու ևս $45$ կմ։ Ինչքա՞ն է ամբողջ ճանապարհը։</div>
+    <div class="reveal">
+      <div class="see-answer">Լուծում</div>
+      <p>Մնացած մասը՝ $1-\frac{4}{9}=\frac{5}{9}$։ Այս $5/9$ մասը = $45$ կմ, ուստի մեկ մասը՝ $45:5=9$ կմ, ամբողջը՝ $9\cdot 9=81$ կմ։</p>
+      <div class="answer">81 կմ</div>
+    </div>
+  </div>
+</section>
+
+<hr class="div">
+
+<!-- ============ CHAPTER 2 ============ -->
+<section class="chapter" id="ch2">
+  <div class="chapter-head">
+    <span class="chapter-num">02</span>
+    <div><div class="chapter-grade">5-րդ դասարան</div><h2>Խառը թվեր և կրճատում</h2></div>
+  </div>
+
+  <div class="theory">
+    <h3>Կոտորակի հիմնական հատկությունը</h3>
+    <p>Եթե համարիչն ու հայտարարը բազմապատկենք կամ բաժանենք նույն բնական թվով, կոտորակի արժեքը <b>չի փոխվում</b>.</p>
+    $$\frac{a}{b}=\frac{a\cdot k}{b\cdot k} \qquad \frac{a}{b}=\frac{a:m}{b:m}$$
+    <p><span class="term">Կրճատում</span> — համարիչն ու հայտարարը բաժանել դրանց Ամենամեծ Ընդհանուր Բաժանարարի (ԱԸԲ) վրա՝ ստանալու համար <b>անկրճատելի</b> կոտորակ։</p>
+  </div>
+
+  <div class="theory">
+    <h3>Կանոնավոր, անկանոն և խառը թվեր</h3>
+    <table>
+      <tr><th>Տեսակ</th><th>Պայման</th><th>Օրինակ</th><th>Արժեք</th></tr>
+      <tr><td><b>Կանոնավոր</b></td><td>$a&lt;b$</td><td>$\frac{3}{5}$</td><td>փոքր է 1-ից</td></tr>
+      <tr><td><b>Անկանոն</b></td><td>$a\ge b$</td><td>$\frac{7}{4}$</td><td>մեծ է կամ = 1</td></tr>
+    </table>
+    <p>Անկանոն կոտորակը, երբ համարիչն անմնացորդ չի բաժանվում հայտարարին, կարող է գրվել <span class="term">խառը թվի</span> տեսքով (ամբողջ մաս + կանոնավոր կոտորակ)։</p>
+    <ul>
+      <li><b>Անկանոն → խառը.</b> համարիչը բաժանում ենք հայտարարին. թերի քանորդը՝ ամբողջ մաս, մնացորդը՝ նոր համարիչ։</li>
+      <li><b>Խառը → անկանոն.</b> $A\dfrac{c}{b}=\dfrac{A\cdot b+c}{b}$։</li>
+    </ul>
+  </div>
+
+  <div class="example">
+    <span class="tag">Օրինակ · Խառը թվերի փոխարկում</span>
+    <p>Ներկայացրե՛ք $3\frac{1}{6}$, $1\frac{3}{4}$, $2\frac{2}{3}$ թվերն անկանոն կոտորակների տեսքով։</p>
+    <div class="solution-step">$3\frac{1}{6}=\dfrac{3\cdot 6+1}{6}=\dfrac{19}{6}$ &nbsp; $1\frac{3}{4}=\dfrac{1\cdot 4+3}{4}=\dfrac{7}{4}$ &nbsp; $2\frac{2}{3}=\dfrac{2\cdot 3+2}{3}=\dfrac{8}{3}$</div>
+  </div>
+
+  <div class="practice">
+    <div class="practice-title"></div>
+    <div class="question">Հաշվե՛ք $280$ թվի $4/7$ մասը և արդյունքը բազմապատկե՛ք $1/2$-ով։</div>
+    <div class="reveal">
+      <div class="see-answer">Լուծում</div>
+      <p>$280:7=40$, $40\cdot 4=160$։ $160\cdot \frac{1}{2}=80$։</p>
+      <div class="answer">80</div>
+    </div>
+  </div>
+</section>
+
+<hr class="div">
+
+<!-- ============ CHAPTER 3 ============ -->
+<section class="chapter" id="ch3">
+  <div class="chapter-head">
+    <span class="chapter-num">03</span>
+    <div><div class="chapter-grade">5-րդ դասարան</div><h2>Գործողություններ կոտորակներով</h2></div>
+  </div>
+
+  <div class="theory">
+    <h3>Չորս գործողությունների բանաձևերը</h3>
+    <ul>
+      <li><b>Գումարում/հանում.</b> Տարբեր հայտարարներով կոտորակները գումարելու համար նախ բերում ենք ընդհանուր հայտարարի: $\dfrac{a}{b}\pm \dfrac{c}{b}=\dfrac{a\pm c}{b}$</li>
+      <li><b>Բազմապատկում.</b> $\dfrac{a}{b}\cdot \dfrac{c}{d}=\dfrac{a\cdot c}{b\cdot d}$</li>
+      <li><b>Բաժանում.</b> բազմապատկում ենք հակադարձով. $\dfrac{a}{b}:\dfrac{c}{d}=\dfrac{a}{b}\cdot \dfrac{d}{c}$</li>
+    </ul>
+    <div class="why"><b>Ուշադրություն.</b> Խառը թվեր բազմապատկելիս կամ բաժանելիս, պարտադիր նախ վերածիր դրանք անկանոն կոտորակների։</div>
+  </div>
+
+  <div class="example">
+    <span class="tag">Օրինակ A · Մեկ նոր բարդություն (տարբեր հայտարար)</span>
+    <p>$\dfrac{2}{3}+\dfrac{1}{4}$: ընդհանուր հայտարարը 12 է. $\dfrac{2\cdot 4}{12}+\dfrac{1\cdot 3}{12}=\dfrac{8+3}{12}=\dfrac{11}{12}$</p>
+  </div>
+
+  <div class="example">
+    <span class="tag">Օրինակ B · Խառը թվերով, երեք անդամ</span>
+    <p>$3\frac{1}{6}+1\frac{3}{4}-2\frac{2}{3}$</p>
+    <div class="solution-step">Անկանոն կոտորակների. $\frac{19}{6}, \frac{7}{4}, \frac{8}{3}$</div>
+    <div class="solution-step">Ընդհանուր հայտարար (6, 4, 3-ի ԱԸԲ) = 12։ $\dfrac{19\cdot 2}{12}+\dfrac{7\cdot 3}{12}-\dfrac{8\cdot 4}{12}=\dfrac{38+21-32}{12}=\dfrac{27}{12}$</div>
+    <div class="solution-step">Կրճատում 3-ով. $\dfrac{27:3}{12:3}=\dfrac{9}{4}=2\frac{1}{4}$</div>
+    <div class="answer">Պատասխան. 2 1/4</div>
+  </div>
+
+  <div class="practice">
+    <div class="practice-title"></div>
+    <div class="question">Հաշվե՛ք. $4\frac{2}{5}-1\frac{1}{2}+2\frac{3}{10}$</div>
+    <div class="reveal">
+      <div class="see-answer">Լուծում</div>
+      <p>Անկանոն կոտորակներ՝ $\frac{22}{5}, \frac{3}{2}, \frac{23}{10}$։ Ընդհանուր հայտարար 10, լրացուցիչ արտադրիչներ 2, 5, 1.</p>
+      <p>$\dfrac{44-15+23}{10}=\dfrac{52}{10}=\dfrac{26}{5}=5\frac{1}{5}$</p>
+      <div class="answer">5 1/5 (կամ 5,2)</div>
+    </div>
+  </div>
+</section>
+
+<hr class="div">
+
+<!-- ============ CHAPTER 4 ============ -->
+<section class="chapter" id="ch4">
+  <div class="chapter-head">
+    <span class="chapter-num">04</span>
+    <div><div class="chapter-grade">6-րդ դասարան</div><h2>Տասնորդական կոտորակ և կլորացում</h2></div>
+  </div>
+
+  <div class="theory">
+    <h3>Ինչ է տասնորդական կոտորակը</h3>
+    <p><span class="term">Տասնորդական կոտորակ</span> — սովորական կոտորակ, որի հայտարարը կարգային միավոր է (10, 100, 1000...), գրված առանց հայտարարի՝ ստորակետով։</p>
+    <ul>
+      <li>Ստորակետից ձախ՝ ամբողջ մասը, աջ՝ կոտորակային մասը։</li>
+      <li>Ստորակետից աջ թվանշանների քանակը = հայտարարի զրոների քանակին։</li>
+    </ul>
+  </div>
+
+  <div class="theory">
+    <h3>Կլորացման ալգորիթմը</h3>
+    <ol>
+      <li>Գտնել այն կարգը, մինչև որը կլորացնում ենք։</li>
+      <li>Նայել դրանից անմիջապես աջ գտնվող թվանշանին. եթե 0-4 է՝ պահպանվող կարգը մնում է նույնը, եթե 5-9 է՝ մեծանում է 1-ով։</li>
+      <li>Հաջորդ բոլոր ցածր կարգերը ջնջվում են (ստորակետից աջ) կամ դառնում զրո (ամբողջ մասում)։</li>
+    </ol>
+  </div>
+
+  <div class="example">
+    <span class="tag">Օրինակ · Կլորացում երեք տարբեր կարգով</span>
+    <p>Կլորացրե՛ք $245,871$-ը՝ ա) տասնավորների, բ) տասնորդականների, գ) հարյուրավորների կարգով։</p>
+    <div class="solution-step">ա) Տասնավորի կարգը՝ 4։ Աջ նիշը՝ 5 (≥5) $\Rightarrow$ $245,871\approx 250$</div>
+    <div class="solution-step">բ) Տասնորդականի կարգը՝ 8։ Աջ նիշը՝ 7 (≥5) $\Rightarrow$ $245,871\approx 245,9$</div>
+    <div class="solution-step">գ) Հարյուրավորի կարգը՝ 2։ Աջ նիշը՝ 4 (<5) $\Rightarrow$ $245,871\approx 200$</div>
+  </div>
+
+  <div class="practice">
+    <div class="practice-title"></div>
+    <div class="question">Գրե՛ք $5/8$-ը տասնորդական տեսքով և կլորացրե՛ք մինչև հարյուրերորդականների կարգը։</div>
+    <div class="reveal">
+      <div class="see-answer">Լուծում</div>
+      <p>$5:8=0,625$։ Հարյուրերորդականից աջ նիշը՝ 5 (≥5) $\Rightarrow$ 2-ը դառնում է 3.</p>
+      <div class="answer">0,63</div>
+    </div>
+  </div>
+</section>
+
+<hr class="div">
+
+<!-- ============ CHAPTER 5 ============ -->
+<section class="chapter" id="ch5">
+  <div class="chapter-head">
+    <span class="chapter-num">05</span>
+    <div><div class="chapter-grade">6-րդ դասարան</div><h2>Գործողություններ տասնորդականներով</h2></div>
+  </div>
+
+  <div class="theory">
+    <h3>Գործողությունների կանոններ</h3>
+    <p><b>Գումարում և հանում:</b> Սյունակով գումարելիս/հանելիս՝ <b>ստորակետը գրում ենք ստորակետի տակ</b>։ Եթե կոտորակային մասերի երկարությունը տարբեր է, կարճին աջից կցագրում ենք զրոներ։</p>
+    <p><b>Բազմապատկում:</b> Բազմապատկում ենք թվերը որպես բնական թվեր։ Արտադրյալում աջից ստորակետով առանձնացնում ենք այնքան նիշ, որքան կա երկու արտադրիչների կոտորակային մասերում միասին։</p>
+    <p><b>Բաժանում:</b> Տասնորդականը տասնորդականի բաժանելիս՝ երկուսի ստորակետներն էլ տեղափոխում ենք աջ՝ մինչև բաժանարարը դառնա բնական թիվ։</p>
+  </div>
+
+  <div class="example">
+    <span class="tag">Օրինակ A · Գումարում-հանում, կիրառական</span>
+    <p>Հեծանվորդն առաջին ժամում անցավ $15,45$ կմ, երկրորդում՝ $2,8$ կմ-ով ավելի: Որքա՞ն անցավ ընդհանուր։</p>
+    <div class="solution-step">2-րդ ժամ. $15,45+2,80=18,25$ կմ</div>
+    <div class="solution-step">Ընդհանուր. $15,45+18,25=33,7$ կմ</div>
+    <div class="answer">33,7 կմ</div>
+  </div>
+
+  <div class="practice">
+    <div class="practice-title"></div>
+    <div class="question">$12,5\cdot 3,4 - 4,18:0,2$</div>
+    <div class="reveal">
+      <div class="see-answer">Լուծում</div>
+      <p>$12,5\cdot 3,4=42,5$։ $4,18:0,2=41,8:2=20,9$։</p>
+      <div class="answer">42,5 − 20,9 = 21,6</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CHAPTER 6 ============ -->
+<section class="chapter" id="ch6">
+  <div class="chapter-head">
+    <span class="chapter-num">06</span>
+    <div><div class="chapter-grade">5-6-րդ դասարան</div><h2>Ամփոփիչ Ինքնուրույն Աշխատանք</h2></div>
+  </div>
+
+  <div class="theory">
+    <p>Այս բաժնում հավաքված են 30 ինքնուրույն առաջադրանքներ՝ կոտորակների և տասնորդական թվերի թեմաներով։ Լուծեք ինքնուրույն, իսկ պատասխանները ստուգեք ֆայլի վերջում գտնվող ցուցակով։</p>
+  </div>
+
+  <div class="test-question"><span class="test-question-num">1.</span> Խնձորի $3/4$ մասը կշռում է $150$ գրամ: Որքա՞ն է ամբողջ խնձորի զանգվածը:</div>
+  <div class="test-question"><span class="test-question-num">2.</span> Գրքի $5/9$ մասը կարդալուց հետո մնաց կարդալու $84$ էջ: Քանի՞ էջ ունի գիրքը:</div>
+  <div class="test-question"><span class="test-question-num">3.</span> Անկանոն կոտորակը դարձրե՛ք խառը թիվ. $47/6$</div>
+  <div class="test-question"><span class="test-question-num">4.</span> Խառը թիվը դարձրե՛ք անկանոն կոտորակ. $5\frac{3}{8}$</div>
+  <div class="test-question"><span class="test-question-num">5.</span> Կրճատե՛ք կոտորակը մինչև անկրճատելի տեսքի. $144/180$</div>
+  <div class="test-question"><span class="test-question-num">6.</span> Հաշվե՛ք. $\frac{5}{12} + \frac{3}{8}$</div>
+  <div class="test-question"><span class="test-question-num">7.</span> Հաշվե՛ք. $4\frac{1}{6} - 2\frac{3}{4}$</div>
+  <div class="test-question"><span class="test-question-num">8.</span> Հաշվե՛ք. $\frac{15}{28} \cdot \frac{14}{25}$</div>
+  <div class="test-question"><span class="test-question-num">9.</span> Հաշվե՛ք. $3\frac{3}{5} : 2\frac{1}{10}$</div>
+  <div class="test-question"><span class="test-question-num">10.</span> Ներկայացրե՛ք տասնորդական կոտորակով. $7/25$</div>
+  <div class="test-question"><span class="test-question-num">11.</span> Կլորացրե՛ք $45,782$ թիվը մինչև տասնորդականների կարգը:</div>
+  <div class="test-question"><span class="test-question-num">12.</span> Կլորացրե՛ք $345,6$ թիվը մինչև տասնավորների կարգը:</div>
+  <div class="test-question"><span class="test-question-num">13.</span> Հաշվե՛ք. $12,45 + 3,8$</div>
+  <div class="test-question"><span class="test-question-num">14.</span> Հաշվե՛ք. $25,1 - 14,85$</div>
+  <div class="test-question"><span class="test-question-num">15.</span> Հաշվե՛ք. $3,5 \cdot 1,4$</div>
+  <div class="test-question"><span class="test-question-num">16.</span> Հաշվե՛ք. $18,9 : 1,5$</div>
+  <div class="test-question"><span class="test-question-num">17.</span> $1$ կգ կարտոֆիլն արժե $250$ դրամ: Որքա՞ն պետք է վճարել $3,4$ կգ կարտոֆիլի համար:</div>
+  <div class="test-question"><span class="test-question-num">18.</span> Գտե՛ք 120 թվի $3/5$ մասը:</div>
+  <div class="test-question"><span class="test-question-num">19.</span> Մեքենան $3,5$ ժամում անցավ $227,5$ կմ։ Որքա՞ն է մեքենայի արագությունը (կմ/ժ):</div>
+  <div class="test-question"><span class="test-question-num">20.</span> Տասնորդական կոտորակը դարձրե՛ք անկրճատելի սովորական կոտորակ. $0,125$</div>
+  <div class="test-question"><span class="test-question-num">21.</span> Հաշվե՛ք. $\frac{2}{3} + \frac{1}{6} - \frac{1}{4}$</div>
+  <div class="test-question"><span class="test-question-num">22.</span> Հաշվե՛ք. $2\frac{1}{3} \cdot 1\frac{1}{5}$</div>
+  <div class="test-question"><span class="test-question-num">23.</span> Հաշվե՛ք. $5\frac{1}{4} : 1\frac{3}{4}$</div>
+  <div class="test-question"><span class="test-question-num">24.</span> Գիրքն ունի 240 էջ: Առաջին օրը կարդացվել է էջերի $2/5$ մասը, երկրորդ օրը՝ մնացածի կեսը: Քանի՞ էջ է կարդացվել երկրորդ օրը:</div>
+  <div class="test-question"><span class="test-question-num">25.</span> Կլորացրե՛ք $7,096$ թիվը մինչև հարյուրերորդների կարգը:</div>
+  <div class="test-question"><span class="test-question-num">26.</span> Հաշվե՛ք. $0,6 \cdot 0,05$</div>
+  <div class="test-question"><span class="test-question-num">27.</span> Հաշվե՛ք. $4,08 : 1,2$</div>
+  <div class="test-question"><span class="test-question-num">28.</span> Համեմատե՛ք. $\frac{5}{8}$ և $\frac{7}{12}$ (ո՞րն է մեծ)</div>
+  <div class="test-question"><span class="test-question-num">29.</span> $2,4$ ժամում աշխատողը հավաքեց 60 դետալ: Քանի՞ դետալ կհավաքի 3,6 ժամում, նույն արագությամբ:</div>
+  <div class="test-question"><span class="test-question-num">30.</span> Անկանոն կոտորակը դարձրե՛ք խառը թիվ և ստուգե՛ք հակադարձ ձևափոխությամբ. $\frac{58}{9}$</div>
+
+</section>
+
+<!-- ՊԱՏԱՍԽԱՆՆԵՐԻ ԲԼՈԿ -->
+<div class="answers-section">
+  <h2>Ինքնուրույն Աշխատանքի Պատասխաններ</h2>
+  <ol class="answers-list">
+    <li>200 գրամ</li>
+    <li>189 էջ</li>
+    <li>7 5/6</li>
+    <li>43/8</li>
+    <li>4/5</li>
+    <li>19/24</li>
+    <li>1 5/12</li>
+    <li>3/10</li>
+    <li>1 5/7</li>
+    <li>0,28</li>
+    <li>45,8</li>
+    <li>350</li>
+    <li>16,25</li>
+    <li>10,25</li>
+    <li>4,9</li>
+    <li>12,6</li>
+    <li>850 դրամ</li>
+    <li>72</li>
+    <li>65 կմ/ժ</li>
+    <li>1/8</li>
+    <li>7/12</li>
+    <li>2 4/5</li>
+    <li>3</li>
+    <li>72 էջ</li>
+    <li>7,10</li>
+    <li>0,03</li>
+    <li>3,4</li>
+    <li>5/8-ը մեծ է</li>
+    <li>90 դետալ</li>
+    <li>6 4/9 (ստուգում. $6\cdot9+4=58$)</li>
+  </ol>
+</div>
+
+</main>
+
+<a href="#" class="backtop" title="Վերև">↑</a>
+
+</body>
+</html>

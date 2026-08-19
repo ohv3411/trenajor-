@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="hy">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ռացիոնալ հավասարումներ | Ուսումնական ուղեցույց</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<style>
+  :root{
+    --bg:#0f1f2e; --paper:#f6f8fb; --ink:#152233; --accent:#1e5f8c; --accent2:#c0562b;
+    --crust:#8fb3cc; --muted:#5b7188; --card:#ffffff; --line:#dde6ee;
+  }
+  *{box-sizing:border-box;}
+  html, body{overflow-x:hidden;}
+  body{margin:0; font-family:'Sylfaen','Arial',serif; background:var(--paper); color:var(--ink); font-size:18px; line-height:1.7;}
+  .hero{background:linear-gradient(135deg, var(--bg) 0%, #1c3b52 100%); color:#eaf2f8; padding:56px 24px 48px;}
+  .hero-inner{max-width:840px; margin:0 auto;}
+  h1.title{font-size:2.2rem; margin:0 0 10px; font-weight:bold; color:#fff;}
+  .hero p{color:#cfe0ec; max-width:620px; font-size:1.05rem;}
+  nav.toc{max-width:840px; margin:-26px auto 0; position:relative; z-index:3; background:var(--card); border-radius:10px; box-shadow:0 12px 30px rgba(15,31,46,.18); padding:22px 26px; border:1px solid var(--line);}
+  nav.toc h2{font-size:1.05rem; text-transform:uppercase; letter-spacing:.07em; color:var(--muted); margin:0 0 12px; font-weight:bold;}
+  nav.toc ol{margin:0; padding-left:20px; columns:2; column-gap:28px;}
+  nav.toc li{margin-bottom:8px; font-size:.98rem;}
+  nav.toc a{color:var(--accent); text-decoration:none; border-bottom:1px dotted var(--accent);}
+  main{max-width:840px; margin:40px auto 90px; padding:0 24px;}
+  section.part-header{margin:48px 0 20px; padding-bottom:8px; border-bottom:2px solid var(--crust); color:var(--muted); font-weight:bold; text-transform:uppercase; letter-spacing:.05em; font-size:.95rem;}
+  section.chapter{margin-bottom:56px;}
+  .chapter-head{display:flex; align-items:baseline; gap:14px; border-bottom:3px solid var(--accent2); padding-bottom:10px; margin-bottom:20px;}
+  .chapter-num{font-size:1.9rem; color:var(--accent); font-weight:bold;}
+  .chapter-head h2{margin:0; font-size:1.4rem; color:var(--ink); font-weight:bold;}
+
+  .block-title{font-weight:bold; color:var(--accent); font-size:1.02rem; margin:22px 0 8px; text-transform:uppercase; letter-spacing:.04em;}
+  .hook{background:#eef4f9; border-radius:10px; padding:16px 20px; margin:10px 0 18px; font-style:italic;}
+  .intuitive{padding:0 2px; margin-bottom:14px;}
+  .formal-def{background:#fff; border:1px solid var(--line); border-left:4px solid var(--accent); border-radius:0 10px 10px 0; padding:16px 20px; margin:14px 0;}
+  .formal-def b.term{color:var(--accent2);}
+
+  .visual-container.table-wrap{overflow-x:auto; width:100%; margin:18px 0; -webkit-overflow-scrolling:touch;}
+  table{border-collapse:collapse; width:100%;}
+  th,td{border:1px solid var(--line); padding:8px 12px; text-align:center; font-size:.98rem;}
+  th{background:#eaf1f7; font-weight:bold;}
+  svg{max-width:100%; height:auto; display:block; margin:0 auto;}
+
+  .formula-box{background:#fff8ee; border:1px solid #ecd9b6; border-radius:10px; padding:18px 22px; margin:16px 0;}
+  .formula-box .label{display:block; font-weight:bold; color:var(--accent2); margin-bottom:8px; text-transform:uppercase; font-size:.85rem; letter-spacing:.05em;}
+
+  .example-box{border-left:4px solid var(--accent); background:#fff; padding:16px 20px; margin:16px 0; border-radius:0 10px 10px 0; box-shadow:0 2px 8px rgba(15,31,46,.05);}
+  .example-box .tag{display:inline-block; font-size:.8rem; text-transform:uppercase; letter-spacing:.07em; color:#fff; background:var(--accent); padding:3px 10px; border-radius:20px; margin-bottom:8px; font-weight:bold;}
+  .example-box .step{margin:6px 0 6px 2px;}
+  .example-box .answer{margin-top:10px; padding:8px 14px; background:#eef4f9; border-radius:8px; border-left:3px solid var(--accent); font-weight:bold;}
+
+  .think{background:#f3ede0; border-left:4px solid var(--crust); border-radius:0 10px 10px 0; padding:12px 18px; margin:14px 0; font-style:italic; color:#4a3a1f;}
+
+  .error-box{background:#fdeeec; border:1px solid #f0c6bf; border-radius:10px; padding:16px 20px; margin:16px 0;}
+  .error-box h4{margin:0 0 8px; color:var(--accent2); font-size:1rem;}
+  .error-box .k{font-weight:bold; color:var(--accent2);}
+
+  .remember{background:#eef6ef; border:1px solid #cfe6d2; border-radius:10px; padding:14px 20px; margin:16px 0;}
+  .remember .label{font-weight:bold; color:#2f6b3a; text-transform:uppercase; font-size:.85rem; letter-spacing:.05em; display:block; margin-bottom:6px;}
+
+  .teacher-corner{background:#eaf1f7; border:1px dashed var(--crust); border-radius:10px; padding:16px 20px; margin:16px 0 28px;}
+  .teacher-corner .label{font-weight:bold; color:var(--accent); text-transform:uppercase; font-size:.85rem; letter-spacing:.05em; display:block; margin-bottom:6px;}
+
+  hr.sep{border:none; border-top:1px dashed var(--line); margin:36px 0;}
+
+  .tasks-section h2{color:var(--accent); border-bottom:3px solid var(--accent2); padding-bottom:8px;}
+  .tasks-section h3{color:var(--accent2); margin-top:26px;}
+  ol.tasks{padding-left:24px;}
+  ol.tasks li{margin-bottom:10px;}
+
+  .answers-section{background:#fff; padding:26px 28px; border-radius:10px; border:2px solid var(--accent); margin-top:44px;}
+  .answers-section h2{color:var(--accent); margin-top:0;}
+  .answers-section h3{color:var(--accent2); font-size:1rem; margin:22px 0 10px;}
+  .answers-list{columns:2; column-gap:36px; padding-left:20px; margin:0;}
+  .answers-list li{margin-bottom:9px; font-weight:bold;}
+  .answers-list-conceptual{columns:1; list-style-position:outside;}
+
+  @media (max-width:600px){
+    nav.toc ol{columns:1;}
+    .answers-list{columns:1;}
+    main{padding:0 14px;}
+  }
+
+  @media print {
+    body{background:#fff !important; color:#000 !important; font-size:12pt;}
+    .hero{padding:10px 0; background:none !important; color:#000 !important;}
+    h1.title{color:#000 !important;}
+    nav.toc{display:none !important;}
+    .formula-box, .example-box, .error-box, .visual-container, .table-wrap{page-break-inside:avoid !important; box-shadow:none !important; border:1px solid #ccc !important;}
+    .table-wrap, .visual-container{overflow-x:visible !important; white-space:pre-wrap !important; word-break:break-word !important;}
+    html, body{overflow-x:visible !important;}
+    .chapter{page-break-before:always;}
+    .chapter:first-of-type{page-break-before:auto;}
+    .answers-list{columns:3;}
+  }
+</style>
+
+<style id="tj-unified">
+  /* ԸՆԴՀԱՆՈՒՐ ՎԵՐԻՆ ՎԱՀԱՆԱԿ — նույնական բոլոր 19 ուղեցույցում։
+     Class-երը սկսվում են tj- նախածանցով, որ երբեք չբախվեն էջի
+     սեփական ոճերի հետ։ */
+  .tj-bar{background:#0f1f2e;color:#eaf2f8;font-family:'Sylfaen','Arial',serif;}
+  .tj-bar-in{max-width:840px;margin:0 auto;padding:10px 20px;display:flex;
+             align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+  .tj-back{color:#eaf2f8;text-decoration:none;font-weight:bold;font-size:.95rem;
+           border:1px solid rgba(234,242,248,.35);border-radius:8px;padding:5px 12px;}
+  .tj-back:hover{background:rgba(234,242,248,.12);}
+  .tj-grade{font-size:.85rem;color:#cfe0ec;letter-spacing:.03em;}
+  @media print{ .tj-bar{display:none;} }
+</style>
+</head>
+<body>
+<div class="tj-bar"><div class="tj-bar-in"><a class="tj-back" href="../index.html">← Տրենաժոր</a><span class="tj-grade">9 դասարան</span></div></div>
+
+
+<div class="hero">
+  <div class="hero-inner">
+    <h1 class="title">Ռացիոնալ հավասարումներ</h1>
+    <p>Վերածվող հավասարումից մինչև երկքառակուսային հավասարումներ, ձևափոխություններ և հավասարումների համակարգեր։</p>
+  </div>
+</div>
+
+<nav class="toc">
+  <h2>Բովանդակություն</h2>
+  <ol>
+    <li><a href="#s1">Վերածվող հավասարում</a></li>
+    <li><a href="#s2">Ռացիոնալ հավասարում</a></li>
+    <li><a href="#s3">Նշանակումով լուծվող, երկքառակուսային հավասարումներ</a></li>
+    <li><a href="#s4">Ռացիոնալ հավասարման ձևափոխություններ</a></li>
+    <li><a href="#s5">Ռացիոնալ հավասարումների համակարգ</a></li>
+    <li><a href="#tasks">Առաջադրանքներ</a></li>
+    <li><a href="#answers">Պատասխաններ</a></li>
+  </ol>
+</nav>
+
+<main>
+
+<!-- ============ ՄԱՍ 1/2 ============ -->
+<section class="part-header">Մաս 1 / 2</section>
+
+<section class="chapter" id="s1">
+  <div class="chapter-head"><span class="chapter-num">01</span><h2>Վերածվող հավասարում</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">$(x-3)(x+5)=0$-ը լուծելու համար պե՞տք է աշխատել բարդ սյունակով, թե՞ ուղիղ, արագ ճանապարհ կա։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">Երկու (կամ ավելի) բազմանդամի արտադրյալը $0$ է միայն այն դեպքում, երբ գոնե մեկ արտադրիչը $0$ է, ուստի յուրաքանչյուրը կարելի է լուծել առանձին։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p><b class="term">Վերածվող հավասարում</b>՝ $A(x)\cdot B(x)=0$ տեսքի հավասարում, որտեղ $A(x)$-ը և $B(x)$-ը $x$-ի նկատմամբ բազմանդամներ են (կարող է լինել 2-ից ավելի բազմանդամի արտադրյալ)։</p>
+    <p><b class="term">Լուծման սկզբունք.</b> $A(x)\cdot B(x)=0 \Leftrightarrow A(x)=0$ կամ $B(x)=0$։</p>
+  </div>
+
+  <div class="block-title">Վիզուալ պատկեր</div>
+  <div class="visual-container table-wrap">
+    <table>
+      <tr><th>$(x-3)(x+5)=0$</th><td>$x-3=0$ կամ $x+5=0$</td><td>$x=3$ կամ $x=-5$</td></tr>
+    </table>
+  </div>
+
+  <div class="block-title">Կանոն</div>
+  <div class="formula-box"><span class="label">Ամեն արտադրիչը 0-ի</span>
+    Յուրաքանչյուր արտադրիչ (2-ից ավելի էլ լինի) հավասարեցրու $0$-ի առանձին, և միավորիր բոլոր լուծումները։
+  </div>
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>Կազմեք վերածվող հավասարում, որի լուծումներն են $2,-3,5$։</p>
+    <div class="step">Ամեն արմատի համապատասխանում է $(x-\text{արմատ})$ արտադրիչ։</div>
+    <div class="answer">Պատասխան. $(x-2)(x+3)(x-5)=0$։</div>
+  </div>
+
+  <div class="think">Ինչո՞ւ պիտի $A(x)=0$-ի և $B(x)=0$-ի լուծումները ՄԻԱՎՈՐԵԼ, ոչ հատել։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> Վերածվող հավասարումը լուծելիս մոռանալ մի արտադրիչ (2-ից ավելի արտադրիչի դեպքում)։</p>
+    <p><span class="k">Ինչու՞</span> Ուշադրությունը կենտրոնանում է առաջին 2 արտադրիչի վրա, և 3-րդը (կամ 4-րդը) մոռացվում է։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Հաշվիր ամբողջ արտադրյալի արտադրիչների քանակը, և ստուգիր, որ ամեն մեկը ինքնուրույն լուծված է։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>Ցանկացած քանակի արտադրիչ, ամեն մեկը $0$-ի հավասարեցրու։</li>
+      <li>Լուծումները ՄԻԱՎՈՐՎՈՒՄ են, ոչ հատվում։</li>
+      <li>Հաստատուն ոչ-զրոյական արտադրիչը երբեք $0$ չի դառնում, ուստի «անտեսելի» է լուծման համար։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Այս սկզբունքն արդեն ծանոթ է քեզ (արտադրյալի զրո լինելու հատկություն)։ Այս գլխում կիրառելու ես այն ավելի բարդ, բազմաանդամանոց իրավիճակներում։
+  </div>
+</section>
+
+<section class="chapter" id="s2">
+  <div class="chapter-head"><span class="chapter-num">02</span><h2>Ռացիոնալ հավասարում</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">$\dfrac{(x-4)^2}{(x^2+1)(x-4)}=0$-ը լուծելիս, եթե ուղղակի կրճատես $(x-4)$-ը, ի՞նչ վտանգ կա։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">Կրճատումը կարող է «թաքցնել» կարևոր տեղեկություն. $x=4$-ը հենց այն արժեքն է, որի դեպքում հայտարարն ինքն է $0$, ուստի $x=4$-ը ՉԻ կարող լինել լուծում, նույնիսկ եթե կրճատումից հետո «անհետանում» է այս խնդիրը։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p><b class="term">Ռացիոնալ հավասարում</b>՝ $\dfrac{A(x)}{B(x)}=0$ տեսքի հավասարում, որտեղ $A(x)$-ը և $B(x)$-ը բազմանդամներ են։</p>
+    <p><b class="term">ԿԱՆՈՆ (լուծման).</b> $\dfrac{A(x)}{B(x)}=0 \Leftrightarrow A(x)=0$ ԵՎ $B(x)\neq0$ (անհրաժեշտ է ստուգել, որ $A(x)=0$-ի արմատը չզրոյացնի հայտարարը)։</p>
+  </div>
+
+  <div class="block-title">Վիզուալ պատկեր</div>
+  <div class="visual-container table-wrap">
+    <table>
+      <tr><th>$\dfrac{(x-4)^2}{(x^2+1)(x-4)}=0$</th><td>Համարիչի արմատ. $x=4$</td><td>Հայտարարի արմատ. $x=4$ (նույնը!)</td></tr>
+      <tr><th>Եզրակացություն</th><td colspan="2">Լուծում ՉԿԱ (ամբողջ ԹԱԲ-ից բացակա է)</td></tr>
+    </table>
+  </div>
+
+  <div class="block-title">Կանոն</div>
+  <div class="formula-box"><span class="label">ԹԱԲ-ի ստուգում</span>
+    Ամեն $A(x)=0$-ի արմատի համար ՊԱՐՏԱԴԻՐ ստուգիր, որ այն ՉԶՐՈՅԱՑՆԻ $B(x)$-ը, նախքան վերջնական լուծում հայտարարելը։
+  </div>
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>Ինչի՞ դեպքում $\dfrac{7(x-2.5)(x+1)}{c-x}=0$-ը ունենա ուղիղ մեկ լուծում։</p>
+    <div class="step">$A(x)=0$-ի արմատներն են $x=2.5$ և $x=-1$։ Հայտարարի արմատը՝ $x=c$։</div>
+    <div class="step">Եթե $c=2.5$, միայն $x=-1$ է վավեր (մեկ լուծում)։ Եթե $c=-1$, միայն $x=2.5$ է վավեր։</div>
+    <div class="answer">Պատասխան. $c=2.5$ կամ $c=-1$։</div>
+  </div>
+
+  <div class="think">Ինչո՞ւ $A(x)=0$-ի բոլոր լուծումները ՉԵՆ կարող լինել ռացիոնալ հավասարման լուծում։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> Ուղղակիորեն լուծել $A(x)=0$-ը՝ չստուգելով $B(x)\neq0$ պայմանը. ամենակարևոր, կրկնվող սխալն է։</p>
+    <p><span class="k">Ինչու՞</span> Ուշադրությունը հեշտությամբ կենտրոնանում է միայն համարիչի վրա, մոռանալով, որ հայտարարն էլ է սահմանափակում ընդունելի արժեքները։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Ամեն ստացված $x$-ի արժեքի համար հաշվիր հայտարարը. եթե $0$ է, մերժիր այդ լուծումը։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>$A(x)/B(x)=0 \Leftrightarrow A(x)=0$ ԵՎ $B(x)\neq0$։</li>
+      <li>Կրճատումը կարող է թաքցնել ԹԱԲ-ի սահմանափակումը։</li>
+      <li>Միշտ ստուգիր ամեն թեկնածու լուծումը հայտարարի դեմ։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Այս «ստուգման» սովորությունը (ամեն արմատ ստուգել հայտարարի դեմ) դառնում է ավտոմատ ընթացակարգ, եթե ամեն անգամ գիտակցաբար կիրառես, մինչև սովորությունը հաստատվի։
+  </div>
+</section>
+
+<section class="chapter" id="s3">
+  <div class="chapter-head"><span class="chapter-num">03</span><h2>Նշանակումով լուծվող, երկքառակուսային հավասարումներ</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">$x^4-5x^2+4=0$-ը 4-րդ աստիճանի հավասարում է, բայց տեսքով «նման» է քառակուսայինին։ Կարո՞ղ ես օգտվել դրանից։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">Նշանակելով $t=x^2$, հավասարումը դառնում է $t^2-5t+4=0$, արդեն ծանոթ քառակուսային հավասարում։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p><b class="term">Երկքառակուսային հավասարում</b>՝ $ax^4+bx^2+c=0$ ($a\neq0$) տեսքի հավասարում։</p>
+    <p><b class="term">Լուծման եղանակ.</b> նշանակել $t=x^2$, ստանալ $at^2+bt+c=0$, լուծել $t$-ի նկատմամբ, ապա յուրաքանչյուր դրական $t$-ի համար լուծել $x^2=t$ ($x=\pm\sqrt{t}$); բացասական $t$-երը մերժել, $t=0$-ի դեպքում՝ $x=0$։</p>
+  </div>
+
+  <div class="block-title">Վիզուալ պատկեր</div>
+  <div class="visual-container table-wrap">
+    <table>
+      <tr><th>$x^4-5x^2+4=0$</th><td>$t=x^2$</td><td>$t^2-5t+4=0$</td></tr>
+      <tr><th>$t$ լուծումներ</th><td colspan="2">$t=1$, $t=4$ (երկուսն էլ դրական)</td></tr>
+      <tr><th>$x$ լուծումներ</th><td colspan="2">$x=\pm1$, $x=\pm2$</td></tr>
+    </table>
+  </div>
+
+  <div class="block-title">Կանոն</div>
+  <div class="formula-box"><span class="label">Չմոռանալ վերադառնալ</span>
+    Լուծելով $t$-ի նկատմամբ, ՄԻՇՏ հետ վերադարձիր $x$-ին ($x=\pm\sqrt{t}$)՝ վերջնական պատասխան ձևակերպելիս։
+  </div>
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>Բացատրեք, թե ինչու $t=x^2=-4$-ը լուծում չունի։</p>
+    <div class="step">$x^2$-ը (ցանկացած իրական $x$-ի համար) միշտ $\ge0$ է, երբեք բացասական։</div>
+    <div class="answer">Պատասխան. $x^2=-4$-ը լուծում չունի, քանի որ ոչ մի իրական թվի քառակուսին բացասական չէ։</div>
+  </div>
+
+  <div class="think">Ինչո՞ւ է նոր փոփոխականի ներմուծման տեխնիկան ընդհանրանում այլ (ոչ երկքառակուսային) տեսքի հավասարումների վրա։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> $t=x^2$-ից հետո մոռանալ, որ $t$ պիտի լինի ոչ բացասական։</p>
+    <p><span class="k">Ինչու՞</span> Քառակուսային հավասարման լուծման ընթացքում ուշադրությունը կենտրոնանում է $t$-ի հաշվարկի վրա, մոռանալով, որ $t$-ն ինքնին սահմանափակված է ($t=x^2\ge0$)։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Ամեն $t$-ի արժեքի համար հարցրու. «Սա $\ge0$ է՞»։ Եթե ոչ, մերժիր՝ առանց $x$-ի հաշվարկելու փորձի։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>$t=x^2$, ուստի $t\ge0$ միշտ (իրական $x$-երի համար)։</li>
+      <li>Յուրաքանչյուր դրական $t$ տալիս է 2 $x$ ($\pm\sqrt{t}$)։</li>
+      <li>Մի մոռացիր վերադառնալ $x$-ին վերջում։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Նոր փոփոխականի ներմուծման տեխնիկան (ընդհանրապես, ոչ միայն $t=x^2$-ով) շատ հզոր գործիք է. ցանկացած «կրկնվող ենթաարտահայտություն» կարող ես նշանակել նոր տառով, պարզեցնելով հավասարումը։
+  </div>
+</section>
+
+<!-- ============ ՄԱՍ 2/2 ============ -->
+<section class="part-header">Մաս 2 / 2</section>
+
+<section class="chapter" id="s4">
+  <div class="chapter-head"><span class="chapter-num">04</span><h2>Ռացիոնալ հավասարման ձևափոխություններ</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">Կարենը սկուտերով, Նարեկը՝ ոտքով, ընդհանուր 16կմ ճանապարհով, արագությունների տարբերությունը 4կմ/ժ։ Ինչպե՞ս գտնել Նարեկի արագությունը, եթե հավասարումը ի սկզբանե ռացիոնալ տեսքով չէ։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">Շարժման խնդիրները հաճախ հանգում են ժամանակների հավասարեցման, որը, ընդհանուր հայտարարի բերելուց հետո, դառնում է $A(x)/B(x)=0$ տեսքի ռացիոնալ հավասարում։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p>Ոչ բոլոր ռացիոնալ հավասարումներն են սկզբնապես $A(x)/B(x)=0$ տեսքով տրված. հաճախ անհրաժեշտ է կատարել ձևափոխություններ (ընդհանուր հայտարարի բերում, կողմերի տեղափոխում), որպեսզի հասնել այդ տեսքին։</p>
+    <p>Ոչ նույնական ձևափոխությունների (կրճատման) դեպքում կարող են առաջանալ ավելորդ լուծումներ, որոնք ԹԱԲ-ին չեն պատկանում։</p>
+  </div>
+
+  <div class="block-title">Վիզուալ պատկեր</div>
+  <div class="visual-container table-wrap">
+    <table>
+      <tr><th>Խնդիր</th><td>Կարեն (սկուտեր), Նարեկ (ոտք)</td></tr>
+      <tr><th>Մոդել</th><td>ժամանակների հավասարեցում → ռացիոնալ հավասարում</td></tr>
+      <tr><th>Պատասխան</th><td>Նարեկի արագություն՝ $6$կմ/ժ</td></tr>
+    </table>
+  </div>
+
+  <div class="block-title">Կանոն</div>
+  <div class="formula-box"><span class="label">Կիրառական խնդրի քայլեր</span>
+    1) Սահմանիր անհայտը; 2) կազմիր հավասարումը (հաճախ՝ ժամանակների հավասարեցմամբ); 3) լուծիր (խաչաձև բազմապատկմամբ); 4) ստուգիր պատասխանի իմաստալիությունը (իրական համատեքստում)։
+  </div>
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>Ինչո՞ւ պիտի ստուգել ստացված արագության արժեքի իմաստալիությունը։</p>
+    <div class="step">Եթե հավասարումը տալիս է բացասական կամ $0$ արագություն, դա ֆիզիկապես անհնար է, ուստի մերժվում է (նույնիսկ եթե մաթեմատիկորեն «լուծում» է)։</div>
+    <div class="answer">Պատասխան. մաթեմատիկական լուծումը պիտի համապատասխանի իրական աշխարհի սահմանափակումներին։</div>
+  </div>
+
+  <div class="think">Ինչո՞ւ կարող է կրճատումը ստեղծել ավելորդ լուծում։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> Ընդհանուր հայտարարի բերելիս մոռանալ լրացուցիչ արտադրիչով բազմապատկել համարիչը։</p>
+    <p><span class="k">Ինչու՞</span> Ուշադրությունը կենտրոնանում է հայտարարների վրա, մոռանալով, որ համարիչներն էլ պիտի համապատասխանաբար ձևափոխվեն։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Ամեն կոտորակի համար ստուգիր, թե ինչ արտադրիչով ես բազմապատկել հայտարարը, և նույն արտադրիչով բազմապատկիր համարիչը։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>Ձևափոխիր $A(x)/B(x)=0$ տեսքի, ապա կիրառիր ծանոթ կանոնը։</li>
+      <li>Կրճատումից հետո՝ ստուգիր ԹԱԲ-ը կրկին։</li>
+      <li>Կիրառական խնդրում՝ ստուգիր պատասխանի իմաստալիությունը։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Շարժման խնդիրներում («ժամանակների հավասարեցում») հիմնական բանաձևը $t=\dfrac{\text{ճանապարհ}}{\text{արագություն}}$ է. երկու մասնակիցների ժամանակները հավասարեցնելը հենց ռացիոնալ հավասարումն է ստեղծում։
+  </div>
+</section>
+
+<section class="chapter" id="s5">
+  <div class="chapter-head"><span class="chapter-num">05</span><h2>Ռացիոնալ հավասարումների համակարգ</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">$\{x^2+y^2=2xy,\ xy+6x+8y=(x+1)(y+1)+35\}$ համակարգում 2 անհայտ ու 2 հավասարում կա։ Ինչպե՞ս լուծել։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">Ինչպես գծային համակարգերում, մեկ հավասարումից մի փոփոխականն արտահայտում ես մյուսով և տեղադրում երկրորդի մեջ։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p><b class="term">Մի քանի փոփոխականով ռացիոնալ հավասարում</b>՝ ռացիոնալ հավասարման ընդհանրացումն է մեկից ավելի անհայտի դեպքում։</p>
+    <p>Երկու անհայտով ռացիոնալ հավասարումների համակարգը լուծվում է հիմնականում <b class="term">փոփոխականի արտաքսման (տեղադրման) մեթոդով</b>։</p>
+  </div>
+
+  <div class="block-title">Վիզուալ պատկեր</div>
+  <div class="visual-container table-wrap">
+    <table>
+      <tr><th>$x^2+y^2=2xy$</th><td>$\Leftrightarrow$</td><td>$(x-y)^2=0 \Rightarrow x=y$</td></tr>
+    </table>
+  </div>
+
+  <div class="block-title">Կանոն</div>
+  <div class="formula-box"><span class="label">Ձևափոխության ընտրություն</span>
+    Փնտրիր հարմար ձևափոխություն (ինչպես $x^2+y^2=2xy \to (x-y)^2=0$), որը հեշտացնում է համակարգի լուծումը՝ նախքան ուղղակի տեղադրում փորձելը։
+  </div>
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>Լուծեք $\{x^2+y^2=2xy,\ xy+6x+8y=(x+1)(y+1)+35\}$ համակարգը։</p>
+    <div class="step">Առաջին հավասարումից. $x^2-2xy+y^2=0 \Rightarrow (x-y)^2=0 \Rightarrow x=y$։</div>
+    <div class="step">Տեղադրելով $y=x$ երկրորդում. $x^2+6x+8x=(x+1)^2+35=x^2+2x+1+35$։</div>
+    <div class="step">$14x=2x+36 \Rightarrow 12x=36 \Rightarrow x=3$, ուստի $y=3$։</div>
+    <div class="answer">Պատասխան. $x=y=3$։</div>
+  </div>
+
+  <div class="think">Ինչո՞ւ է $x^2+y^2=2xy$-ի ճանաչումը որպես լրիվ քառակուսի ($(x-y)^2=0$) ավելի հեշտացնում լուծումը, քան ուղղակի տեղադրումը։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> $x^2+y^2=2xy$ տիպի հավասարումը չճանաչել որպես լրիվ քառակուսի և փորձել լուծել ավելի բարդ ճանապարհով։</p>
+    <p><span class="k">Ինչու՞</span> Առանց փորձի, դժվար է անմիջապես նկատել, որ $x^2-2xy+y^2$-ը $(x-y)^2$ է։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Ամեն անգամ, երբ տեսնում ես $x^2+y^2$ և $xy$ միասին, ստուգիր՝ արդյոք դա լրիվ քառակուսու նմուշ է։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>Փոփոխականի արտաքսում = մեկ հավասարումից արտահայտիր, տեղադրիր մյուսում։</li>
+      <li>Փնտրիր հարմար ձևափոխություն (լրիվ քառակուսի և այլն) նախքան լուծելը։</li>
+      <li>Երկու հավասարումն էլ պիտի բավարարվեն, ոչ միայն մեկը։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Ռացիոնալ հավասարումների համակարգերը հաճախ ի հայտ են գալիս երկրաչափական մոդելավորման խնդիրներում (մակերես, պարագիծ, ծավալ), որտեղ երկու անհայտ մեծություն ունեն երկու անկախ կապ միմյանց հետ։
+  </div>
+</section>
+
+<hr class="sep">
+
+<!-- ============ ԱՌԱՋԱԴՐԱՆՔՆԵՐ ============ -->
+<section class="tasks-section" id="tasks">
+  <h2>Առաջադրանքներ</h2>
+
+  <h3>Հաշվարկային առաջադրանքներ</h3>
+  <ol class="tasks">
+    <li>Լուծեք $(x-3)(x+5)=0$։</li>
+    <li>Կազմեք վերածվող հավասարում, որի լուծումներն են $2,-3,5$։</li>
+    <li>Լուծեք $(x-5)(x+2)(x-1)=0$։</li>
+    <li>Լուծեք $\dfrac{x-5}{x+2}=0$։</li>
+    <li>Ինչու՞ $\dfrac{(x-4)^2}{(x^2+1)(x-4)}=0$-ը լուծում չունի։</li>
+    <li>$c$-ն ընտրեք, որ $\dfrac{7(x-2.5)(x+1)}{c-x}=0$ ունենա մեկ լուծում։</li>
+    <li>Լուծեք $x^4-5x^2+4=0$։</li>
+    <li>Լուծեք $x^4-13x^2+36=0$։</li>
+    <li>Բացատրեք, թե ինչու $x^2=-4$-ը լուծում չունի։</li>
+    <li>Լուծեք $x^4-16=0$։</li>
+    <li>Ձևափոխեք $\dfrac{1}{x}+\dfrac{1}{x+1}=1$-ը $A(x)/B(x)=0$ տեսքի և լուծեք։</li>
+    <li>Ձևափոխեք $\dfrac{2}{x-1}=\dfrac{3}{x+1}$-ը և լուծեք։</li>
+    <li>Կարենն ու Նարեկը 16կմ ընդհանուր ճանապարհով, արագությունների տարբերությունը 4կմ/ժ. գտեք Նարեկի արագությունը (եթե հանդիպումը կենտրոնից 2կմ)։</li>
+    <li>Լուծեք $\{x=y, x+y=6\}$ համակարգը (ստուգողական)։</li>
+    <li>Լուծեք $\{x^2+y^2=2xy, x+y=8\}$ համակարգը։</li>
+    <li>Լուծեք $\{x^2-6xy+9y^2=0, 4x+7y+38=0\}$ համակարգը։</li>
+    <li>Լուծեք $(2x-1)(x+4)(x-6)=0$։</li>
+    <li>Լուծեք $\dfrac{x+3}{x-1}=0$։</li>
+    <li>Ինչու՞ $\dfrac{(x-2)^3}{(x-2)(x+5)}=0$-ը լուծում ունի, թեև $x=2$-ը թվում է հայտարարն էլ զրոյացնող։</li>
+    <li>Լուծեք $x^4-10x^2+9=0$։</li>
+    <li>Լուծեք $\dfrac{3}{x}-\dfrac{2}{x+1}=0$։</li>
+    <li>Ընտրեք $c$-ն, որ $\dfrac{(x-3)(x+2)}{c-x}=0$ ունենա երկու լուծում (ոչ մեկ)։</li>
+    <li>Լուծեք $\{x=2y, xy=8\}$ համակարգը (ոչ-ռացիոնալ, բայց նույն մեթոդով)։</li>
+    <li>Կազմեք ռացիոնալ հավասարում, որի միակ լուծումն է $x=5$, և հայտարարն ունի $x=-1$ արմատ։</li>
+    <li>Լուծեք $\{x^2+y^2=2xy, xy=9\}$ համակարգը։</li>
+  </ol>
+
+  <h3>Տրամաբանական և հայեցակարգային հարցեր</h3>
+  <ol class="tasks" start="26">
+    <li>Ինչո՞ւ պիտի $A(x)=0$-ի և $B(x)=0$-ի լուծումները ՄԻԱՎՈՐԵԼ, ոչ հատել։</li>
+    <li>Ինչո՞ւ $A(x)=0$-ի բոլոր լուծումները ՉԵՆ կարող լինել ռացիոնալ հավասարման լուծում։</li>
+    <li>Ինչո՞ւ է նոր փոփոխականի ներմուծման տեխնիկան ընդհանրանում այլ (ոչ երկքառակուսային) տեսքի հավասարումների վրա։</li>
+    <li>Ինչո՞ւ կարող է կրճատումը ստեղծել ավելորդ լուծում։</li>
+    <li>Ինչո՞ւ է $x^2+y^2=2xy$-ի ճանաչումը որպես լրիվ քառակուսի ավելի հեշտացնում լուծումը։</li>
+  </ol>
+</section>
+
+<hr class="sep">
+
+<!-- ============ ՊԱՏԱՍԽԱՆՆԵՐ ============ -->
+<section class="answers-section" id="answers">
+  <h2>Պատասխաններ</h2>
+  <h3>Հաշվարկային առաջադրանքների պատասխանները</h3>
+  <ol class="answers-list">
+    <li>$x=3$ կամ $x=-5$</li>
+    <li>$(x-2)(x+3)(x-5)=0$</li>
+    <li>$x=5,-2,1$</li>
+    <li>$x=5$</li>
+    <li>Համարիչի և հայտարարի արմատը նույնն է ($x=4$)</li>
+    <li>$c=2.5$ կամ $c=-1$</li>
+    <li>$x=\pm1,\pm2$</li>
+    <li>$x=\pm2,\pm3$</li>
+    <li>$x^2\ge0$ միշտ, երբեք $-4$ չի կարող լինել</li>
+    <li>$x=\pm2$</li>
+    <li>$2x+1=x^2+x \Rightarrow x^2-x-1=0 \Rightarrow x=\dfrac{1\pm\sqrt5}{2}$</li>
+    <li>$2(x+1)=3(x-1) \Rightarrow x=5$</li>
+    <li>$6$կմ/ժ</li>
+    <li>$x=y=3$</li>
+    <li>$x=y=4$</li>
+    <li>$x=-6,\ y=-2$ (ստուգել)</li>
+    <li>$x=\dfrac12,-4,6$</li>
+    <li>$x=-3$</li>
+    <li>Այո, խնդիր չկա, քանի որ $(x-2)^3/[(x-2)(x+5)]$ կրճատվում է $(x-2)^2/(x+5)$-ի, և $x=2$-ը դեռ ստուգելի է ուղղակի, արդյունքը $0$, հայտարարը $\neq0$</li>
+    <li>$x=\pm1,\pm3$</li>
+    <li>$x=2$</li>
+    <li>$c\neq3,\ c\neq-2$ (ցանկացած այլ արժեք)</li>
+    <li>$x=4,\ y=2$ կամ $x=-4,\ y=-2$</li>
+    <li>Օրինակ՝ $\dfrac{x-5}{x+1}=0$</li>
+    <li>$x=y=3$ կամ $x=y=-3$</li>
+  </ol>
+  <h3>Տրամաբանական և հայեցակարգային հարցերի պատասխանները</h3>
+  <ol class="answers-list answers-list-conceptual" start="26">
+    <li>Յուրաքանչյուր արտադրիչի արմատներից ցանկացածը բավարարում է հավասարումը, ուստի «կամ» է, ոչ «և»</li>
+    <li>Որոշ արմատներ կարող են նաև հայտարարը զրոյացնել, ինչը կդարձնի ամբողջ արտահայտությունն անորոշ, ոչ 0</li>
+    <li>Ցանկացած «կրկնվող ենթաարտահայտություն» կարելի է նշանակել նոր տառով և պարզեցնել կառուցվածքը</li>
+    <li>Կրճատումը կարող է ջնջել այն տեղեկությունը, որ որոշակի արժեք հայտարարն էլ էր զրոյացնում</li>
+    <li>Լրիվ քառակուսին անմիջապես տալիս է $x=y$ կապը, փոխարեն բարդ երկրորդ աստիճանի հավասարումն ուղղակիորեն լուծելու</li>
+  </ol>
+</section>
+
+</main>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  renderMathInElement(document.body, {
+    delimiters: [
+      {left: "$$", right: "$$", display: true},
+      {left: "$", right: "$", display: false}
+    ],
+    strict: false
+  });
+});
+</script>
+</body>
+</html>

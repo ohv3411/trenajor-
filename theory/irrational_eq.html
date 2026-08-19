@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="hy">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Իռացիոնալ հավասարում և անհավասարում | Ուսումնական ուղեցույց</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<style>
+  :root{
+    --bg:#0f1f2e; --paper:#f6f8fb; --ink:#152233; --accent:#1e5f8c; --accent2:#c0562b;
+    --crust:#8fb3cc; --muted:#5b7188; --card:#ffffff; --line:#dde6ee;
+  }
+  *{box-sizing:border-box;}
+  html, body{overflow-x:hidden;}
+  body{margin:0; font-family:'Sylfaen','Arial',serif; background:var(--paper); color:var(--ink); font-size:18px; line-height:1.7;}
+  .hero{background:linear-gradient(135deg, var(--bg) 0%, #1c3b52 100%); color:#eaf2f8; padding:56px 24px 48px;}
+  .hero-inner{max-width:840px; margin:0 auto;}
+  h1.title{font-size:2.2rem; margin:0 0 10px; font-weight:bold; color:#fff;}
+  .hero p{color:#cfe0ec; max-width:620px; font-size:1.05rem;}
+  nav.toc{max-width:840px; margin:-26px auto 0; position:relative; z-index:3; background:var(--card); border-radius:10px; box-shadow:0 12px 30px rgba(15,31,46,.18); padding:22px 26px; border:1px solid var(--line);}
+  nav.toc h2{font-size:1.05rem; text-transform:uppercase; letter-spacing:.07em; color:var(--muted); margin:0 0 12px; font-weight:bold;}
+  nav.toc ol{margin:0; padding-left:20px; columns:2; column-gap:28px;}
+  nav.toc li{margin-bottom:8px; font-size:.98rem;}
+  nav.toc a{color:var(--accent); text-decoration:none; border-bottom:1px dotted var(--accent);}
+  main{max-width:840px; margin:40px auto 90px; padding:0 24px;}
+  section.part-header{margin:48px 0 20px; padding-bottom:8px; border-bottom:2px solid var(--crust); color:var(--muted); font-weight:bold; text-transform:uppercase; letter-spacing:.05em; font-size:.95rem;}
+  section.chapter{margin-bottom:56px;}
+  .chapter-head{display:flex; align-items:baseline; gap:14px; border-bottom:3px solid var(--accent2); padding-bottom:10px; margin-bottom:20px;}
+  .chapter-num{font-size:1.9rem; color:var(--accent); font-weight:bold;}
+  .chapter-head h2{margin:0; font-size:1.4rem; color:var(--ink); font-weight:bold;}
+
+  .block-title{font-weight:bold; color:var(--accent); font-size:1.02rem; margin:22px 0 8px; text-transform:uppercase; letter-spacing:.04em;}
+  .hook{background:#eef4f9; border-radius:10px; padding:16px 20px; margin:10px 0 18px; font-style:italic;}
+  .intuitive{padding:0 2px; margin-bottom:14px;}
+  .formal-def{background:#fff; border:1px solid var(--line); border-left:4px solid var(--accent); border-radius:0 10px 10px 0; padding:16px 20px; margin:14px 0;}
+  .formal-def b.term{color:var(--accent2);}
+
+  .visual-container.table-wrap{overflow-x:auto; width:100%; margin:18px 0; -webkit-overflow-scrolling:touch;}
+  table{border-collapse:collapse; width:100%;}
+  th,td{border:1px solid var(--line); padding:8px 12px; text-align:center; font-size:.98rem;}
+  th{background:#eaf1f7; font-weight:bold;}
+  svg{max-width:100%; height:auto; display:block; margin:0 auto;}
+
+  .formula-box{background:#fff8ee; border:1px solid #ecd9b6; border-radius:10px; padding:18px 22px; margin:16px 0;}
+  .formula-box .label{display:block; font-weight:bold; color:var(--accent2); margin-bottom:8px; text-transform:uppercase; font-size:.85rem; letter-spacing:.05em;}
+
+  .example-box{border-left:4px solid var(--accent); background:#fff; padding:16px 20px; margin:16px 0; border-radius:0 10px 10px 0; box-shadow:0 2px 8px rgba(15,31,46,.05);}
+  .example-box .tag{display:inline-block; font-size:.8rem; text-transform:uppercase; letter-spacing:.07em; color:#fff; background:var(--accent); padding:3px 10px; border-radius:20px; margin-bottom:8px; font-weight:bold;}
+  .example-box .step{margin:6px 0 6px 2px;}
+  .example-box .answer{margin-top:10px; padding:8px 14px; background:#eef4f9; border-radius:8px; border-left:3px solid var(--accent); font-weight:bold;}
+
+  .think{background:#f3ede0; border-left:4px solid var(--crust); border-radius:0 10px 10px 0; padding:12px 18px; margin:14px 0; font-style:italic; color:#4a3a1f;}
+
+  .error-box{background:#fdeeec; border:1px solid #f0c6bf; border-radius:10px; padding:16px 20px; margin:16px 0;}
+  .error-box h4{margin:0 0 8px; color:var(--accent2); font-size:1rem;}
+  .error-box .k{font-weight:bold; color:var(--accent2);}
+
+  .remember{background:#eef6ef; border:1px solid #cfe6d2; border-radius:10px; padding:14px 20px; margin:16px 0;}
+  .remember .label{font-weight:bold; color:#2f6b3a; text-transform:uppercase; font-size:.85rem; letter-spacing:.05em; display:block; margin-bottom:6px;}
+
+  .teacher-corner{background:#eaf1f7; border:1px dashed var(--crust); border-radius:10px; padding:16px 20px; margin:16px 0 28px;}
+  .teacher-corner .label{font-weight:bold; color:var(--accent); text-transform:uppercase; font-size:.85rem; letter-spacing:.05em; display:block; margin-bottom:6px;}
+
+  hr.sep{border:none; border-top:1px dashed var(--line); margin:36px 0;}
+
+  .tasks-section h2{color:var(--accent); border-bottom:3px solid var(--accent2); padding-bottom:8px;}
+  .tasks-section h3{color:var(--accent2); margin-top:26px;}
+  ol.tasks{padding-left:24px;}
+  ol.tasks li{margin-bottom:10px;}
+
+  .answers-section{background:#fff; padding:26px 28px; border-radius:10px; border:2px solid var(--accent); margin-top:44px;}
+  .answers-section h2{color:var(--accent); margin-top:0;}
+  .answers-section h3{color:var(--accent2); font-size:1rem; margin:22px 0 10px;}
+  .answers-list{columns:2; column-gap:36px; padding-left:20px; margin:0;}
+  .answers-list li{margin-bottom:9px; font-weight:bold;}
+  .answers-list-conceptual{columns:1; list-style-position:outside;}
+
+  @media (max-width:600px){
+    nav.toc ol{columns:1;}
+    .answers-list{columns:1;}
+    main{padding:0 14px;}
+  }
+
+  @media print {
+    body{background:#fff !important; color:#000 !important; font-size:12pt;}
+    .hero{padding:10px 0; background:none !important; color:#000 !important;}
+    h1.title{color:#000 !important;}
+    nav.toc{display:none !important;}
+    .formula-box, .example-box, .error-box, .visual-container, .table-wrap{page-break-inside:avoid !important; box-shadow:none !important; border:1px solid #ccc !important;}
+    .table-wrap, .visual-container{overflow-x:visible !important; white-space:pre-wrap !important; word-break:break-word !important;}
+    html, body{overflow-x:visible !important;}
+    .chapter{page-break-before:always;}
+    .chapter:first-of-type{page-break-before:auto;}
+    .answers-list{columns:3;}
+  }
+</style>
+
+<style id="tj-unified">
+  /* ԸՆԴՀԱՆՈՒՐ ՎԵՐԻՆ ՎԱՀԱՆԱԿ — նույնական բոլոր 19 ուղեցույցում։
+     Class-երը սկսվում են tj- նախածանցով, որ երբեք չբախվեն էջի
+     սեփական ոճերի հետ։ */
+  .tj-bar{background:#0f1f2e;color:#eaf2f8;font-family:'Sylfaen','Arial',serif;}
+  .tj-bar-in{max-width:840px;margin:0 auto;padding:10px 20px;display:flex;
+             align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+  .tj-back{color:#eaf2f8;text-decoration:none;font-weight:bold;font-size:.95rem;
+           border:1px solid rgba(234,242,248,.35);border-radius:8px;padding:5px 12px;}
+  .tj-back:hover{background:rgba(234,242,248,.12);}
+  .tj-grade{font-size:.85rem;color:#cfe0ec;letter-spacing:.03em;}
+  @media print{ .tj-bar{display:none;} }
+</style>
+</head>
+<body>
+<div class="tj-bar"><div class="tj-bar-in"><a class="tj-back" href="../index.html">← Տրենաժոր</a><span class="tj-grade">8 դասարան</span></div></div>
+
+
+<div class="hero">
+  <div class="hero-inner">
+    <h1 class="title">Իռացիոնալ հավասարում և անհավասարում</h1>
+    <p>ԹԱԲ-ից և ոչ նույնական ձևափոխություններից մինչև իռացիոնալ անհավասարումներ և մոդուլով հավասարումներ/անհավասարումներ։</p>
+  </div>
+</div>
+
+<nav class="toc">
+  <h2>Բովանդակություն</h2>
+  <ol>
+    <li><a href="#s1">Իռացիոնալ հավասարում, ԹԱԲ</a></li>
+    <li><a href="#s2">Ոչ նույնական ձևափոխություններ. պարզագույն իռացիոնալ հավասարումներ</a></li>
+    <li><a href="#s3">Իռացիոնալ անհավասարումներ</a></li>
+    <li><a href="#s4">Մոդուլով հավասարում և անհավասարում</a></li>
+    <li><a href="#tasks">Առաջադրանքներ</a></li>
+    <li><a href="#answers">Պատասխաններ</a></li>
+  </ol>
+</nav>
+
+<main>
+
+<!-- ============ ՄԱՍ 1/2 ============ -->
+<section class="part-header">Մաս 1 / 2</section>
+
+<section class="chapter" id="s1">
+  <div class="chapter-head"><span class="chapter-num">01</span><h2>Իռացիոնալ հավասարում, ԹԱԲ</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">$\sqrt{x-3}=4$-ը լուծելուց առաջ, ի՞նչ $x$-երի համար ընդհանրապես իմաստ ունի ձախ կողմը։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">Արմատատակ արտահայտությունը պիտի ոչ-բացասական լինի, հակառակ դեպքում ամբողջ հավասարումն անիմաստ է։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p><b class="term">Իռացիոնալ հավասարում</b>՝ մեկ փոփոխականից կազմված հավասարում, որում փոփոխականը գտնվում է արմատի նշանի տակ։ $\sqrt{7y+1}=\sqrt{y^4+1}+9$-ը իռացիոնալ է, իսկ $x\sqrt3+1=5x$-ը՝ ոչ (փոփոխականն արմատի տակ չէ, միայն թիվն է)։</p>
+    <p><b class="term">ԹԱԲ</b>՝ փոփոխականի այն արժեքները, որոնց դեպքում հավասարման երկու կողմերն էլ որոշված են (արմատատակ արտահայտությունները ոչ-բացասական)։</p>
+  </div>
+
+  <div class="block-title">Վիզուալ պատկեր</div>
+  <div class="visual-container table-wrap">
+    <table>
+      <tr><th>$\sqrt{x-3}=4$</th><td>ԹԱԲ. $x-3\ge0 \Rightarrow x\ge3$</td></tr>
+    </table>
+  </div>
+
+  <div class="block-title">Կանոն</div>
+  <div class="formula-box"><span class="label">2 քայլ</span>
+    1) Գտիր ԹԱԲ-ը (արմատատակ արտահայտության(ների) ոչ-բացասականություն); 2) ստուգման միջոցով որոշիր, թե ԹԱԲ-ից որ արժեքներն են բավարարում հավասարմանը։
+  </div>
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>Իռացիոնալ հավասարումնե՞ր են $\sqrt{7y+1}=\sqrt{y^4+1}+9$ և $x\sqrt3+1=5x$։</p>
+    <div class="step">Առաջինում փոփոխականն ($y$) արմատի տակ է. իռացիոնալ։</div>
+    <div class="step">Երկրորդում $\sqrt3$-ը հաստատուն թիվ է, $x$-ը արմատի տակ չէ. ոչ իռացիոնալ։</div>
+    <div class="answer">Պատասխան. առաջինը՝ այո, երկրորդը՝ ոչ։</div>
+  </div>
+
+  <div class="think">Ինչո՞ւ է կարևոր ԹԱԲ-ի հասկացողությունը հենց հիմա, նախքան ավելի բարդ ձևափոխություններին անցնելը։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> Փոփոխականն արմատի տակ չունեցող հավասարումը ($x\sqrt3+1=5x$) սխալմամբ դասակարգել որպես իռացիոնալ։</p>
+    <p><span class="k">Ինչու՞</span> Ցանկացած $\sqrt{}$ նշան տեսնելով, բնազդաբար կապում ենք «իռացիոնալ» պիտակի հետ, առանց ստուգելու, թե ինքը փոփոխականն է արմատի տակ, թե ոչ։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Հարցրու. «Փոփոխականն ինքն է՞ արմատի ՆՇԱՆԻ ՏԱԿ», ոչ պարզապես «Կա՞ արմատ»։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>Իռացիոնալ = փոփոխականն ինքն է արմատի տակ։</li>
+      <li>ԹԱԲ-ը հաշվիր ՆԱԽՔԱՆ լուծելը, ոչ հետո։</li>
+      <li>Ստուգիր ԲՈԼՈՐ արմատատակ արտահայտությունների ոչ-բացասականությունը, եթե մի քանիսն են։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Հաջորդ դասերում սովորելու ես ձևափոխություններ, որ կարող են «թաքցնել» ԹԱԲ-ը (քառակուսի բարձրացում)։ Հենց հիմա ամուր հիմք դիր, որպեսզի հետո ավելի հեշտ լինի ճանաչել ու կանխարգելել այդ սխալները։
+  </div>
+</section>
+
+<section class="chapter" id="s2">
+  <div class="chapter-head"><span class="chapter-num">02</span><h2>Ոչ նույնական ձևափոխություններ. պարզագույն իռացիոնալ հավասարումներ</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">$\sqrt{x+1}=\sqrt{2x-3}$-ը լուծելու համար քառակուսի ես բարձրացնում երկու կողմերը։ Բայց արդյո՞ք ամեն ստացված լուծում իրապես բավարարում է սկզբնական հավասարումը։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">Քառակուսի բարձրացումը կարող է ստեղծել «կողմնակի» լուծումներ, որոնք սկզբնական հավասարմանը չեն բավարարում. սա ոչ նույնական ձևափոխություն է։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p>Արմատից ազատվելու համար կատարվում է քառակուսի բարձրացում, որի արդյունքում կարող է կորչել համարժեքությունը (ոչ նույնական ձևափոխություն է)։</p>
+    <p><b class="term">Կանխարգելում.</b> քառակուսի բարձրացնելուց հետո լուծումը գրիր որպես ՀԱՄԱԿԱՐԳ, որի մի պայմանը ձևափոխված հավասարումն է, մյուսը՝ ԹԱԲ-ին պատկանելը։</p>
+  </div>
+
+  <div class="block-title">Վիզուալ պատկեր</div>
+  <div class="visual-container table-wrap">
+    <table>
+      <tr><th>$\sqrt{ax+b}=\sqrt{cx+d}$</th><td>Քայլ 1</td><td>ԹԱԲ գտնել</td></tr>
+      <tr><th></th><td>Քայլ 2</td><td>քառակուսի բարձրացնել</td></tr>
+      <tr><th></th><td>Քայլ 3</td><td>լուծել գծային հավասարումը</td></tr>
+      <tr><th></th><td>Քայլ 4</td><td>ստուգել ԹԱԲ-ին պատկանելը</td></tr>
+    </table>
+  </div>
+
+  <div class="block-title">Կանոն</div>
+  <div class="formula-box"><span class="label">Համակարգային մոտեցում</span>
+    Քառակուսի բարձրացումից հետո՝ $\{$ձևափոխված հավասարում, ԹԱԲ-ի պայման$\}$. սա ինքնաբերաբար զտում է կողմնակի լուծումները։
+  </div>
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>Բացատրեք, թե ինչպես կարող է քառակուսի բարձրացումը ստեղծել կողմնակի լուծում։</p>
+    <div class="step">$\sqrt{x}=-2$-ը լուծում չունի (արմատը միշտ $\ge0$)։ Բայց քառակուսի բարձրացնելով՝ $x=4$, որը ՉԻ բավարարում սկզբնական հավասարումը ($\sqrt4=2\neq-2$)։</div>
+    <div class="answer">Պատասխան. $x=4$-ը կողմնակի լուծում է, պիտի մերժվի ստուգումով։</div>
+  </div>
+
+  <div class="think">Ինչո՞ւ է ԹԱԲ-ի ստուգումն ավելի հուսալի, քան ուղղակի սկզբնական հավասարման մեջ տեղադրումը (թեև երկուսն էլ ընդունելի են)։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> Քառակուսի բարձրացնելուց հետո չստուգել լուծումը, ընդունելով կողմնակի արմատը որպես իրական։</p>
+    <p><span class="k">Ինչու՞</span> Գծային հավասարման լուծումից հետո սովորաբար «ավարտված ենք» զգում, մոռանալով, որ քառակուսի բարձրացումը հատուկ ուշադրություն է պահանջում։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Միշտ, առանց բացառության, ստուգիր ստացված $x$-ը սկզբնական (ոչ ձևափոխված) հավասարման մեջ։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>Քառակուսի բարձրացումը ՈՉ նույնական ձևափոխություն է։</li>
+      <li>Միշտ կազմիր ստուգող համակարգ (հավասարում + ԹԱԲ)։</li>
+      <li>Կողմնակի լուծումները մերժիր, նույնիսկ եթե մաթեմատիկորեն «ճիշտ» են թվում։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Այս «ստուգման» սովորությունը (ամեն անգամ քառակուսի բարձրացնելուց հետո) կդառնա ավտոմատ, եթե հետևողականորեն կիրառես այն ամեն խնդրում, նույնիսկ երբ թվում է «ակնհայտ»։
+  </div>
+</section>
+
+<!-- ============ ՄԱՍ 2/2 ============ -->
+<section class="part-header">Մաս 2 / 2</section>
+
+<section class="chapter" id="s3">
+  <div class="chapter-head"><span class="chapter-num">03</span><h2>Իռացիոնալ անհավասարումներ</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">$\sqrt{3x+1}<3$-ը լուծելիս, ինչո՞վ է տարբերվում մոտեցումը հավասարումների լուծումից։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">Նույն սկզբունքն է (քառակուսի բարձրացում + ԹԱԲ), բայց արդյունքում ստացվում է անհավասարումների ՀԱՄԱԿԱՐԳ, ոչ մեկ հավասարում։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p>Իռացիոնալ անհավասարումների լուծումը հանգում է նույն սկզբունքին (քառակուսի բարձրացում + ԹԱԲ), բայց արդյունքում ստացվում է անհավասարումների համակարգ։</p>
+    <p>$\sqrt{ax+b}\ge c$ տեսքի անհավասարումը լուծելիս անհրաժեշտ է դիտարկել $c$-ի նշանը (եթե $c<0$, ամբողջ ԹԱԲ-ը լուծում է)։</p>
+  </div>
+
+  <div class="block-title">Վիզուալ պատկեր</div>
+  <div class="visual-container table-wrap">
+    <table>
+      <tr><th>$2\sqrt{3x+1}+8<\sqrt{3x+1}+11$</th><td>$\Rightarrow \sqrt{3x+1}<3$</td></tr>
+      <tr><th>Համակարգ</th><td>$\{3x+1\ge0,\ 3x+1<9\}$</td></tr>
+      <tr><th>Լուծում</th><td>$x\in[-\frac13,\ 2\frac23)$</td></tr>
+    </table>
+  </div>
+
+  <div class="block-title">Կանոն</div>
+  <div class="formula-box"><span class="label">Համակարգի կազմում</span>
+    Անհրաժեշտ պայմաններ. 1) ԹԱԲ (արմատատակ ≥0); 2) ձևափոխված անհավասարումը; 3) անհրաժեշտության դեպքում՝ աջ կողմի նշանի պայման։
+  </div>
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>Լուծեք $\sqrt{9x+27}-1\le\sqrt{x+3}$։</p>
+    <div class="step">Պարզեցնենք. $2\sqrt{x+3}\le1$ (քանի որ $\sqrt{9x+27}=3\sqrt{x+3}$)։</div>
+    <div class="step">Համակարգ. $\{x+3\ge0,\ 4(x+3)\le1\} \Rightarrow \{x\ge-3,\ x\le-2.75\}$։</div>
+    <div class="answer">Պատասխան. $x\in[-3,-2.75]$։</div>
+  </div>
+
+  <div class="think">Ինչո՞ւ է $c<0$ դեպքում $\sqrt{ax+b}\ge c$-ի ամբողջ ԹԱԲ-ը ինքնաբերաբար լուծում։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> Քառակուսի բարձրացնելիս մոռանալ, որ պահանջվում է նաև աջ կողմի ոչ-բացասականությունը։</p>
+    <p><span class="k">Ինչու՞</span> Ուշադրությունը կենտրոնանում է արմատատակ արտահայտության ԹԱԲ-ի վրա, մոռանալով, որ աջ կողմն էլ կարող է սահմանափակող պայման ավելացնել։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Կազմիր ամբողջական համակարգ, ներառելով ԲՈԼՈՐ պայմանները (ԹԱԲ, ձևափոխված անհավասարում, նշանի պայման), ոչ միայն մեկը։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>Իռացիոնալ անհավասարումը հանգում է անհավասարումների ՀԱՄԱԿԱՐԳԻ։</li>
+      <li>Եթե $c<0$ (աջ կողմ), ստուգիր հատուկ դեպքը (ամբողջ ԹԱԲ-ը կարող է լուծում լինել)։</li>
+      <li>Երկու արմատով անհավասարումներում՝ երկու կողմերն էլ պիտի ոչ-բացասական լինեն նախքան քառակուսի բարձրացնելը։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Բարդ երևացող իռացիոնալ անհավասարումները միշտ հանգում են նույն մեթոդին. պարզեցում → քառակուսի բարձրացում → պայմանների համակարգ։ Մի վախեցիր բարդությունից, հետևիր քայլերին հետևողականորեն։
+  </div>
+</section>
+
+<section class="chapter" id="s4">
+  <div class="chapter-head"><span class="chapter-num">04</span><h2>Մոդուլով հավասարում և անհավասարում</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">$|x-3|<5$-ը լուծելու համար ինչպե՞ս «բացել» մոդուլը, երբ չգիտես $x-3$-ի նշանը։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">Մոդուլը հեռավորությունն է $0$-ից, ուստի $|f(x)|<a$ նշանակում է, որ $f(x)$-ը գտնվում է $-a$ և $a$ միջև։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p>$|f(x)|=a$ ($a>0$) $\Leftrightarrow f(x)=a$ կամ $f(x)=-a$ (<b class="term">համախումբ</b>)։</p>
+    <p>$|f(x)|<a$ ($a>0$) $\Leftrightarrow -a<f(x)<a$ (<b class="term">համակարգ</b>)։</p>
+    <p>$|f(x)|>a$ ($a>0$) $\Leftrightarrow f(x)>a$ կամ $f(x)<-a$ (<b class="term">համախումբ</b>)։</p>
+    <p><b class="term">Հատուկ դեպքեր.</b> եթե $a\le0$, $|f(x)|<a$ լուծում չունի; $|f(x)|>a$ ($a<0$) ճշմարիտ է ցանկացած $x$-ի համար։</p>
+  </div>
+
+  <div class="block-title">Վիզուալ պատկեր</div>
+  <div class="visual-container table-wrap">
+    <table>
+      <tr><th>Տեսակ</th><td>$|f(x)|=a$</td><td>$|f(x)|<a$</td><td>$|f(x)|>a$</td></tr>
+      <tr><th>Կառուցվածք</th><td>Համախումբ</td><td>Համակարգ</td><td>Համախումբ</td></tr>
+    </table>
+  </div>
+
+  <div class="block-title">Կանոն</div>
+  <div class="formula-box"><span class="label">< → Համակարգ, > → Համախումբ</span>
+    Հեշտ հիշելու հնարք. $<$ («փոքր») սեղմում է $f(x)$-ը ներսում (համակարգ), $>$ («մեծ») բացում է դեպի երկու ուղղություն (համախումբ)։
+  </div>
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>Լուծեք $-3|1-2x|+9<0$։</p>
+    <div class="step">$-3|1-2x|<-9 \Rightarrow |1-2x|>3$ (նշանը փոխվեց, բացասականով բաժանելիս)։</div>
+    <div class="step">Համախումբ. $1-2x>3$ կամ $1-2x<-3$, այսինքն $x<-1$ կամ $x>2$։</div>
+    <div class="answer">Պատասխան. $x\in(-\infty,-1)\cup(2,+\infty)$։</div>
+  </div>
+
+  <div class="think">Ինչո՞ւ $-3|x|\le21$-ը ճշմարիտ է ցանկացած $x$-ի համար։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> $|f(x)|<a$-ի և $|f(x)|>a$-ի կառուցվածքները շրջել (համակարգ ընդդեմ համախմբի)։</p>
+    <p><span class="k">Ինչու՞</span> Երկուսն էլ ներառում են «$a$»-ի հետ համեմատություն, հեշտ է մոռանալ, թե որ նշանն ինչ կառուցվածք է տալիս։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Կիրառիր հիշողության հնարքը («$<$→ ներսում, $>$→ դեպի դուրս») կամ ստուգիր փոքր թվային օրինակով։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>$=$ → համախումբ, $<$ → համակարգ, $>$ → համախումբ։</li>
+      <li>Բացասական թվով բաժանելիս/բազմապատկելիս՝ շրջիր անհավասարման նշանը։</li>
+      <li>Ստուգիր $a$-ի նշանը (հատուկ դեպքեր $a\le0$-ի համար)։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Այս գլուխը (իռացիոնալ + մոդուլ) փակում է հանրահաշվի մի կարևոր բաժին՝ մեկ ընդհանուր սկզբունքով. ամեն «ոչ-ստանդարտ» հավասարում/անհավասարում կարող ես նվազեցնել ծանոթ ալգորիթմների՝ ուշադիր ձևափոխություններով և ստուգումով։
+  </div>
+</section>
+
+<hr class="sep">
+
+<!-- ============ ԱՌԱՋԱԴՐԱՆՔՆԵՐ ============ -->
+<section class="tasks-section" id="tasks">
+  <h2>Առաջադրանքներ</h2>
+
+  <h3>Հաշվարկային առաջադրանքներ</h3>
+  <ol class="tasks">
+    <li>Իռացիոնալ հավասարումնե՞ր են $\sqrt{7y+1}=\sqrt{y^4+1}+9$ և $x\sqrt3+1=5x$։</li>
+    <li>Գտեք $\sqrt{x-3}=4$ հավասարման ԹԱԲ-ը։</li>
+    <li>Գտեք $\sqrt{2x+5}=7$ հավասարման ԹԱԲ-ը և լուծեք։</li>
+    <li>Ստուգման միջոցով գտեք $\sqrt{x+1}=3$ հավասարման լուծումը։</li>
+    <li>Լուծեք $\sqrt{2x+1}=\sqrt{x+4}$՝ ստուգելով ԹԱԲ-ով։</li>
+    <li>Ցույց տվեք, թե ինչպես $\sqrt{x}=-2$-ը կարող է «կողմնակի» լուծում ստեղծել քառակուսի բարձրացնելիս։</li>
+    <li>Լուծեք $\sqrt{3x-2}=\sqrt{x+6}$ և գրեք ստուգող համակարգը։</li>
+    <li>Լուծեք $2\sqrt{3x+1}+8<\sqrt{3x+1}+11$։</li>
+    <li>Լուծեք $\sqrt{9x+27}-1\le\sqrt{x+3}$։</li>
+    <li>Լուծեք $\sqrt{2x-1}\ge3$։</li>
+    <li>Լուծեք $\sqrt{x+4}<-1$ (ուշադրություն՝ հատուկ դեպք)։</li>
+    <li>Լուծեք $-3|x|\le21$։</li>
+    <li>Լուծեք $-15|x|>-45$։</li>
+    <li>Լուծեք $-3|1-2x|+9<0$։</li>
+    <li>Լուծեք $|x-3|<5$։</li>
+    <li>Լուծեք $|2x+1|=7$։</li>
+    <li>Լուծեք $|x+2|>4$։</li>
+    <li>Լուծեք $-6|x-3|\ge-3\sqrt2$։</li>
+    <li>Ինչու՞ $\sqrt{5x-1}=\sqrt{-5x+1}$-ը միայն մեկ արժեքի համար կարող է ունենալ լուծում. գտեք այն։</li>
+    <li>Լուծեք $\sqrt{4x+9}=\sqrt{2x+3}$՝ ստուգելով ԹԱԲ-ով։</li>
+    <li>Լուծեք $\sqrt{x-1}\le2$։</li>
+    <li>Լուծեք $|3x-6|=0$ (հատուկ դեպք)։</li>
+    <li>Լուծեք $\sqrt{7-x}<\sqrt{2x-2}$ (երկու արմատով անհավասարում)։</li>
+    <li>Իռացիոնալ հավասարումնե՞ր են $\sqrt{x^2+1}=3$ և $\sqrt2\cdot x=7$։</li>
+    <li>Լուծեք $|x|-5<0$։</li>
+    <li>Լուծեք $\sqrt{x+2}=\sqrt{3x-4}$՝ ստուգելով ԹԱԲ-ով։</li>
+  </ol>
+
+  <h3>Տրամաբանական և հայեցակարգային հարցեր</h3>
+  <ol class="tasks" start="27">
+    <li>Ինչո՞ւ է կարևոր ԹԱԲ-ի հասկացողությունը հենց հիմա, նախքան ավելի բարդ ձևափոխություններին անցնելը։</li>
+    <li>Ինչո՞ւ է ԹԱԲ-ի ստուգումն ավելի հուսալի, քան ուղղակի սկզբնական հավասարման մեջ տեղադրումը։</li>
+    <li>Ինչո՞ւ է $c<0$ դեպքում $\sqrt{ax+b}\ge c$-ի ամբողջ ԹԱԲ-ը ինքնաբերաբար լուծում։</li>
+    <li>Ինչո՞ւ $-3|x|\le21$-ը ճշմարիտ է ցանկացած $x$-ի համար։</li>
+  </ol>
+</section>
+
+<hr class="sep">
+
+<!-- ============ ՊԱՏԱՍԽԱՆՆԵՐ ============ -->
+<section class="answers-section" id="answers">
+  <h2>Պատասխաններ</h2>
+  <h3>Հաշվարկային առաջադրանքների պատասխանները</h3>
+  <ol class="answers-list">
+    <li>Առաջինը՝ այո, երկրորդը՝ ոչ</li>
+    <li>$x\ge3$</li>
+    <li>ԹԱԲ. $x\ge-2.5$, լուծում՝ $x=22$</li>
+    <li>$x=8$</li>
+    <li>$x=3$</li>
+    <li>$x=4$ ստացվում է, բայց $\sqrt4=2\neq-2$, ուստի կողմնակի է</li>
+    <li>$x=4$, համակարգ՝ $\{3x-2\ge0, x+6\ge0, 3x-2=x+6\}$</li>
+    <li>$x\in[-\frac13,\ 2\frac23)$</li>
+    <li>$x\in[-3,-2.75]$</li>
+    <li>$x\ge5$</li>
+    <li>Լուծում չկա (արմատը միշտ $\ge0>-1$)</li>
+    <li>Բոլոր իրական թվեր</li>
+    <li>$x\in(-3,3)$</li>
+    <li>$x\in(-\infty,-1)\cup(2,+\infty)$</li>
+    <li>$x\in(-2,8)$</li>
+    <li>$x=3$ կամ $x=-4$</li>
+    <li>$x\in(-\infty,-6)\cup(2,+\infty)$</li>
+    <li>$x\in[3-\frac{\sqrt2}{2},\ 3+\frac{\sqrt2}{2}]$</li>
+    <li>Հավասար են, երբ $5x-1=-5x+1 \Rightarrow x=0.2$ (ստուգել ԹԱԲ-ով)</li>
+    <li>$x=-3$</li>
+    <li>$x\in[1,5]$</li>
+    <li>$x=2$</li>
+    <li>ԹԱԲ. $x\ge1,x\le7$, լուծում՝ $x\in(1,3)$</li>
+    <li>Առաջինը՝ այո ($x$ արմատի տակ), երկրորդը՝ ոչ ($\sqrt2$ հաստատուն է)</li>
+    <li>$x\in(-5,5)$</li>
+    <li>$x=3$</li>
+  </ol>
+  <h3>Տրամաբանական և հայեցակարգային հարցերի պատասխանները</h3>
+  <ol class="answers-list answers-list-conceptual" start="27">
+    <li>Հետագա դասերում ձևափոխությունները (քառակուսի բարձրացում) կարող են թաքցնել ԹԱԲ-ը, և առանց ամուր հիմքի հեշտ է սխալվել</li>
+    <li>Ուղղակի տեղադրումը նույնպես ընդունելի է, բայց ԹԱԲ-ի ստուգումը ընդհանրացնող, համակարգային մոտեցում է</li>
+    <li>Արմատը միշտ $\ge0$ է, ուստի եթե $c<0$, անհավասարությունը ինքնաբերաբար ճշմարիտ է ցանկացած արժեքի համար, երբ ԹԱԲ-ը բավարարվում է</li>
+    <li>$|x|\ge0$ միշտ, ուստի $-3|x|\le0\le21$ ինքնաբերաբար ճշմարիտ է</li>
+  </ol>
+</section>
+
+</main>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  renderMathInElement(document.body, {
+    delimiters: [
+      {left: "$$", right: "$$", display: true},
+      {left: "$", right: "$", display: false}
+    ],
+    strict: false
+  });
+});
+</script>
+</body>
+</html>

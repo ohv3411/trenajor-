@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="hy">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Բազմանդամների բաժանումը | Ուսումնական ուղեցույց</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<style>
+  :root{
+    --bg:#0f1f2e; --paper:#f6f8fb; --ink:#152233; --accent:#1e5f8c; --accent2:#c0562b;
+    --crust:#8fb3cc; --muted:#5b7188; --card:#ffffff; --line:#dde6ee;
+  }
+  *{box-sizing:border-box;}
+  html, body{overflow-x:hidden;}
+  body{margin:0; font-family:'Sylfaen','Arial',serif; background:var(--paper); color:var(--ink); font-size:18px; line-height:1.7;}
+  .hero{background:linear-gradient(135deg, var(--bg) 0%, #1c3b52 100%); color:#eaf2f8; padding:56px 24px 48px;}
+  .hero-inner{max-width:840px; margin:0 auto;}
+  h1.title{font-size:2.2rem; margin:0 0 10px; font-weight:bold; color:#fff;}
+  .hero p{color:#cfe0ec; max-width:620px; font-size:1.05rem;}
+  nav.toc{max-width:840px; margin:-26px auto 0; position:relative; z-index:3; background:var(--card); border-radius:10px; box-shadow:0 12px 30px rgba(15,31,46,.18); padding:22px 26px; border:1px solid var(--line);}
+  nav.toc h2{font-size:1.05rem; text-transform:uppercase; letter-spacing:.07em; color:var(--muted); margin:0 0 12px; font-weight:bold;}
+  nav.toc ol{margin:0; padding-left:20px; columns:2; column-gap:28px;}
+  nav.toc li{margin-bottom:8px; font-size:.98rem;}
+  nav.toc a{color:var(--accent); text-decoration:none; border-bottom:1px dotted var(--accent);}
+  main{max-width:840px; margin:40px auto 90px; padding:0 24px;}
+  section.part-header{margin:48px 0 20px; padding-bottom:8px; border-bottom:2px solid var(--crust); color:var(--muted); font-weight:bold; text-transform:uppercase; letter-spacing:.05em; font-size:.95rem;}
+  section.chapter{margin-bottom:56px;}
+  .chapter-head{display:flex; align-items:baseline; gap:14px; border-bottom:3px solid var(--accent2); padding-bottom:10px; margin-bottom:20px;}
+  .chapter-num{font-size:1.9rem; color:var(--accent); font-weight:bold;}
+  .chapter-head h2{margin:0; font-size:1.4rem; color:var(--ink); font-weight:bold;}
+
+  .block-title{font-weight:bold; color:var(--accent); font-size:1.02rem; margin:22px 0 8px; text-transform:uppercase; letter-spacing:.04em;}
+  .hook{background:#eef4f9; border-radius:10px; padding:16px 20px; margin:10px 0 18px; font-style:italic;}
+  .intuitive{padding:0 2px; margin-bottom:14px;}
+  .formal-def{background:#fff; border:1px solid var(--line); border-left:4px solid var(--accent); border-radius:0 10px 10px 0; padding:16px 20px; margin:14px 0;}
+  .formal-def b.term{color:var(--accent2);}
+
+  .visual-container.table-wrap{overflow-x:auto; width:100%; margin:18px 0; -webkit-overflow-scrolling:touch;}
+  table{border-collapse:collapse; width:100%;}
+  th,td{border:1px solid var(--line); padding:8px 12px; text-align:center; font-size:.98rem;}
+  th{background:#eaf1f7; font-weight:bold;}
+  svg{max-width:100%; height:auto; display:block; margin:0 auto;}
+
+  .formula-box{background:#fff8ee; border:1px solid #ecd9b6; border-radius:10px; padding:18px 22px; margin:16px 0;}
+  .formula-box .label{display:block; font-weight:bold; color:var(--accent2); margin-bottom:8px; text-transform:uppercase; font-size:.85rem; letter-spacing:.05em;}
+
+  .example-box{border-left:4px solid var(--accent); background:#fff; padding:16px 20px; margin:16px 0; border-radius:0 10px 10px 0; box-shadow:0 2px 8px rgba(15,31,46,.05);}
+  .example-box .tag{display:inline-block; font-size:.8rem; text-transform:uppercase; letter-spacing:.07em; color:#fff; background:var(--accent); padding:3px 10px; border-radius:20px; margin-bottom:8px; font-weight:bold;}
+  .example-box .step{margin:6px 0 6px 2px;}
+  .example-box .answer{margin-top:10px; padding:8px 14px; background:#eef4f9; border-radius:8px; border-left:3px solid var(--accent); font-weight:bold;}
+
+  .think{background:#f3ede0; border-left:4px solid var(--crust); border-radius:0 10px 10px 0; padding:12px 18px; margin:14px 0; font-style:italic; color:#4a3a1f;}
+
+  .error-box{background:#fdeeec; border:1px solid #f0c6bf; border-radius:10px; padding:16px 20px; margin:16px 0;}
+  .error-box h4{margin:0 0 8px; color:var(--accent2); font-size:1rem;}
+  .error-box .k{font-weight:bold; color:var(--accent2);}
+
+  .remember{background:#eef6ef; border:1px solid #cfe6d2; border-radius:10px; padding:14px 20px; margin:16px 0;}
+  .remember .label{font-weight:bold; color:#2f6b3a; text-transform:uppercase; font-size:.85rem; letter-spacing:.05em; display:block; margin-bottom:6px;}
+
+  .teacher-corner{background:#eaf1f7; border:1px dashed var(--crust); border-radius:10px; padding:16px 20px; margin:16px 0 28px;}
+  .teacher-corner .label{font-weight:bold; color:var(--accent); text-transform:uppercase; font-size:.85rem; letter-spacing:.05em; display:block; margin-bottom:6px;}
+
+  hr.sep{border:none; border-top:1px dashed var(--line); margin:36px 0;}
+
+  .tasks-section h2{color:var(--accent); border-bottom:3px solid var(--accent2); padding-bottom:8px;}
+  .tasks-section h3{color:var(--accent2); margin-top:26px;}
+  ol.tasks{padding-left:24px;}
+  ol.tasks li{margin-bottom:10px;}
+
+  .answers-section{background:#fff; padding:26px 28px; border-radius:10px; border:2px solid var(--accent); margin-top:44px;}
+  .answers-section h2{color:var(--accent); margin-top:0;}
+  .answers-section h3{color:var(--accent2); font-size:1rem; margin:22px 0 10px;}
+  .answers-list{columns:2; column-gap:36px; padding-left:20px; margin:0;}
+  .answers-list li{margin-bottom:9px; font-weight:bold;}
+  .answers-list-conceptual{columns:1; list-style-position:outside;}
+
+  @media (max-width:600px){
+    nav.toc ol{columns:1;}
+    .answers-list{columns:1;}
+    main{padding:0 14px;}
+  }
+
+  @media print {
+    body{background:#fff !important; color:#000 !important; font-size:12pt;}
+    .hero{padding:10px 0; background:none !important; color:#000 !important;}
+    h1.title{color:#000 !important;}
+    nav.toc{display:none !important;}
+    .formula-box, .example-box, .error-box, .visual-container, .table-wrap{page-break-inside:avoid !important; box-shadow:none !important; border:1px solid #ccc !important;}
+    .table-wrap, .visual-container{overflow-x:visible !important; white-space:pre-wrap !important; word-break:break-word !important;}
+    html, body{overflow-x:visible !important;}
+    .chapter{page-break-before:always;}
+    .chapter:first-of-type{page-break-before:auto;}
+    .answers-list{columns:3;}
+  }
+</style>
+
+<style id="tj-unified">
+  /* ԸՆԴՀԱՆՈՒՐ ՎԵՐԻՆ ՎԱՀԱՆԱԿ — նույնական բոլոր 19 ուղեցույցում։
+     Class-երը սկսվում են tj- նախածանցով, որ երբեք չբախվեն էջի
+     սեփական ոճերի հետ։ */
+  .tj-bar{background:#0f1f2e;color:#eaf2f8;font-family:'Sylfaen','Arial',serif;}
+  .tj-bar-in{max-width:840px;margin:0 auto;padding:10px 20px;display:flex;
+             align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+  .tj-back{color:#eaf2f8;text-decoration:none;font-weight:bold;font-size:.95rem;
+           border:1px solid rgba(234,242,248,.35);border-radius:8px;padding:5px 12px;}
+  .tj-back:hover{background:rgba(234,242,248,.12);}
+  .tj-grade{font-size:.85rem;color:#cfe0ec;letter-spacing:.03em;}
+  @media print{ .tj-bar{display:none;} }
+</style>
+</head>
+<body>
+<div class="tj-bar"><div class="tj-bar-in"><a class="tj-back" href="../index.html">← Տրենաժոր</a><span class="tj-grade">9 դասարան</span></div></div>
+
+
+<div class="hero">
+  <div class="hero-inner">
+    <h1 class="title">Բազմանդամների բաժանումը</h1>
+    <p>Կատարյալ տեսքից մինչև Բեզուի թեորեմը և ամբողջ արմատների որոնումը։</p>
+  </div>
+</div>
+
+<nav class="toc">
+  <h2>Բովանդակություն</h2>
+  <ol>
+    <li><a href="#s1">Բազմանդամի կատարյալ տեսքը</a></li>
+    <li><a href="#s2">Բազմանդամների բաժանումը</a></li>
+    <li><a href="#s3">Բեզուի թեորեմը</a></li>
+    <li><a href="#s4">Ամբողջ գործակիցներով բազմանդամի արմատները</a></li>
+    <li><a href="#tasks">Առաջադրանքներ</a></li>
+    <li><a href="#answers">Պատասխաններ</a></li>
+  </ol>
+</nav>
+
+<main>
+
+<!-- ============ ՄԱՍ 1/2 ============ -->
+<section class="part-header">Մաս 1 / 2</section>
+
+<section class="chapter" id="s1">
+  <div class="chapter-head"><span class="chapter-num">01</span><h2>Բազմանդամի կատարյալ տեսքը</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">Ինժեներական հաշվարկներում հաճախ հանդիպում են երկար բազմանդամային արտահայտություններ։ Ինչպե՞ս արագ որոշել՝ որն է ամենակարևոր («ավագ») անդամը մեծ $x$-երի համար։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">Ցանկացած մեկ փոփոխականով բազմանդամ կարելի է գրել միասնական, կարգավորված տեսքով՝ ըստ $x$-ի նվազող աստիճանների։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p>Մեկ փոփոխականով բազմանդամի ընդհանուր տեսք. $P(x)=a_nx^n+a_{n-1}x^{n-1}+...+a_1x+a_0$, որտեղ $a_n\neq0$։</p>
+    <p>$a_nx^n$-ը <b class="term">ավագ անդամ</b>ն է, $a_0$-ն՝ <b class="term">ազատ անդամ</b>ը, $n$-ը՝ բազմանդամի <b class="term">կարգը (աստիճանը)</b>։ Միջանկյալ գործակիցներից որոշները կարող են $0$ լինել։</p>
+  </div>
+
+  <div class="block-title">Վիզուալ պատկեր</div>
+  <div class="visual-container table-wrap">
+    <table>
+      <tr><th>$P(x)$</th><td>$3x^4-2x^2+7$</td></tr>
+      <tr><th>Ավագ անդամ</th><td>$3x^4$</td></tr>
+      <tr><th>Ազատ անդամ</th><td>$7$</td></tr>
+      <tr><th>Կարգ</th><td>$4$</td></tr>
+      <tr><th>$x^3$, $x^1$ գործակիցներ</th><td>$0$ (բացակա)</td></tr>
+    </table>
+  </div>
+
+  <div class="block-title">Կանոն</div>
+  <div class="formula-box"><span class="label">Կարգը ≠ գործակիցը</span>
+    Բազմանդամի կարգը որոշվում է ամենամեծ ԱՍՏԻՃԱՆՈՎ անդամով, ոչ ամենամեծ գործակցով։
+  </div>
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>Անվանեք $P(x)=0.001x^5-100x^2+2$-ի ավագ անդամը, ազատ անդամը և կարգը։</p>
+    <div class="step">Չնայած $0.001$-ը փոքր գործակից է, $x^5$-ը ամենամեծ աստիճանն է։</div>
+    <div class="answer">Պատասխան. ավագ անդամ՝ $0.001x^5$, ազատ անդամ՝ $2$, կարգ՝ $5$։</div>
+  </div>
+
+  <div class="think">Ինչո՞ւ է կարգը կախված աստիճանից, ոչ գործակցի մեծությունից։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> Ավագ անդամը շփոթել ամենամեծ գործակցով անդամի հետ։</p>
+    <p><span class="k">Ինչու՞</span> «Ավագ» բառը ինտուիտիվորեն կապվում է «ամենամեծ թվի» հետ, ոչ «ամենամեծ աստիճանի»։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Անտեսիր գործակիցները, նայիր միայն ցուցիչներին. ամենամեծ ցուցիչով անդամն է ավագը։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>Կարգը = ամենամեծ ցուցիչ, ոչ գործակից։</li>
+      <li>Բացակա աստիճանները նշանակում է $0$ գործակից։</li>
+      <li>$a_n\neq0$ պայմանով է, որ ավագ անդամը իրապես գոյություն ունենա։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Կատարյալ տեսքով բազմանդամների գումարը, տարբերությունը և արտադրյալը հաշվում ես ուղիղ նույն կանոններով, ինչ միանդամ/բազմանդամ գլխում. այստեղ պարզապես ավելի կարգավորված նշում ես կիրառում։
+  </div>
+</section>
+
+<section class="chapter" id="s2">
+  <div class="chapter-head"><span class="chapter-num">02</span><h2>Բազմանդամների բաժանումը</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">$17:5=3$, մն. $2$. հայտնի է, որ $17=5\cdot3+2$։ Կարո՞ղ ես նույն տրամաբանությունը կիրառել $x^3-2x+1$-ը $x-1$-ի բաժանելիս։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">Բազմանդամների բաժանումը սկզբունքորեն նման է թվերի սյունակով բաժանմանը, նույն «բաժանելի = բաժանարար × քանորդ + մնացորդ» կապով։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p><b class="term">Կապ.</b> $\text{բաժանելի}=\text{բաժանարար}\cdot\text{թերի քանորդ}+\text{մնացորդ}$ (ինչպես բնական թվերի մնացորդով բաժանման դեպքում)։</p>
+    <p>Կարելի է գրել նաև ռացիոնալ հավասարության տեսքով. $\dfrac{\text{բաժանելի}}{\text{բաժանարար}}=\text{թերի քանորդ}+\dfrac{\text{մնացորդ}}{\text{բաժանարար}}$։</p>
+    <p>Բացակա աստիճանի անդամները նպատակահարմար է գրել $0$ գործակցով (սյունակով բաժանման հեշտության համար)։</p>
+  </div>
+
+  <div class="block-title">Վիզուալ պատկեր</div>
+  <div class="visual-container table-wrap">
+    <table>
+      <tr><th>Բաժանելի</th><td>$x^3+0x^2-2x+1$</td></tr>
+      <tr><th>Բաժանարար</th><td>$x-1$</td></tr>
+      <tr><th>Թերի քանորդ</th><td>$x^2+x-1$</td></tr>
+      <tr><th>Մնացորդ</th><td>$0$</td></tr>
+    </table>
+  </div>
+
+  <div class="block-title">Կանոն</div>
+  <div class="formula-box"><span class="label">0-ով լրացում</span>
+    Բացակա աստիճանները (օր. $x^2$-ը $x^3-2x+1$-ում) գրիր որպես $0x^2$, հակառակ դեպքում սյունակի քայլերը շփոթեցնող են դառնում։
+  </div>
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>Ստուգեք $x^3-2x+1=(x-1)(x^2+x-1)$ կապը «բաժանելի=բաժանարար·քանորդ+մնացորդ»-ով։</p>
+    <div class="step">$(x-1)(x^2+x-1)=x^3+x^2-x-x^2-x+1=x^3-2x+1$։</div>
+    <div class="answer">Պատասխան. համընկնում է, մնացորդը $0$ է։</div>
+  </div>
+
+  <div class="think">Ինչո՞ւ է կարևոր բացակա աստիճանի անդամը $0$ գործակցով նշել, եթե այն «ոչինչի» հավասար է։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> Բացակա աստիճանի անդամը (0 գործակցով) չնշել՝ սյունակի քայլերում շփոթություն առաջացնելով։</p>
+    <p><span class="k">Ինչու՞</span> Առանց տեղակալողի, հաջորդ քայլում սխալ աստիճանի հետ են աշխատում, կարծելով, թե դա հաջորդ ամենամեծ աստիճանն է։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Միշտ գրիր ԲՈԼՈՐ աստիճանները (նույնիսկ 0 գործակցով), $n$-ից մինչև $0$, առանց բացթողման։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>Բազմանդամի բաժանումը նման է թվերի սյունակով բաժանմանը։</li>
+      <li>Բացակա աստիճանները՝ $0$ գործակցով լրացրու։</li>
+      <li>Ստուգիր «բաժանելի=բաժանարար·քանորդ+մնացորդ» կապով։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Բազմանդամների բաժանումը ուղիղ նույն «ընտանիքից» է, ինչ ռացիոնալ թվերի կոտորակային ներկայացումը. հենց այս կապն է, որ հաջորդ գլուխներում կհանգեցնի ռացիոնալ արտահայտությունների ուսումնասիրությանը։
+  </div>
+</section>
+
+<!-- ============ ՄԱՍ 2/2 ============ -->
+<section class="part-header">Մաս 2 / 2</section>
+
+<section class="chapter" id="s3">
+  <div class="chapter-head"><span class="chapter-num">03</span><h2>Բեզուի թեորեմը</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">$P(x)$-ը $x-1$-ի վրա բաժանելիս ստացվող մնացորդը գուշակելու համար պարտադի՞ր է ամբողջ սյունակով բաժանում կատարել, թե՞ կա ավելի արագ ճանապարհ։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">Զարմանալիորեն, մնացորդը հավասար է հենց $P(1)$-ին (բազմանդամի արժեքին $x=1$-ում). ընդհանրապես բաժանում կատարել պետք չէ։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p><b class="term">Բեզուի թեորեմ.</b> $P(x)$ բազմանդամը $x-a$ գծային երկանդամի վրա բաժանելիս ստացվող մնացորդը հավասար է $P(a)$-ին։</p>
+    <p><b class="term">Հետևանք.</b> $P(x)$-ը առանց մնացորդի բաժանվում է $x-a$-ի այն և միայն այն դեպքում, երբ $a$-ն $P(x)$-ի արմատն է ($P(a)=0$)։</p>
+  </div>
+
+  <div class="block-title">Վիզուալ պատկեր</div>
+  <div class="visual-container table-wrap">
+    <table>
+      <tr><th>$P(x)$-ը բաժանվում է $x-a$-ի</th><td>$a$-ն $P(x)$-ի արմատ է</td><td>$P(a)=0$</td></tr>
+    </table>
+  </div>
+
+  <div class="block-title">Կանոն</div>
+  <div class="formula-box"><span class="label">Արագ ստուգում</span>
+    Մնացորդ $x-a$-ով բաժանելիս $=P(a)$. հաշվիր ուղղակի ՏԵՂԱԴՐՄԱՄԲ, ոչ սյունակով բաժանելով։
+  </div>
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>$P(x)$-ն առանց մնացորդի բաժանվում է $x^2+2x-3=(x-1)(x+3)$-ի։ Ինչի՞ է հավասար $P(x)$-ը $(x-1)$-ի բաժանելիս մնացորդը։</p>
+    <div class="step">Քանի որ $P(x)$ բաժանվում է $(x-1)(x+3)$-ի, ինքնաբերաբար բաժանվում է նաև $(x-1)$-ի (առանձին արտադրիչի)։</div>
+    <div class="answer">Պատասխան. $0$ (առանց ուղղակի հաշվարկի)։</div>
+  </div>
+
+  <div class="think">Ինչո՞ւ է Բեզուի թեորեմն ավելի արագ, քան սյունակով բաժանումը, մնացորդը գտնելու համար։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> $x+a$ տեսքի երկանդամի համար կիրառել $P(a)$-ն $P(-a)$-ի փոխարեն։</p>
+    <p><span class="k">Ինչու՞</span> Թեորեմը ձևակերպված է $x-a$-ի համար, և $x+a=x-(-a)$-ի կապը հեշտ է մոռանալ։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Գրիր $x+a$-ը որպես $x-(-a)$, և կիրառիր թեորեմը $a$-ի փոխարեն $-a$-ով։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>Մնացորդ $x-a$-ով բաժանելիս $=P(a)$, առանց սյունակի։</li>
+      <li>Հետևանք. $P(a)=0 \Leftrightarrow$ $a$ արմատ է $\Leftrightarrow$ բաժանվում է $x-a$-ի։</li>
+      <li>Ավելի բարդ արտադրիչի բաժանելիությունից հետևում է դրա յուրաքանչյուր արտադրիչի բաժանելիությունը։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Բեզուի թեորեմը (Էտյեն Բեզու, 1730–1783) հիմք է հանդիսանում շատ ավելի առաջադեմ հանրահաշվական հասկացությունների համար. սա քո առաջին քայլն է դեպի «բազմանդամների տեսություն»։
+  </div>
+</section>
+
+<section class="chapter" id="s4">
+  <div class="chapter-head"><span class="chapter-num">04</span><h2>Ամբողջ գործակիցներով բազմանդամի արմատները</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">$x^2-5x-6=0$-ի ամբողջ լուծումը (եթե կա) պիտի ինչ-որ կապ ունենա $-6$-ի հետ։ Ինչպիսի՞ կապ։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">Ամբողջ արմատը, եթե գոյություն ունի, պիտի ազատ անդամի բաժանարար լինի. սա շատ նեղացնում է որոնման տիրույթը (փոխարեն անվերջ շատ թիվ ստուգելու, ստուգում ես միայն մի քանիսը)։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p><b class="term">Ամբողջ գործակիցներով բազմանդամ</b>՝ բազմանդամ, որի բոլոր գործակիցները ամբողջ թվեր են։</p>
+    <p><b class="term">Թեորեմ.</b> եթե ամբողջ գործակիցներով $P(x)=a_nx^n+...+a_1x+a_0$ բազմանդամն ունի ամբողջ արմատ, ապա այդ արմատը ազատ անդամի ($a_0$-ի) բաժանարար է։</p>
+  </div>
+
+  <div class="block-title">Վիզուալ պատկեր</div>
+  <div class="visual-container table-wrap">
+    <table>
+      <tr><th>$x^2-5x-6=0$</th><td>ազատ անդամ $-6$</td></tr>
+      <tr><th>Հնարավոր ամբողջ արմատներ</th><td>$\pm1,\pm2,\pm3,\pm6$</td></tr>
+      <tr><th>Ստուգում</th><td>$x=6$. $36-30-6=0$ ✓; $x=-1$. $1+5-6=0$ ✓</td></tr>
+    </table>
+  </div>
+
+  <div class="block-title">Կանոն</div>
+  <div class="formula-box"><span class="label">Որոնման ալգորիթմ</span>
+    Ցուցակագրիր ազատ անդամի բոլոր բաժանարարները (դրական ԵՎ բացասական), ստուգիր յուրաքանչյուրը $P(x)=0$-ի մեջ։
+  </div>
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>Խմբավորմամբ վերլուծեք և լուծեք $x^3+3x^2-24x+28=0$։</p>
+    <div class="step">Ազատ անդամի ($28$) բաժանարարներից ստուգելով՝ $x=2$ արմատ է. $8+12-48+28=0$ ✓։</div>
+    <div class="step">Վերլուծելով՝ $(x-2)(x^2+5x-14)=(x-2)(x+7)(x-2)=(x+7)(x-2)^2$։</div>
+    <div class="answer">Պատասխան. $x=-7$, $x=2$ (կրկնակի)։</div>
+  </div>
+
+  <div class="think">Ինչո՞ւ պիտի ստուգել ազատ անդամի ԲՈԼՈՐ բաժանարարները, ներառյալ բացասականները, ոչ միայն դրականները։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> Ոչ բոլոր ազատ անդամի բաժանարարները ստուգել (մոռանալ մի քանիսը, հատկապես բացասականները)։</p>
+    <p><span class="k">Ինչու՞</span> Բնազդաբար հակված ենք մտածել միայն դրական թվերի մասին, բայց ամբողջ արմատը կարող է նաև բացասական լինել։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Ամեն դրական բաժանարարի համար գրիր նաև հակադիրը. եթե $d$ բաժանարար է, $-d$-ն էլ է։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>Ամբողջ արմատը (եթե կա) ազատ անդամի բաժանարար է, ոչ պարտադիր, որ գոյություն ունենա։</li>
+      <li>Ստուգիր ԲՈԼՈՐ բաժանարարները (± երկուսն էլ)։</li>
+      <li>Մեկ արմատ գտնելուց հետո՝ խմբավորմամբ շարունակիր վերլուծել մնացածը։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Ամեն ամբողջ գործակիցներով բազմանդամ ՉԻ ունենում ամբողջ արմատ (օր. $x^2+1$-ը՝ ոչ մի իրական արմատ)։ Այս թեորեմը միայն նեղացնում է որոնումը, չի երաշխավորում, որ արմատ գոյություն ունի։
+  </div>
+</section>
+
+<hr class="sep">
+
+<!-- ============ ԱՌԱՋԱԴՐԱՆՔՆԵՐ ============ -->
+<section class="tasks-section" id="tasks">
+  <h2>Առաջադրանքներ</h2>
+
+  <h3>Հաշվարկային առաջադրանքներ</h3>
+  <ol class="tasks">
+    <li>Անվանեք $P(x)=5x^3-2x+7$-ի ավագ անդամը, ազատ անդամը և կարգը։</li>
+    <li>Հաշվեք $(2x^2+3x-1)+(x^2-5x+4)$։</li>
+    <li>Հաշվեք $(2x^2+3x-1)-(x^2-5x+4)$։</li>
+    <li>Հաշվեք $(x+2)\cdot(x^2-3x+1)$։</li>
+    <li>Կատարեք $x^3-2x+1$-ի բաժանում $(x-1)$-ի վրա, նշեք քանորդն ու մնացորդը։</li>
+    <li>Կատարեք $x^3+0x^2-2x+1$-ի բաժանում $(x+1)$-ի վրա։</li>
+    <li>Ստուգեք ստացված արդյունքը «բաժանելի=բաժանարար·քանորդ+մնացորդ» կապով։</li>
+    <li>Բացակա աստիճանի անդամը 0 գործակցով լրացնելով՝ բաժանեք $x^4-1$-ը $(x-1)$-ի վրա։</li>
+    <li>Հաշվեք $P(x)=x^3-4x+3$-ը $(x-2)$-ի վրա բաժանելիս ստացվող մնացորդը՝ Բեզուի թեորեմով։</li>
+    <li>Հաշվեք $P(x)=2x^2-5x+1$-ը $(x+1)$-ի վրա բաժանելիս ստացվող մնացորդը։</li>
+    <li>Ստուգեք, թե $P(x)=x^3-1$-ը առանց մնացորդի բաժանվու՞մ է $(x-1)$-ի։</li>
+    <li>Ստուգեք, թե $P(x)=x^2+x+1$-ը առանց մնացորդի բաժանվու՞մ է $(x-1)$-ի։</li>
+    <li>$P(x)$-ն առանց մնացորդի բաժանվում է $x^2-x-2$-ի. գտեք $(x-2)$-ի բաժանելիս մնացորդը։</li>
+    <li>Սահմանեք ամբողջ գործակիցներով բազմանդամ և բերեք 1 օրինակ, 1 ժխտօրինակ։</li>
+    <li>Գտեք $x^2-5x-6=0$-ի ամբողջ արմատները։</li>
+    <li>Գտեք $x^2+x-6=0$-ի ամբողջ արմատները (ազատ անդամի բաժանարարներից)։</li>
+    <li>Խմբավորմամբ վերլուծեք և լուծեք $x^3+3x^2-24x+28=0$։</li>
+    <li>Խմբավորմամբ վերլուծեք և լուծեք $x^4+3x^3-8x-24=0$։</li>
+    <li>Հաշվեք $P(x)=x^4-2x^3+x-5$-ը $(x-1)$-ի վրա բաժանելիս ստացվող մնացորդը՝ Բեզուի թեորեմով։</li>
+    <li>Ստուգեք, թե $x=3$-ը $P(x)=x^3-27$-ի արմատն է, և եզրակացրեք՝ բաժանվու՞մ է $(x-3)$-ի։</li>
+    <li>Գտեք $2x^2-3x-2=0$-ի ամբողջ արմատները (ազատ անդամ $-2$, ավագ գործակից $2$, ուստի փորձարկելի արժեքները՝ $\pm1,\pm2$)։</li>
+    <li>Կատարեք $2x^3-x^2+3x-1$-ի բաժանում $(x+2)$-ի վրա, նշեք քանորդն ու մնացորդը։</li>
+    <li>Հաշվեք $(3x^2-x+2)+(x^3-2x^2+4)$։</li>
+    <li>Հաշվեք $P(x)=x^3+2x^2-x-2$-ի արմատները (ազատ անդամի բաժանարարներից ստուգելով)։</li>
+    <li>Ստուգեք, թե $x=-2$-ը $P(x)=x^3+8$-ի արմատն է։</li>
+    <li>Կատարեք $x^4-16$-ի բաժանում $(x-2)$-ի վրա։</li>
+  </ol>
+
+  <h3>Տրամաբանական և հայեցակարգային հարցեր</h3>
+  <ol class="tasks" start="27">
+    <li>Ինչո՞ւ է կարգը կախված աստիճանից, ոչ գործակցի մեծությունից։</li>
+    <li>Ինչո՞ւ է կարևոր բացակա աստիճանի անդամը $0$ գործակցով նշել։</li>
+    <li>Ինչո՞ւ է Բեզուի թեորեմն ավելի արագ, քան սյունակով բաժանումը, մնացորդը գտնելու համար։</li>
+    <li>Ինչո՞ւ պիտի ստուգել ազատ անդամի ԲՈԼՈՐ բաժանարարները, ներառյալ բացասականները։</li>
+  </ol>
+</section>
+
+<hr class="sep">
+
+<!-- ============ ՊԱՏԱՍԽԱՆՆԵՐ ============ -->
+<section class="answers-section" id="answers">
+  <h2>Պատասխաններ</h2>
+  <h3>Հաշվարկային առաջադրանքների պատասխանները</h3>
+  <ol class="answers-list">
+    <li>ավագ $5x^3$, ազատ $7$, կարգ $3$</li>
+    <li>$3x^2-2x+3$</li>
+    <li>$x^2+8x-5$</li>
+    <li>$x^3-x^2-5x+2$</li>
+    <li>քանորդ $x^2+x-1$, մնացորդ $0$</li>
+    <li>քանորդ $x^2-x-1$, մնացորդ $2$</li>
+    <li>Ստուգված է Օրինակների միջոցով</li>
+    <li>քանորդ $x^3+x^2+x+1$, մնացորդ $0$</li>
+    <li>$3$</li>
+    <li>$8$</li>
+    <li>Այո, մնացորդը $0$ է</li>
+    <li>Ոչ, մնացորդը $3$ է</li>
+    <li>$0$</li>
+    <li>Օրինակ՝ $x^2+3x+2$, ժխտօրինակ՝ $0.5x^2+3$</li>
+    <li>$x=6,\ x=-1$</li>
+    <li>$x=2,\ x=-3$</li>
+    <li>$x=-7,\ x=2$</li>
+    <li>$x=-3,\ x=2$</li>
+    <li>$-5$</li>
+    <li>Այո, $27-27=0$, ուստի բաժանվում է</li>
+    <li>$x=2$ (ստուգում՝ $8-6-2=0$)</li>
+    <li>քանորդ $2x^2-5x+13$, մնացորդ $-27$</li>
+    <li>$x^3+x^2+2x+6$</li>
+    <li>$x=1,-1,-2$</li>
+    <li>Այո, $-8+8=0$</li>
+    <li>քանորդ $x^3+2x^2+4x+8$, մնացորդ $0$</li>
+  </ol>
+  <h3>Տրամաբանական և հայեցակարգային հարցերի պատասխանները</h3>
+  <ol class="answers-list answers-list-conceptual" start="27">
+    <li>«Ավագ» նշանակում է մեծագույն ազդեցություն ունեցող մեծ $x$-երի համար, ինչը որոշվում է աստիճանով, ոչ գործակցով</li>
+    <li>Առանց դրա, սյունակի յուրաքանչյուր քայլում սխալ աստիճանի հետ կաշխատես</li>
+    <li>Բեզուն թույլ է տալիս ուղղակի տեղադրմամբ հաշվել՝ առանց ամբողջ սյունակով բաժանում կատարելու</li>
+    <li>Ամբողջ արմատը կարող է լինել դրական կամ բացասական, երկուսն էլ պետք է ստուգել</li>
+  </ol>
+</section>
+
+</main>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  renderMathInElement(document.body, {
+    delimiters: [
+      {left: "$$", right: "$$", display: true},
+      {left: "$", right: "$", display: false}
+    ],
+    strict: false
+  });
+});
+</script>
+</body>
+</html>

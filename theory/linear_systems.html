@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="hy">
+<head>
+<!-- CONVENTIONS (from Karucox source, not shown to reader):
+Անհայտների նշանագրություն: x, y
+Համակարգի գրառում: ֆիգուրային փակագիծ
+Լուծման զույգի գրառում: (x, y) կարգով
+Կլորացում: կիրառելի չէ (ամբողջ թվային լուծումներ)
+-->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Գծային հավասարումների համակարգ | 8-րդ դասարան</title>
+<script>
+window.MathJax = { tex: { inlineMath: [['$','$']], displayMath: [['$$','$$']] } };
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js" id="MathJax-script" async></script>
+<style>
+  * { box-sizing: border-box; }
+  html, body { overflow-x: hidden; max-width: 100vw; margin:0; }
+  body {
+    font-family:'Sylfaen','Arial',serif;
+    background: #f6f8fb;
+    color: #152233;
+    line-height:1.7;
+    padding: 0;
+  }
+  .page { max-width: 780px; margin: 0 auto; padding: 28px 20px 80px; }
+
+  h1 {
+    font-family:'Sylfaen','Arial',serif;
+    font-size: 2rem;
+    color: #1e5f8c;
+    text-align: center;
+    border-bottom: 3px solid #c0562b;
+    padding-bottom: 14px;
+    margin-bottom: 6px;
+  }
+  .subtitle { text-align:center; color:#5b7188; font-size:.95rem; margin-bottom: 34px; letter-spacing:.02em; }
+
+  h2 {
+    font-size: 1.35rem;
+    color: #1e5f8c;
+    margin-top: 48px;
+    padding: 10px 14px;
+    background: #eaf1f7;
+    border-left: 5px solid #1e5f8c;
+    border-radius: 2px;
+  }
+  h3 {
+    font-size: 1.12rem;
+    color: #1e5f8c;
+    margin-top: 34px;
+    border-bottom: 1px solid #dde6ee;
+    padding-bottom: 6px;
+  }
+
+  .bridge {
+    background: #eef4f9;
+    border: 1px dashed #8fb3cc;
+    border-radius: 8px;
+    padding: 16px 18px;
+    font-size: .97rem;
+    color: #5b7188;
+  }
+
+  .theory { margin: 14px 0; }
+
+  .formula-box {
+    background: #eef4f0;
+    border-left: 5px solid #3f7d5c;
+    border-radius: 4px;
+    padding: 14px 18px;
+    margin: 18px 0;
+  }
+  .formula-box strong.label { display:block; color:#2c5c42; font-size:.82rem; text-transform:uppercase; letter-spacing:.06em; margin-bottom:6px; }
+
+  .example-box {
+    background: #fff;
+    border: 1px solid #dde6ee;
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin: 18px 0;
+    box-shadow: 0 1px 3px rgba(0,0,0,.04);
+  }
+  .example-box .tag {
+    display:inline-block;
+    background:#1e5f8c;
+    color:#fff;
+    font-size:.75rem;
+    letter-spacing:.05em;
+    text-transform:uppercase;
+    padding:3px 10px;
+    border-radius:12px;
+    margin-bottom:10px;
+  }
+  .example-box .step { margin: 6px 0; }
+  .example-box .answer { margin-top:10px; padding-top:10px; border-top:1px dashed #dde6ee; font-weight:600; color:#1e5f8c; }
+
+  .real-example {
+    background: #fdf1e8;
+    border-left: 5px solid #c0562b;
+    border-radius: 4px;
+    padding: 14px 18px;
+    margin: 18px 0;
+  }
+  .real-example .tag { display:block; color:#9a4522; font-size:.82rem; text-transform:uppercase; letter-spacing:.06em; margin-bottom:6px; font-weight:600; }
+  .real-example .src { font-size: .85rem; color:#8a8074; font-style: italic; margin-bottom: 8px; }
+
+  .error-box {
+    background: #fdf1ef;
+    border: 1px solid #e3aca0;
+    border-radius: 8px;
+    padding: 14px 20px;
+    margin: 18px 0;
+  }
+  .error-box h4 { margin:0 0 10px; color:#a3372a; font-size:1rem; }
+  .error-box p { margin: 6px 0; font-size: .95rem; }
+  .error-box .k { font-weight:600; color:#a3372a; }
+
+  table { border-collapse: collapse; width: 100%; margin: 14px 0;
+          display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  th, td { border: 1px solid #dde6ee; padding: 8px 12px; text-align: left; font-size: .93rem; }
+  th { background: #1e5f8c; color: #fff; }
+  tr:nth-child(even) td { background: #eef4f9; }
+
+  svg { max-width: 100%; height: auto; display:block; margin: 14px auto; }
+  .flex-item-text, [class*="flex"] > * { min-width: 0; }
+
+  ol.tasks, ol.answers-list { padding-left: 26px; }
+  ol.tasks li, ol.answers-list li { margin: 10px 0; }
+  ol.tasks { counter-reset: task; }
+
+  .method-table td:first-child { font-weight:600; }
+
+  hr.sep { border:none; border-top:1px solid #dde6ee; margin: 32px 0; }
+
+  footer.meta { text-align:center; color:#a39a8c; font-size:.8rem; margin-top:50px; }
+</style>
+
+<style id="tj-unified">
+  /* ԸՆԴՀԱՆՈՒՐ ՎԵՐԻՆ ՎԱՀԱՆԱԿ — նույնական բոլոր 19 ուղեցույցում։
+     Class-երը սկսվում են tj- նախածանցով, որ երբեք չբախվեն էջի
+     սեփական ոճերի հետ։ */
+  .tj-bar{background:#0f1f2e;color:#eaf2f8;font-family:'Sylfaen','Arial',serif;}
+  .tj-bar-in{max-width:840px;margin:0 auto;padding:10px 20px;display:flex;
+             align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+  .tj-back{color:#eaf2f8;text-decoration:none;font-weight:bold;font-size:.95rem;
+           border:1px solid rgba(234,242,248,.35);border-radius:8px;padding:5px 12px;}
+  .tj-back:hover{background:rgba(234,242,248,.12);}
+  .tj-grade{font-size:.85rem;color:#cfe0ec;letter-spacing:.03em;}
+  @media print{ .tj-bar{display:none;} }
+</style>
+</head>
+<body>
+<div class="tj-bar"><div class="tj-bar-in"><a class="tj-back" href="../index.html">← Տրենաժոր</a><span class="tj-grade">8 դասարան</span></div></div>
+
+<div class="page">
+
+<h1>Գծային հավասարումների համակարգ</h1>
+<div class="subtitle">8-րդ դասարան · Հանրահաշիվ</div>
+
+<h2 id="s1">Նախապայմանային կամուրջ (7-րդ դասարան)</h2>
+<div class="bridge">
+Դեռ 7-րդ դասարանում սովորեցիր լուծել մեկ անհայտով հավասարումներ՝ պատկերացնելով դրանք որպես հավասարակշռված կշեռք. ինչ անես մի նժարին, նույնը պիտի անես մյուսին էլ, որ հավասարակշռությունը չխախտվի։ Այս թեմայում կանցնես մի քայլ առաջ. հիմա արդեն <strong>երկու անհայտ</strong> ես ունենալու, և մեկ հավասարումը բավական չի լինի դրանք գտնելու համար. պետք է լինի <strong>երկու հավասարում միաժամանակ</strong>։
+</div>
+
+<hr class="sep">
+<h2 id="s2">8-րդ դասարան</h2>
+
+<h3>4.1. Երկու փոփոխականով գծային հավասարում</h3>
+
+<div class="real-example">
+<!-- ORIGIN: ԼՈՒՍԱԲԱՆԱԿԱՆ (մոդելի ստեղծած անալոգիա, ոչ բառացի աղբյուրից) -->
+<span class="tag">Իրական կյանքի օրինակ</span>
+Պատկերացրու՝ դու գնում ես տոպրակով խնձոր և տոպրակով դեղձ։ Դու չգիտես՝ քանի հատ կա յուրաքանչյուր տոպրակում, բայց գիտես, որ խնձորների ու դեղձերի ընդհանուր թիվը 10 է։ Սա կարող ես գրել այսպես՝ $x + y = 10$, որտեղ $x$-ը՝ խնձորների, իսկ $y$-ը՝ դեղձերի քանակն է։ Սա <strong>երկու փոփոխականով գծային հավասարում</strong> է. մեկ հավասարման մեջ երկու անհայտ։
+</div>
+
+<div class="formula-box">
+<strong class="label">Կարևոր կանոն</strong>
+Երկու փոփոխականով գծային հավասարումը $ax + by = c$ տեսքի հավասարումն է, որտեղ $a, b, c$ հայտնի թվեր են ($a$ և $b$ միաժամանակ 0 չեն)։ Նրա <strong>լուծումը</strong> $(x, y)$ թվազույգն է, որը հավասարությունը դարձնում է ճշմարիտ։
+<p>Ի տարբերություն մեկ անհայտով սովորական հավասարումների, որոնք քեզ ծանոթ են 7-րդ դասարանից (և որոնք սովորաբար ունենում են ուղիղ մեկ լուծում), $x+y=10$-ի նման երկու փոփոխականով հավասարումն ունի <strong>անվերջ շատ</strong> լուծում. $(1,9)$, $(2,8)$, $(5,5)$ և այլն — բոլորը ճիշտ են։ Եթե հավասարումը վերածենք $y=ax+b$ տեսքի, այս լուծումների բազմությունը կոորդինատային հարթության վրա ուղիղ գիծ է։</p>
+</div>
+
+<svg viewBox="0 0 300 260" xmlns="http://www.w3.org/2000/svg">
+  <line x1="20" y1="230" x2="280" y2="230" stroke="#888" stroke-width="1.5"/>
+  <line x1="40" y1="245" x2="40" y2="10" stroke="#888" stroke-width="1.5"/>
+  <text x="284" y="235" font-size="12" fill="#666">x</text>
+  <text x="25" y="14" font-size="12" fill="#666">y</text>
+  <!-- x+y=10 -> origin (40,230), scale 20px/unit, verified: line (0,10)-(10,0) -->
+  <line x1="40" y1="30" x2="240" y2="230" stroke="#c0562b" stroke-width="2.5"/>
+  <circle cx="60" cy="50" r="4" fill="#1e5f8c"/><text x="66" y="48" font-size="11" fill="#1e5f8c">(1,9)</text>
+  <circle cx="140" cy="130" r="4" fill="#1e5f8c"/><text x="146" y="128" font-size="11" fill="#1e5f8c">(5,5)</text>
+  <circle cx="200" cy="190" r="4" fill="#1e5f8c"/><text x="176" y="208" font-size="11" fill="#1e5f8c">(8,2)</text>
+  <text x="150" y="255" font-size="12" fill="#c0562b" text-anchor="middle">x + y = 10</text>
+</svg>
+
+<hr class="sep">
+<h3>4.2. Գծային հավասարումների համակարգ</h3>
+
+<div class="formula-box">
+<strong class="label">Կարևոր կանոն</strong>
+Երբ երկու անհայտների վրա դրված են <strong>երկու</strong> պայման (երկու հավասարում) միաժամանակ, դրանք կազմում են <strong>հավասարումների համակարգ</strong>՝ գրվում է ֆիգուրային փակագծով.
+$$\begin{cases} a_1x+b_1y=c_1 \\ a_2x+b_2y=c_2 \end{cases}$$
+Համակարգի <strong>լուծումը</strong> $(x,y)$ թվազույգն է, որը <strong>երկու</strong> հավասարմանն էլ բավարարում է միաժամանակ (ոչ միայն մեկին)։
+</div>
+
+<div class="example-box">
+<span class="tag">Լուծված օրինակ(ներ)</span>
+<div class="src">Աղբյուր՝ Հանրահաշիվ 8, Ամփոփիչ աշխատանք 4, խնդիր 2</div>
+<p>$(2,3)$, $(-1,5)$, $(0,4)$, $(-7,0)$ թվազույգերից ո՞րն է $\begin{cases}2x-5y=-14\\-8x+y=56\end{cases}$ համակարգի լուծումը։</p>
+<p><strong>Ալգորիթմ (ստուգում).</strong> Ամեն թվազույգի համար տեղադրիր <strong>երկու</strong> հավասարման մեջ, ստուգիր՝ երկուսն էլ ճշմարի՞տ են։</p>
+<div class="step">$(2,3)$. $2(2)-5(3)=4-15=-11\ne-14$ → չի բավարարում, մերժվում է առանց երկրորդ հավասարումը ստուգելու։</div>
+<div class="step">$(-1,5)$. $2(-1)-5(5)=-2-25=-27\ne-14$ → մերժվում է։</div>
+<div class="step">$(0,4)$. $2(0)-5(4)=-20\ne-14$ → մերժվում է։</div>
+<div class="step">$(-7,0)$. $2(-7)-5(0)=-14=-14$ ✓. Ստուգենք երկրորդում. $-8(-7)+0=56=56$ ✓. <strong>Երկուսն էլ ճշմարիտ են → $(-7,0)$ լուծումն է։</strong></div>
+</div>
+
+<div class="error-box">
+<h4>⚠ Հաճախակի սխալ</h4>
+<p><span class="k">Սխալ.</span> Աշակերտը ստուգում է թվազույգը միայն <strong>առաջին</strong> հավասարման մեջ, տեսնում է, որ բավարարում է, և կանգ է առնում՝ հայտարարելով «սա լուծումն է»։</p>
+<p><span class="k">Ինչու՞ է այդպես մտածում.</span> Մեկ անհայտով հավասարումների սովորությունից աշակերտը սովոր է՝ մեկ ստուգում = վերջնական պատասխան։ Չի կպել գիտակցության մեջ, որ <em>համակարգ</em> բառը հենց նշանակում է «երկուսը միասին»։</p>
+<p><span class="k">Ինչպես հայտնաբերել.</span> Ուսուցիչը հարցնում է. «Իսկ երկրորդ հավասարմա՞նն է բավարարում»։ Եթե աշակերտը շփոթված է կամ չի ստուգել՝ ախտանիշը հենց այս է։</p>
+<p><span class="k">Ինչպես ուղղել.</span> Անալոգիա. համակարգը երկու փականով դուռ է. պետք է <strong>երկու</strong> բանալին էլ պտտես, որ բացվի, մեկը բավական չէ։</p>
+</div>
+
+<div class="theory">
+<strong>Համակարգի լուծումների քանակը (3 դեպք).</strong>
+<ul>
+<li><strong>Մեկ լուծում</strong> — երկու ուղիղները հատվում են մեկ կետում (ամենահաճախադեպ դեպքը)։</li>
+<li><strong>Լուծում չունի</strong> — ուղիղները զուգահեռ են (նույն թեքությունը, տարբեր հատման կետ)։</li>
+<li><strong>Անվերջ շատ լուծում</strong> — ուղիղները համընկնում են (մեկ հավասարումը մյուսի պարզ բազմապատիկն է)։</li>
+</ul>
+</div>
+
+<hr class="sep">
+<h3>4.3. Լուծման եղանակ 1՝ Տեղադրման եղանակ</h3>
+
+<div class="formula-box">
+<strong class="label">Ալգորիթմ</strong>
+<ol>
+<li>Մի հավասարումից արտահայտիր մի անհայտը մյուսով։</li>
+<li>Ստացված արտահայտությունը տեղադրիր <strong>մյուս</strong> հավասարման մեջ (այնտեղ, որտեղից չես արտահայտել)։</li>
+<li>Լուծիր ստացված <strong>մեկ անհայտով</strong> հավասարումը։</li>
+<li>Գտնված արժեքը տեղադրիր 1-ին քայլի արտահայտության մեջ՝ երկրորդ անհայտը գտնելու համար։</li>
+<li>Ստուգիր՝ երկու հավասարումն էլ բավարարվա՞ծ են։</li>
+</ol>
+</div>
+
+<div class="example-box">
+<span class="tag">Լուծված օրինակ(ներ)</span>
+<p>Լուծել համակարգը՝ $\begin{cases} y=2x-1 \\ x+y=8 \end{cases}$</p>
+<div class="step"><em>Քայլ 1.</em> $y$-ն արդեն արտահայտված է $x$-ով 1-ին հավասարման մեջ. $y=2x-1$։</div>
+<div class="step"><em>Քայլ 2.</em> Տեղադրում ենք 2-րդ հավասարման մեջ. $x+(2x-1)=8$։</div>
+<div class="step"><em>Քայլ 3.</em> $3x-1=8 \Rightarrow 3x=9 \Rightarrow x=3$։</div>
+<div class="step"><em>Քայլ 4.</em> $y=2(3)-1=5$։</div>
+<div class="step"><em>Քայլ 5.</em> Ստուգում. $3+5=8$ ✓, $5=2(3)-1=5$ ✓։</div>
+<div class="answer">Պատասխան. $(3,5)$</div>
+</div>
+
+<div class="real-example">
+<!-- ORIGIN: ԱՂԲՅՈՒՐԱՅԻՆ -->
+<span class="tag">Իրական կյանքի օրինակ</span>
+<div class="src">Աղբյուր՝ Հանրահաշիվ 8, խնդիր 225 (մի փոքր կրճատված)</div>
+<p>Կինոթատրոնը մեկ օրում ունեցել է 400 հանդիսատես և վաստակել 525 000 դրամ։ Ցերեկային տոմսի արժեքը 1000 դրամ է, երեկոյանինը՝ 1500 դրամ։ Քանի՞ այցելու է ունեցել ցերեկային ցուցադրությունը, և քանի՞՝ երեկոյան։</p>
+<p><em>Լուծում.</em> Նշանակենք $x$՝ ցերեկային, $y$՝ երեկոյան այցելուների թիվը.</p>
+$$\begin{cases} x+y=400 \\ 1000x+1500y=525\,000 \end{cases}$$
+<p>Առաջինից. $x=400-y$։ Տեղադրում ենք երկրորդի մեջ.</p>
+<div class="step">$1000(400-y)+1500y=525\,000$</div>
+<div class="step">$400\,000-1000y+1500y=525\,000$</div>
+<div class="step">$500y=125\,000 \Rightarrow y=250$</div>
+<div class="step">$x=400-250=150$</div>
+<p><strong>Ստուգում.</strong> $1000(150)+1500(250)=150\,000+375\,000=525\,000$ ✓</p>
+<div class="answer">Պատասխան. 150 այցելու ցերեկային, 250՝ երեկոյան ցուցադրության</div>
+</div>
+
+<div class="error-box">
+<h4>⚠ Հաճախակի սխալ</h4>
+<p><span class="k">Սխալ.</span> Աշակերտը գտնում է $y=250$, գրում է որպես վերջնական պատասխան և մոռանում հետ տեղադրել՝ $x$-ը գտնելու համար. պատասխանում մնում է միայն մեկ թիվ։</p>
+<p><span class="k">Ինչու՞ է այդպես մտածում.</span> Հոգնածությունից/շտապողականությունից՝ 3-րդ քայլից (մեկ անհայտով հավասարման լուծումից) հետո աշակերտի ուշադրությունը «հանգստանում է», կարծես խնդիրն ավարտված է։</p>
+<p><span class="k">Ինչպես հայտնաբերել.</span> Պատասխանում կա՞ երկու թիվ, թե՞ մեկ։ Խնդիրն ուներ երկու անհայտ. պատասխանն էլ պիտի ունենա երկուսը։</p>
+<p><span class="k">Ինչպես ուղղել.</span> Սովորության վերածել «Քայլ 4»-ի ստուգումը. ամեն անգամ բարձրաձայն հարցնել՝ «Իսկ մյուս անհայտը՞»։</p>
+</div>
+
+<hr class="sep">
+<h3>4.4. Լուծման եղանակ 2՝ Գործակիցների հավասարեցման եղանակ (գումարման/հանման)</h3>
+
+<div class="formula-box">
+<strong class="label">Ալգորիթմ</strong>
+<ol>
+<li>Անհրաժեշտության դեպքում բազմապատկիր մեկ կամ երկու հավասարումը այնպիսի թվերով, որ մի անհայտի գործակիցները դառնան հավասար (կամ հակադիր)։</li>
+<li>Գումարիր կամ հանիր հավասարումները այնպես, որ այդ անհայտը կրճատվի։</li>
+<li>Լուծիր ստացված մեկ անհայտով հավասարումը։</li>
+<li>Գտնված արժեքը տեղադրիր ցանկացած սկզբնական հավասարման մեջ՝ երկրորդ անհայտը գտնելու համար։</li>
+<li>Ստուգիր երկու հավասարման մեջ։</li>
+</ol>
+</div>
+
+<div class="example-box">
+<span class="tag">Լուծված օրինակ(ներ)</span>
+<p>Լուծել համակարգը՝ $\begin{cases} 3x+2y=16 \\ 5x-2y=16 \end{cases}$</p>
+<div class="step"><em>Քայլ 1.</em> $y$-ի գործակիցներն արդեն հակադիր են ($+2$ և $-2$), լրացուցիչ բազմապատկում պետք չէ։</div>
+<div class="step"><em>Քայլ 2.</em> Գումարենք հավասարումները (գումարելիս $y$-ն կրճատվում է). $(3x+2y)+(5x-2y)=16+16 \Rightarrow 8x=32$</div>
+<div class="step"><em>Քայլ 3.</em> $x=4$։</div>
+<div class="step"><em>Քայլ 4.</em> Տեղադրում ենք 1-ին հավասարման մեջ. $3(4)+2y=16 \Rightarrow 12+2y=16 \Rightarrow y=2$։</div>
+<div class="step"><em>Քայլ 5.</em> Ստուգում. $3(4)+2(2)=12+4=16$ ✓, $5(4)-2(2)=20-4=16$ ✓։</div>
+<div class="answer">Պատասխան. $(4,2)$</div>
+</div>
+
+<div class="real-example">
+<!-- ORIGIN: ԼՈՒՍԱԲԱՆԱԿԱՆ (մոդելի ստեղծած խնդիր, ոչ բառացի աղբյուրից) -->
+<span class="tag">Իրական կյանքի օրինակ</span>
+<p>Մեկ դասարան գնեց 4 գնդակ և 3 ցանց՝ ընդհանուր 34 հազար դրամով։ Մեկ այլ դասարան գնեց 4 նույն գնդակ և 1 նույն ցանց՝ ընդհանուր 22 հազար դրամով։ Որքա՞ն արժե մեկ գնդակը և մեկ ցանցը (հազար դրամով)։</p>
+<p><em>Լուծում.</em> $x$՝ գնդակի գին, $y$՝ ցանցի գին.</p>
+$$\begin{cases} 4x+3y=34 \\ 4x+y=22 \end{cases}$$
+<div class="step">$x$-ի գործակիցներն արդեն հավասար են ($4$ և $4$) — հանենք հավասարումները. $(4x+3y)-(4x+y)=34-22 \Rightarrow 2y=12 \Rightarrow y=6$</div>
+<div class="step">Տեղադրում ենք. $4x+6=22 \Rightarrow 4x=16 \Rightarrow x=4$</div>
+<p><strong>Ստուգում.</strong> $4(4)+3(6)=16+18=34$ ✓</p>
+<div class="answer">Պատասխան. գնդակը՝ 4 հազար դրամ, ցանցը՝ 6 հազար դրամ</div>
+</div>
+
+<div class="error-box">
+<h4>⚠ Հաճախակի սխալ</h4>
+<p><span class="k">Սխալ.</span> Հանելիս $(4x+3y)-(4x+y)$ աշակերտը գրում է $2y=34-22$-ի փոխարեն $2y=34+22$, կամ մոռանում է փակագծերով հանել <strong>ամբողջ</strong> երկրորդ հավասարումը (նշանը փոխում է միայն $4x$-ի մոտ, ոչ $y$-ի)։</p>
+<p><span class="k">Ինչու՞ է այդպես մտածում.</span> Հանման նշանի բաշխումը երկու անդամի վրա (ոչ միայն առաջինի) դեռ ավտոմատացված չէ. սա նույն «փակագծերի բացման» սխալն է, ինչ բազմանդամների հանման ժամանակ։</p>
+<p><span class="k">Ինչպես հայտնաբերել.</span> Ուսուցիչը խնդրում է աշակերտին բարձրաձայն կարդալ, թե ինչ նշան ունի $y$-ը հանելուց հետո։</p>
+<p><span class="k">Ինչպես ուղղել.</span> Միշտ գրիր փակագծերով. $(4x+3y)-(4x+y)$, ապա բաց արա փակագիծը՝ նշանը փոխելով <strong>ամեն</strong> անդամի մոտ. $4x+3y-4x-y$։</p>
+</div>
+
+<hr class="sep">
+<h3>4.5. Լուծման եղանակ 3՝ Գրաֆիկական եղանակ</h3>
+
+<div class="formula-box">
+<strong class="label">Ալգորիթմ</strong>
+<ol>
+<li>Երկու հավասարումն էլ վերածիր $y=ax+b$ տեսքի։</li>
+<li>Կառուցիր երկու ուղիղների գրաֆիկը նույն կոորդինատային հարթության վրա։</li>
+<li>Գտիր հատման կետը (եթե կա) — դրա կոորդինատներն են համակարգի լուծումը։</li>
+<li>Ստուգիր հատման կետը՝ տեղադրելով երկու սկզբնական հավասարման մեջ։</li>
+</ol>
+</div>
+
+<div class="example-box">
+<span class="tag">Լուծված օրինակ(ներ)</span>
+<p>Լուծել գրաֆիկորեն՝ $\begin{cases} y=x+1 \\ y=-x+5 \end{cases}$</p>
+<p>Երկուսն էլ արդեն $y=ax+b$ տեսքում են։ Հատման կետը գտնելու համար հավասարեցնում ենք աջ մասերը.</p>
+<div class="step">$x+1=-x+5 \Rightarrow 2x=4 \Rightarrow x=2$, ապա $y=2+1=3$։</div>
+<p><strong>Ստուգում.</strong> $y=-2+5=3$ ✓ (երկու հավասարումն էլ տալիս են նույն $y$-ը)։</p>
+<div class="answer">Պատասխան. $(2,3)$</div>
+</div>
+
+<svg viewBox="0 0 300 260" xmlns="http://www.w3.org/2000/svg">
+  <line x1="10" y1="150" x2="290" y2="150" stroke="#888" stroke-width="1.5"/>
+  <line x1="150" y1="240" x2="150" y2="10" stroke="#888" stroke-width="1.5"/>
+  <text x="294" y="155" font-size="12" fill="#666">x</text>
+  <text x="135" y="14" font-size="12" fill="#666">y</text>
+  <!-- origin (150,150), scale 25px/unit, verified: both slopes exactly ±1 -->
+  <!-- y=x+1: x=-2..4 -->
+  <line x1="100" y1="175" x2="250" y2="25" stroke="#1e5f8c" stroke-width="2.5"/>
+  <!-- y=-x+5: x=0..5 -->
+  <line x1="150" y1="25" x2="275" y2="150" stroke="#c0562b" stroke-width="2.5"/>
+  <circle cx="200" cy="75" r="5" fill="#3f7d5c" stroke="#fff" stroke-width="1.5"/>
+  <text x="208" y="73" font-size="12" fill="#3f7d5c" font-weight="bold">(2,3)</text>
+  <text x="95" y="188" font-size="11" fill="#1e5f8c">y = x+1</text>
+  <text x="235" y="145" font-size="11" fill="#c0562b">y = -x+5</text>
+</svg>
+
+<div class="theory">
+<strong>Կապը 4.2-ի 3 դեպքերի հետ (կրիտիկական կապ).</strong>
+<table class="method-table">
+<tr><th>Ուղիղների դասավորություն</th><th>Թեքությունները ($a$)</th><th>Լուծումների քանակ</th><th>Օրինակ</th></tr>
+<tr><td>Հատվում են</td><td>տարբեր</td><td>1</td><td>$y=x+1$, $y=-x+5$</td></tr>
+<tr><td>Զուգահեռ են</td><td>նույն, $b$ տարբեր</td><td>0</td><td>$y=2x+3$, $y=2x-1$</td></tr>
+<tr><td>Համընկնում են</td><td>նույն, $b$ նույն</td><td>անվերջ</td><td>$x+y=4$, $2x+2y=8$</td></tr>
+</table>
+</div>
+
+<div class="error-box">
+<h4>⚠ Հաճախակի սխալ</h4>
+<p><span class="k">Սխալ.</span> Գրաֆիկից հատման կետը կարդալիս աշակերտը կոորդինատները շփոթում է տեղերով, օր.՝ $(2,3)$ կետը գրում է որպես $(3,2)$։</p>
+<p><span class="k">Ինչու՞ է այդպես մտածում.</span> Կոորդինատային համակարգում $x$/$y$ կարգի կանոնը («նախ՝ հորիզոնական, հետո՝ ուղղահայաց») դեռ լիարժեք ավտոմատացված չէ։</p>
+<p><span class="k">Ինչպես հայտնաբերել.</span> Հարցնել՝ «Ո՞ր առանցքով ես նախ շարժվում»։</p>
+<p><span class="k">Ինչպես ուղղել.</span> Անալոգիա. նախ քայլում ես <strong>աջ/ձախ</strong> (x), հետո՝ <strong>վեր/վար</strong> (y). «նախ հորիզոն, հետո հարկ»։</p>
+</div>
+
+<hr class="sep">
+<h2 id="s3">Ինքնաստուգման աղյուսակ. ո՞ր եղանակն ընտրել</h2>
+<div class="formula-box">
+<table class="method-table">
+<tr><th>Իրավիճակ</th><th>Հարմար եղանակ</th></tr>
+<tr><td>Մի հավասարման մեջ մի անհայտն արդեն մեկուսացված է ($y=...$ կամ $x=...$)</td><td>Տեղադրման եղանակ</td></tr>
+<tr><td>Մի անհայտի գործակիցները հեշտությամբ հավասարվում/հակադրվում են</td><td>Գործակիցների հավասարեցման եղանակ</td></tr>
+<tr><td>Ուզում ես տեսողականորեն հասկանալ լուծումների քանակը/իմաստը</td><td>Գրաֆիկական եղանակ</td></tr>
+</table>
+</div>
+
+<hr class="sep">
+<h2 id="s4">Առաջադրանքներ</h2>
+<ol class="tasks">
+<li>Ստուգիր՝ $(3,-2)$ լուծու՞մ է $\begin{cases}2x+y=4\\x-3y=9\end{cases}$ համակարգը։</li>
+<li>Տեղադրման եղանակով լուծիր. $\begin{cases}y=3x-2\\2x+y=13\end{cases}$</li>
+<li>Տեղադրման եղանակով լուծիր. $\begin{cases}x=y+4\\3x-2y=17\end{cases}$</li>
+<li>Գործակիցների հավասարեցման եղանակով լուծիր. $\begin{cases}2x+3y=12\\2x-y=4\end{cases}$</li>
+<li>Գործակիցների հավասարեցման եղանակով լուծիր. $\begin{cases}3x+2y=7\\x+4y=9\end{cases}$ (հուշում. բազմապատկիր 2-րդ հավասարումը $-3$-ով)</li>
+<li>Գրաֆիկորեն լուծիր. $\begin{cases}y=-x+6\\y=x-2\end{cases}$</li>
+<li>Առանց լուծելու, ասա՝ քանի՞ լուծում ունի. $\begin{cases}y=4x+1\\y=4x-5\end{cases}$</li>
+<li>Առանց լուծելու, ասա՝ քանի՞ լուծում ունի. $\begin{cases}2x-y=3\\4x-2y=6\end{cases}$</li>
+<li>Դասարանում 28 աշակերտ է։ Խմբավորվեցին 2 խմբի, առաջինում 6-ով ավելի, քան երկրորդում։ Քանի՞ աշակերտ է յուրաքանչյուր խմբում (կազմիր և լուծիր համակարգ)։</li>
+<li>3 գիրք և 2 գրիչ միասին արժեն 8600 դրամ, 1 գիրք և 2 գրիչ՝ 4200 դրամ։ Որքա՞ն արժե գիրքը, և որքա՞ն՝ գրիչը։</li>
+<li>Ընտրիր հարմար եղանակ և լուծիր. $\begin{cases}5x-y=7\\x+y=5\end{cases}$</li>
+<li>Ընտրիր հարմար եղանակ և լուծիր. $\begin{cases}x+2y=8\\3x-2y=0\end{cases}$</li>
+<li>Տեղադրման եղանակով լուծիր. $\begin{cases}y=2x+1\\3x-y=4\end{cases}$</li>
+<li>Տեղադրման եղանակով լուծիր. $\begin{cases}x=2y-3\\2x+y=4\end{cases}$</li>
+<li>Գործակիցների հավասարեցման եղանակով լուծիր. $\begin{cases}4x+y=10\\2x-y=2\end{cases}$</li>
+<li>Գործակիցների հավասարեցման եղանակով լուծիր. $\begin{cases}5x+3y=19\\2x-y=1\end{cases}$ (հուշում. բազմապատկիր 2-րդ հավասարումը $3$-ով)</li>
+<li>Գրաֆիկորեն լուծիր. $\begin{cases}y=x+1\\y=-2x+7\end{cases}$</li>
+<li>Առանց լուծելու, ասա՝ քանի՞ լուծում ունի. $\begin{cases}y=-3x+2\\6x+2y=4\end{cases}$</li>
+<li>Առանց լուծելու, ասա՝ քանի՞ լուծում ունի. $\begin{cases}y=5x-1\\y=5x+3\end{cases}$</li>
+<li>Ստուգիր՝ $(2,5)$ լուծու՞մ է $\begin{cases}3x+y=11\\x-y=-3\end{cases}$ համակարգը։</li>
+<li>Երկու թվերի գումարը 45 է, տարբերությունը՝ 9։ Գտիր թվերը (կազմիր և լուծիր համակարգ)։</li>
+<li>2 տոմս կինոթատրոն և 3 տոմս թատրոն արժեն 9500 դրամ, 1 տոմս կինոթատրոն և 1 տոմս թատրոն՝ 3000 դրամ։ Որքա՞ն արժե յուրաքանչյուր տոմսը։</li>
+<li>Ուղղանկյան պարագիծը 36 սմ է, երկարությունը 3 սմ-ով մեծ է լայնությունից։ Գտիր կողմերը (կազմիր և լուծիր համակարգ)։</li>
+<li>Ընտրիր հարմար եղանակ և լուծիր. $\begin{cases}2x+y=9\\x-3y=-4\end{cases}$</li>
+<li>Ընտրիր հարմար եղանակ և լուծիր. $\begin{cases}3x-2y=4\\x+2y=8\end{cases}$</li>
+<li>Ֆերմայում կովեր և հավեր են, ընդամենը 30 գլուխ և 74 ոտք։ Քանի՞ կով և քանի՞ հավ կա (կազմիր և լուծիր համակարգ)։</li>
+<li>$a$-ի ի՞նչ արժեքի դեպքում $\begin{cases}y=ax+1\\y=2x-3\end{cases}$ համակարգը լուծում չունի։</li>
+<li>Տեղադրման եղանակով լուծիր. $\begin{cases}2x+y=7\\y=x-2\end{cases}$</li>
+<li>Գործակիցների հավասարեցման եղանակով լուծիր. $\begin{cases}x+3y=11\\2x-3y=-2\end{cases}$</li>
+<li>Երկու թվերից մեկը մյուսից 4 անգամ մեծ է, գումարը՝ 45։ Գտիր թվերը (կազմիր և լուծիր համակարգ)։</li>
+</ol>
+
+<h2 id="s5">Պատասխաններ</h2>
+<ol class="answers-list">
+<li>Այո՝ $2(3)+(-2)=4$ ✓ և $3-3(-2)=9$ ✓, երկուսն էլ բավարարվում են։</li>
+<li>$(3,7)$</li>
+<li>$(9,5)$</li>
+<li>$(3,2)$</li>
+<li>$(1,2)$</li>
+<li>$(4,2)$</li>
+<li>0 լուծում (նույն թեքությունը՝ $4$, տարբեր $b$ → զուգահեռ ուղիղներ)</li>
+<li>Անվերջ շատ լուծում (2-րդ հավասարումը 1-ինի կրկնապատիկն է)</li>
+<li>$(17,11)$ — 17 աշակերտ առաջին խմբում, 11՝ երկրորդում</li>
+<li>Գիրքը՝ 2200 դրամ, գրիչը՝ 1000 դրամ</li>
+<li>$(2,3)$ (հուշում. գումարման եղանակով $y$-ը հեշտ կրճատվում է)</li>
+<li>$(2,3)$ (հուշում. $y$-ի գործակիցներն արդեն հակադիր են)</li>
+<li>$(1,3)$</li>
+<li>$(1,-1)$</li>
+<li>$(2,2)$</li>
+<li>$(4,7)$</li>
+<li>$(3,4)$</li>
+<li>0 լուծում (նույն թեքությունը՝ $-3$, տարբեր $b$)</li>
+<li>0 լուծում (նույն թեքությունը՝ $5$, տարբեր $b$)</li>
+<li>Այո՝ $3(2)+5=11$ ✓ և $2-5=-3$ ✓</li>
+<li>27 և 18</li>
+<li>Կինոթատրոն՝ 1750 դրամ, թատրոն՝ 1250 դրամ</li>
+<li>Երկարությունը՝ 10.5 սմ, լայնությունը՝ 7.5 սմ</li>
+<li>$(5,-1)$</li>
+<li>$(4,2)$</li>
+<li>12 կով, 18 հավ</li>
+<li>$a=2$ (նույն թեքությունը, տարբեր $b$)</li>
+<li>$(3,1)$</li>
+<li>$(1,10/3)$</li>
+<li>9 և 36 ($x+4x=45 \Rightarrow x=9$)</li>
+</ol>
+
+</div>
+</body>
+</html>

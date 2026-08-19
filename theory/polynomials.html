@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="hy">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Միանդամ և բազմանդամ | Ուսումնական ուղեցույց</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<style>
+  :root{
+    --bg:#0f1f2e; --paper:#f6f8fb; --ink:#152233; --accent:#1e5f8c; --accent2:#c0562b;
+    --crust:#8fb3cc; --muted:#5b7188; --card:#ffffff; --line:#dde6ee;
+  }
+  *{box-sizing:border-box;}
+  html, body{overflow-x:hidden;}
+  body{margin:0; font-family:'Sylfaen','Arial',serif; background:var(--paper); color:var(--ink); font-size:18px; line-height:1.7;}
+  .hero{background:linear-gradient(135deg, var(--bg) 0%, #1c3b52 100%); color:#eaf2f8; padding:56px 24px 48px;}
+  .hero-inner{max-width:840px; margin:0 auto;}
+  h1.title{font-size:2.2rem; margin:0 0 10px; font-weight:bold; color:#fff;}
+  .hero p{color:#cfe0ec; max-width:620px; font-size:1.05rem;}
+  nav.toc{max-width:840px; margin:-26px auto 0; position:relative; z-index:3; background:var(--card); border-radius:10px; box-shadow:0 12px 30px rgba(15,31,46,.18); padding:22px 26px; border:1px solid var(--line);}
+  nav.toc h2{font-size:1.05rem; text-transform:uppercase; letter-spacing:.07em; color:var(--muted); margin:0 0 12px; font-weight:bold;}
+  nav.toc ol{margin:0; padding-left:20px; columns:2; column-gap:28px;}
+  nav.toc li{margin-bottom:8px; font-size:.98rem;}
+  nav.toc a{color:var(--accent); text-decoration:none; border-bottom:1px dotted var(--accent);}
+  main{max-width:840px; margin:40px auto 90px; padding:0 24px;}
+  section.part-header{margin:48px 0 20px; padding-bottom:8px; border-bottom:2px solid var(--crust); color:var(--muted); font-weight:bold; text-transform:uppercase; letter-spacing:.05em; font-size:.95rem;}
+  section.chapter{margin-bottom:56px;}
+  .chapter-head{display:flex; align-items:baseline; gap:14px; border-bottom:3px solid var(--accent2); padding-bottom:10px; margin-bottom:20px;}
+  .chapter-num{font-size:1.9rem; color:var(--accent); font-weight:bold;}
+  .chapter-head h2{margin:0; font-size:1.4rem; color:var(--ink); font-weight:bold;}
+
+  .block-title{font-weight:bold; color:var(--accent); font-size:1.02rem; margin:22px 0 8px; text-transform:uppercase; letter-spacing:.04em;}
+  .hook{background:#eef4f9; border-radius:10px; padding:16px 20px; margin:10px 0 18px; font-style:italic;}
+  .intuitive{padding:0 2px; margin-bottom:14px;}
+  .formal-def{background:#fff; border:1px solid var(--line); border-left:4px solid var(--accent); border-radius:0 10px 10px 0; padding:16px 20px; margin:14px 0;}
+  .formal-def b.term{color:var(--accent2);}
+
+  .visual-container.table-wrap{overflow-x:auto; width:100%; margin:18px 0; -webkit-overflow-scrolling:touch;}
+  table{border-collapse:collapse; width:100%;}
+  th,td{border:1px solid var(--line); padding:8px 12px; text-align:center; font-size:.98rem;}
+  th{background:#eaf1f7; font-weight:bold;}
+  svg{max-width:100%; height:auto; display:block; margin:0 auto;}
+
+  .formula-box{background:#fff8ee; border:1px solid #ecd9b6; border-radius:10px; padding:18px 22px; margin:16px 0;}
+  .formula-box .label{display:block; font-weight:bold; color:var(--accent2); margin-bottom:8px; text-transform:uppercase; font-size:.85rem; letter-spacing:.05em;}
+
+  .example-box{border-left:4px solid var(--accent); background:#fff; padding:16px 20px; margin:16px 0; border-radius:0 10px 10px 0; box-shadow:0 2px 8px rgba(15,31,46,.05);}
+  .example-box .tag{display:inline-block; font-size:.8rem; text-transform:uppercase; letter-spacing:.07em; color:#fff; background:var(--accent); padding:3px 10px; border-radius:20px; margin-bottom:8px; font-weight:bold;}
+  .example-box .step{margin:6px 0 6px 2px;}
+  .example-box .answer{margin-top:10px; padding:8px 14px; background:#eef4f9; border-radius:8px; border-left:3px solid var(--accent); font-weight:bold;}
+
+  .think{background:#f3ede0; border-left:4px solid var(--crust); border-radius:0 10px 10px 0; padding:12px 18px; margin:14px 0; font-style:italic; color:#4a3a1f;}
+
+  .error-box{background:#fdeeec; border:1px solid #f0c6bf; border-radius:10px; padding:16px 20px; margin:16px 0;}
+  .error-box h4{margin:0 0 8px; color:var(--accent2); font-size:1rem;}
+  .error-box .k{font-weight:bold; color:var(--accent2);}
+
+  .remember{background:#eef6ef; border:1px solid #cfe6d2; border-radius:10px; padding:14px 20px; margin:16px 0;}
+  .remember .label{font-weight:bold; color:#2f6b3a; text-transform:uppercase; font-size:.85rem; letter-spacing:.05em; display:block; margin-bottom:6px;}
+
+  .teacher-corner{background:#eaf1f7; border:1px dashed var(--crust); border-radius:10px; padding:16px 20px; margin:16px 0 28px;}
+  .teacher-corner .label{font-weight:bold; color:var(--accent); text-transform:uppercase; font-size:.85rem; letter-spacing:.05em; display:block; margin-bottom:6px;}
+
+  hr.sep{border:none; border-top:1px dashed var(--line); margin:36px 0;}
+
+  .tasks-section h2{color:var(--accent); border-bottom:3px solid var(--accent2); padding-bottom:8px;}
+  .tasks-section h3{color:var(--accent2); margin-top:26px;}
+  ol.tasks{padding-left:24px;}
+  ol.tasks li{margin-bottom:10px;}
+
+  .answers-section{background:#fff; padding:26px 28px; border-radius:10px; border:2px solid var(--accent); margin-top:44px;}
+  .answers-section h2{color:var(--accent); margin-top:0;}
+  .answers-section h3{color:var(--accent2); font-size:1rem; margin:22px 0 10px;}
+  .answers-list{columns:2; column-gap:36px; padding-left:20px; margin:0;}
+  .answers-list li{margin-bottom:9px; font-weight:bold;}
+  .answers-list-conceptual{columns:1; list-style-position:outside;}
+
+  @media (max-width:600px){
+    nav.toc ol{columns:1;}
+    .answers-list{columns:1;}
+    main{padding:0 14px;}
+  }
+
+  @media print {
+    body{background:#fff !important; color:#000 !important; font-size:12pt;}
+    .hero{padding:10px 0; background:none !important; color:#000 !important;}
+    h1.title{color:#000 !important;}
+    nav.toc{display:none !important;}
+    .formula-box, .example-box, .error-box, .visual-container, .table-wrap{page-break-inside:avoid !important; box-shadow:none !important; border:1px solid #ccc !important;}
+    .table-wrap, .visual-container{overflow-x:visible !important; white-space:pre-wrap !important; word-break:break-word !important;}
+    html, body{overflow-x:visible !important;}
+    .chapter{page-break-before:always;}
+    .chapter:first-of-type{page-break-before:auto;}
+    .answers-list{columns:3;}
+  }
+</style>
+
+<style id="tj-unified">
+  /* ԸՆԴՀԱՆՈՒՐ ՎԵՐԻՆ ՎԱՀԱՆԱԿ — նույնական բոլոր 19 ուղեցույցում։
+     Class-երը սկսվում են tj- նախածանցով, որ երբեք չբախվեն էջի
+     սեփական ոճերի հետ։ */
+  .tj-bar{background:#0f1f2e;color:#eaf2f8;font-family:'Sylfaen','Arial',serif;}
+  .tj-bar-in{max-width:840px;margin:0 auto;padding:10px 20px;display:flex;
+             align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+  .tj-back{color:#eaf2f8;text-decoration:none;font-weight:bold;font-size:.95rem;
+           border:1px solid rgba(234,242,248,.35);border-radius:8px;padding:5px 12px;}
+  .tj-back:hover{background:rgba(234,242,248,.12);}
+  .tj-grade{font-size:.85rem;color:#cfe0ec;letter-spacing:.03em;}
+  @media print{ .tj-bar{display:none;} }
+</style>
+</head>
+<body>
+<div class="tj-bar"><div class="tj-bar-in"><a class="tj-back" href="../index.html">← Տրենաժոր</a><span class="tj-grade">7 դասարան</span></div></div>
+
+
+<div class="hero">
+  <div class="hero-inner">
+    <h1 class="title">Միանդամ և բազմանդամ</h1>
+    <p>Հիմքից մինչև արտադրիչների վերլուծություն. միանդամի կարգ, կատարյալ տեսք, աստիճանի հատկություններ, բազմանդամների գործողություններ։</p>
+  </div>
+</div>
+
+<nav class="toc">
+  <h2>Բովանդակություն</h2>
+  <ol>
+    <li><a href="#s1">Միանդամ, միանդամի կարգը</a></li>
+    <li><a href="#s2">Նման միանդամներ</a></li>
+    <li><a href="#s3">Ցուցիչը, միանդամի կատարյալ տեսքը</a></li>
+    <li><a href="#s4">Աստիճանի բարձրացման հատկությունները</a></li>
+    <li><a href="#s5">Բազմանդամ, բազմանդամի կատարյալ տեսքը</a></li>
+    <li><a href="#s6">Միանդամի և բազմանդամի արտադրյալը</a></li>
+    <li><a href="#s7">Բազմանդամների գումարն ու տարբերությունը</a></li>
+    <li><a href="#s8">Բազմանդամների արտադրյալը</a></li>
+    <li><a href="#s9">Բազմանդամի արտադրիչների վերլուծում</a></li>
+    <li><a href="#tasks">Առաջադրանքներ</a></li>
+    <li><a href="#answers">Պատասխաններ</a></li>
+  </ol>
+</nav>
+
+<main>
+
+<!-- ============ ՄԱՍ 1/3 ============ -->
+<section class="part-header">Մաս 1 / 3</section>
+
+<section class="chapter" id="s1">
+  <div class="chapter-head"><span class="chapter-num">01</span><h2>Միանդամ, միանդամի կարգը</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">$5ab+2aa-7b$ արտահայտության արժեքը հաշվելիս ավելի հարմար է ամեն «կտորի» ($5ab$, $2aa$, $-7b$) հետ առանձին աշխատել, քան ամբողջի հետ մեկանգամից։ Ինչպե՞ս կոչենք այս «կտորները»։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">Թվերի և տառերի պարզ արտադրյալները (առանց գումարման/հանման) կոչվում են միանդամներ. դրանք հանրահաշվի «շինանյութն» են։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p><b class="term">Միանդամ</b>՝ թվերի և տառային փոփոխականների արտադրյալ ($3$, $2x$, $7abc$ միանդամներ են; $a+b$, $2+4x$ միանդամներ չեն)։ Թիվը նույնպես միանդամ է։</p>
+    <p><b class="term">Հակադիր միանդամ</b>՝ միանդամը $-1$-ով բազմապատկելիս ստացվող միանդամը ($2ax$-ի հակադիրը $-2ax$-ն է)։</p>
+    <p><b class="term">Միանդամի կարգ</b>՝ միանդամի գրառման մեջ առկա տառային արտադրիչների քանակը ($-5abba$-ի կարգը $4$ է, $23x$-ինը՝ $1$, $7$-ինը՝ $0$)։</p>
+    <p><b class="term">Զրոյական միանդամ</b>՝ միանդամ, որը միշտ հավասար է $0$-ի (պարունակում է $0$ արտադրիչը); ընդունված է համարել, որ այն կարգ չունի։</p>
+  </div>
+
+  <div class="block-title">Վիզուալ պատկեր</div>
+  <div class="visual-container table-wrap">
+    <table>
+      <tr><th>Միանդամ</th><td>$3$</td><td>$23x$</td><td>$-5abba$</td><td>$45xxx$</td></tr>
+      <tr><th>Կարգ</th><td>$0$</td><td>$1$</td><td>$4$</td><td>$3$</td></tr>
+    </table>
+  </div>
+
+  <div class="block-title">Կանոն</div>
+  <div class="formula-box"><span class="label">Հաշվարկի ազատություն</span>
+    Միանդամի արժեքը հաշվելիս բազմապատկումները կարելի է կատարել ցանկացած հերթականությամբ (հարմարը՝ ընտրելով)։
+  </div>
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>Հարմար եղանակով հաշվեք $2abc$-ի արժեքը, երբ $a=4$, $b=\frac{1}{7}$, $c=0$։</p>
+    <div class="step">Քանի որ $c=0$, ամբողջ արտադրյալը՝ $0$ (անկախ $a,b$-ից)։</div>
+    <div class="answer">Պատասխան. $0$։</div>
+  </div>
+
+  <div class="think">Ինչո՞ւ է $\frac{2ab}{a+b}$-ը ՈՉ միանդամ, թեև թվում է թվերի ու տառերի արտահայտություն։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> Կարգը շփոթել գործակցի կամ ցուցիչի հետ ($23x$-ի կարգը կարծել՝ $23$)։</p>
+    <p><span class="k">Ինչու՞</span> «Կարգ» բառը մոտ է հնչում «մեծություն»-ին, ուստի հեշտ է կապել ամենամեծ թվի հետ, ոչ տառերի քանակի։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Հաշվիր միայն ՏԱՌԵՐԸ. $23x$-ում կա ընդամենը $1$ տառ ($x$), ուստի կարգը $1$ է։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>Միանդամ = զուտ արտադրյալ, ոչ գումար/տարբերություն։</li>
+      <li>Կարգ = տառային արտադրիչների քանակ։</li>
+      <li>Զրոյական միանդամը կարգ չունի։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Զգույշ եղիր. $5\cdot a\cdot3$-ի արժեքը $0$ է միայն $a=0$-ի դեպքում, բայց ինքը $5\cdot a\cdot3$ ՉԻ զրոյական միանդամ (որովհետև ինքն իր գրառման մեջ $0$ արտադրիչ չունի)։
+  </div>
+</section>
+
+<section class="chapter" id="s2">
+  <div class="chapter-head"><span class="chapter-num">02</span><h2>Նման միանդամներ</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">$7xy+2xy$-ը հաշվելիս ($x=3,y=5$) ստացվում է $(7+2)\cdot15=135$։ Կարո՞ղ ենք ընդհանրապես $7xy+2xy$-ը փոխարինել մեկ միանդամով՝ $9xy$-ով, միշտ, ոչ միայն այս կոնկրետ արժեքների դեպքում։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">Այո, եթե երկու միանդամների տառային մասերը «նույնն» են (նույն արտադրիչներից են բաղկացած), դրանք կարելի է անմիջապես գումարել՝ գործակիցները միացնելով։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p>Երկու ոչ զրոյական միանդամ կոչվում են <b class="term">նման</b>, եթե նրանց տառային մասերը բաղկացած են նույն արտադրիչներից ($3ab2b4ac$ և $-2aabbc$ նման են)։ Զրոյական միանդամը ոչ մի այլ միանդամի նման չէ։</p>
+    <p><b class="term">Միանդամի գործակից</b>՝ միանդամի թվային արտադրիչների արտադրյալը ($2a3b$-ի գործակիցը $6$ է, $xy$-ինը՝ $1$)։</p>
+    <p><b class="term">Հատկություն.</b> երկու նման միանդամների գումարը միանդամ է, որի գործակիցը հավասար է գործակիցների գումարին։</p>
+  </div>
+
+  <div class="block-title">Վիզուալ պատկեր</div>
+  <div class="visual-container table-wrap">
+    <table>
+      <tr><th>Զույգ</th><td>$3ab$ և $-2ab$</td><td>$x$ և $x^2$</td><td>$0a$ և $0b$</td></tr>
+      <tr><th>Նմա՞ն են</th><td>✓</td><td>✗</td><td>✗ (զրոյական են)</td></tr>
+    </table>
+  </div>
+
+  <div class="block-title">Կանոն</div>
+  <div class="formula-box"><span class="label">Գումարման կանոն</span>
+    Նման միանդամների գումարը = (գործակիցների գումար) × (ընդհանուր տառային մաս)։ $x+(-x)=0$, և $0$-ը ոչ մեկին նման չէ։
+  </div>
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>Գրեք միանդամով. $6xyz-8xyz+10xyz$։</p>
+    <div class="step">Բոլորը նույն տառային մասն ունեն ($xyz$)։ Գործակիցներ. $6-8+10=8$։</div>
+    <div class="answer">Պատասխան. $8xyz$։</div>
+  </div>
+
+  <div class="think">Ե՞րբ նման միանդամների գումարն այդ միանդամներին նման չէ։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> $7xy+2x$-ը գրել $9xy$ կամ $9x$ տեսքով։</p>
+    <p><span class="k">Ինչու՞</span> $xy$-ն ու $x$-ը «նման տեսք» ունեն (երկուսն էլ պարունակում են $x$), բայց տառային արտադրիչների ամբողջական հավաքածուն տարբեր է։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Համեմատիր տառերի ամբողջական ցանկը, ոչ միայն մեկ ընդհանուր տառ։ $xy\neq x$-ի տառային մասը։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>Նմանությունը որոշվում է ամբողջ տառային մասով, ոչ մասամբ։</li>
+      <li>Գործակիցը 1 լինելիս չի գրվում (ինքնին ենթադրվում է)։</li>
+      <li>0, 0a, 0b բոլորն էլ 0 են, բայց ոչ մեկը մյուսին «նման» չէ ձևականորեն։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Ցանկացած երկու թիվ (առանց տառի) իրար նման միանդամներ են, քանի որ դրանց «տառային մասը» դատարկ է, ուստի նույնն է։ $5+3=8$-ը հենց նման միանդամների գումարման օրինակ է։
+  </div>
+</section>
+
+<section class="chapter" id="s3">
+  <div class="chapter-head"><span class="chapter-num">03</span><h2>Ցուցիչը, միանդամի կատարյալ տեսքը</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">$y2x3xyx$ և $6xxxyy$-ը իրար հավասար են (ստուգիր՝ արտադրիչները տեղափոխելով), բայց տեսքով բոլորովին տարբեր են։ Ինչպե՞ս պայմանավորվել մեկ, միասնական գրառման ձևի շուրջ։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">Ինչպես $xxxx=x^4$, ցանկացած կրկնվող տառային արտադրիչ կարելի է գրել ցուցչով, ինչը կարճացնում և միասնականացնում է գրառումը։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p>Տառային փոփոխականի աստիճանը՝ նույն սկզբունքով, ինչ թվի աստիճանը ($xxxx=x^4$)։</p>
+    <p><b class="term">Միանդամի կատարյալ տեսք</b>. 1) առավելագույնը մեկ թվային արտադրիչ (առաջինը); 2) յուրաքանչյուր տառ գրված մեկ անգամ (ցուցչով); 3) տառերը այբբենական կարգով; 4) զրոյական միանդամում տառ չկա։</p>
+    <p><b class="term">Հատկություն.</b> $a^m\cdot a^n=a^{m+n}$ (նույն հիմքով միանդամների արտադրյալ)։</p>
+  </div>
+
+  <div class="block-title">Վիզուալ պատկեր</div>
+  <div class="visual-container table-wrap">
+    <table>
+      <tr><th>Չկարգավորված</th><td>$1ab$</td><td>$0xy5$</td><td>$3x^2yz^3xxy^2z$</td></tr>
+      <tr><th>Կատարյալ տեսք</th><td>$ab$</td><td>$0$</td><td>$3x^4y^3z^4$</td></tr>
+    </table>
+  </div>
+
+  <div class="block-title">Կանոն</div>
+  <div class="formula-box"><span class="label">Ցուցիչների գումարում</span>
+    $a^m\cdot a^n=a^{m+n}$ (մասնավոր դեպք՝ $a^n\cdot a=a^{n+1}$)։
+  </div>
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>$7a^2b\cdot3a^5b^3c$-ը բերեք կատարյալ տեսքի։</p>
+    <div class="step">Թվեր. $7\cdot3=21$։ $a$-ներ. $a^2\cdot a^5=a^7$։ $b$-ներ. $b\cdot b^3=b^4$։ $c$-ն մեկ հատ։</div>
+    <div class="answer">Պատասխան. $21a^7b^4c$։</div>
+  </div>
+
+  <div class="think">Ինչո՞ւ է կատարյալ տեսքը հարմար՝ երկու միանդամ համեմատելու համար։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> Ցուցիչները բազմապատկել գումարելու փոխարեն. $a^3\cdot a^2=a^6$։</p>
+    <p><span class="k">Ինչու՞</span> Աստիճանների կանոնները (գումարում arm.mul, բազմապատկում powers) հեշտ են խառնվում, հատկապես եթե չհիշես, թե ինչու է կանոնը ճիշտ (կրկնվող արտադրիչների հաշվարկ)։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Բացիր փոքր օրինակով. $a^2\cdot a^3=(a\cdot a)(a\cdot a\cdot a)=a^5$, ոչ $a^6$։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>Կատարյալ տեսքը 4 կանոն ունի, բոլորը պարտադիր։</li>
+      <li>$a^m\cdot a^n=a^{m+n}$, ոչ $a^{mn}$։</li>
+      <li>Կատարյալ տեսքն է, որ թույլ է տալիս արագ ճանաչել նման միանդամները։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Փորձիր $25^4$-ը ներկայացնել $5$-ի աստիճանի տեսքով ($25=5^2$)։ Սա նախապատրաստում է հաջորդ դասին, որտեղ կսովորես $(a^m)^n=a^{mn}$ բանաձևը։
+  </div>
+</section>
+
+<!-- ============ ՄԱՍ 2/3 ============ -->
+<section class="part-header">Մաս 2 / 3</section>
+
+<section class="chapter" id="s4">
+  <div class="chapter-head"><span class="chapter-num">04</span><h2>Աստիճանի բարձրացման հատկությունները</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">$10^8$-ը կարո՞ղ ես արագ վերլուծել պարզ արտադրիչների, առանց ուղղակի հաշվարկելու հսկայական թիվը։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">$10=2\cdot5$, ուստի $10^8=(2\cdot5)^8$. արտադրյալի աստիճանը կարելի է «բաշխել» յուրաքանչյուր արտադրիչի վրա։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p><b class="term">Հատկություն 1.</b> $(a\cdot b)^n=a^n\cdot b^n$ (ցանկացած քանակի արտադրիչի համար՝ $(abc)^n=a^nb^nc^n$)։</p>
+    <p><b class="term">Հատկություն 2.</b> $(a^m)^n=a^{mn}$, քանի որ $(a^m)^n=a^m\cdot a^m\cdot...\cdot a^m$ ($n$ հատ)$=a^{m+m+...+m}=a^{mn}$։</p>
+  </div>
+
+  <div class="block-title">Վիզուալ պատկեր</div>
+  <div class="visual-container table-wrap">
+    <table>
+      <tr><th>Արտահայտություն</th><td>$10^8$</td><td>$20^6$</td></tr>
+      <tr><th>Վերլուծություն</th><td>$(2\cdot5)^8$</td><td>$(2^2\cdot5)^6$</td></tr>
+      <tr><th>Արդյունք</th><td>$2^8\cdot5^8$</td><td>$2^{12}\cdot5^6$</td></tr>
+    </table>
+  </div>
+
+  <div class="block-title">Կանոն</div>
+  <div class="formula-box"><span class="label">2 հատկություն</span>
+    $(ab)^n=a^nb^n$ (արտադրյալի աստիճան), $(a^m)^n=a^{mn}$ (աստիճանի աստիճան)։ ՈՉ $(a+b)^n=a^n+b^n$ (սա սխալ է, աշխատում է միայն արտադրյալի համար)։
+  </div>
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>Բերեք կատարյալ տեսքի. $(3a^2b)^2\cdot2ab^3$։</p>
+    <div class="step">$(3a^2b)^2=9a^4b^2$։</div>
+    <div class="step">$9a^4b^2\cdot2ab^3=18a^5b^5$։</div>
+    <div class="answer">Պատասխան. $18a^5b^5$։</div>
+  </div>
+
+  <div class="think">Համեմատեք $(2a)^3$ և $2a^3$ արտահայտությունները և բացատրեք տարբերությունը։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> $(2a)^3=2a^3$ գրելը (թվային արտադրիչը աստիճան չբարձրացնելը)։</p>
+    <p><span class="k">Ինչու՞</span> Ուշադրությունը կենտրոնանում է տառի վրա, և թիվը «մոռացվում» է աստիճան բարձրացնելուց։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> $(2a)^3=2^3a^3=8a^3$, ոչ $2a^3$։ Ստուգիր՝ բոլոր՛ ԱՐՏԱԴՐԻՉՆԵՐԸ (ներառյալ թիվը) բարձրացվա՞ծ են աստիճան։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>$(ab)^n=a^nb^n$՝ միայն ԱՐՏԱԴՐՅԱԼԻ համար, ոչ գումարի։</li>
+      <li>$(a^m)^n=a^{mn}$, տարբեր $a^m\cdot a^n=a^{m+n}$-ից։</li>
+      <li>Բացասական հիմքի դեպքում պահպանիր փակագիծը՝ $(-2)^4\neq-2^4$։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    $(a+b)^n=a^n+b^n$ սխալ ընդհանրացումը հատկապես վտանգավոր է, քանի որ հաջորդ գլուխներում կսովորես $(a+b)^2$-ի իրական բանաձևը (որը շատ ավելի բարդ է, քան $a^2+b^2$)։
+  </div>
+</section>
+
+<section class="chapter" id="s5">
+  <div class="chapter-head"><span class="chapter-num">05</span><h2>Բազմանդամ, բազմանդամի կատարյալ տեսքը</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">$5a^3+6a-4a^3+2a-5$-ը երկար ու ոչ ընթեռնելի է։ Կարո՞ղ ես կարճացնել, առանց արժեքը փոխելու։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">Բազմանդամը միանդամների գումար է. կատարյալ տեսքի բերելը նշանակում է ամեն միանդամ կարգավորել ու հետո միացնել նմանները։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p><b class="term">Բազմանդամ</b>՝ միանդամների գումար ($2x+1$, $a+b+c+d$ բազմանդամներ են)։ Միանդամը նույնպես բազմանդամ է։</p>
+    <p><b class="term">Կատարյալ տեսքի բերում.</b> 1) ամեն գումարելի բերել կատարյալ տեսքի; 2) նման միանդամները միացնել։</p>
+  </div>
+
+  <div class="block-title">Վիզուալ պատկեր</div>
+  <div class="visual-container table-wrap">
+    <table>
+      <tr><th>Սկզբնական</th><td colspan="3">$5a^3+6a-4a^3+2a-5$</td></tr>
+      <tr><th>Խմբավորած</th><td>$5a^3-4a^3$</td><td>$6a+2a$</td><td>$-5$</td></tr>
+      <tr><th>Կատարյալ տեսք</th><td colspan="3">$a^3+8a-5$</td></tr>
+    </table>
+  </div>
+
+  <div class="block-title">Կանոն</div>
+  <div class="formula-box"><span class="label">Համեմատման մեթոդ</span>
+    Կատարյալ տեսքի բերելը տարբեր բազմանդամներ համեմատելու լավագույն մեթոդն է. երկու բազմանդամ հավասար են $\Leftrightarrow$ նույն կատարյալ տեսքն ունեն։
+  </div>
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>Բազմանդամը բերեք կատարյալ տեսքի. $2k+5n+7k+n+2+2n$։</p>
+    <div class="step">$k$-ներ. $2k+7k=9k$։ $n$-ներ. $5n+n+2n=8n$։ Հաստատուն. $2$։</div>
+    <div class="answer">Պատասխան. $9k+8n+2$։</div>
+  </div>
+
+  <div class="think">Ինչո՞ւ է կատարյալ տեսքի բերումը հատկապես կարևոր, երբ պետք է համեմատել երկու տարբեր տեսքով գրված բազմանդամ։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> Չնման միանդամներ սխալմամբ միացնել (օր. $ab^2+3aba$-ում $ab^2$ և $3a^2b$ շփոթել)։</p>
+    <p><span class="k">Ինչու՞</span> $3aba$-ն կատարյալ տեսքի բերելուց առաջ («$a$» կրկնվում է) թվում է նման $ab^2$-ին, բայց իրականում $3aba=3a^2b$, տարբեր տառային մաս $ab^2$-ից։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Նախ ամեն միանդամ բեր կատարյալ տեսքի, ԱՊԱ միայն համեմատիր տառային մասերը։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>Բազմանդամ = միանդամների գումար։</li>
+      <li>Կատարյալ տեսք = ամեն միանդամ կատարյալ + նման անդամներ միացված։</li>
+      <li>Կատարյալ տեսքով երկու բազմանդամ հեշտ է համեմատել։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Երբ հաշվում ես բազմանդամի արժեքը կոնկրետ թվերի դեպքում, միշտ նախ բեր կատարյալ տեսքի (ավելի քիչ անդամ = ավելի քիչ սխալի հնարավորություն)։
+  </div>
+</section>
+
+<section class="chapter" id="s6">
+  <div class="chapter-head"><span class="chapter-num">06</span><h2>Միանդամի և բազմանդամի արտադրյալը</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">Հեծանվորդը միշտ 20կմ/ժ արագությամբ վարում է. 2ժ, հանգիստ, 4ժ, հանգիստ, 3ժ։ Ընդհանուր ճանապարհը հաշվելու 2 եղանակ կա. $20\cdot2+20\cdot4+20\cdot3$ կամ $20\cdot(2+4+3)$։ Ինչո՞ւ են դրանք հավասար։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">Միանդամով բազմանդամ բազմապատկելիս, արտադրիչը «բաշխվում» է ամեն անդամի վրա, ինչպես հեծանվորդի արագությունը՝ ամեն ժամանակահատվածի։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p>Միանդամի և բազմանդամի արտադրյալում փակագծերը բացելու կանոն՝ արտադրիչ միանդամը բազմապատկվում է փակագծի բոլոր միանդամների հետ. $x^2(4x-2xy+5)=4x^3-2x^3y+5x^2$։</p>
+    <p><b class="term">Հակադիր բազմանդամ</b>՝ բազմանդամի և $-1$-ի արտադրյալը (բոլոր անդամները հակառակ նշանով)։</p>
+    <p><b class="term">Ընդհանուր արտադրիչի առանձնացում</b>՝ նույն ձևափոխությունը հակառակ ուղղությամբ. $6xy+3xz=3x(2y+z)$։</p>
+  </div>
+
+  <div class="block-title">Վիզուալ պատկեր</div>
+  <div class="visual-container table-wrap">
+    <table>
+      <tr><th>Ուղղություն</th><td>Բացում</td><td>Դուրս բերում</td></tr>
+      <tr><th>Օրինակ</th><td>$3x(2y+z)=6xy+3xz$</td><td>$6xy+3xz=3x(2y+z)$</td></tr>
+    </table>
+  </div>
+
+  <div class="block-title">Կանոն</div>
+  <div class="formula-box"><span class="label">Երկկողմանի գործողություն</span>
+    Փակագծի բացումն ու ընդհանուր արտադրիչի դուրս բերումը նույն ձևափոխությունն են, հակառակ ուղղություններով։
+  </div>
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>Առանձնացրեք ընդհանուր արտադրիչը. $6x^3+3x^2z-9x^2y^2$։</p>
+    <div class="step">Ընդհանուր՝ $3x^2$։</div>
+    <div class="answer">Պատասխան. $3x^2(2x+z-3y^2)$։</div>
+  </div>
+
+  <div class="think">Ինչո՞ւ են փակագծի բացումն ու ընդհանուր արտադրիչի դուրս բերումը «նույն մեխանիզմը» հակառակ ուղղություններով։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> Ընդհանուր արտադրիչը թերի առանձնացնել ($6x^3+3x^2z-9x^2y^2$-ից դուրս բերել $x^2$-ը, բայց ոչ $3$-ը)։</p>
+    <p><span class="k">Ինչու՞</span> Հեշտ է կենտրոնանալ միայն տառային ընդհանուրի վրա, մոռանալով նաև թվային ընդհանուր բաժանարարը ստուգել։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Ստուգիր՝ մնացած փակագծում կա՞ ևս ընդհանուր բազմապատիկ. եթե այո, դեռ ամբողջովին չես առանձնացրել։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>Բացելիս՝ արտադրիչը բազմապատկիր ԲՈԼՈՐ անդամների հետ։</li>
+      <li>Ընդհանուր արտադրիչ առանձնացնելիս՝ ստուգիր և՛ թվային, և՛ տառային մասը։</li>
+      <li>Հակադիր բազմանդամում ԲՈԼՈՐ նշանները փոխվում են։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Երբ 3x+5x-ը հաշվում ես մտքում որպես 8x, փաստացի ընդհանուր արտադրիչ ես առանձնացնում ($x\cdot(3+5)$)։ Այս գործողությունն արդեն վաղուց գիտես, պարզապես նոր անուն ես տալիս։
+  </div>
+</section>
+
+<!-- ============ ՄԱՍ 3/3 ============ -->
+<section class="part-header">Մաս 3 / 3</section>
+
+<section class="chapter" id="s7">
+  <div class="chapter-head"><span class="chapter-num">07</span><h2>Բազմանդամների գումարն ու տարբերությունը</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">$(5a^2+2x)-(7a^2-9x)$-ը հաշվելիս, երբ բազմանդամի «արժեքը» հայտնի չէ (միայն տառեր), ինչպե՞ս ընդհանրապես «հանել» մեկը մյուսից։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">$6-4=6+(-4)$. թվերի հանումը գումարման հատուկ դեպք է։ Նույն սկզբունքը կիրառելի է բազմանդամների համար էլ։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p>Երկու բազմանդամների <b class="term">տարբերությունը</b> հավասար է նվազելի բազմանդամի բոլոր միանդամների և հանելի բազմանդամի բոլոր միանդամների ՀԱԿԱԴԻՐների գումարին։</p>
+    <p>Օրինակ. $(5a^2+2x)-(7a^2-9x)=(5a^2+2x)+(-7a^2+9x)=-2a^2+11x$։</p>
+    <p>Բազմանդամների <b class="term">գումարը</b>՝ պարզապես փակագծերի բացում առանց նշանի փոփոխության։</p>
+  </div>
+
+  <div class="block-title">Վիզուալ պատկեր</div>
+  <div class="visual-container table-wrap">
+    <table>
+      <tr><th>Գործողություն</th><td>Գումար</td><td>Տարբերություն</td></tr>
+      <tr><th>Փակագծի բացում</th><td>նշանները մնում են</td><td>ԲՈԼՈՐ նշանները շրջվում են</td></tr>
+    </table>
+  </div>
+
+  <div class="block-title">Կանոն</div>
+  <div class="formula-box"><span class="label">Հանելիի հակադիրը</span>
+    $(A)-(B)=A+(-1)\cdot B=A+(\text{B-ի հակադիրը})$
+  </div>
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ 3</span>
+    <p>Գտեք $5a^2+2x$ և $7a^2-9x$ բազմանդամների տարբերությունը։</p>
+    <div class="step">$(5a^2+2x)-(7a^2-9x)=5a^2+2x-7a^2+9x$։</div>
+    <div class="step">$=(5-7)a^2+(2+9)x=-2a^2+11x$։</div>
+    <div class="answer">Պատասխան. $-2a^2+11x$։</div>
+  </div>
+
+  <div class="think">Ինչո՞ւ է կարևոր հանելի բազմանդամի ԲՈԼՈՐ անդամների նշանը փոխել, ոչ միայն առաջինինը։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> Հանելի բազմանդամի փակագիծը բացելիս նշանը փոխել միայն առաջին անդամի մոտ. $(5a^2+2x)-(7a^2-9x)=5a^2+2x-7a^2-9x$ (սխալ, պիտի $+9x$)։</p>
+    <p><span class="k">Ինչու՞</span> «Մինուս» նշանն ինքնաբերաբար կապվում է միայն հաջորդ անդամի հետ, մոռանալով, որ այն վերաբերում է ամբողջ փակագծին։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Միշտ գրիր միջանկյալ քայլը՝ $+(-1)\cdot(7a^2-9x)$, բացահայտ հաշվելով հակադիր բազմանդամը։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>Հանում = գումարում հակադիրին։</li>
+      <li>Հանելիի ԲՈԼՈՐ նշանները փոխվում են, ոչ միայն առաջինինը։</li>
+      <li>Բազմանդամի առջևի «$-$»-ը = «$-1$»-ով բազմապատկում։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Այս տեխնիկան ուղղակիորեն օգտագործվում է հավասարումների լուծման ժամանակ, հատկապես երբ պետք է որոշել, թե հավասարումն ունի քանի լուծում (0, 1, թե անվերջ)։
+  </div>
+</section>
+
+<section class="chapter" id="s8">
+  <div class="chapter-head"><span class="chapter-num">08</span><h2>Բազմանդամների արտադրյալը</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">$(a+b)$ և $(c+d)$ կողմերով ուղղանկյան մակերեսը հաշվելիս, ինչպե՞ս «բացել» $(a+b)(c+d)$ արտադրյալը՝ առանց երկրաչափական նկարի, միայն հանրահաշվով։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">$(a+b)(c+d)$-ը $a+b$ և $c+d$ կողմերով ուղղանկյան մակերեսն է, որը հավասար է 4 փոքր ուղղանկյան մակերեսների գումարին։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p>Բազմանդամների արտադրյալը հաշվում են փակագծերը բացելով. $(a+b)(x+y)=ax+ay+bx+by$։</p>
+    <p><b class="term">Կանոն.</b> առաջին փակագծի ամեն միանդամ բազմապատկվում է երկրորդ փակագծի ամեն միանդամով, և ստացված արտադրյալները գումարվում են։</p>
+    <p>Ընդհանրանում է ցանկացած քանակի անդամների վրա. $(a+b)(c+d+e)=ac+ad+ae+bc+bd+be$։</p>
+  </div>
+
+  <div class="block-title">Վիզուալ պատկեր</div>
+  <div class="visual-container table-wrap">
+    <table>
+      <tr><th></th><th>$c$</th><th>$d$</th></tr>
+      <tr><th>$a$</th><td>$ac$</td><td>$ad$</td></tr>
+      <tr><th>$b$</th><td>$bc$</td><td>$bd$</td></tr>
+    </table>
+  </div>
+  <p style="text-align:center; color:var(--muted); font-size:.9rem; margin-top:-6px;">$(a+b)(c+d)=ac+ad+bc+bd$ — 4 փոքր ուղղանկյան մակերես</p>
+
+  <div class="block-title">Կանոն</div>
+  <div class="formula-box"><span class="label">«Ամեն մեկը ամեն մեկի հետ»</span>
+    Յուրաքանչյուր անդամ առաջին փակագծից × յուրաքանչյուր անդամ երկրորդից, հետո՝ գումարել, հետո՝ նման անդամներ միացնել։
+  </div>
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>Բացեք փակագծերը. $(a-b)(a+b)$։</p>
+    <div class="step">$a\cdot a+a\cdot b-b\cdot a-b\cdot b=a^2+ab-ab-b^2$։</div>
+    <div class="step">Միջանկյալ անդամները ($ab$ և $-ab$) կրճատվում են։</div>
+    <div class="answer">Պատասխան. $a^2-b^2$։</div>
+  </div>
+
+  <div class="think">Ինչո՞ւ է $(a-b)(a+b)$-ի պատասխանում մնում ընդամենը 2 անդամ 4-ի փոխարեն։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> «Անկյունագծային» անդամները բաց թողնել. $(a+b)(c+d)=ac+bd$ (միայն 2 անդամ 4-ի փոխարեն)։</p>
+    <p><span class="k">Ինչու՞</span> Ինտուիտիվորեն թվում է, թե «համապատասխան» անդամներն են բազմապատկվում (առաջինը առաջինով, երկրորդը երկրորդով), մոռանալով «խաչաձև» անդամները։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Յուրաքանչյուր անդամ առաջին փակագծից պիտի հանդիպի ԲՈԼՈՐ անդամների հետ երկրորդից. 2 անդամ × 2 անդամ = 4 արտադրյալ։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>Ամեն անդամ ամեն անդամի հետ, ոչ մեկը մեկին։</li>
+      <li>Զգույշ նշանների հետ, հատկապես երբ փակագծերում բացասական անդամ կա։</li>
+      <li>Ամենավերջում մի մոռացիր միացնել նման անդամները։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    $(a-b)(a+b)=a^2-b^2$ արդյունքը հատուկ անուն ունի (քառակուսիների տարբերության բանաձև) և հայտնվում է շատ հաճախ։ Հիշիր այս օրինակը լավ, դա կխնայի ժամանակ ապագայում։
+  </div>
+</section>
+
+<section class="chapter" id="s9">
+  <div class="chapter-head"><span class="chapter-num">09</span><h2>Բազմանդամի արտադրիչների վերլուծում</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">$x^2(x+y)+y(x+y)$-ը կարո՞ղ ես ավելի կարճ գրել, նկատելով, որ $(x+y)$-ը ընդհանուր է երկու անդամում։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">Ինչպես թիվ կարելի է դուրս բերել որպես ընդհանուր արտադրիչ, ամբողջ բազմանդամ ($x+y$) էլ կարելի է դուրս բերել, եթե ընդհանուր է։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p><b class="term">Արտադրիչների վերլուծում</b>՝ բազմանդամը երկու (կամ ավելի) բազմանդամի արտադրյալի տեսքով գրելը։</p>
+    <p><b class="term">Ընդհանուր արտադրիչի եղանակ.</b> $2xy+6ax=2x(y+3a)$։ Կարևոր. թիվը (միայն) դուրս բերելը ($2x+6=2(x+3)$) ինքնին վերլուծում չի համարվում որպես ինքնուրույն նպատակ, եթե մնացած արտահայտության մեջ էլ արտադրիչներ կան։</p>
+    <p><b class="term">Խմբավորման եղանակ.</b> $xy+x+2y+2=x(y+1)+2(y+1)=(x+2)(y+1)$։ Երբեմն միանդամը պետք է տրոհել երկուսի՝ $x^2+6x+8=x^2+4x+2x+8=(x+2)(x+4)$։</p>
+  </div>
+
+  <div class="block-title">Վիզուալ պատկեր</div>
+  <div class="visual-container table-wrap">
+    <table>
+      <tr><th>Քայլ</th><td>$xy+x+2y+2$</td></tr>
+      <tr><th>Խմբավորում</th><td>$x(y+1)+2(y+1)$</td></tr>
+      <tr><th>Ընդհանուր $(y+1)$ դուրս</th><td>$(x+2)(y+1)$</td></tr>
+    </table>
+  </div>
+
+  <div class="block-title">Կանոն</div>
+  <div class="formula-box"><span class="label">Նշանի փոփոխություն</span>
+    $4-z=-(z-4)$. այս «նշանի հակադարձումը» հաճախ բանալի է, երբ երկու խմբում «նույն» փակագիծը տարբեր նշանով է հայտնվում։
+  </div>
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>Վերլուծեք. $5y(z-4)+2x(4-z)$։</p>
+    <div class="step">$4-z=-(z-4)$, ուստի $2x(4-z)=-2x(z-4)$։</div>
+    <div class="step">$5y(z-4)-2x(z-4)=(5y-2x)(z-4)$։</div>
+    <div class="answer">Պատասխան. $(5y-2x)(z-4)$։</div>
+  </div>
+
+  <div class="think">Ինչո՞ւ $2x+6=2(x+3)$-ը ինքնին բավարար «վերլուծություն» չի համարվում որպես նպատակ, եթե խնդիրը պահանջում է ամբողջական վերլուծություն։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> $5y(z-4)+2x(4-z)$ տիպի դեպքերում չնկատել, որ $4-z=-(z-4)$, և չկարողանալ վերլուծել։</p>
+    <p><span class="k">Ինչու՞</span> $(z-4)$ և $(4-z)$ տեսքով տարբեր են թվում, թեև իրար հակադիր են։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Երբ 2 խմբում «նման, բայց հակադիր» փակագիծ ես տեսնում, փորձիր հանել $-1$ մեկից՝ դրանք համընկեցնելու համար։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>Նախ փորձիր ընդհանուր արտադրիչ, հետո՝ խմբավորում։</li>
+      <li>$(a-b)=-(b-a)$, օգտակար հնարք ընդհանուր փակագիծ գտնելու համար։</li>
+      <li>Ոչ ամեն բազմանդամ է վերլուծվում. սա նորմալ է։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    $x^2+6x+8$-ի նման եռանդամներ վերլուծելիս, միջին անդամը ($6x$) տրոհիր այնպես, որ 2 մասերի արտադրյալը հավասար լինի ազատ անդամին ($8$) և գումարը՝ միջին գործակցին ($6$)՝ $4x+2x$ ($4\cdot2=8$, $4+2=6$)։
+  </div>
+</section>
+
+<hr class="sep">
+
+<!-- ============ ԱՌԱՋԱԴՐԱՆՔՆԵՐ ============ -->
+<section class="tasks-section" id="tasks">
+  <h2>Առաջադրանքներ</h2>
+
+  <h3>Հաշվարկային առաջադրանքներ</h3>
+  <ol class="tasks">
+    <li>Միանդա՞մ է. $x$, $x+y$, $xy$, $a^2b$, $\frac{2ab}{a+b}$, $a+3$, $0$։</li>
+    <li>Միանդամը գրեք ավելի պարզ տեսքով. $1ac$, $0xy5$, $5c6d$, $ab1m$։</li>
+    <li>Պարզեք միանդամի կարգը. $5ab$, $6xyz$, $-7a$, $het$ (հաստատուն)։</li>
+    <li>Նմա՞ն են միանդամները. $aba$ և $baa$, $abba$ և $bbaa$, $xy$ և $yx$։</li>
+    <li>Միանդամները բաժանեք նման միանդամների խմբերի. $7x, 6xy, 12a, a, 5, 16x, xy, 5a, x, 4x, 2xy, 8, -5x$։</li>
+    <li>Նման միանդամների գումարը գրեք միանդամով. $4n+n$, $a+2a+a$, $t+2t+3t+...+10t$։</li>
+    <li>Հետևյալ միանդամներից որո՞նք են իրար հավասար. $xxxy4y$, $abxxb$, $2x^2\cdot2yx$։</li>
+    <li>Ներկայացրեք աստիճանի տեսքով. $x^5\cdot x^4$, $a^2\cdot a^6$, $2^3\cdot2^7$։</li>
+    <li>Հաշվեք $x^3$-ի արժեքը, երբ $x=2,-1,1,-2$։</li>
+    <li>$10^8$-ը վերլուծեք պարզ արտադրիչների։</li>
+    <li>$20^6$-ը վերլուծեք պարզ արտադրիչների։</li>
+    <li>Ներկայացրեք աստիճանի տեսքով. $(x^2)^5$, $(a^3b)^4$, $(2xy^2)^3$։</li>
+    <li>Բազմանդամը բերեք կատարյալ տեսքի. $2a+3b+5a$, $x+2y+3z+4x+5y+6z$։</li>
+    <li>Բազմանդամը բերեք կատարյալ տեսքի. $13a-7a+5b-2b$, $2ab-5y+3ab+6y+ba$։</li>
+    <li>Հաշվեք $3x^2+5x-2x^2$-ի արժեքը, երբ $x=6$։</li>
+    <li>Բացեք փակագծերը. $x(2x-1)$, $2x(3x+1)$, $a(a+b)$։</li>
+    <li>Առանձնացրեք ընդհանուր արտադրիչը. $x^2+xy$, $xy^2+2xy$, $a^2b+5ab^2+2ab$։</li>
+    <li>Գրեք բազմանդամի հակադիրը. $a-b$, $a^3+3a-2$։</li>
+    <li>Գտեք $5a^2+2x$ և $7a^2-9x$ բազմանդամների տարբերությունը։</li>
+    <li>Պարզեցրեք և հաշվեք արժեքը. $(7x-3)-(4x+1)$, երբ $x=2$։</li>
+    <li>Բազմանդամը բերեք կատարյալ տեսքի. $1-(x^2-x+1)$, $2x-(3xy+y+3x)$։</li>
+    <li>Քանի՞ լուծում ունի հավասարումը. $2(x-5)=3x-9$։</li>
+    <li>Բացեք փակագծերն ու բերեք կատարյալ տեսքի. $(x+3)(x+6)$, $(3a+4)(2a-7)$։</li>
+    <li>Բացեք փակագծերն ու միավորեք նման միանդամները. $(y-2)(y+1)$, $(-x+5)(x-1)$։</li>
+    <li>Բերեք կատարյալ տեսքի. $(a+b)(a^2-ab+b^2)$։</li>
+    <li>Լուծեք հավասարումը. $(3x-1)(5x+4)-15x^2=17$։</li>
+    <li>Վերլուծեք արտադրիչների. $x(b+a)+y(a+b)$, $7x(a-b)-8y(a-b)$։</li>
+    <li>Բազմանդամը վերլուծեք արտադրիչների. $ab+a+b+1$, $bc-8+2b-4c$։</li>
+    <li>Վերլուծեք արտադրիչների (միջին անդամի տրոհմամբ). $a^2+6a+5$, $x^2+10x+21$։</li>
+    <li>Հաշվեք հարմար եղանակով. $2.7\cdot6.2-9.3\cdot1.2+6.2\cdot9.3-1.2\cdot2.7$։</li>
+  </ol>
+
+  <h3>Տրամաբանական և հայեցակարգային հարցեր</h3>
+  <ol class="tasks" start="31">
+    <li>Ինչո՞ւ է $\frac{2ab}{a+b}$-ը ՈՉ միանդամ։</li>
+    <li>Ե՞րբ նման միանդամների գումարն այդ միանդամներին նման չէ։</li>
+    <li>Ինչո՞ւ է կատարյալ տեսքը հարմար՝ երկու միանդամ համեմատելու համար։</li>
+    <li>Համեմատեք $(2a)^3$ և $2a^3$ արտահայտությունները և բացատրեք տարբերությունը։</li>
+    <li>Ինչո՞ւ է կատարյալ տեսքի բերումը կարևոր՝ երկու տարբեր տեսքով գրված բազմանդամ համեմատելիս։</li>
+    <li>Ինչո՞ւ են փակագծի բացումն ու ընդհանուր արտադրիչի դուրս բերումը «նույն մեխանիզմը» հակառակ ուղղություններով։</li>
+    <li>Ինչո՞ւ է կարևոր հանելի բազմանդամի ԲՈԼՈՐ անդամների նշանը փոխել, ոչ միայն առաջինինը։</li>
+    <li>Ինչո՞ւ $(a-b)(a+b)$-ի պատասխանում մնում է ընդամենը 2 անդամ 4-ի փոխարեն։</li>
+  </ol>
+</section>
+
+<hr class="sep">
+
+<!-- ============ ՊԱՏԱՍԽԱՆՆԵՐ ============ -->
+<section class="answers-section" id="answers">
+  <h2>Պատասխաններ</h2>
+  <h3>Հաշվարկային առաջադրանքների պատասխանները</h3>
+  <ol class="answers-list">
+    <li>Միանդամ՝ $x,xy,a^2b,0$; ոչ՝ $x+y,\frac{2ab}{a+b},a+3$</li>
+    <li>$ac$, $0$, $30cd$, $abm$</li>
+    <li>$2$, $3$, $1$, $0$</li>
+    <li>Այո բոլորը (նույն տառային մաս)</li>
+    <li>$\{7x,16x,4x,-5x\}$, $\{6xy,2xy\}$, $\{12a,5a\}$, $\{a,x\}$, $\{5,8\}$ — 5 խումբ</li>
+    <li>$5n$, $4a$, $55t$</li>
+    <li>$xxxy4y=4x^3y^2$, $abxxb=ab^2x^2$, $2x^2\cdot2yx=4x^3y$ — ոչ մեկը հավասար չէ մյուսին</li>
+    <li>$x^9$, $a^8$, $2^{10}$</li>
+    <li>$8,-1,1,-8$</li>
+    <li>$2^8\cdot5^8$</li>
+    <li>$2^{12}\cdot5^6$</li>
+    <li>$x^{10}$, $a^{12}b^4$, $8x^3y^6$</li>
+    <li>$7a+3b$, $5x+7y+9z$</li>
+    <li>$6a+3b$, $5ab+y$</li>
+    <li>$36$</li>
+    <li>$2x^2-x$, $6x^2+2x$, $a^2+ab$</li>
+    <li>$x(x+y)$, $2xy(y+1)$, $ab(a+5b+2)$</li>
+    <li>$-a+b$, $-a^3-3a+2$</li>
+    <li>$-2a^2+11x$</li>
+    <li>$6$ ($(14-3)$)</li>
+    <li>$x-x^2$, $-xy-x-y$</li>
+    <li>Անվերջ շատ (նույնություն)</li>
+    <li>$x^2+9x+18$, $6a^2-13a-28$</li>
+    <li>$y^2-y-2$, $-x^2+6x-5$</li>
+    <li>$a^3+b^3$</li>
+    <li>$x=2$</li>
+    <li>$(x+y)(x+y)=(x+y)^2$, $(a-b)(7x+8y)$</li>
+    <li>$(a+1)(b+1)$, $(b+2)(c-4)$</li>
+    <li>$(a+1)(a+5)$, $(x+3)(x+7)$</li>
+    <li>$0$</li>
+  </ol>
+  <h3>Տրամաբանական և հայեցակարգային հարցերի պատասխանները</h3>
+  <ol class="answers-list answers-list-conceptual" start="31">
+    <li>Այն կոտորակ է (բաժանում), ոչ զուտ արտադրյալ</li>
+    <li>Երբ գումարը հավասար է 0-ի (զրոյական միանդամը ոչ մեկին նման չէ)</li>
+    <li>Կատարյալ տեսքով բոլոր տառային մասերը ուղիղ համեմատելի են (այբբենական կարգ, մեկ ցուցիչ)</li>
+    <li>$(2a)^3=8a^3$ (թիվն էլ է աստիճան բարձրանում), $2a^3$-ում միայն $a$-ն է</li>
+    <li>Կատարյալ տեսքով երկու հավասար բազմանդամ պիտի ունենան ուղիղ նույն գրառումը</li>
+    <li>Երկուսն էլ բազմապատկման բաշխական օրենքի կիրառություններ են, հակառակ ուղղություններով կարդացած</li>
+    <li>Հանելիի ամեն անդամ իրականում բազմապատկվում է $-1$-ով, ոչ միայն առաջինը</li>
+    <li>Խաչաձև երկու անդամը ($ab$ և $-ab$) իրար հակադիր են և կրճատվում են</li>
+  </ol>
+</section>
+
+</main>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  renderMathInElement(document.body, {
+    delimiters: [
+      {left: "$$", right: "$$", display: true},
+      {left: "$", right: "$", display: false}
+    ],
+    strict: false
+  });
+});
+</script>
+</body>
+</html>

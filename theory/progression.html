@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="hy">
+<head>
+<!-- CONVENTIONS (from Karucox source, not shown to reader):
+Հաջորդականության նշանագրություն: {a_n}, ընդհանուր անդամ a_n
+Թվաբանական պրոգրեսիայի տարբերություն: d
+Երկրաչափական պրոգրեսիայի հայտարար: q
+Անդամների գումարի նշանագրություն: S_n
+-->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Պրոգրեսիաներ | 9-րդ դասարան</title>
+<script>
+window.MathJax = { tex: { inlineMath: [['$','$']], displayMath: [['$$','$$']] } };
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js" id="MathJax-script" async></script>
+<style>
+  * { box-sizing: border-box; }
+  html, body { overflow-x: hidden; max-width: 100vw; margin:0; }
+  body {
+    font-family:'Sylfaen','Arial',serif;
+    background: #f6f8fb;
+    color: #152233;
+    line-height:1.7;
+  }
+  .page { max-width: 780px; margin: 0 auto; padding: 28px 20px 80px; }
+
+  h1 {
+    font-family:'Sylfaen','Arial',serif;
+    font-size: 2rem;
+    color: #1e5f8c;
+    text-align: center;
+    border-bottom: 3px solid #c0562b;
+    padding-bottom: 14px;
+    margin-bottom: 6px;
+  }
+  .subtitle { text-align:center; color:#5b7188; font-size:.95rem; margin-bottom: 34px; letter-spacing:.02em; }
+
+  h2 {
+    font-size: 1.35rem;
+    color: #1e5f8c;
+    margin-top: 48px;
+    padding: 10px 14px;
+    background: #eaf1f7;
+    border-left: 5px solid #1e5f8c;
+    border-radius: 2px;
+  }
+  h3 {
+    font-size: 1.12rem;
+    color: #1e5f8c;
+    margin-top: 34px;
+    border-bottom: 1px solid #dde6ee;
+    padding-bottom: 6px;
+  }
+
+  .bridge {
+    background: #eef4f9;
+    border: 1px dashed #8fb3cc;
+    border-radius: 8px;
+    padding: 16px 18px;
+    font-size: .97rem;
+    color: #5b7188;
+  }
+
+  .theory { margin: 14px 0; }
+
+  .formula-box {
+    background: #eef4f0;
+    border-left: 5px solid #3f7d5c;
+    border-radius: 4px;
+    padding: 14px 18px;
+    margin: 18px 0;
+  }
+  .formula-box strong.label { display:block; color:#2c5c42; font-size:.82rem; text-transform:uppercase; letter-spacing:.06em; margin-bottom:6px; }
+
+  .example-box {
+    background: #fff;
+    border: 1px solid #dde6ee;
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin: 18px 0;
+    box-shadow: 0 1px 3px rgba(0,0,0,.04);
+  }
+  .example-box .tag {
+    display:inline-block;
+    background:#1e5f8c;
+    color:#fff;
+    font-size:.75rem;
+    letter-spacing:.05em;
+    text-transform:uppercase;
+    padding:3px 10px;
+    border-radius:12px;
+    margin-bottom:10px;
+  }
+  .example-box .step { margin: 6px 0; }
+  .example-box .answer { margin-top:10px; padding-top:10px; border-top:1px dashed #dde6ee; font-weight:600; color:#1e5f8c; }
+
+  .real-example {
+    background: #fdf1e8;
+    border-left: 5px solid #c0562b;
+    border-radius: 4px;
+    padding: 14px 18px;
+    margin: 18px 0;
+  }
+  .real-example .tag { display:block; color:#9a4522; font-size:.82rem; text-transform:uppercase; letter-spacing:.06em; margin-bottom:6px; font-weight:600; }
+  .real-example .src { font-size: .85rem; color:#8a8074; font-style: italic; margin-bottom: 8px; }
+
+  .error-box {
+    background: #fdf1ef;
+    border: 1px solid #e3aca0;
+    border-radius: 8px;
+    padding: 14px 20px;
+    margin: 18px 0;
+  }
+  .error-box h4 { margin:0 0 10px; color:#a3372a; font-size:1rem; }
+  .error-box p { margin: 6px 0; font-size: .95rem; }
+  .error-box .k { font-weight:600; color:#a3372a; }
+
+  table { border-collapse: collapse; width: 100%; margin: 14px 0; display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  th, td { border: 1px solid #dde6ee; padding: 8px 12px; text-align: left; font-size: .93rem; }
+  th { background: #1e5f8c; color: #fff; }
+  tr:nth-child(even) td { background: #eef4f9; }
+
+  svg { max-width: 100%; height: auto; display:block; margin: 14px auto; }
+  .flex-item-text, [class*="flex"] > * { min-width: 0; }
+
+  ol.tasks, ol.answers-list { padding-left: 26px; }
+  ol.tasks li, ol.answers-list li { margin: 10px 0; }
+
+  details { border: 1px solid #dde6ee; border-radius: 8px; padding: 10px 16px; background: #fff; }
+  details[open] summary { margin-bottom: 8px; border-bottom: 1px solid #dde6ee; padding-bottom: 8px; }
+
+  hr.sep { border:none; border-top:1px solid #dde6ee; margin: 32px 0; }
+
+  footer.meta { text-align:center; color:#a39a8c; font-size:.8rem; margin-top:50px; }
+</style>
+
+<style id="tj-unified">
+  /* ԸՆԴՀԱՆՈՒՐ ՎԵՐԻՆ ՎԱՀԱՆԱԿ — նույնական բոլոր 19 ուղեցույցում։
+     Class-երը սկսվում են tj- նախածանցով, որ երբեք չբախվեն էջի
+     սեփական ոճերի հետ։ */
+  .tj-bar{background:#0f1f2e;color:#eaf2f8;font-family:'Sylfaen','Arial',serif;}
+  .tj-bar-in{max-width:840px;margin:0 auto;padding:10px 20px;display:flex;
+             align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+  .tj-back{color:#eaf2f8;text-decoration:none;font-weight:bold;font-size:.95rem;
+           border:1px solid rgba(234,242,248,.35);border-radius:8px;padding:5px 12px;}
+  .tj-back:hover{background:rgba(234,242,248,.12);}
+  .tj-grade{font-size:.85rem;color:#cfe0ec;letter-spacing:.03em;}
+  @media print{ .tj-bar{display:none;} }
+</style>
+</head>
+<body>
+<div class="tj-bar"><div class="tj-bar-in"><a class="tj-back" href="../index.html">← Տրենաժոր</a><span class="tj-grade">9 դասարան</span></div></div>
+
+<div class="page">
+
+<h1>Պրոգրեսիաներ</h1>
+<div class="subtitle">9-րդ դասարան · Հանրահաշիվ · Հաջորդականություններ</div>
+
+<h2 id="s1">Նախապայմանային կամուրջ (5-6-րդ դասարան)</h2>
+<div class="bridge">
+Դեռ 5-6-րդ դասարանում հանդիպել ես թվային շարքերի, որտեղ պետք էր գուշակել «հաջորդ թիվը». $2, 4, 6, 8, ...$ կամ $1, 3, 9, 27, ...$։ Դու ինտուիտիվորեն զգում էիր, որ կա ինչ-որ <strong>օրինաչափություն</strong>։ Այս թեմայում այդ ինտուիցիան կվերածես ճշգրիտ մաթեմատիկական գործիքի՝ կսովորես երկու ամենակարևոր տեսակի օրինաչափությունը (հաստատուն <strong>գումարվող</strong> քայլ և հաստատուն <strong>բազմապատկվող</strong> քայլ) նկարագրել բանաձևով և կանխատեսել ցանկացած հեռավոր անդամ՝ առանց բոլորը հաշվելու։
+</div>
+
+<hr class="sep">
+<h2 id="s2">9-րդ դասարան</h2>
+
+<h3>6.1. Թվային հաջորդականություն</h3>
+
+<div class="real-example">
+<!-- ORIGIN: ԼՈՒՍԱԲԱՆԱԿԱՆ (մոդելի ստեղծած անալոգիա, ոչ բառացի աղբյուրից) -->
+<span class="tag">Իրական կյանքի օրինակ</span>
+Պատկերացրու՝ ամեն շաբաթ խնայում ես որոշակի գումար։ Առաջին շաբաթ՝ 500 դրամ, երկրորդ՝ 700, երրորդ՝ 900 և այդպես շարունակ։ Ամեն շաբաթվա գումարը կախված է շաբաթի համարից՝ սա <strong>թվային հաջորդականություն</strong> է. $a_1=500$, $a_2=700$, $a_3=900,\dots$
+</div>
+
+<div class="formula-box">
+<strong class="label">Կարևոր կանոն</strong>
+Թվային հաջորդականությունը կանոն է, որով յուրաքանչյուր բնական $n$ թվի համապատասխանեցվում է $a_n$ թիվը (հաջորդականության $n$-րդ անդամը)։ Հաջորդականությունը կարելի է տալ.
+<ul>
+<li><strong>բանաձևով</strong> ($n$-րդ անդամի բանաձև). օր.՝ $a_n=2n+1$,</li>
+<li><strong>անդրադարձ բանաձևով</strong> (ամեն անդամն արտահայտվում է նախորդով/նախորդներով). օր.՝ $a_{n+1}=a_n+3$, $a_1=1$։</li>
+</ul>
+</div>
+
+<div class="error-box">
+<h4>⚠ Հաճախակի սխալ</h4>
+<p><span class="k">Սխալ.</span> Անդրադարձ բանաձև ունեցող հաջորդականությունում աշակերտը ուզում է ուղիղ հաշվել, օրինակ, $a_{10}$-ը՝ առանց նախ հաշվելու $a_2, a_3, \dots, a_9$-ը։</p>
+<p><span class="k">Ինչու՞ է այդպես մտածում.</span> Սովոր է $n$-րդ անդամի բանաձևին, որտեղ ուղիղ տեղադրում ես $n$-ը և ստանում պատասխանը. անդրադարձ բանաձևը պահանջում է <strong>հաջորդական</strong> հաշվարկ, դա նոր, անսովոր սահմանափակում է։</p>
+<p><span class="k">Ինչպես հայտնաբերել.</span> Հարցնել՝ «Կարո՞ղ ես ուղիղ $a_{10}$-ը հաշվել՝ չիմանալով $a_9$-ը»։</p>
+<p><span class="k">Ինչպես ուղղել.</span> Անալոգիա. սանդուղքով վերև բարձրանալիս չես կարող 10-րդ աստիճանին հասնել՝ չանցնելով 9-րդով. անդրադարձ բանաձևը հենց այդպիսի «սանդուղք» է։</p>
+</div>
+
+<hr class="sep">
+<p style="font-size:.88rem; color:#8a8074; font-style:italic;">Շրջանակի մասին ծանոթություն. հաջորդականությունների ընդհանուր տեսությունը (մոնոտոնություն և սահմանափակություն) այս նյութում դիտավորյալ չի ընդգրկված, քանի որ վերաբերում է ընդհանրապես հաջորդականություններին, ոչ հատուկ պրոգրեսիաներին (այս էջի թեման)։</p>
+
+<h3>Ինչպես ճանաչել՝ թվաբանակա՞ն է, թե՞ երկրաչափական</h3>
+<div class="formula-box">
+<strong class="label">Կարևոր կանոն</strong>
+Ունենալով հաջորդականության մի քանի անդամ, կիրառիր հետևյալ երկքայլանի ստուգումը.
+<ol>
+<li><strong>Հաշվիր հարևան անդամների տարբերությունը</strong> ($a_{n+1}-a_n$)։ Եթե միշտ նույն թիվն է ստացվում → <strong>թվաբանական պրոգրեսիա</strong> ($d$՝ այդ թիվը)։</li>
+<li><strong>Հաշվիր հարևան անդամների հարաբերությունը</strong> ($a_{n+1}\div a_n$)։ Եթե միշտ նույն թիվն է ստացվում → <strong>երկրաչափական պրոգրեսիա</strong> ($q$՝ այդ թիվը)։</li>
+</ol>
+Եթե ոչ մեկը հաստատուն չէ, հաջորդականությունը ո՛չ թվաբանական, ո՛չ երկրաչափական պրոգրեսիա է։
+</div>
+
+<hr class="sep">
+<h3>6.3. Թվաբանական պրոգրեսիա</h3>
+
+<div class="formula-box">
+<strong class="label">Կարևոր կանոն</strong>
+Հաջորդականությունն անվանում ենք <strong>թվաբանական պրոգրեսիա</strong> $d$ <strong>տարբերությամբ</strong>, եթե յուրաքանչյուր հաջորդ անդամ, սկսած երկրորդից, ստացվում է նախորդին $d$ գումարելով.
+$$a_{n+1}=a_n+d$$
+<strong>Ընդհանուր անդամի բանաձև.</strong> $a_n=a_1+d(n-1)$<br>
+<strong>Բնութագրիչ հատկություն</strong> (ցանկացած <strong>ներքին</strong> անդամ, այսինքն՝ ոչ առաջինը, և եթե պրոգրեսիան վերջավոր է՝ ոչ էլ վերջինը, հավասար է իր երկու հարևանների միջին թվաբանականին). $a_n=\dfrac{a_{n-1}+a_{n+1}}{2}$
+</div>
+
+<div class="example-box">
+<span class="tag">Լուծված օրինակ(ներ)</span>
+<p>$a_1=3$, $d=4$ պրոգրեսիայում գտնել առաջին 4 անդամը և $a_{10}$-ը։</p>
+<div class="step">Առաջին 4 անդամ. $a_1=3$, $a_2=3+4=7$, $a_3=7+4=11$, $a_4=11+4=15$։</div>
+<div class="step">$a_{10}=a_1+d(10-1)=3+4\cdot9=3+36=39$։</div>
+</div>
+
+<div class="real-example">
+<!-- ORIGIN: ԱՂԲՅՈՒՐԱՅԻՆ -->
+<span class="tag">Իրական կյանքի օրինակ</span>
+<div class="src">Աղբյուր՝ Հանրահաշիվ 9, խնդիր 389 (մի փոքր հարմարեցված ձևակերպումով)</div>
+<p>Գրադարանի 10-հարկանի գրապահարանի ամենաներքևի դարակում կա 25 գիրք։ Յուրաքանչյուր հաջորդ դարակում (ներքևից վեր) 2-ով պակաս գիրք կա, քան նախորդում։ Քանի՞ գիրք կա ամենավերևի (10-րդ) դարակում, և քանի՞ գիրք ընդհանուր կա գրապահարանում։</p>
+<p><em>Լուծում.</em> $a_1=25$ (ամենաներքևի դարակ), $d=-2$, $n=10$ (դարակների քանակ)։</p>
+<div class="step">$a_{10}=25+(-2)\cdot9=25-18=7$ գիրք ամենավերևի դարակում։</div>
+<p>Ընդհանուր գումարի համար պետք է $S_{10}$-ը, տես §6.4։</p>
+<div class="answer">Պատասխան (10-րդ դարակ). 7 գիրք</div>
+</div>
+
+<div class="error-box">
+<h4>⚠ Հաճախակի սխալ</h4>
+<p><span class="k">Սխալ.</span> $a_n=a_1+d(n-1)$ բանաձևի փոխարեն աշակերտը գրում է $a_n=a_1+dn$ (առանց $-1$-ի), ինչի հետևանքով $a_1$-ը ինքն իրենից տարբերվում է $d$-ով։</p>
+<p><span class="k">Ինչու՞ է այդպես մտածում.</span> Ինտուիտիվորեն թվում է, թե «$n$-րդ անդամին հասնելու համար $n$ անգամ պիտի ավելացնես $d$», բայց իրականում <strong>առաջին</strong> անդամից մինչև <strong>$n$-րդը</strong> կա ընդամենը $n-1$ «քայլ» (ոչ $n$)։</p>
+<p><span class="k">Ինչպես հայտնաբերել.</span> Ստուգիր $n=1$-ի դեպքում. բանաձևը պիտի տա $a_1=a_1$։ Սխալ բանաձևով ($a_1+d\cdot1$) կստացվի $a_1+d\ne a_1$։</p>
+<p><span class="k">Ինչպես ուղղել.</span> Հաշվիր «քայլերի» քանակը մատներով. $a_1\to a_2$ մեկ քայլ, $a_1\to a_3$ երկու քայլ, ..., $a_1\to a_n$ ($n-1$) քայլ։</p>
+</div>
+
+<hr class="sep">
+<h3>6.4. Թվաբանական պրոգրեսիայի առաջին $n$ անդամների գումարը</h3>
+
+<div class="formula-box">
+<strong class="label">Կարևոր կանոն</strong>
+$$S_n=a_1+a_2+\dots+a_n=n\cdot\dfrac{a_1+a_n}{2}$$
+(համարժեք տեսքով, եթե $a_n$-ը հայտնի չէ). $S_n=n\cdot\dfrac{2a_1+d(n-1)}{2}$
+</div>
+
+<div class="example-box">
+<span class="tag">Լուծված օրինակ(ներ)</span>
+<p>Հաշվել $a_1=1$, $d=2$ պրոգրեսիայի առաջին 20 անդամների գումարը։</p>
+<div class="step">$a_{20}=1+2\cdot19=39$</div>
+<div class="step">$S_{20}=20\cdot\dfrac{1+39}{2}=20\cdot20=400$</div>
+<p><strong>Վերադառնանք գրադարանի խնդրին (§6.3).</strong> $a_1=25$, $a_{10}=7$, $n=10$.</p>
+<div class="step">$S_{10}=10\cdot\dfrac{25+7}{2}=10\cdot16=160$ գիրք ընդհանուր։</div>
+</div>
+
+<hr class="sep">
+<h3>6.5. Երկրաչափական պրոգրեսիա</h3>
+
+<div class="formula-box">
+<strong class="label">Կարևոր կանոն</strong>
+Զրոյից տարբեր թվերի հաջորդականությունն անվանում ենք <strong>երկրաչափական պրոգրեսիա</strong> $q$ <strong>հայտարարով</strong>, եթե յուրաքանչյուր հաջորդ անդամ, սկսած երկրորդից, ստացվում է նախորդը $q$-ով <strong>բազմապատկելով</strong> ($a_1\ne0$, $q\ne0$).
+$$a_{n+1}=a_n\cdot q$$
+<strong>Ընդհանուր անդամի բանաձև.</strong> $a_n=a_1\cdot q^{n-1}$<br>
+<strong>Բնութագրիչ հատկություն</strong> (ցանկացած ներքին անդամի քառակուսին հավասար է հարևանների արտադրյալին, ցանկացած $q$-ի համար). $a_n^2=a_{n-1}\cdot a_{n+1}$<br>
+Եթե պրոգրեսիայի բոլոր անդամները դրական են, դրանից հետևում է հարմար տեսքը. $a_n=\sqrt{a_{n-1}\cdot a_{n+1}}$
+</div>
+
+<div class="error-box">
+<h4>⚠ Հաճախակի սխալ</h4>
+<p><span class="k">Սխալ.</span> Աշակերտը երկրաչափական պրոգրեսիայում կիրառում է թվաբանականի բանաձևը (գումարում է $q$-ն $a_1$-ին, փոխարենը բազմապատկելու), կամ հակառակը։</p>
+<p><span class="k">Ինչու՞ է այդպես մտածում.</span> Երկու պրոգրեսիաներն էլ սովորվում են իրար կողքից, նույն կառուցվածքով («ընդհանուր անդամ», «անդամների գումար»), և գործողության տեսակը (+ vs ×) հեշտությամբ խառնվում է հիշողության մեջ։</p>
+<p><span class="k">Ինչպես հայտնաբերել.</span> Հարցնել՝ «Ինչպե՞ս ես ստանում հաջորդ անդամը՝ գումարո՞ւմ ես, թե՞ բազմապատկում»։</p>
+<p><span class="k">Ինչպես ուղղել.</span> Հիշիր <strong>գործողությունը</strong>, ոչ թե անունը. թվա<strong>բանական</strong> → հաջորդ անդամը ստացվում է հաստատուն թվի <strong>գումարմամբ</strong>. երկրա<strong>չափական</strong> → հաջորդ անդամը ստացվում է հաստատուն թվով <strong>բազմապատկմամբ</strong>։ (Զգուշացում. երկրաչափական պրոգրեսիան պարտադիր «աճող» չէ. $q=\frac12$-ի դեպքում նվազում է, $q=-2$-ի դեպքում նշանը փոխարինվում է. մի՛ կապիր «երկրաչափական»-ը «մեծացման» հետ, միայն՝ բազմապատկման գործողության հետ)։</p>
+</div>
+
+<div class="example-box">
+<span class="tag">Լուծված օրինակ(ներ)</span>
+<p>$a_1=5$, $q=2$ պրոգրեսիայում գտնել $a_6$-ը։</p>
+<div class="step">$a_6=a_1\cdot q^{6-1}=5\cdot2^5=5\cdot32=160$</div>
+</div>
+
+<div class="real-example">
+<!-- ORIGIN: ԱՂԲՅՈՒՐԱՅԻՆ -->
+<span class="tag">Իրական կյանքի օրինակ</span>
+<div class="src">Աղբյուր՝ Հանրահաշիվ 9, խնդիր 400</div>
+<p>Փորձանոթում կա 5 բակտերիա։ Մեկ ժամվա ընթացքում յուրաքանչյուր բակտերիա բաժանվում է երկուսի։ Քանի՞ բակտերիա կլինի փորձանոթում 3 ժամ հետո։</p>
+<p><em>Լուծում.</em> $q=2$ (ամեն ժամ կրկնապատկվում է)։ Սկզբնական քանակը ($t=0$) համապատասխանում է $a_1$-ին, ուստի «$n$ ժամ հետո» համապատասխանում է $a_{n+1}$-ին.</p>
+<table>
+<tr><th>Ժամանակ</th><th>Անդամ</th></tr>
+<tr><td>$t=0$</td><td>$a_1=5$</td></tr>
+<tr><td>$t=1$</td><td>$a_2$</td></tr>
+<tr><td>$t=2$</td><td>$a_3$</td></tr>
+<tr><td>$t=3$</td><td>$a_4$</td></tr>
+</table>
+<div class="step">$a_4=a_1\cdot q^3=5\cdot2^3=5\cdot8=40$</div>
+<div class="answer">Պատասխան. 40 բակտերիա</div>
+</div>
+
+<hr class="sep">
+<h3>6.6. Երկրաչափական պրոգրեսիայի առաջին $n$ անդամների գումարը</h3>
+
+<div class="formula-box">
+<strong class="label">Կարևոր կանոն</strong>
+$$S_n=a_1\cdot\dfrac{q^n-1}{q-1}, \quad \text{եթե } q\ne1;\qquad S_n=n\cdot a_1, \quad \text{եթե } q=1$$
+</div>
+
+<div class="example-box">
+<span class="tag">Լուծված օրինակ(ներ)</span>
+<p>$a_1=1$, $q=2$ պրոգրեսիայի առաջին 5 անդամների գումարը.</p>
+<div class="step">$S_5=1\cdot\dfrac{2^5-1}{2-1}=\dfrac{31}{1}=31$ (ստուգում. $1+2+4+8+16=31$ ✓)</div>
+</div>
+
+<div class="real-example">
+<!-- ORIGIN: ԱՂԲՅՈՒՐԱՅԻՆ -->
+<span class="tag">Իրական կյանքի օրինակ</span>
+<div class="src">Աղբյուր՝ Հանրահաշիվ 9, խնդիր 401</div>
+<p>Բանկում ներդրված ավանդը յուրաքանչյուր տարի ավելանում է եղած գումարի 10%-ով։ Նարեկը ներդրեց 1 000 000 դրամ։ Որքա՞ն գումար կունենա 3 տարի հետո։</p>
+<p><em>Լուծում.</em> Ամեն տարի գումարը բազմապատկվում է $1+0.10=1.1$-ով (10% ավելացում)։ Սա $q=1.1$ հայտարարով երկրաչափական պրոգրեսիա է. սկզբնական ավանդը ($t=0$) համապատասխանում է $a_1$-ին.</p>
+<table>
+<tr><th>Ժամանակ</th><th>Անդամ</th></tr>
+<tr><td>$t=0$</td><td>$a_1=1\,000\,000$</td></tr>
+<tr><td>$t=1$</td><td>$a_2$</td></tr>
+<tr><td>$t=2$</td><td>$a_3$</td></tr>
+<tr><td>$t=3$</td><td>$a_4$</td></tr>
+</table>
+<div class="step">$a_4=a_1\cdot q^3=1\,000\,000\cdot1.1^3=1\,000\,000\cdot1.331=1\,331\,000$ դրամ</div>
+<div class="answer">Պատասխան. 1 331 000 դրամ</div>
+</div>
+
+<div class="error-box">
+<h4>⚠ Հաճախակի սխալ</h4>
+<p><span class="k">Սխալ.</span> Բանկի/բակտերիայի տիպի խնդիրներում աշակերտը շփոթում է՝ սկզբնական արժեքը (t=0) համարո՞ւմ է $a_1$, թե՞ $a_0$, և արդյունքում հաշվում է մեկ քայլով սխալ ինդեքս ($a_3$-ի փոխարեն՝ $a_4$, կամ հակառակը)։</p>
+<p><span class="k">Ինչու՞ է այդպես մտածում.</span> Առօրյայում «3 տարի հետո» բնականորեն ասոցացվում է «3» թվի հետ, բայց մաթեմատիկորեն $a_1$-ը հենց <strong>սկզբնական</strong> (0 տարվա) վիճակն է, ուստի «3 տարի հետո» = 3 «քայլ» = $a_{1+3}=a_4$։</p>
+<p><span class="k">Ինչպես հայտնաբերել.</span> Ստուգիր՝ «0 տարի հետո ինչքա՞ն կլինի». պիտի հենց $a_1$-ը լինի, ոչ $a_0$։</p>
+<p><span class="k">Ինչպես ուղղել.</span> Միշտ գրիր փոքրիկ ժամանակացույց. $t{=}0\to a_1$, $t{=}1\to a_2$, $t{=}n\to a_{n+1}$։</p>
+</div>
+
+<hr class="sep">
+<h3>6.7. Անվերջ նվազող երկրաչափական պրոգրեսիա</h3>
+
+<div class="formula-box">
+<strong class="label">Կարևոր կանոն</strong>
+Երկրաչափական պրոգրեսիան անվանում ենք <strong>անվերջ նվազող</strong>, եթե $|q|&lt;1$։ Այս և միայն այս դեպքում գոյություն ունի անդամների <strong>անվերջ գումարը</strong>.
+$$S=\dfrac{a_1}{1-q}$$
+</div>
+
+<div class="error-box">
+<h4>⚠ Հաճախակի սխալ</h4>
+<p><span class="k">Սխալ.</span> Աշակերտը կիրառում է $S=\dfrac{a_1}{1-q}$ բանաձևը ցանկացած $q$-ի համար, առանց ստուգելու $|q|&lt;1$ պայմանը։</p>
+<p><span class="k">Ինչու՞ է այդպես մտածում.</span> Բանաձևը հիշվում է մեխանիկորեն, առանց դրա ածանցման տրամաբանության (որ $q^n\to0$ միայն $|q|&lt;1$-ի դեպքում)։</p>
+<p><span class="k">Ինչպես հայտնաբերել.</span> Փորձիր $a_1=2$, $q=2$ (աճող պրոգրեսիա, $1&lt;q$) դեպքում. բանաձևը կտա $S=\dfrac{2}{1-2}=-2$ — <strong>բացասական գումար դրական, աճող թվերի համար</strong>, ակնհայտ անհեթեթություն։ Սա հենց ապացույցն է, որ պայմանն անտեսելը իմաստազրկում է բանաձևը։</p>
+<p><span class="k">Ինչպես ուղղել.</span> Միշտ նախ ստուգիր $|q|&lt;1$, հետո միայն կիրառիր բանաձևը։</p>
+</div>
+
+<div class="example-box">
+<span class="tag">Լուծված օրինակ(ներ)</span>
+<p>$a_1=6$, $q=\dfrac12$ պրոգրեսիայի անդամների անվերջ գումարը.</p>
+<div class="step">$|q|=\dfrac12&lt;1$ ✓ (կիրառելի է)</div>
+<div class="step">$S=\dfrac{6}{1-\frac12}=\dfrac{6}{\frac12}=12$</div>
+</div>
+
+<svg viewBox="0 0 260 220" xmlns="http://www.w3.org/2000/svg">
+  <rect x="10" y="10" width="200" height="200" fill="none" stroke="#888" stroke-width="1.5"/>
+  <rect x="10" y="10" width="100" height="200" fill="#1e5f8c" opacity="0.85"/>
+  <rect x="110" y="10" width="100" height="100" fill="#c0562b" opacity="0.85"/>
+  <rect x="110" y="110" width="50" height="100" fill="#3f7d5c" opacity="0.85"/>
+  <rect x="160" y="110" width="50" height="50" fill="#8a6fb0" opacity="0.85"/>
+  <rect x="160" y="160" width="25" height="50" fill="#c9a227" opacity="0.85"/>
+  <text x="60" y="115" font-size="15" fill="#fff" text-anchor="middle">1/2</text>
+  <text x="160" y="65" font-size="14" fill="#fff" text-anchor="middle">1/4</text>
+  <text x="135" y="165" font-size="12" fill="#fff" text-anchor="middle">1/8</text>
+  <text x="185" y="140" font-size="10" fill="#fff" text-anchor="middle">1/16</text>
+  <text x="222" y="185" font-size="16" fill="#666">⋯</text>
+  <text x="120" y="217" font-size="12" fill="#5b7188" text-anchor="middle">Ամբողջ քառակուսին = 1 միավոր մակերես</text>
+</svg>
+<p style="font-size:.88rem; color:#5b7188; text-align:center; margin-top:-8px;">$\dfrac12+\dfrac14+\dfrac18+\dfrac{1}{16}+\dots=1$ — անվերջ շատ գումարելի, բայց վերջավոր (=1) գումար</p>
+
+<hr class="sep">
+<h2 id="s3">Ինքնաստուգման աղյուսակ. ո՞ր տեսակն է և ի՞նչ բանաձև կիրառել</h2>
+<div class="formula-box">
+<table>
+<tr><th>Հարցիր ինքդ քեզ</th><th>Տեսակ</th><th>Ընդհանուր անդամ</th><th>Գումար</th></tr>
+<tr><td>Հաջորդ անդամը ստացվում է <strong>գումարելով</strong> հաստատուն թիվ</td><td>Թվաբանական ($d$)</td><td>$a_n=a_1+d(n-1)$</td><td>$S_n=n\cdot\dfrac{a_1+a_n}{2}$</td></tr>
+<tr><td>Հաջորդ անդամը ստացվում է <strong>բազմապատկելով</strong> հաստատուն թիվ</td><td>Երկրաչափական ($q$)</td><td>$a_n=a_1\cdot q^{n-1}$</td><td>$S_n=a_1\cdot\dfrac{q^n-1}{q-1}$ ($q\ne1$)</td></tr>
+<tr><td>Երկրաչափական է <strong>և</strong> $\lvert q\rvert&lt;1$</td><td>Անվերջ նվազող ԵՊ</td><td>—</td><td>$S=\dfrac{a_1}{1-q}$</td></tr>
+</table>
+</div>
+
+<hr class="sep">
+<h2 id="s4">Առաջադրանքներ</h2>
+<ol class="tasks">
+<li>$a_1=3$, $d=4$ թվաբանական պրոգրեսիայում գրիր առաջին 4 անդամը։</li>
+<li>$a_1=5$, $d=3$ թվաբանական պրոգրեսիայում գտիր $a_{20}$-ը։</li>
+<li>Թվաբանական պրոգրեսիայում $a_1=4$, $a_3=10$։ Գտիր $d$-ն։</li>
+<li>Հաշվիր $a_1=1$, $d=2$ թվաբանական պրոգրեսիայի առաջին 20 անդամների գումարը։</li>
+<li>Դահլիճի առաջին շարքում կա 18 աթոռ, ամեն հաջորդ շարքում՝ 2-ով ավելի։ Քանի՞ աթոռ կա 12-րդ շարքում, և քանի՞ ընդհանուր՝ 12 շարքում։</li>
+<li>$a_1=5$, $q=2$ երկրաչափական պրոգրեսիայում գտիր $a_6$-ը։</li>
+<li>Երկրաչափական պրոգրեսիայում (դրական անդամներով) $a_2=6$, $a_4=54$։ Գտիր $a_1$-ը և $q$-ն։</li>
+<li>Հաշվիր $a_1=1$, $q=2$ երկրաչափական պրոգրեսիայի առաջին 5 անդամների գումարը։</li>
+<li>Հաշվիր $a_1=4$, $q=0.5$ անվերջ նվազող երկրաչափական պրոգրեսիայի անդամների գումարը։</li>
+<li>Այգում առաջին տարում հավաքվել է 200 կգ խնձոր։ Ամեն հաջորդ տարի բերքն ավելանում է 20%-ով։ Որքա՞ն կհավաքվի 4-րդ տարում (հուշում. սա երկրաչափական պրոգրեսիա է $q=1.2$-ով)։</li>
+<li>Ո՞ր $x$-ի դեպքում $5, x, 13$ թվերը կլինեն թվաբանական պրոգրեսիայի հաջորդական անդամներ։</li>
+<li>Ո՞ր $x$-երի դեպքում $4, x, 16$ թվերը կլինեն երկրաչափական պրոգրեսիայի հաջորդական անդամներ (հուշում. կարող են լինել 2 պատասխան)։</li>
+<li>Ինչու՞ $2, 4, 8, 16, \dots$ պրոգրեսիայի համար <strong>չի կարելի</strong> հաշվել անդամների անվերջ գումարը։</li>
+<li>Թվաբանական պրոգրեսիայում $7, 4, 1, -2, \dots$ գտիր $d$-ն։</li>
+<li>$a_1=-5$, $d=6$ թվաբանական պրոգրեսիայում գտիր $a_{15}$-ը։</li>
+<li>Թվաբանական պրոգրեսիայում $a_3=11$, $a_7=27$։ Գտիր $a_1$-ը և $d$-ն։</li>
+<li>Հաշվիր $2+5+8+\dots+50$ գումարը (հուշում. սա թվաբանական պրոգրեսիայի անդամների գումար է, նախ գտիր անդամների քանակը)։</li>
+<li>Տաքսու երթուղին սկսվում է 500 դրամով (1-ին կիլոմետրի համար), ամեն հաջորդ կիլոմետրի համար գումարվում է եւս 150 դրամ։ Որքա՞ն կկազմի 8 կիլոմետրանոց ուղու գինը։</li>
+<li>$a_1=4$, $q=3$ երկրաչափական պրոգրեսիայում գրիր առաջին 4 անդամները։</li>
+<li>$a_1=100$, $q=0.1$ երկրաչափական պրոգրեսիայում գտիր $a_5$-ը։</li>
+<li>Երկրաչափական պրոգրեսիայում (դրական անդամներով) $a_1=3$, $a_4=24$։ Գտիր $q$-ն։</li>
+<li>Հաշվիր $a_1=2$, $q=3$ երկրաչափական պրոգրեսիայի առաջին 4 անդամների գումարը։</li>
+<li>Հաշվիր $a_1=9$, $q=\frac13$ անվերջ նվազող երկրաչափական պրոգրեսիայի անդամների գումարը։</li>
+<li>Հին հրատարակության գիրք արժե 8000 դրամ, ամեն տարի գինն իջնում է 25%-ով։ Որքա՞ն կարժենա 3 տարի հետո (հուշում. $q=0.75$)։</li>
+<li>$10, 7, 4, 1, \dots$ հաջորդականությունը ի՞նչ պրոգրեսիա է, և որքա՞ն է համապատասխան $d$/$q$-ն (կիրառիր «Ինչպես ճանաչել» կանոնը)։</li>
+<li>$3, -6, 12, -24, \dots$ հաջորդականությունը ի՞նչ պրոգրեսիա է, և որքա՞ն է համապատասխան $d$/$q$-ն։</li>
+<li>Ո՞ր $x$-երի դեպքում $2, x, 50$ թվերը կլինեն երկրաչափական պրոգրեսիայի հաջորդական անդամներ։</li>
+<li>Համեմատիր՝ $1+2+3+\dots+10$ (թվաբանական) գումարը, թե՞ $1+2+4+8+\dots+256$ (երկրաչափական, $2^0$-ից $2^8$) գումարն է մեծ, և որքանո՞վ։</li>
+<li>Երեկոյան ջերմաստիճանն էր $20\,°C$, ամեն ժամ իջնում է $1.5\,°C$-ով։ Որքա՞ն կլինի 6 ժամ հետո։</li>
+<li>Ինչու՞ է կարևոր տարբերակել՝ խնդրում «$n$-րդ անդամը» հարցվում է, թե՞ «առաջին $n$ անդամների գումարը»։ Բերի՛ր օրինակ։</li>
+</ol>
+
+<h2 id="s5">Պատասխաններ</h2>
+<details>
+<summary style="cursor:pointer; color:#1e5f8c; font-weight:600; padding:8px 0;">Ցուցադրել/թաքցնել պատասխանները</summary>
+<ol class="answers-list">
+<li>$3, 7, 11, 15$</li>
+<li>$a_{20}=62$</li>
+<li>$d=3$</li>
+<li>$S_{20}=400$</li>
+<li>12-րդ շարքում՝ 40 աթոռ, ընդհանուր՝ 348 աթոռ</li>
+<li>$a_6=160$</li>
+<li>$a_1=2$, $q=3$</li>
+<li>$S_5=31$</li>
+<li>$S=8$</li>
+<li>$\approx345.6$ կգ</li>
+<li>$x=9$</li>
+<li>$x=8$ կամ $x=-8$ (երկուսն էլ վավեր են, քանի որ $x^2=4\cdot16=64$)</li>
+<li>Քանի որ $q=2$ և $|q|=2&gt;1$ (ոչ $&lt;1$) — պրոգրեսիան <strong>աճող</strong> է, ոչ նվազող. անդամներն անվերջ մեծանում են, ուստի գումարը նույնպես անվերջ մեծանում է (գումարը «չի կայունանում» որևէ վերջավոր թվի)։ Անվերջ գումարի բանաձևը կիրառելի է միայն $|q|&lt;1$-ի դեպքում։</li>
+<li>$d=-3$</li>
+<li>$a_{15}=79$</li>
+<li>$a_1=3$, $d=4$</li>
+<li>$442$ (անդամների քանակը՝ $n=17$, $S_{17}=17\cdot\dfrac{2+50}{2}=442$)</li>
+<li>$1550$ դրամ</li>
+<li>$4, 12, 36, 108$</li>
+<li>$a_5=0.01$</li>
+<li>$q=2$</li>
+<li>$S_4=80$</li>
+<li>$S=13.5$</li>
+<li>$3375$ դրամ</li>
+<li>Թվաբանական պրոգրեսիա, $d=-3$</li>
+<li>Երկրաչափական պրոգրեսիա, $q=-2$</li>
+<li>$x=10$ կամ $x=-10$</li>
+<li>Երկրաչափականի գումարն է մեծ. $511$ ($1{+}2{+}\dots{+}256$) ընդդեմ $55$-ի ($1{+}2{+}\dots{+}10$), տարբերությունը՝ $456$</li>
+<li>$11\,°C$</li>
+<li>Երկուսը շփոթելը հանգեցնում է սխալ բանաձևի կիրառման. օրինակ՝ եթե խնդիրը հարցնում է «10-րդ ամսում ինչքա՞ն կլինի աշխատավարձը» (կոնկրետ ամսվա արժեք, $a_n$), իսկ աշակերտը սխալմամբ հաշվում է «10 ամսվա ընթացքում ընդհանուր որքա՞ն կստացվի» (գումար, $S_n$) — երկուսը սկզբունքորեն տարբեր բանաձևեր են պահանջում։</li>
+</ol>
+</details>
+
+</div>
+</body>
+</html>

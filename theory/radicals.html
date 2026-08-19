@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="hy">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Իրական թիվ | Ուսումնական ուղեցույց</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<style>
+  :root{
+    --bg:#0f1f2e; --paper:#f6f8fb; --ink:#152233; --accent:#1e5f8c; --accent2:#c0562b;
+    --crust:#8fb3cc; --muted:#5b7188; --card:#ffffff; --line:#dde6ee;
+  }
+  *{box-sizing:border-box;}
+  html, body{overflow-x:hidden;}
+  body{margin:0; font-family:'Sylfaen','Arial',serif; background:var(--paper); color:var(--ink); font-size:18px; line-height:1.7;}
+  .hero{background:linear-gradient(135deg, var(--bg) 0%, #1c3b52 100%); color:#eaf2f8; padding:56px 24px 48px;}
+  .hero-inner{max-width:840px; margin:0 auto;}
+  h1.title{font-size:2.2rem; margin:0 0 10px; font-weight:bold; color:#fff;}
+  .hero p{color:#cfe0ec; max-width:620px; font-size:1.05rem;}
+  nav.toc{max-width:840px; margin:-26px auto 0; position:relative; z-index:3; background:var(--card); border-radius:10px; box-shadow:0 12px 30px rgba(15,31,46,.18); padding:22px 26px; border:1px solid var(--line);}
+  nav.toc h2{font-size:1.05rem; text-transform:uppercase; letter-spacing:.07em; color:var(--muted); margin:0 0 12px; font-weight:bold;}
+  nav.toc ol{margin:0; padding-left:20px; columns:2; column-gap:28px;}
+  nav.toc li{margin-bottom:8px; font-size:.98rem;}
+  nav.toc a{color:var(--accent); text-decoration:none; border-bottom:1px dotted var(--accent);}
+  main{max-width:840px; margin:40px auto 90px; padding:0 24px;}
+  section.part-header{margin:48px 0 20px; padding-bottom:8px; border-bottom:2px solid var(--crust); color:var(--muted); font-weight:bold; text-transform:uppercase; letter-spacing:.05em; font-size:.95rem;}
+  section.chapter{margin-bottom:56px;}
+  .chapter-head{display:flex; align-items:baseline; gap:14px; border-bottom:3px solid var(--accent2); padding-bottom:10px; margin-bottom:20px;}
+  .chapter-num{font-size:1.9rem; color:var(--accent); font-weight:bold;}
+  .chapter-head h2{margin:0; font-size:1.4rem; color:var(--ink); font-weight:bold;}
+
+  .block-title{font-weight:bold; color:var(--accent); font-size:1.02rem; margin:22px 0 8px; text-transform:uppercase; letter-spacing:.04em;}
+  .hook{background:#eef4f9; border-radius:10px; padding:16px 20px; margin:10px 0 18px; font-style:italic;}
+  .intuitive{padding:0 2px; margin-bottom:14px;}
+  .formal-def{background:#fff; border:1px solid var(--line); border-left:4px solid var(--accent); border-radius:0 10px 10px 0; padding:16px 20px; margin:14px 0;}
+  .formal-def b.term{color:var(--accent2);}
+
+  .visual-container.table-wrap{overflow-x:auto; width:100%; margin:18px 0; -webkit-overflow-scrolling:touch;}
+  table{border-collapse:collapse; width:100%;}
+  th,td{border:1px solid var(--line); padding:8px 12px; text-align:center; font-size:.98rem;}
+  th{background:#eaf1f7; font-weight:bold;}
+  svg{max-width:100%; height:auto; display:block; margin:0 auto;}
+
+  .formula-box{background:#fff8ee; border:1px solid #ecd9b6; border-radius:10px; padding:18px 22px; margin:16px 0;}
+  .formula-box .label{display:block; font-weight:bold; color:var(--accent2); margin-bottom:8px; text-transform:uppercase; font-size:.85rem; letter-spacing:.05em;}
+
+  .example-box{border-left:4px solid var(--accent); background:#fff; padding:16px 20px; margin:16px 0; border-radius:0 10px 10px 0; box-shadow:0 2px 8px rgba(15,31,46,.05);}
+  .example-box .tag{display:inline-block; font-size:.8rem; text-transform:uppercase; letter-spacing:.07em; color:#fff; background:var(--accent); padding:3px 10px; border-radius:20px; margin-bottom:8px; font-weight:bold;}
+  .example-box .step{margin:6px 0 6px 2px;}
+  .example-box .answer{margin-top:10px; padding:8px 14px; background:#eef4f9; border-radius:8px; border-left:3px solid var(--accent); font-weight:bold;}
+
+  .think{background:#f3ede0; border-left:4px solid var(--crust); border-radius:0 10px 10px 0; padding:12px 18px; margin:14px 0; font-style:italic; color:#4a3a1f;}
+
+  .error-box{background:#fdeeec; border:1px solid #f0c6bf; border-radius:10px; padding:16px 20px; margin:16px 0;}
+  .error-box h4{margin:0 0 8px; color:var(--accent2); font-size:1rem;}
+  .error-box .k{font-weight:bold; color:var(--accent2);}
+
+  .remember{background:#eef6ef; border:1px solid #cfe6d2; border-radius:10px; padding:14px 20px; margin:16px 0;}
+  .remember .label{font-weight:bold; color:#2f6b3a; text-transform:uppercase; font-size:.85rem; letter-spacing:.05em; display:block; margin-bottom:6px;}
+
+  .teacher-corner{background:#eaf1f7; border:1px dashed var(--crust); border-radius:10px; padding:16px 20px; margin:16px 0 28px;}
+  .teacher-corner .label{font-weight:bold; color:var(--accent); text-transform:uppercase; font-size:.85rem; letter-spacing:.05em; display:block; margin-bottom:6px;}
+
+  hr.sep{border:none; border-top:1px dashed var(--line); margin:36px 0;}
+
+  .tasks-section h2{color:var(--accent); border-bottom:3px solid var(--accent2); padding-bottom:8px;}
+  .tasks-section h3{color:var(--accent2); margin-top:26px;}
+  ol.tasks{padding-left:24px;}
+  ol.tasks li{margin-bottom:10px;}
+
+  .answers-section{background:#fff; padding:26px 28px; border-radius:10px; border:2px solid var(--accent); margin-top:44px;}
+  .answers-section h2{color:var(--accent); margin-top:0;}
+  .answers-section h3{color:var(--accent2); font-size:1rem; margin:22px 0 10px;}
+  .answers-list{columns:2; column-gap:36px; padding-left:20px; margin:0;}
+  .answers-list li{margin-bottom:9px; font-weight:bold;}
+  .answers-list-conceptual{columns:1; list-style-position:outside;}
+
+  @media (max-width:600px){
+    nav.toc ol{columns:1;}
+    .answers-list{columns:1;}
+    main{padding:0 14px;}
+  }
+
+  @media print {
+    body{background:#fff !important; color:#000 !important; font-size:12pt;}
+    .hero{padding:10px 0; background:none !important; color:#000 !important;}
+    h1.title{color:#000 !important;}
+    nav.toc{display:none !important;}
+    .formula-box, .example-box, .error-box, .visual-container, .table-wrap{page-break-inside:avoid !important; box-shadow:none !important; border:1px solid #ccc !important;}
+    .table-wrap, .visual-container{overflow-x:visible !important; white-space:pre-wrap !important; word-break:break-word !important;}
+    html, body{overflow-x:visible !important;}
+    .chapter{page-break-before:always;}
+    .chapter:first-of-type{page-break-before:auto;}
+    .answers-list{columns:3;}
+  }
+</style>
+
+<style id="tj-unified">
+  /* ԸՆԴՀԱՆՈՒՐ ՎԵՐԻՆ ՎԱՀԱՆԱԿ — նույնական բոլոր 19 ուղեցույցում։
+     Class-երը սկսվում են tj- նախածանցով, որ երբեք չբախվեն էջի
+     սեփական ոճերի հետ։ */
+  .tj-bar{background:#0f1f2e;color:#eaf2f8;font-family:'Sylfaen','Arial',serif;}
+  .tj-bar-in{max-width:840px;margin:0 auto;padding:10px 20px;display:flex;
+             align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+  .tj-back{color:#eaf2f8;text-decoration:none;font-weight:bold;font-size:.95rem;
+           border:1px solid rgba(234,242,248,.35);border-radius:8px;padding:5px 12px;}
+  .tj-back:hover{background:rgba(234,242,248,.12);}
+  .tj-grade{font-size:.85rem;color:#cfe0ec;letter-spacing:.03em;}
+  @media print{ .tj-bar{display:none;} }
+</style>
+</head>
+<body>
+<div class="tj-bar"><div class="tj-bar-in"><a class="tj-back" href="../index.html">← Տրենաժոր</a><span class="tj-grade">8 դասարան</span></div></div>
+
+
+<div class="hero">
+  <div class="hero-inner">
+    <h1 class="title">Իրական թիվ</h1>
+    <p>Պարբերական կոտորակներից մինչև իռացիոնալ թվեր, արմատի հատկություններ, կլորացում և թերի քառակուսային հավասարումներ։</p>
+  </div>
+</div>
+
+<nav class="toc">
+  <h2>Բովանդակություն</h2>
+  <ol>
+    <li><a href="#s1">Պարբերական տասնորդական կոտորակ</a></li>
+    <li><a href="#s2">Պարբերական կոտորակի վերածումը ռացիոնալ թվի</a></li>
+    <li><a href="#s3">Իռացիոնալ և իրական թվեր</a></li>
+    <li><a href="#s4">Թվաբանական գործողություններ արմատի հետ</a></li>
+    <li><a href="#s5">Արմատ բացասական թվի քառակուսուց</a></li>
+    <li><a href="#s6">Կլորացում. բազմապատկում և բաժանում</a></li>
+    <li><a href="#s7">Կլորացված թվերի գումարումն ու հանումը</a></li>
+    <li><a href="#s8">Երբ արտադրյալը 0 է. Համախումբ</a></li>
+    <li><a href="#s9">$ax^2+bx=0$ և $x^2=b$</a></li>
+    <li><a href="#tasks">Առաջադրանքներ</a></li>
+    <li><a href="#answers">Պատասխաններ</a></li>
+  </ol>
+</nav>
+
+<main>
+
+<!-- ============ ՄԱՍ 1/3 ============ -->
+<section class="part-header">Մաս 1 / 3</section>
+
+<section class="chapter" id="s1">
+  <div class="chapter-head"><span class="chapter-num">01</span><h2>Պարբերական տասնորդական կոտորակ</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">Հաշվիչով հաշվում ես $1\div3$-ը և ստանում $0.3333333$։ Այս $3$-երը ինչ-որ պահի ավարտվու՞մ են, թե՞ ոչ։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">Անկյունաձև բաժանելիս $1\div3$-ը երբեք չի ավարտվում. ամեն քայլում մնացորդը կրկին $1$ է, ուստի $3$-ը կրկնվում է անվերջ։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p><b class="term">Անվերջ տասնորդական կոտորակ</b>՝ անվերջ թվանշաններից կազմված տասնորդական կոտորակ։ <b class="term">Վերջավոր</b>՝ վերջավոր քանակությամբ թվանշաններից։</p>
+    <p><b class="term">Պարբերական կոտորակ</b>՝ անվերջ տասնորդական կոտորակ, որի գրության մեջ ինչ-որ պահից կրկնվում է նույն արտահայտությունը (<b class="term">պարբերությունը</b>, գրվում է փակագծերում). $0.333...=0.(3)$, $4.939393...=4.(93)$։</p>
+    <p>Ցանկացած ռացիոնալ թիվ ($m/n$ տեսք) տասնորդականի վերածելիս ստացվում է կամ վերջավոր, կամ պարբերական կոտորակ։</p>
+  </div>
+
+  <div class="block-title">Վիզուալ պատկեր</div>
+  <div class="visual-container table-wrap">
+    <table>
+      <tr><th>Թիվ</th><td>$5.11373737...$</td></tr>
+      <tr><th>Պարբերություն</th><td>$37$</td></tr>
+      <tr><th>Ճիշտ գրառում</th><td>$5.11(37)$</td></tr>
+    </table>
+  </div>
+
+  <div class="block-title">Կանոն</div>
+  <div class="formula-box"><span class="label">Ուշադրություն մեկնարկին</span>
+    Պարբերականությունը կարող է չսկսվել անմիջապես ստորակետից հետո. փակագիծը դիր ուղիղ այնտեղ, որտեղ կրկնությունն սկսվում է։
+  </div>
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>Գրեք $12.6313131...$-ը փակագծային նշագրմամբ։</p>
+    <div class="step">Կրկնվում է $31$-ը, սկսած 2-րդ տասնորդական թվանշանից։</div>
+    <div class="answer">Պատասխան. $12.6(31)$։</div>
+  </div>
+
+  <div class="think">Ինչո՞ւ ցանկացած ռացիոնալ թիվ (m/n տեսք), տասնորդականի վերածելիս, պիտի ստացվի կամ վերջավոր, կամ պարբերական՝ ոչ մի այլ տեսակ։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> Կարծել, թե միայն ստորակետից անմիջապես հետո սկսվող կրկնությունն է պարբերություն ($5.11373737...$-ը գրել $5.(1137)$-ի փոխարեն $5.11(37)$-ի)։</p>
+    <p><span class="k">Ինչու՞</span> «Պարբերական» բառը ինտուիտիվորեն ասոցացվում է ամբողջ կոտորակի հետ, մոռանալով, որ կրկնությունը կարող է սկսվել ուշ։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Գտիր ամենափոքր կրկնվող բլոկը, և ստուգիր՝ արդյոք այն սկսվում է հենց ստորակետից, թե ուշ։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>Պարբերությունը փակագծերում է, միշտ ամենափոքր կրկնվող բլոկը։</li>
+      <li>Ցանկացած ռացիոնալ թիվ = վերջավոր կամ պարբերական։</li>
+      <li>Կրկնությունը կարող է սկսվել ուշ, ոչ պարտադիր ստորակետից անմիջապես։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Հայտարարը վերլուծիր պարզ արտադրիչների. եթե միայն $2$ և $5$ արտադրիչներ կան, կոտորակը վերջավոր է, հակառակ դեպքում՝ պարբերական։
+  </div>
+</section>
+
+<section class="chapter" id="s2">
+  <div class="chapter-head"><span class="chapter-num">02</span><h2>Պարբերական կոտորակի վերածումը ռացիոնալ թվի</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">$0.(9)$-ը հավասար է $1$-ի՞, թե՞ պարզապես «մոտենում» է դրան։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">Ցանկացած պարբերական կոտորակ վերածելի է $m/n$ ձևի՝ հատուկ հանրահաշվական հնարքով (անվերջության «չեղարկում»)։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p>Ալգորիթմ. $x$-ը նշանակել պարբերական կոտորակով, բազմապատկել $10$-ի այնպիսի աստիճանով (հավասար պարբերության երկարությանը), որ ստորակետից հետո գրված նիշերը հանման ժամանակ իրար տակ համընկնեն, հանել $x$-ը՝ ազատվելով անվերջությունից, և լուծել ստացված գծային հավասարումը։</p>
+    <p><b class="term">Հատուկ դեպք.</b> $0.(1)=1/9$, որով $9$ պարբերությամբ կոտորակները ($0.(9)=1$) կարող են ուղղակիորեն վերածվել։</p>
+  </div>
+
+  <div class="block-title">Վիզուալ պատկեր</div>
+  <div class="visual-container table-wrap">
+    <table>
+      <tr><th>Քայլ</th><td>$x=2.(3)$</td></tr>
+      <tr><th>$\times10$</th><td>$10x=23.(3)$</td></tr>
+      <tr><th>Հանում</th><td>$10x-x=23.(3)-2.(3)=21$</td></tr>
+      <tr><th>Լուծում</th><td>$9x=21 \Rightarrow x=\dfrac{21}{9}=\dfrac{7}{3}$</td></tr>
+    </table>
+  </div>
+
+  <div class="block-title">Կանոն</div>
+  <div class="formula-box"><span class="label">Աստիճանի ընտրություն</span>
+    Բազմապատկման աստիճանը ($10^n$) պիտի հավասար լինի ուղիղ պարբերության երկարությանը (2-նիշ պարբերության համար՝ $\times100$)։
+  </div>
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>Հաշվի առնելով, որ $0.(1)=1/9$, վերածեք $11.(4)$-ը սովորական կոտորակի։</p>
+    <div class="step">$11.(4)=11+4\cdot\dfrac{1}{9}=11+\dfrac{4}{9}$։</div>
+    <div class="answer">Պատասխան. $11\dfrac{4}{9}$։</div>
+  </div>
+
+  <div class="think">Ինչո՞ւ $0.(9)=1$ իսկապես ՀԱՎԱՍԱՐՈՒԹՅՈՒՆ է, ոչ մոտարկում։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> $0.(9)=1$-ը մերժել՝ «մոտավոր է, ոչ հավասար» սխալ մտածելակերպով։</p>
+    <p><span class="k">Ինչու՞</span> Ինտուիտիվորեն $0.999...$-ը «մոտենում» է $1$-ին, բայց երբեք «չի հասնում», մոռանալով, որ ԱՆՎԵՐՋ գումարումն ինքնին հենց $1$-ն է տալիս։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Կիրառիր հենց այս դասի ալգորիթմը $0.(9)$-ի վրա. կստանաս ուղիղ $1$, ոչ մոտավոր արժեք։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>Բազմապատկման աստիճանը = պարբերության երկարությունը։</li>
+      <li>$0.(1)=1/9$-ը արագ հնարք է $9$-պարբերությամբ կոտորակների համար։</li>
+      <li>$0.(9)=1$ ճշգրիտ հավասարություն է, ոչ մոտարկում։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    $15.(9)=16$ և $6.2(9)=6.3$. այս «զարմանալի» կրճատումները ուղիղ բխում են $0.(9)=1$ սկզբունքից. հարևան կարգը մեծացրու $1$-ով և հեռացրու $9$-երը։
+  </div>
+</section>
+
+<section class="chapter" id="s3">
+  <div class="chapter-head"><span class="chapter-num">03</span><h2>Իռացիոնալ և իրական թվեր</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">$2$մ² մակերեսով քառակուսու կողմի երկարությունը ինչի՞ է հավասար. կա՞ այդպիսի հատված, և ինչպե՞ս գրել դրա թվային արժեքը։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">Երկրաչափորեն այդպիսի հատված միանշանակ գոյություն ունի, բայց նրա թվային արժեքը («$\sqrt2$») ոչ մի վերջավոր կամ պարբերական տասնորդական կոտորակով ամբողջովին չի ներկայացվում։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p><b class="term">Քառակուսային արմատ</b>. $a$ մակերեսով քառակուսու կողմի երկարությունը կոչվում է $a$-ի արմատ, նշանակվում $\sqrt{a}$; $(\sqrt{a})^2=a$ ($a\ge0$)։ Բացասական թվի արմատ գոյություն չունի։</p>
+    <p><b class="term">Իռացիոնալ թիվ</b>՝ ոչ պարբերական անվերջ տասնորդական կոտորակ։ <b class="term">Իրական թիվ</b>՝ ռացիոնալ և իռացիոնալ թվերի միավորում. թվային առանցքի բոլոր կետերի կոորդինատները իրական թվեր են։</p>
+    <p><b class="term">Մոնոտոնություն.</b> եթե $a<b$ ($a,b\ge0$), ապա $\sqrt{a}<\sqrt{b}$։</p>
+  </div>
+
+  <div class="block-title">Վիզուալ պատկեր</div>
+  <div class="visual-container table-wrap">
+    <table>
+      <tr><th>$x^2$</th><td>$1.4^2=1.96$</td><td>$1.5^2=2.25$</td></tr>
+      <tr><th>Եզրակացություն</th><td colspan="2">$\sqrt{2}$ գտնվում է $1.4$ և $1.5$ միջև</td></tr>
+    </table>
+  </div>
+
+  <div class="block-title">Կանոն</div>
+  <div class="formula-box"><span class="label">Համեմատում առանց հաշվիչի</span>
+    Համեմատելու համար՝ քառակուսի արա երկուսն էլ (կամ մակերես-քառակուսի պատկերով), ապա համեմատիր արդյունքները։
+  </div>
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>Համեմատեք $\sqrt{7}$ և $\sqrt{8}$-ը։</p>
+    <div class="step">$7<8$, ուստի ըստ մոնոտոնության՝ $\sqrt{7}<\sqrt{8}$։</div>
+    <div class="answer">Պատասխան. $\sqrt{7}<\sqrt{8}$։</div>
+  </div>
+
+  <div class="think">Ինչո՞ւ չկա բացասական թվի արմատ, թեև ինքը կարող ես մտածել «ինչ-որ բան, որի քառակուսին $-4$ է»։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> Կարծել, թե $\sqrt{-16}$-ը հավասար է $-4$-ի կամ ինչ-որ բացասական թվի։</p>
+    <p><span class="k">Ինչու՞</span> Բնազդաբար կապում ենք արմատահանումը «հակադարձ քառակուսու» հետ, մոռանալով, որ ոչ մի իրական թվի քառակուսին բացասական չէ։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Ստուգիր՝ ունի՞ արտահայտությունը իրական թիվ, որի քառակուսին տալիս է արմատատակ արժեքը. եթե ոչ, արմատը գոյություն չունի։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>Իռացիոնալ = ոչ պարբերական անվերջ տասնորդական։</li>
+      <li>Բացասական թվի արմատ գոյություն չունի։</li>
+      <li>Համեմատելու համար՝ քառակուսի արա, ապա համեմատիր։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Իռացիոնալ թվերի հայտնագործումը մեծ ցնցում է եղել հին հունական մաթեմատիկայում, քանի որ նրանք կարծում էին, թե ամեն երկարություն արտահայտելի է ամբողջ թվերի հարաբերությամբ։
+  </div>
+</section>
+
+<!-- ============ ՄԱՍ 2/3 ============ -->
+<section class="part-header">Մաս 2 / 3</section>
+
+<section class="chapter" id="s4">
+  <div class="chapter-head"><span class="chapter-num">04</span><h2>Թվաբանական գործողություններ արմատի հետ</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">$\sqrt{16+9}$-ը հավասա՞ր է $\sqrt{16}+\sqrt{9}$-ին։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">Ստուգենք. $\sqrt{25}=5$, բայց $\sqrt{16}+\sqrt{9}=4+3=7$։ Տարբեր են։ Արմատատակ արտահայտության բաժանումը թույլատրելի է միայն արտադրյալի, ոչ գումարի համար։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p><b class="term">Հատկություն (արտադրյալի արմատ).</b> $\sqrt{x\cdot y}=\sqrt{x}\cdot\sqrt{y}$ ($x,y\ge0$)։ <b class="term">Հատկություն (քանորդի արմատ).</b> $\sqrt{x:y}=\sqrt{x}:\sqrt{y}$։</p>
+    <p><b class="term">Զգուշացում.</b> $\sqrt{a+b}\neq\sqrt{a}+\sqrt{b}$։</p>
+    <p><b class="term">Իռացիոնալ հայտարարից ազատում</b>՝ համարիչն ու հայտարարը բազմապատկել այնպիսի արտահայտությամբ, որ հայտարարից արմատը վերանա։</p>
+  </div>
+
+  <div class="block-title">Վիզուալ պատկեր</div>
+  <div class="visual-container table-wrap">
+    <table>
+      <tr><th>$\sqrt{16+9}$</th><td>$=\sqrt{25}=5$</td></tr>
+      <tr><th>$\sqrt{16}+\sqrt{9}$</th><td>$=4+3=7$</td></tr>
+      <tr><th>$\sqrt{16\cdot9}$</th><td>$=\sqrt{16}\cdot\sqrt{9}=4\cdot3=12$ ✓ (հավասար են)</td></tr>
+    </table>
+  </div>
+
+  <div class="block-title">Կանոն</div>
+  <div class="formula-box"><span class="label">Արտադրյալ այո, գումար՝ ոչ</span>
+    $\sqrt{xy}=\sqrt{x}\sqrt{y}$ ✓, բայց $\sqrt{x+y}\neq\sqrt{x}+\sqrt{y}$ ✗ (ուղիղ զուգահեռ $(ab)^n=a^nb^n$ ընդդեմ $(a+b)^n\neq a^n+b^n$)։
+  </div>
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>Ազատվեք հայտարարի իռացիոնալությունից. $\dfrac{1}{\sqrt{3}}$։</p>
+    <div class="step">Բազմապատկենք $\sqrt{3}$-ով. $\dfrac{1\cdot\sqrt{3}}{\sqrt{3}\cdot\sqrt{3}}=\dfrac{\sqrt{3}}{3}$։</div>
+    <div class="answer">Պատասխան. $\dfrac{\sqrt{3}}{3}$։</div>
+  </div>
+
+  <div class="think">Ինչո՞ւ է $\sqrt{a+b}=\sqrt{a}+\sqrt{b}$ սխալը ուղիղ զուգահեռ $(a+b)^2=a^2+b^2$ սխալի հետ։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> $\sqrt{a+b}=\sqrt{a}+\sqrt{b}$ սխալ ընդհանրացումը. գլխի ամենակարևոր զգուշացրած սխալը։</p>
+    <p><span class="k">Ինչու՞</span> Արտադրյալի արմատի ճիշտ բանաձևից ($\sqrt{xy}=\sqrt{x}\sqrt{y}$) սխալմամբ ընդհանրացվում է գումարի վրա էլ։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Ստուգիր փոքր թվային օրինակով (ինչպես $16+9$-ի դեպքում). եթե երկու կողմերը հավասար չեն, բանաձևը սխալ ես կիրառել։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>$\sqrt{xy}=\sqrt{x}\sqrt{y}$, միայն արտադրյալի համար։</li>
+      <li>$\sqrt{a+b}\neq\sqrt{a}+\sqrt{b}$, երբեք։</li>
+      <li>Հայտարարից ազատվելիս՝ բազմապատկիր և՛ համարիչը, և՛ հայտարարը։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Արմատահանման տեղը գործողությունների կարգում բարձր է (14), բազմապատկումից/բաժանումից (9) և գումարումից/հանումից (5) էլ բարձր, բայց փակագծից ցածր։
+  </div>
+</section>
+
+<section class="chapter" id="s5">
+  <div class="chapter-head"><span class="chapter-num">05</span><h2>Արմատ բացասական թվի քառակուսուց</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">$\sqrt{(-5)^2}$-ը հավասա՞ր է $-5$-ի, թե՞ $5$-ի։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">$(-5)^2=25$, և $\sqrt{25}=5$ (ոչ $-5$, քանի որ արմատը միշտ ոչ-բացասական է)։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p><b class="term">Հատկություն.</b> $\sqrt{a^2}=|a|$ (ցանկացած իրական $a$-ի համար)։</p>
+    <p>$\sqrt{(x)^2}$ և $\sqrt{x^2}$ տարբեր արտահայտություններ են՝ առաջինը գոյություն ունի միայն $x\ge0$-ի համար, երկրորդը՝ ցանկացած $x$-ի համար և միշտ հավասար է $|x|$-ին։</p>
+  </div>
+
+  <div class="block-title">Վիզուալ պատկեր</div>
+  <div class="visual-container table-wrap">
+    <table>
+      <tr><th>Արտահայտություն</th><td>$\sqrt{5^2}$</td><td>$\sqrt{(-5)^2}$</td></tr>
+      <tr><th>Արժեք</th><td>$5$</td><td>$5$ (ոչ $-5$)</td></tr>
+    </table>
+  </div>
+
+  <div class="block-title">Կանոն</div>
+  <div class="formula-box"><span class="label">√a² = |a|</span>
+    Նախ պարզեցրու $|$արտահայտություն$|$-ի, ապա միայն տեղադրիր փոփոխականի արժեքը (ավելի արդյունավետ, քան ուղղակի տեղադրումը)։
+  </div>
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>Հաշվեք $\sqrt{(x+1)^2}$, երբ $x=-5000$։</p>
+    <div class="step">$\sqrt{(x+1)^2}=|x+1|$։ $x+1=-4999$, ուստի $|{-4999}|=4999$։</div>
+    <div class="answer">Պատասխան. $4999$։</div>
+  </div>
+
+  <div class="think">Ինչո՞ւ $-4^2$ և $\sqrt{(-4)^2}$ տարբեր բան են։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> $\sqrt{(-a)^2}=-a$ գրելը, մոռանալով բացարձակ արժեքի մասին։</p>
+    <p><span class="k">Ինչու՞</span> Ինտուիտիվորեն «քառակուսու արմատը» կարծես պիտի «չեղարկի» քառակուսին, վերադարձնելով սկզբնական թիվը (ներառյալ նշանը)։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Հիշիր, որ արմատը ՄԻՇՏ ոչ-բացասական է, ուստի $\sqrt{a^2}$-ը երբեք չի կարող լինել բացասական, անկախ $a$-ի նշանից։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>$\sqrt{a^2}=|a|$, միշտ ոչ-բացասական։</li>
+      <li>$\sqrt{(x)^2}$ (x≥0 պահանջով) ≠ $\sqrt{x^2}$ (ցանկացած x)։</li>
+      <li>Պարզեցրու $|...|$-ի ՆԱԽՔԱՆ արժեք տեղադրելը։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    $\sqrt{(-7)(-3)}$-ը գոյություն ունի (թեև երկուսն էլ բացասական են), քանի որ ամբողջ արտադրյալը դրական է։ Կարևորը արմատատակ ամբողջ արտահայտության նշանն է, ոչ առանձին անդամների։
+  </div>
+</section>
+
+<section class="chapter" id="s6">
+  <div class="chapter-head"><span class="chapter-num">06</span><h2>Կլորացում. բազմապատկում և բաժանում</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">Չափված արժեքները (488, 1003) ինչքա՞ն ճշգրիտ են, և ինչպե՞ս ճիշտ կլորացնել դրանք բազմապատկելիս/բաժանելիս։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">Չափված թվերի «իմաստային» թվանշանները ցույց են տալիս, թե որքան ենք վստահ։ Բազմապատկման/բաժանման արդյունքը չի կարող ավելի ճշգրիտ լինել, քան ամենաքիչ ինֆորմացիա տվող մուտքային թիվը։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p><b class="term">Իմաստային թվանշաններ</b>՝ թիվը գրելիս ձախից աջ, առաջին ոչ-զրոյականից սկսած, բոլոր թվանշանները (ներառյալ միջանկյալ $0$-ները), բացի ձախի «տեղապահ» $0$-ներից։</p>
+    <p><b class="term">ԿԱՆՈՆ.</b> բազմապատկման և բաժանման դեպքում արդյունքը կլորացվում է սկզբնական թվերից քչի քանակությամբ իմաստային նիշ ունեցողի ճշտությամբ։</p>
+  </div>
+
+  <div class="block-title">Վիզուալ պատկեր</div>
+  <div class="visual-container table-wrap">
+    <table>
+      <tr><th>Թիվ</th><td>$1003$</td><td>$0.00203$</td><td>$0.05$</td></tr>
+      <tr><th>Իմաստային նիշեր</th><td>$4$ (բոլորը)</td><td>$3$ (վերջին)</td><td>$1$ (ձախի 0-երը՝ ոչ)</td></tr>
+    </table>
+  </div>
+
+  <div class="block-title">Կանոն</div>
+  <div class="formula-box"><span class="label">Ամենափոքրի կանոն</span>
+    Բազմապատկում/բաժանում → կլորացրու ըստ ամենաքիչ իմաստային նիշ ունեցող մուտքային թվի։
+  </div>
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>Կլորացրեք $-10.2493$-ը երեք իմաստային նիշի ճշտությամբ։</p>
+    <div class="step">Երեք առաջին իմաստային նիշեր՝ $1,0,2$; հաջորդը՝ $4$ ($<5$, ուստի ներքև)։</div>
+    <div class="answer">Պատասխան. $-10.2$։</div>
+  </div>
+
+  <div class="think">Ինչո՞ւ 1003-ի բոլոր 4 նիշն են իմաստային, մինչդեռ 0.00203-ինը՝ միայն 3 վերջինը։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> Ձախի «տեղապահ» $0$-ները (0.05-ում) համարել իմաստային։</p>
+    <p><span class="k">Ինչու՞</span> Բոլոր $0$-ները «նույն տեսքով» են, դժվար է տարբերել՝ որն է իմաստ կրող, որը՝ պարզապես դիրք ցույց տվող։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Հաշվարկը սկսիր առաջին ՈՉ-ԶՐՈՅԱԿԱՆ թվանշանից. ամեն ինչ դրանից ձախ (եթե տասնորդական է) իմաստային չէ։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>Իմաստային՝ սկսած առաջին ոչ-զրոյականից։</li>
+      <li>Բազմապատկում/բաժանում → ամենափոքր իմաստային նիշով։</li>
+      <li>Միջանկյալ $0$-ները (1003-ում) ԻՄԱՍՏԱՅԻՆ են։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Կլորացումը ֆինանսների և ֆիզիկայի մեջ շատ կարևոր է. մետաղադրամների կլորացումը (490 կամ 480 դրամ) ուղղակի կիրառություն է, որին կհանդիպես առօրյայում։
+  </div>
+</section>
+
+<!-- ============ ՄԱՍ 3/3 ============ -->
+<section class="part-header">Մաս 3 / 3</section>
+
+<section class="chapter" id="s7">
+  <div class="chapter-head"><span class="chapter-num">07</span><h2>Կլորացված թվերի գումարումն ու հանումը</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">$1.1+1.14$-ը հաշվելիս, եթե $1.1$-ը ճշգրիտ է միայն տասնորդների կարգով, ինչպե՞ս ճիշտ կլորացնել $2.24$ արդյունքը։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">Ի տարբերություն բազմապատկման (իմաստային նիշերով), գումարման/հանման ժամանակ կարևորը «կարգն» է (տասնորդներ, հարյուրորդներ), ոչ նիշերի քանակը։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p><b class="term">Կանոն</b> (գումարում/հանում)՝ արդյունքը կլորացվում է ըստ ամենակոպիտ (ամենափոքր) կարգային ճշտություն ունեցող գումարելիի, ոչ ըստ իմաստային նիշերի քանակի։</p>
+  </div>
+
+  <div class="block-title">Վիզուալ պատկեր</div>
+  <div class="visual-container table-wrap">
+    <table>
+      <tr><th>$1.1+1.14$</th><td>$=2.24$ (ուղիղ գումար)</td></tr>
+      <tr><th>Կլորացում</th><td>$1.1$-ը ճշգրիտ է տասնորդների կարգով → $2.2$</td></tr>
+    </table>
+  </div>
+
+  <div class="block-title">Կանոն</div>
+  <div class="formula-box"><span class="label">Կարգային ճշտություն</span>
+    Գումարում/հանում → կլորացրու ըստ ամենակոպիտ ԿԱՐԳԻ (ոչ իմաստային նիշերի քանակի, ինչպես բազմապատկման դեպքում)։
+  </div>
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>Ինչո՞ւ է $1.1+1.14=2.24$-ը կլորացվում $2.2$-ի, ոչ $2.24$-ի պահելով։</p>
+    <div class="step">$1.1$-ը ունի միայն $1$ տասնորդական նիշ (ամենակոպիտ), ուստի արդյունքն էլ պիտի ունենա միայն $1$ տասնորդական նիշ։</div>
+    <div class="answer">Պատասխան. $2.2$։</div>
+  </div>
+
+  <div class="think">Ինչո՞ւ է գումարման կանոնը («ըստ կարգի») տարբեր բազմապատկման կանոնից («ըստ իմաստային նիշերի»)։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> Գումարման կանոնը կիրառել բազմապատկման կանոնի փոխարեն (իմաստային նիշերով, ոչ կարգով)։</p>
+    <p><span class="k">Ինչու՞</span> Երկու կանոնները («նիշերի քանակ» ընդդեմ «կարգ») հեշտ են խառնվում, հատկապես եթե չհիշես, թե որ գործողությունն է որին համապատասխանում։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Հարցրու ինքդ քեզ. «Սա գումարո՞ւմ/հանում է, թե՞ բազմապատկում/բաժանում», և կիրառիր համապատասխան կանոնը։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>Գումարում/հանում → ըստ ամենակոպիտ ԿԱՐԳԻ։</li>
+      <li>Բազմապատկում/բաժանում → ըստ իմաստային ՆԻՇԵՐԻ։</li>
+      <li>Երկու տարբեր կանոն, մի՛ խառնիր։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Ֆինանսական հաշվարկներում (գների գումարում) այս կանոնը կիրառելի է ուղիղ նույն կերպ. եթե մի գին ունես ամբողջ դրամով, մյուսը՝ լումայով, արդյունքն էլ կլորացրու ամբողջ դրամով։
+  </div>
+</section>
+
+<section class="chapter" id="s8">
+  <div class="chapter-head"><span class="chapter-num">08</span><h2>Երբ արտադրյալը 0 է. Համախումբ</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">$(x-2)(x-5)=0$-ը լուծելու համար պե՞տք է փորձարկել բոլոր հնարավոր $x$-երը, թե՞ կա ուղիղ ճանապարհ։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">Երկու թվի արտադրյալը $0$ է միայն այն դեպքում, երբ գոնե մեկը $0$ է։ Սա անմիջապես տալիս է լուծումը՝ առանց փորձարկումների։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p><b class="term">Հատկություն.</b> եթե երկու թվերի արտադրյալը $0$ է, ապա գոնե մեկը $0$ է (և հակառակը)։</p>
+    <p><b class="term">Համախումբ</b>՝ մի քանի հավասարումների միավորում («կամ»). $(x-2)(x-5)=0$-ի լուծումը $x-2=0$ «կամ» $x-5=0$, գրվում է $[x=2, x=5$։ Եթե համախմբի պայմաններից գոնե մեկը ճիշտ է, ամբողջ համախումբը ճիշտ է։</p>
+  </div>
+
+  <div class="block-title">Վիզուալ պատկեր</div>
+  <div class="visual-container table-wrap">
+    <table>
+      <tr><th>$(x-2)(x-5)=0$</th><td>$x-2=0$ կամ $x-5=0$</td><td>$x=2$ կամ $x=5$</td></tr>
+    </table>
+  </div>
+
+  <div class="block-title">Կանոն</div>
+  <div class="formula-box"><span class="label">«Կամ», ոչ «և»</span>
+    Համախումբը նշանակում է՝ պայմաններից ԳՈՆԵ ՄԵԿԸ ճիշտ է, ոչ բոլորը միաժամանակ (դա կլինի Համակարգ, ուրիշ հասկացություն)։
+  </div>
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>Լուծեք $(2x+3)(x-7)=0$։</p>
+    <div class="step">$2x+3=0 \Rightarrow x=-\dfrac{3}{2}$, կամ $x-7=0 \Rightarrow x=7$։</div>
+    <div class="answer">Պատասխան. $x=-\dfrac{3}{2}$ կամ $x=7$։</div>
+  </div>
+
+  <div class="think">Ինչո՞ւ է $(x-2)(x-5)=0$-ից սխալ եզրակացնել, թե $x=2$ ԵՎ $x=5$ միաժամանակ։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> $(x-2)(x-5)=0$-ից եզրակացնել, որ $x=2$ ԵՎ $x=5$ միաժամանակ, փոխարեն «կամ»-ի ճիշտ հասկանալու։</p>
+    <p><span class="k">Ինչու՞</span> Երկու պայման տեսնելով, բնազդաբար կապում ենք «և»-ի հետ, ինչպես համակարգում, մոռանալով, որ $x$-ը մեկ արժեք է, ոչ երկուսը միասին։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Ստուգիր՝ $x=2$-ը ինքնուրույն բավարարո՞ւմ է հավասարումը (այո, առաջին արտադրիչը $0$ դառնում է)։ Նույնը՝ $x=5$-ի համար։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>Արտադրյալ $0$ է $\Leftrightarrow$ գոնե մեկ արտադրիչ $0$ է։</li>
+      <li>Համախումբ = «կամ», լուծումների միավորում։</li>
+      <li>Համախումբը՝ ոչ համակարգ (որը «և» կնշանակի)։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Լուծումը կարող ես ներկայացնել 3 եղանակով. բազմության տեսքով ($x\in\{2,5\}$), թվային առանցքի վրա, կամ համախմբով. ընտրիր հարմարը՝ ըստ իրավիճակի։
+  </div>
+</section>
+
+<section class="chapter" id="s9">
+  <div class="chapter-head"><span class="chapter-num">09</span><h2>$ax^2+bx=0$ և $x^2=b$</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">$3x^2+7x=0$-ը լուծելիս, եթե երկու կողմից «կրճատես» $x$-ը, ի՞նչ լուծում կկորցնես։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">$x$-ը (ընդհանուր արտադրիչ) դուրս բերելը, ոչ թե «կրճատելը», պահպանում է ՄԻ ամբողջ լուծումը՝ $x=0$-ն, որը կկորչեր, եթե բաժանեիր երկու կողմը $x$-ի վրա։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p>$ax^2+bx=0$ (թերի քառակուսային)՝ ձախ մասից $x$-ը դուրս բերել՝ $x(ax+b)=0$, ապա արտադրյալի զրո լինելու հատկություն. $x=0$ կամ $x=-b/a$։</p>
+    <p>$x^2=b$. եթե $b>0$, $x=\pm\sqrt{b}$ (2 լուծում); եթե $b=0$, $x=0$ (1 լուծում); եթե $b<0$, լուծում չկա (ոչ մի թվի քառակուսին բացասական չէ)։</p>
+  </div>
+
+  <div class="block-title">Վիզուալ պատկեր</div>
+  <div class="visual-container table-wrap">
+    <table>
+      <tr><th>$b$ նշան</th><td>$b>0$</td><td>$b=0$</td><td>$b<0$</td></tr>
+      <tr><th>$x^2=b$ լուծումներ</th><td>$\pm\sqrt{b}$ (2)</td><td>$0$ (1)</td><td>չկա (0)</td></tr>
+    </table>
+  </div>
+
+  <div class="block-title">Կանոն</div>
+  <div class="formula-box"><span class="label">Երբեք մի բաժանիր x-ի</span>
+    $ax^2+bx=0$-ում ԵՐԲԵՔ մի բաժանիր երկու կողմը $x$-ի վրա. փոխարենը դո՛ւրս բեր $x$-ը որպես ընդհանուր արտադրիչ։
+  </div>
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>Լուծեք $2x^2=8x$։</p>
+    <div class="step">Նախ ամեն ինչ մի կողմ. $2x^2-8x=0$։</div>
+    <div class="step">Դուրս բերենք $2x$-ը. $2x(x-4)=0$։</div>
+    <div class="answer">Պատասխան. $x=0$ կամ $x=4$։</div>
+  </div>
+
+  <div class="think">Ինչո՞ւ $x^2=-4$ հավասարումը լուծում չունի իրական թվերում։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> $ax^2+bx=0$ լուծելիս $x$-ը երկու կողմից «կրճատել» (բաժանել $x$-ի), կորցնելով $x=0$ լուծումը. սա գլխի ամենավտանգավոր սխալն է։</p>
+    <p><span class="k">Ինչու՞</span> «Կրճատումը» սովորական թվաբանական բնազդ է, բայց երբ $x$-ը կարող է $0$ լինել, բաժանումն արգելված է (0-ի բաժանում)։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Միշտ ստուգիր, թե $x=0$-ը բավարարո՞ւմ է սկզբնական հավասարումը. եթե այո, և դու չես ստացել այն որպես լուծում, ուրեմն կորցրել ես։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>Երբեք մի բաժանիր $x$-ի, միշտ դո՛ւրս բեր որպես արտադրիչ։</li>
+      <li>$x^2=b$-ի լուծումների քանակը կախված է $b$-ի նշանից (2, 1, կամ 0)։</li>
+      <li>Մի մոռացիր $\pm$ նշանը, երբ $b>0$։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Այս 2 հավասարման տեսակները (թերի քառակուսային, $x^2=b$) հենց «շինանյութն» են ընդհանուր քառակուսի հավասարումների համար, որոնց կանդրադառնաս հաջորդ գլխում։
+  </div>
+</section>
+
+<hr class="sep">
+
+<!-- ============ ԱՌԱՋԱԴՐԱՆՔՆԵՐ ============ -->
+<section class="tasks-section" id="tasks">
+  <h2>Առաջադրանքներ</h2>
+
+  <h3>Հաշվարկային առաջադրանքներ</h3>
+  <ol class="tasks">
+    <li>Գրեք տրված պարբերական կոտորակը՝ մատնանշելով պարբերությունը. $38.111...$, $12.6313131...$։</li>
+    <li>Պարբերական կոտորակը գրեք ավելի կարճ տեսքով. $42.(22)$, $4.1(888)$։</li>
+    <li>Կոտորակը ներկայացրեք վերջավոր կամ անվերջ պարբերական տեսքով. $1/3$, $5/8$, $17/6$։</li>
+    <li>Պարբերական կոտորակը վերածեք ռացիոնալ թվի. $2.(3)$, $9.(87)$։</li>
+    <li>Հաշվի առնելով $0.(1)=1/9$, տրված կոտորակը վերածեք սովորականի. $0.(2)$, $2.(7)$։</li>
+    <li>Ցույց տվեք, որ $15.(9)=16$։</li>
+    <li>Հաշվեք. $\sqrt{4}$, $\sqrt{25}$, $\sqrt{16}$։</li>
+    <li>Համեմատեք. $\sqrt{7}$ և $\sqrt{8}$; $7$ և $\sqrt{41}$։</li>
+    <li>Ո՞ր երկու ամբողջ թվի միջև է $\sqrt{26.252423}$-ը։</li>
+    <li>Արդյո՞ք արտահայտությունն իմաստ ունի. $\sqrt{15}$, $\sqrt{-16}$, $\sqrt{0}$, $\sqrt{-1.5}$։</li>
+    <li>Հաշվեք $\sqrt{16+9}$ և $\sqrt{16}+\sqrt{9}$-ը, համեմատեք։</li>
+    <li>Ազատվեք հայտարարի իռացիոնալությունից. $\dfrac{1}{\sqrt{3}}$, $\dfrac{5}{2\sqrt{7}}$։</li>
+    <li>Հաշվեք $\sqrt{(-4)^2}$ և $\sqrt{(3-9)^2}$։</li>
+    <li>Հաշվեք $\sqrt{(x+1)^2}$, երբ $x=-5000$։</li>
+    <li>Ցույց տվեք, թե ինչու $-4^2$ և $\sqrt{(-4)^2}$ տարբեր բան են։</li>
+    <li>Կլորացրեք երեք իմաստային նիշի ճշտությամբ. $-10.2493$։</li>
+    <li>Որոշեք իմաստային նիշերի քանակը. $488$, $1003$, $0.00203$։</li>
+    <li>Հաշվեք գումարը՝ $1.1+1.14$, և կլորացրեք ըստ ամենակոպիտ ճշտության։</li>
+    <li>Կլորացրեք $0.01$ ճշտությամբ. $3.14159$։</li>
+    <li>Լուծեք $(x-2)(x-5)=0$։</li>
+    <li>Կազմեք համախումբ, որի լուծումներն են $1$ և $5$ թվերը։</li>
+    <li>Լուծեք $(2x+3)(x-7)=0$, $x(x-9)=0$։</li>
+    <li>Լուծեք $3x^2+7x=0$, $5x^2-2x=0$։</li>
+    <li>Լուծեք $x^2=16$, $x^2=0$, $x^2=-9$՝ բացատրելով լուծումների քանակի տարբերությունը։</li>
+    <li>Լուծեք $2x^2=8x$։</li>
+    <li>Պարզեք, թե $a$-ի ինչ արժեքների դեպքում $x=-3$ կլինի $ax^2+5x-a=0$-ի լուծում։</li>
+  </ol>
+
+  <h3>Տրամաբանական և հայեցակարգային հարցեր</h3>
+  <ol class="tasks" start="27">
+    <li>Ինչո՞ւ ցանկացած ռացիոնալ թիվ պիտի լինի կամ վերջավոր, կամ պարբերական։</li>
+    <li>Ինչո՞ւ $0.(9)=1$ ճշգրիտ հավասարություն է, ոչ մոտարկում։</li>
+    <li>Ինչո՞ւ չկա բացասական թվի արմատ։</li>
+    <li>Ինչո՞ւ $\sqrt{a+b}\neq\sqrt{a}+\sqrt{b}$, ուղիղ զուգահեռ ինչ սխալի հետ։</li>
+    <li>Ինչո՞ւ $\sqrt{(x)^2}$ և $\sqrt{x^2}$ տարբեր արտահայտություններ են։</li>
+    <li>Ինչո՞ւ է գումարման կանոնը («ըստ կարգի») տարբեր բազմապատկման կանոնից («ըստ իմաստային նիշերի»)։</li>
+    <li>Ինչո՞ւ $(x-2)(x-5)=0$-ից սխալ է եզրակացնել, թե $x=2$ ԵՎ $x=5$ միաժամանակ։</li>
+    <li>Ինչո՞ւ $ax^2+bx=0$ լուծելիս երբեք չպիտի բաժանել $x$-ի վրա։</li>
+  </ol>
+</section>
+
+<hr class="sep">
+
+<!-- ============ ՊԱՏԱՍԽԱՆՆԵՐ ============ -->
+<section class="answers-section" id="answers">
+  <h2>Պատասխաններ</h2>
+  <h3>Հաշվարկային առաջադրանքների պատասխանները</h3>
+  <ol class="answers-list">
+    <li>$38.(1)$, $12.6(31)$</li>
+    <li>ինքնին կարճ գրառումն է</li>
+    <li>$0.(3)$, $0.625$, $2.8(3)$</li>
+    <li>$\dfrac{7}{3}$, $\dfrac{326}{33}$</li>
+    <li>$\dfrac{2}{9}$, $2\dfrac{7}{9}$</li>
+    <li>$10x-x=159.(9)-15.(9)=144 \Rightarrow x=16$</li>
+    <li>$2,5,4$</li>
+    <li>$\sqrt7<\sqrt8$; $7<\sqrt{41}$</li>
+    <li>$5$ և $6$</li>
+    <li>Այո, ոչ, այո, ոչ (կարգով)</li>
+    <li>$5$ և $7$, տարբեր են</li>
+    <li>$\dfrac{\sqrt3}{3}$, $\dfrac{5\sqrt7}{14}$</li>
+    <li>$4$, $6$</li>
+    <li>$4999$</li>
+    <li>$-4^2=-16$, $\sqrt{(-4)^2}=4$</li>
+    <li>$-10.2$</li>
+    <li>$3$, $4$, $3$</li>
+    <li>$2.2$</li>
+    <li>$3.14$</li>
+    <li>$x=2$ կամ $x=5$</li>
+    <li>$(x-1)(x-5)=0$</li>
+    <li>$x=-\frac32$ կամ $x=7$; $x=0$ կամ $x=9$</li>
+    <li>$x=0,-\frac73$; $x=0,\frac25$</li>
+    <li>$\pm4$ (2); $0$ (1); լուծում չկա (0)</li>
+    <li>$x=0$ կամ $x=4$</li>
+    <li>$a=\dfrac{15}{4}$</li>
+  </ol>
+  <h3>Տրամաբանական և հայեցակարգային հարցերի պատասխանները</h3>
+  <ol class="answers-list answers-list-conceptual" start="27">
+    <li>Անկյունաձև բաժանման ընթացքում մնացորդների քանակը սահմանափակ է (< հայտարարը), ուստի ինչ-որ պահից պիտի կրկնվի</li>
+    <li>Անվերջ գումարումն ինքնին սահմանում է ճշգրիտ արժեքը, ոչ մոտարկումը</li>
+    <li>Ոչ մի իրական թվի քառակուսին բացասական չէ, ուստի «քառակուսին տվող թիվ» գոյություն չունի բացասականի համար</li>
+    <li>Զուգահեռ $(a+b)^2\neq a^2+b^2$ սխալի հետ, երկուսն էլ սխալմամբ բաշխում են գործողությունը գումարի անդամների վրա</li>
+    <li>Առաջինը պահանջում է x≥0 (գոյության համար), երկրորդը միշտ գոյություն ունի և հավասար է |x|-ին</li>
+    <li>Գումարման ժամանակ սխալի կուտակումը կախված է կարգից (ո՞ր դիրքից ենք վստահ), ոչ նիշերի ընդհանուր քանակից</li>
+    <li>x-ը մեկ փոփոխական է, չի կարող միաժամանակ երկու տարբեր արժեք ընդունել, ուստի «կամ» է ճիշտ, ոչ «և»</li>
+    <li>x-ը կարող է հենց 0 լինել, և 0-ի բաժանումն արգելված է. այդ բաժանումը կկորցներ x=0 լուծումը</li>
+  </ol>
+</section>
+
+</main>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  renderMathInElement(document.body, {
+    delimiters: [
+      {left: "$$", right: "$$", display: true},
+      {left: "$", right: "$", display: false}
+    ],
+    strict: false
+  });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="hy">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Բնական թվերի բաժանելիությունը | Ուսումնական ուղեցույց</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<style>
+  :root{
+    --bg:#0f1f2e; --paper:#f6f8fb; --ink:#152233; --accent:#1e5f8c; --accent2:#c0562b;
+    --crust:#8fb3cc; --muted:#5b7188; --card:#ffffff; --line:#dde6ee;
+  }
+  *{box-sizing:border-box;}
+  html, body{overflow-x:hidden;}
+  body{margin:0; font-family:'Sylfaen','Arial',serif; background:var(--paper); color:var(--ink); font-size:18px; line-height:1.7;}
+  .hero{background:linear-gradient(135deg, var(--bg) 0%, #1c3b52 100%); color:#eaf2f8; padding:56px 24px 48px;}
+  .hero-inner{max-width:840px; margin:0 auto;}
+  h1.title{font-size:2.2rem; margin:0 0 10px; font-weight:bold; color:#fff;}
+  .hero p{color:#cfe0ec; max-width:620px; font-size:1.05rem;}
+  nav.toc{max-width:840px; margin:-26px auto 0; position:relative; z-index:3; background:var(--card); border-radius:10px; box-shadow:0 12px 30px rgba(15,31,46,.18); padding:22px 26px; border:1px solid var(--line);}
+  nav.toc h2{font-size:1.05rem; text-transform:uppercase; letter-spacing:.07em; color:var(--muted); margin:0 0 12px; font-weight:bold;}
+  nav.toc ol{margin:0; padding-left:20px; columns:2; column-gap:28px;}
+  nav.toc li{margin-bottom:8px; font-size:.98rem;}
+  nav.toc a{color:var(--accent); text-decoration:none; border-bottom:1px dotted var(--accent);}
+  main{max-width:840px; margin:40px auto 90px; padding:0 24px;}
+  section.part-header{margin:48px 0 20px; padding-bottom:8px; border-bottom:2px solid var(--crust); color:var(--muted); font-weight:bold; text-transform:uppercase; letter-spacing:.05em; font-size:.95rem;}
+  section.chapter{margin-bottom:56px;}
+  .chapter-head{display:flex; align-items:baseline; gap:14px; border-bottom:3px solid var(--accent2); padding-bottom:10px; margin-bottom:20px;}
+  .chapter-num{font-size:1.9rem; color:var(--accent); font-weight:bold;}
+  .chapter-head h2{margin:0; font-size:1.4rem; color:var(--ink); font-weight:bold;}
+
+  .block-title{font-weight:bold; color:var(--accent); font-size:1.02rem; margin:22px 0 8px; text-transform:uppercase; letter-spacing:.04em;}
+  .hook{background:#eef4f9; border-radius:10px; padding:16px 20px; margin:10px 0 18px; font-style:italic;}
+  .intuitive{padding:0 2px; margin-bottom:14px;}
+  .formal-def{background:#fff; border:1px solid var(--line); border-left:4px solid var(--accent); border-radius:0 10px 10px 0; padding:16px 20px; margin:14px 0;}
+  .formal-def b.term{color:var(--accent2);}
+
+  .visual-container.table-wrap{overflow-x:auto; width:100%; margin:18px 0; -webkit-overflow-scrolling:touch;}
+  table{border-collapse:collapse; width:100%;}
+  th,td{border:1px solid var(--line); padding:8px 12px; text-align:center; font-size:.98rem;}
+  th{background:#eaf1f7; font-weight:bold;}
+  svg{max-width:100%; height:auto; display:block; margin:0 auto;}
+
+  .formula-box{background:#fff8ee; border:1px solid #ecd9b6; border-radius:10px; padding:18px 22px; margin:16px 0;}
+  .formula-box .label{display:block; font-weight:bold; color:var(--accent2); margin-bottom:8px; text-transform:uppercase; font-size:.85rem; letter-spacing:.05em;}
+
+  .example-box{border-left:4px solid var(--accent); background:#fff; padding:16px 20px; margin:16px 0; border-radius:0 10px 10px 0; box-shadow:0 2px 8px rgba(15,31,46,.05);}
+  .example-box .tag{display:inline-block; font-size:.8rem; text-transform:uppercase; letter-spacing:.07em; color:#fff; background:var(--accent); padding:3px 10px; border-radius:20px; margin-bottom:8px; font-weight:bold;}
+  .example-box .step{margin:6px 0 6px 2px;}
+  .example-box .answer{margin-top:10px; padding:8px 14px; background:#eef4f9; border-radius:8px; border-left:3px solid var(--accent); font-weight:bold;}
+
+  .think{background:#f3ede0; border-left:4px solid var(--crust); border-radius:0 10px 10px 0; padding:12px 18px; margin:14px 0; font-style:italic; color:#4a3a1f;}
+
+  .error-box{background:#fdeeec; border:1px solid #f0c6bf; border-radius:10px; padding:16px 20px; margin:16px 0;}
+  .error-box h4{margin:0 0 8px; color:var(--accent2); font-size:1rem;}
+  .error-box .k{font-weight:bold; color:var(--accent2);}
+
+  .remember{background:#eef6ef; border:1px solid #cfe6d2; border-radius:10px; padding:14px 20px; margin:16px 0;}
+  .remember .label{font-weight:bold; color:#2f6b3a; text-transform:uppercase; font-size:.85rem; letter-spacing:.05em; display:block; margin-bottom:6px;}
+
+  .teacher-corner{background:#eaf1f7; border:1px dashed var(--crust); border-radius:10px; padding:16px 20px; margin:16px 0 28px;}
+  .teacher-corner .label{font-weight:bold; color:var(--accent); text-transform:uppercase; font-size:.85rem; letter-spacing:.05em; display:block; margin-bottom:6px;}
+
+  hr.sep{border:none; border-top:1px dashed var(--line); margin:36px 0;}
+
+  .tasks-section h2{color:var(--accent); border-bottom:3px solid var(--accent2); padding-bottom:8px;}
+  .tasks-section h3{color:var(--accent2); margin-top:26px;}
+  ol.tasks{padding-left:24px;}
+  ol.tasks li{margin-bottom:10px;}
+
+  .answers-section{background:#fff; padding:26px 28px; border-radius:10px; border:2px solid var(--accent); margin-top:44px;}
+  .answers-section h2{color:var(--accent); margin-top:0;}
+  .answers-section h3{color:var(--accent2); font-size:1rem; margin:22px 0 10px;}
+  .answers-list{columns:2; column-gap:36px; padding-left:20px; margin:0;}
+  .answers-list li{margin-bottom:9px; font-weight:bold;}
+  .answers-list-conceptual{columns:1; list-style-position:outside;}
+
+  @media (max-width:600px){
+    nav.toc ol{columns:1;}
+    .answers-list{columns:1;}
+    main{padding:0 14px;}
+  }
+
+  @media print {
+    body{background:#fff !important; color:#000 !important; font-size:12pt;}
+    .hero{padding:10px 0; background:none !important; color:#000 !important;}
+    h1.title{color:#000 !important;}
+    nav.toc{display:none !important;}
+    .formula-box, .example-box, .error-box, .visual-container, .table-wrap{page-break-inside:avoid !important; box-shadow:none !important; border:1px solid #ccc !important;}
+    .table-wrap, .visual-container{overflow-x:visible !important; white-space:pre-wrap !important; word-break:break-word !important;}
+    html, body{overflow-x:visible !important;}
+    .chapter{page-break-before:always;}
+    .chapter:first-of-type{page-break-before:auto;}
+    .answers-list{columns:3;}
+  }
+</style>
+
+<style id="tj-unified">
+  /* ԸՆԴՀԱՆՈՒՐ ՎԵՐԻՆ ՎԱՀԱՆԱԿ — նույնական բոլոր 19 ուղեցույցում։
+     Class-երը սկսվում են tj- նախածանցով, որ երբեք չբախվեն էջի
+     սեփական ոճերի հետ։ */
+  .tj-bar{background:#0f1f2e;color:#eaf2f8;font-family:'Sylfaen','Arial',serif;}
+  .tj-bar-in{max-width:840px;margin:0 auto;padding:10px 20px;display:flex;
+             align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+  .tj-back{color:#eaf2f8;text-decoration:none;font-weight:bold;font-size:.95rem;
+           border:1px solid rgba(234,242,248,.35);border-radius:8px;padding:5px 12px;}
+  .tj-back:hover{background:rgba(234,242,248,.12);}
+  .tj-grade{font-size:.85rem;color:#cfe0ec;letter-spacing:.03em;}
+  @media print{ .tj-bar{display:none;} }
+</style>
+</head>
+<body>
+<div class="tj-bar"><div class="tj-bar-in"><a class="tj-back" href="../index.html">← Տրենաժոր</a><span class="tj-grade">5 դասարան</span></div></div>
+
+
+<div class="hero">
+  <div class="hero-inner">
+    <h1 class="title">Բնական թվերի բաժանելիությունը</h1>
+    <p>Բաժանարարներից ու բազմապատիկներից մինչև բաժանելիության հայտանիշները և պարզ արտադրիչների վերլուծությունը։</p>
+  </div>
+</div>
+
+<nav class="toc">
+  <h2>Բովանդակություն</h2>
+  <ol>
+    <li><a href="#s1">Բաժանարար և բազմապատիկ</a></li>
+    <li><a href="#s2">Ընդհանուր բաժանարար, ամենամեծ ընդհանուր բաժանարար</a></li>
+    <li><a href="#s3">Ընդհանուր բազմապատիկ, ամենափոքր ընդհանուր բազմապատիկ</a></li>
+    <li><a href="#s4">2-ի, 5-ի և 10-ի բազմապատիկ թվերը</a></li>
+    <li><a href="#s5">4-ի բազմապատիկ թվերը</a></li>
+    <li><a href="#s6">3-ի և 9-ի բազմապատիկ թվերը</a></li>
+    <li><a href="#s7">Պարզ և բաղադրյալ թվեր</a></li>
+    <li><a href="#s8">Թվի վերլուծումը պարզ արտադրիչների</a></li>
+    <li><a href="#s9">ԱԸԲ և ԱՓԲ պարզ արտադրիչների վերլուծությամբ</a></li>
+    <li><a href="#tasks">Առաջադրանքներ</a></li>
+    <li><a href="#answers">Պատասխաններ</a></li>
+  </ol>
+</nav>
+
+<main>
+
+<!-- ============ ՄԱՍ 1/3 ============ -->
+<section class="part-header">Մաս 1 / 3</section>
+
+<section class="chapter" id="s1">
+  <div class="chapter-head"><span class="chapter-num">01</span><h2>Բաժանարար և բազմապատիկ</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">Հանքային ջրի խանութպանը կարող է պատվիրել ջուր միայն արկղերով, յուրաքանչյուրում՝ 12 շիշ։ Նա ուզում է պատվիրել 36 շիշ։ Քանի՞ արկղ պիտի պատվիրի, և ինչո՞ւ չի կարող պատվիրել, ասենք, 30 շիշ։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">$36:12=3$, առանց մնացորդի. խանութպանը կարող է պատվիրել ուղիղ 3 արկղ։ Բայց $30:12=2$, մն. $6$․ 30-ը «չի տեղավորվում» 12-երով ամբողջությամբ։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p>Թվի <b class="term">բազմապատիկները</b> ստացվում են տրված թիվը որևէ բնական թվով բազմապատկելիս ($12$-ի բազմապատիկներն են $12,24,36,48,...$)։ Յուրաքանչյուր բնական թիվ ունի անվերջ քանակությամբ բազմապատիկ։</p>
+    <p>Այն թվերը, որոնց տվյալ թիվը բաժանվում է առանց մնացորդի, կոչվում են տվյալ թվի <b class="term">բաժանարարներ</b> ($12$-ի բաժանարարներն են $1,2,3,4,6,12$)։ Ի տարբերություն բազմապատիկների, բաժանարարների քանակը վերջավոր է։</p>
+    <p><b class="term">Կապող հատկություն.</b> եթե $a$-ն $b$-ի բաժանարարն է, ապա $b$-ն $a$-ի բազմապատիկն է (և հակառակը)։ Ցանկացած բնական թիվ $1$-ի և ինքն իր բազմապատիկն է։</p>
+  </div>
+
+  <div class="block-title">Վիզուալ պատկեր</div>
+  <div class="visual-container table-wrap">
+    <table>
+      <tr><th>12-ի բազմապատիկներ</th><td>$12$</td><td>$24$</td><td>$36$</td><td>$48$</td><td>...</td></tr>
+      <tr><th>12-ի բաժանարարներ</th><td>$1$</td><td>$2$</td><td>$3$</td><td>$4$</td><td>$6, 12$</td></tr>
+    </table>
+  </div>
+  <p style="text-align:center; color:var(--muted); font-size:.9rem; margin-top:-6px;">Բազմապատիկների ցանկն անվերջ է շարունակվում, բաժանարարներինը՝ ավարտվում 12-ով։</p>
+
+  <div class="block-title">Կանոն</div>
+  <div class="formula-box"><span class="label">Կապող հատկություն</span>
+    $a$-ն $b$-ի բաժանարար $\Leftrightarrow$ $b$-ն $a$-ի բազմապատիկ։ Թվի բազմապատիկների գումարը նույնպես այդ թվի բազմապատիկ է։
+  </div>
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>Ինչո՞ւ $12\cdot7+12\cdot179$ գումարը 12-ի բազմապատիկ է, առանց հաշվարկելու։</p>
+    <div class="step">Երկու գումարելիներն էլ 12-ի բազմապատիկ են ($12\cdot7$ և $12\cdot179$)։ Ըստ կանոնի, երկու բազմապատիկի գումարը նույնպես բազմապատիկ է։</div>
+    <div class="answer">Պատասխան. այո, բազմապատիկ է (հիմնավորումը՝ բաշխական օրենքով, $12\cdot(7+179)$)։</div>
+  </div>
+
+  <div class="think">Կա՞ արդյոք բնական թիվ, որի բաժանարարներն ավելի շատ են, քան բազմապատիկները։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> Բազմապատիկն ու բաժանարարը շփոթել («12-ի բազմապատիկն է 36» ասելու փոխարեն ասել «36-ի բազմապատիկն է 12»)։</p>
+    <p><span class="k">Ինչու՞</span> Երկու հասկացություններն էլ կապված են նույն բաժանման փաստի հետ ($36:12=3$), ուստի հեշտ է շփոթել, թե որն է «մեծ», որը՝ «փոքր» ուղղությունը։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Բազմապատիկը միշտ $\ge$ իր թվին է (կամ հավասար), բաժանարարը՝ $\le$։ 12-ի բազմապատիկը (36) մեծ է 12-ից, 36-ի բաժանարարը (12) փոքր է 36-ից։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>Բազմապատիկների քանակն անվերջ է, բաժանարարներինը՝ վերջավոր։</li>
+      <li>«$a$ բաժանարար $b$-ի» = «$b$ բազմապատիկ $a$-ի», երկու ուղղություն, մեկ փաստ։</li>
+      <li>Ցանկացած թիվ ինքն իր բազմապատիկն ու բաժանարարն է։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Երբ մնացորդով բաժանում ես ($30:12=2$, մն. $6$), $30$-ը ՉԻ 12-ի բազմապատիկ, քանի որ մնացորդ կա։ Բազմապատիկ լինելու թեստը՝ մնացորդը պետք է լինի ուղիղ $0$։
+  </div>
+</section>
+
+<section class="chapter" id="s2">
+  <div class="chapter-head"><span class="chapter-num">02</span><h2>Ընդհանուր բաժանարար, ամենամեծ ընդհանուր բաժանարար</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">«Գիտելիքի փառատոնում» կան 12 աշակերտ Ա խմբից և 30 աշակերտ Բ խմբից։ Պետք է բոլորին բաժանել հավասար չափի թիմերի, ընդ որում՝ ամեն թիմում պիտի լինեն միայն նույն խմբի աշակերտներ։ Քանի՞ հոգանոց կարող են լինել թիմերը (ամենամեծ հնարավոր չափով)։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">Թիմի չափը պիտի բաժանարար լինի և՛ 12-ի, և՛ 30-ի։ Փնտրում ենք ամենամեծ այդպիսի թիվը։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p>Երկու (կամ ավելի) թվերին ընդհանուր բաժանարարները կոչվում են այդ թվերի <b class="term">ընդհանուր բաժանարարներ</b>. ցանկացած թվերի համար $1$-ը ընդհանուր բաժանարար է։</p>
+    <p>Ընդհանուր բաժանարարներից ամենամեծը կոչվում է <b class="term">ամենամեծ ընդհանուր բաժանարար</b> և նշանակվում է $(a,b)$ (օր.՝ $(12,30)=6$)։</p>
+    <p>Երկու բնական թիվ, որոնց ամենամեծ ընդհանուր բաժանարարը $1$ է, կոչվում են <b class="term">փոխադարձաբար պարզ թվեր</b>։</p>
+  </div>
+
+  <div class="block-title">Վիզուալ պատկեր</div>
+  <div class="visual-container table-wrap">
+    <table>
+      <tr><th>12-ի բաժանարարներ</th><td>$1,2,3,4,6,12$</td></tr>
+      <tr><th>30-ի բաժանարարներ</th><td>$1,2,3,5,6,10,15,30$</td></tr>
+      <tr><th>Ընդհանուր</th><td>$1,2,3,6$</td></tr>
+      <tr><th>Ամենամեծ ընդհանուր ($(12,30)$)</th><td>$6$</td></tr>
+    </table>
+  </div>
+
+  <div class="block-title">Կանոն</div>
+  <div class="formula-box"><span class="label">Հատկություն</span>
+    Թվերի ընդհանուր բաժանարարներն այդ թվերի ամենամեծ ընդհանուր բաժանարարի բաժանարարներն են. ամենամեծը գտնելուց հետո մյուսներն արագ ցուցակագրվում են։
+  </div>
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ 1</span>
+    <p>Գտեք $18$ և $35$ թվերի ամենամեծ ընդհանուր բաժանարարը։</p>
+    <div class="step">$18$-ի բաժանարարներ. $1,2,3,6,9,18$։ $35$-ի բաժանարարներ. $1,5,7,35$։ Ընդհանուր՝ միայն $1$։</div>
+    <div class="answer">Պատասխան. $(18,35)=1$ (փոխադարձաբար պարզ)։</div>
+  </div>
+  <div class="example-box"><span class="tag">Օրինակ 2</span>
+    <p>Գտեք $15,25,45$ թվերի ամենամեծ ընդհանուր բաժանարարը։</p>
+    <div class="step">Երեքի ընդհանուր բաժանարարներից ամենամեծը՝ $5$։</div>
+    <div class="answer">Պատասխան. $5$։</div>
+  </div>
+
+  <div class="think">Ինչո՞ւ երկու տարբեր պարզ թիվ միշտ փոխադարձաբար պարզ են։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> Ամենամեծ ընդհանուր բաժանարարը հաշվելիս ընտրել ընդհանուր, բայց ոչ ամենամեծ թիվը (կանգ առնել վաղաժամ)։</p>
+    <p><span class="k">Ինչու՞</span> Ցուցակագրելիս հեշտ է դադարել առաջին ընդհանուր թիվը գտնելուն պես, մոռանալով, որ հարցվածն ամենամեծն է։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Միշտ ամբողջացրու երկու ցուցակներն էլ և համեմատիր, նախքան պատասխանելը։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>$(a,b)$ նշանակում է ամենամեծ ընդհանուր բաժանարար։</li>
+      <li>Փոխադարձաբար պարզ թվեր՝ $(a,b)=1$, բայց դրանք ինքնին կարող են բաղադրյալ լինել։</li>
+      <li>Ընդհանուր բաժանարարներն ամենամեծի բաժանարարներն են։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    36 աղջիկ և 24 տղա բաժանելիս հավասար խմբերի (ամեն խմբում՝ նույն սեռի աշակերտներ), ամենաշատ խմբերի քանակը $(36,24)$-ն է։ Սա նույն տրամաբանությունն է, ինչ «Գիտելիքի փառատոն»-ի օրինակում։
+  </div>
+</section>
+
+<section class="chapter" id="s3">
+  <div class="chapter-head"><span class="chapter-num">03</span><h2>Ընդհանուր բազմապատիկ, ամենափոքր ընդհանուր բազմապատիկ</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">Երևան-Գյումրի ավտոբուսը մեկնում է 20 րոպեն մեկ, Երևան-Վարդենիսը՝ 45 րոպեն մեկ, երկուսն էլ սկսած ժամը 08:00-ից։ Ե՞րբ կմեկնեն կրկին ուղիղ միաժամանակ։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">Փնտրում ենք ամենափոքր ժամանակը, որ և՛ 20-ի, և՛ 45-ի բազմապատիկ է։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p>Երկու (կամ ավելի) թվերին ընդհանուր բազմապատիկները կոչվում են այդ թվերի <b class="term">ընդհանուր բազմապատիկներ</b> ($12$-ի և $30$-ի ընդհանուր բազմապատիկներն են $60,120,180,...$)։</p>
+    <p>Ընդհանուր բազմապատիկներից ամենափոքրը կոչվում է <b class="term">ամենափոքր ընդհանուր բազմապատիկ</b> և նշանակվում է $[a,b]$ (օր.՝ $[12,30]=60$)։</p>
+  </div>
+
+  <div class="block-title">Վիզուալ պատկեր</div>
+  <div class="visual-container table-wrap">
+    <table>
+      <tr><th>3-ի բազմապատիկներ</th><td>$3,6,9,12,15,18,...$</td></tr>
+      <tr><th>4-ի բազմապատիկներ</th><td>$4,8,12,16,20,...$</td></tr>
+      <tr><th>6-ի բազմապատիկներ</th><td>$6,12,18,24,...$</td></tr>
+      <tr><th>Ընդհանուր ամենափոքր ($[3,4,6]$)</th><td>$12$</td></tr>
+    </table>
+  </div>
+
+  <div class="block-title">Կանոն</div>
+  <div class="formula-box"><span class="label">Հատկություն</span>
+    Ցանկացած երկու թիվ ունի գոնե մեկ ընդհանուր բազմապատիկ՝ իրենց արտադրյալը։ Բոլոր ընդհանուր բազմապատիկները $[a,b]$-ի բազմապատիկներն են։
+  </div>
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>Գտեք $3,4,6$ թվերի ամենափոքր ընդհանուր բազմապատիկը։</p>
+    <div class="step">Ցուցակագրելով բազմապատիկները (վերևի աղյուսակ)՝ առաջին ընդհանուր թիվը 3 ցուցակում է $12$։</div>
+    <div class="answer">Պատասխան. $[3,4,6]=12$։</div>
+  </div>
+
+  <div class="think">Ինչո՞ւ ցանկացած երկու թիվ ունի ընդհանուր բազմապատիկ, բայց ոչ միշտ ընդհանուր բաժանարար 1-ից բացի։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> Ամենափոքր ընդհանուր բազմապատիկը շփոթել ամենամեծ ընդհանուր բաժանարարի հետ։</p>
+    <p><span class="k">Ինչու՞</span> Երկուսն էլ նշանակվում են փակագծերով և հաշվարկվում «ընդհանուր» հասկացության շուրջ, բայց հակադիր ուղղություններով (փոքր/մեծ, բազմապատիկ/բաժանարար)։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> $[a,b]$-ն ($\ge$ ամեն թվին) միշտ $\ge$ երկու թվերից մեծից, $(a,b)$-ն ($\le$ ամեն թվին) միշտ $\le$ երկուսից փոքրից։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>$[a,b]$ նշանակում է ամենափոքր ընդհանուր բազմապատիկ։</li>
+      <li>Ցանկացած երկու թիվ ունի ընդհանուր բազմապատիկ (իրենց արտադրյալը, եթե ոչինչ ավելի փոքր)։</li>
+      <li>Ամենափոքր ընդհանուր բազմապատիկը լուծում է «պարբերական համընկնում» խնդիրները։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Ավտոբուսների խնդրում մի մոռացիր վերջում գումարել մեկնարկային ժամանակը ($[20,45]$ րոպեին ավելացրու 08:00-ն)՝ իրական ժամ ստանալու համար, ոչ միայն ինտերվալը։
+  </div>
+</section>
+
+<!-- ============ ՄԱՍ 2/3 ============ -->
+<section class="part-header">Մաս 2 / 3</section>
+
+<section class="chapter" id="s4">
+  <div class="chapter-head"><span class="chapter-num">04</span><h2>2-ի, 5-ի և 10-ի բազմապատիկ թվերը</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">Կարո՞ղ ես, առանց փաստացի բաժանելու, ասել՝ $1\,725\,340$-ը բաժանվում է 10-ի, թե ոչ։ Ինչքա՞ն արագ։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">$516=51\cdot10+6$. առաջին մասը ($51\cdot10$) ավտոմատ բաժանվում է $10$-ի (և $2$-ի, և $5$-ի), ուստի ամբողջ թվի բաժանելիությունը կախված է միայն վերջին թվանշանից։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p><b class="term">Հայտանիշ (10).</b> $10$-ի են բաժանվում $0$-ով վերջացող թվերը։</p>
+    <p><b class="term">Հայտանիշ (5).</b> $5$-ի են բաժանվում $0$-ով և $5$-ով վերջացող թվերը։</p>
+    <p><b class="term">Հայտանիշ (2).</b> $2$-ի են բաժանվում $0,2,4,6,8$ թվանշաններով վերջացող թվերը։ $2$-ի բաժանվող թվերը կոչվում են <b class="term">զույգ</b>, չբաժանվողները՝ <b class="term">կենտ</b>։</p>
+  </div>
+
+  <div class="block-title">Վիզուալ պատկեր</div>
+  <div class="visual-container table-wrap">
+    <table>
+      <tr><th>Թիվ</th><td>$516$</td><td>$140$</td><td>$75$</td><td>$52$</td></tr>
+      <tr><th>Բաժանվում է 2-ի</th><td>✓</td><td>✓</td><td>✗</td><td>✓</td></tr>
+      <tr><th>Բաժանվում է 5-ի</th><td>✗</td><td>✓</td><td>✓</td><td>✗</td></tr>
+      <tr><th>Բաժանվում է 10-ի</th><td>✗</td><td>✓</td><td>✗</td><td>✗</td></tr>
+    </table>
+  </div>
+
+  <div class="block-title">Կանոն</div>
+  <div class="formula-box"><span class="label">Ինչու է աշխատում</span>
+    $2$, $5$ և $10$ բոլորն էլ $10$-ի բաժանարար են, ուստի բաժանելիությունը որոշվում է միայն վերջին թվանշանով։
+  </div>
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>$4\cdot17\cdot95$-ը բաժանվում է 5-ի, 2-ի, 10-ի՝ առանց հաշվարկելու։</p>
+    <div class="step">Արտադրյալի մեջ կա $4$ (զույգ) և $95$ (0-ով/5-ով վերջացող չէ, բայց ավարտվում է 5-ով)։ Բավական է մեկ արտադրիչ, որ ամբողջ արտադրյալը բաժանվի. $4$-ի պատճառով զույգ է, $95$-ի պատճառով 5-ի բազմապատիկ։</div>
+    <div class="answer">Պատասխան. բաժանվում է և՛ 2-ի, և՛ 5-ի, ուստի նաև 10-ի։</div>
+  </div>
+
+  <div class="think">Ինչպե՞ս կձևակերպես թվի կենտ լինելու հայտանիշը։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> 5-ի հայտանիշում մոռանալ, որ և՛ 0-ով, և՛ 5-ով վերջացող թվերն են բաժանվում (միայն 0-ով վերջացողները հաշվել)։</p>
+    <p><span class="k">Ինչու՞</span> 10-ի հայտանիշը (միայն 0) ավելի հայտնի է և տեղափոխվում է 5-ի հայտանիշի վրա։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Ստուգիր $15$-ը. $15:5=3$, ուստի $15$-ը 5-ի բազմապատիկ է, թեև վերջանում է 5-ով, ոչ 0-ով։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>2/5/10-ի բաժանելիությունը որոշվում է միայն վերջին թվանշանով։</li>
+      <li>0-ն ինքն էլ զույգ է։</li>
+      <li>Ցանկացած 10-ի բազմապատիկ նաև 2-ի ԵՎ 5-ի բազմապատիկ է։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Այս երեք հայտանիշները (2, 5, 10) ամենահեշտն են, քանի որ ստուգում են միայն 1 թվանշան։ Հաջորդ դասերում կտեսնես, որ 4-ի հայտանիշը արդեն 2 թվանշան է պահանջում. սա բնական հաջորդականություն է։
+  </div>
+</section>
+
+<section class="chapter" id="s5">
+  <div class="chapter-head"><span class="chapter-num">05</span><h2>4-ի բազմապատիկ թվերը</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">$7\,932$-ը զույգ է։ Բաժանվու՞մ է արդյոք 4-ի։ Իսկ $7\,942$-ը, որն էլ զույգ է. արդյո՞ք երկուսն էլ 4-ի բազմապատիկ են։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">Զույգությունը (2-ի բաժանելիությունը) անհրաժեշտ է, բայց ոչ բավարար 4-ի բաժանելիության համար. պետք է ստուգել ոչ մեկ, այլ երկու վերջին թվանշան։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p><b class="term">Հայտանիշ (4).</b> $4$-ի են բաժանվում այն բնական թվերը, որոնց գրառման վերջին երկու թվանշաններով կազմված թիվը բաժանվում է $4$-ի ($9432$-ի դեպքում՝ $32$-ը, որը բաժանվում է $4$-ի, ուստի $9432$-ն էլ)։</p>
+    <p>Ի տարբերություն $2$-ի, $5$-ի, $10$-ի հայտանիշների, $4$-ինը պահանջում է $2$ վերջին թվանշան, քանի որ $4$-ը $100$-ի (ոչ թե $10$-ի) բաժանարար է. $100=4\cdot25$։</p>
+  </div>
+
+  <div class="block-title">Վիզուալ պատկեր</div>
+  <div class="visual-container table-wrap">
+    <table>
+      <tr><th>Թիվ</th><td>$9432$</td><td>$7942$</td><td>$607$</td></tr>
+      <tr><th>Վերջին 2 թվանշան</th><td>$32$</td><td>$42$</td><td>$07$</td></tr>
+      <tr><th>Բաժանվում է 4-ի</th><td>✓ ($32:4=8$)</td><td>✗</td><td>✗</td></tr>
+    </table>
+  </div>
+
+  <div class="block-title">Կանոն</div>
+  <div class="formula-box"><span class="label">100=4·25</span>
+    Ցանկացած թիվ = ($100$-ի բազմապատիկ) + (վերջին երկու թվանշանով կազմված թիվ)։ Առաջին մասն ավտոմատ բաժանվում է $4$-ի, ուստի ամեն ինչ կախված է երկրորդից։
+  </div>
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>Ստուգեք՝ $170$-ը բաժանվում է 4-ի, թե ոչ։</p>
+    <div class="step">Վերջին երկու թվանշանը՝ $70$։ $70:4=17$, մն. $2$։ Մնացորդ կա, ուստի $170$-ը 4-ի չի բաժանվում։</div>
+    <div class="answer">Պատասխան. ոչ։</div>
+  </div>
+
+  <div class="think">Ինչո՞ւ է բավական ստուգել միայն երկու վերջին թվանշանը, ոչ ամբողջ թիվը։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> 4-ի բաժանելիությունը ստուգել միայն վերջին թվանշանով (զույգության հիման վրա)։</p>
+    <p><span class="k">Ինչու՞</span> Զույգությունը «նման է» բաժանելիության հայտանիշի, և աշակերտը ընդհանրացնում է 2-ի հայտանիշի սովորությունը։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Ստուգիր $7942$-ը (զույգ է, բայց $42:4$-ը մնացորդով է) ընդդեմ $7932$-ի ($32:4=8$, ամբողջ)։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>4-ի հայտանիշը պահանջում է 2 վերջին թվանշան, ոչ 1։</li>
+      <li>Զույգությունը անհրաժեշտ է, բայց ոչ բավարար 4-ի բաժանելիության համար։</li>
+      <li>Եթե վերջին երկուսը $00$ են, թիվը միշտ բաժանվում է 4-ի։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Փորձիր ինքդ գուշակել, թե քանի՞ վերջին թվանշան կպահանջվի $8$-ի հայտանիշի համար (հուշում՝ $8=2^3$, $1000=8\cdot125$)։ Այս տրամաբանությունը ընդհանրացվող է։
+  </div>
+</section>
+
+<section class="chapter" id="s6">
+  <div class="chapter-head"><span class="chapter-num">06</span><h2>3-ի և 9-ի բազմապատիկ թվերը</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">Անին գնեց 3 միանման բացիկ, վաճառողն ասաց՝ ընդամենը 1400 դրամ։ Անին անմիջապես հասկացավ, որ գումարը սխալ են հաշվել, չնայած ինքը չգիտեր բացիկի գինը։ Ինչպե՞ս։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">Եթե 3 բացիկի գումարային գինը 1400 է, պետք է $1400$-ը բաժանվի $3$-ի (քանի որ $3$ հատ միանման իր), իսկ $1400$-ի թվանշանների գումարը ($1+4+0+0=5$) $3$-ի չի բաժանվում։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p><b class="term">Հայտանիշ (9).</b> $9$-ի են բաժանվում այն թվերը, որոնց գրառման թվանշանների գումարը բաժանվում է $9$-ի։</p>
+    <p><b class="term">Հայտանիշ (3).</b> $3$-ի են բաժանվում այն թվերը, որոնց գրառման թվանշանների գումարը բաժանվում է $3$-ի։</p>
+    <p><b class="term">Հիմնավորում (486 օրինակով).</b> ցանկացած կարգային միավոր ($100,1000,...$) կարելի է ներկայացնել $9$-ի բազմապատիկի և $1$-ի գումարի տեսքով ($100=9\cdot11+1$), ուստի ամբողջ թիվը = ($9$-ի բազմապատիկների գումար) + (թվանշանների գումար)։</p>
+  </div>
+
+  <div class="block-title">Վիզուալ պատկեր</div>
+  <div class="visual-container table-wrap">
+    <table>
+      <tr><th>Թիվ</th><td>$104076$</td></tr>
+      <tr><th>Թվանշանների գումար</th><td>$1+0+4+0+7+6=18$</td></tr>
+      <tr><th>18-ը 9-ի բազմապատի՞կ</th><td>✓ ($18:9=2$)</td></tr>
+      <tr><th>Եզրակացություն</th><td>$104076$-ը բաժանվում է 9-ի</td></tr>
+    </table>
+  </div>
+
+  <div class="block-title">Կանոն</div>
+  <div class="formula-box"><span class="label">3-ի ընդդեմ 9-ի</span>
+    9-ի բաժանվող բոլոր թվերը 3-ի էլ են բաժանվում, բայց ոչ հակառակը (օր.՝ $15$-ի թվանշանների գումարը $6$, $3$-ի բազմապատիկ է, բայց $9$-ի՝ ոչ)։
+  </div>
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>Արդյոք 3-ի բաժանվող բոլոր թվե՞րն են բաժանվում 9-ի։</p>
+    <div class="step">Հակաօրինակ. $15$. թվանշանների գումարը $1+5=6$, որը 3-ի բազմապատիկ է ($15:3=5$), բայց 9-ի՝ ոչ ($15:9$ մնացորդով է)։</div>
+    <div class="answer">Պատասխան. ոչ, հակառակ ուղղությունն է ճիշտ (9-ից 3, ոչ 3-ից 9)։</div>
+  </div>
+
+  <div class="think">Ինչո՞ւ է 9-ի հայտանիշը ավտոմատ ապահովում 3-ի հայտանիշը, բայց ոչ հակառակը։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> 3-ի և 9-ի հայտանիշները շփոթել, կարծելով, թե դրանք համարժեք են։</p>
+    <p><span class="k">Ինչու՞</span> Երկուսն էլ հիմնված են նույն մեթոդի (թվանշանների գումար) վրա, ուստի հեշտ է մոռանալ, որ բաժանարարը (3 կամ 9) տարբեր է։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Հաշվիր թվանշանների գումարը մեկ անգամ, ապա ստուգիր՝ այն բաժանվում է 3-ի՞, թե 9-ի՞, թե երկուսին էլ։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>3-ի և 9-ի հայտանիշները՝ թվանշանների գումարով, ոչ վերջին թվանշանով։</li>
+      <li>9-ի բաժանվող ⟹ 3-ի բաժանվող, բայց ոչ հակառակը։</li>
+      <li>Հայտանիշներն օգտակար են արագ ստուգումների համար (գնումների հաշվարկ)։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Հաջորդ անգամ, երբ խանութում հաշիվդ կասկածելի է թվում, փորձիր այս հայտանիշը. եթե գնումդ բաղկացած է $N$ միանման իրից, ընդհանուր գումարը պիտի բաժանվի $N$-ի։
+  </div>
+</section>
+
+<!-- ============ ՄԱՍ 3/3 ============ -->
+<section class="part-header">Մաս 3 / 3</section>
+
+<section class="chapter" id="s7">
+  <div class="chapter-head"><span class="chapter-num">07</span><h2>Պարզ և բաղադրյալ թվեր</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">$12$-ը կարելի է գրել $1\times12$, $2\times6$, $3\times4$ ձևով՝ մի քանի տարբեր եղանակով։ Իսկ $13$-ը՝ միայն $1\times13$։ Ինչո՞վ են սկզբունքորեն տարբեր այս երկու թիվը։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">$13$-ի նման թվերը, որ «չեն բաժանվում» ոչնչի, բացի իրենցից ու $1$-ից, առանձնահատուկ դեր ունեն մաթեմատիկայում. դրանք կոչվում են պարզ թվեր։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p>Այն բնական թվերը, որոնք ունեն ընդամենը երկու բաժանարար՝ $1$-ը և տվյալ թիվը, կոչվում են <b class="term">պարզ թվեր</b> ($2,3,5,7,11,13,...$)։</p>
+    <p>Այն բնական թվերը, որոնք $1$-ից և տվյալ թվից բացի ունեն նաև այլ բաժանարար, կոչվում են <b class="term">բաղադրյալ թվեր</b> ($4,6,8,9,10,12,...$)։</p>
+    <p>$1$ թիվը երկու թվերի արտադրյալի տեսքով գրվում է միայն մեկ եղանակով ($1=1\cdot1$), ուստի այն ո՛չ պարզ է, ո՛չ բաղադրյալ։</p>
+  </div>
+
+  <div class="block-title">Վիզուալ պատկեր</div>
+  <div class="visual-container table-wrap">
+    <table>
+      <tr><th>Թիվ</th><td>$1$</td><td>$2$</td><td>$4$</td><td>$7$</td><td>$9$</td><td>$13$</td></tr>
+      <tr><th>Բաժանարարներ</th><td>$1$</td><td>$1,2$</td><td>$1,2,4$</td><td>$1,7$</td><td>$1,3,9$</td><td>$1,13$</td></tr>
+      <tr><th>Տեսակ</th><td>ոչ մեկը</td><td>պարզ</td><td>բաղադրյալ</td><td>պարզ</td><td>բաղադրյալ</td><td>պարզ</td></tr>
+    </table>
+  </div>
+
+  <div class="block-title">Կանոն</div>
+  <div class="formula-box"><span class="label">Հատուկ դեպք</span>
+    $2$-ը միակ զույգ պարզ թիվն է. բոլոր մյուս զույգ թվերը բաղադրյալ են, քանի որ բաժանվում են $2$-ի (ունեն $1$, $2$ և իրենք բաժանարարներ)։
+  </div>
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>Ո՞րոնք են պարզ, ո՞րոնք՝ բաղադրյալ. $7,12,1,75,3,13,23,33$։</p>
+    <div class="step">$7$ — պարզ, $12$ — բաղադրյալ, $1$ — ոչ մեկը, $75=3\cdot25$ — բաղադրյալ, $3$ — պարզ, $13$ — պարզ, $23$ — պարզ, $33=3\cdot11$ — բաղադրյալ։</div>
+    <div class="answer">Պատասխան. պարզ՝ $7,3,13,23$; բաղադրյալ՝ $12,75,33$; ոչ մեկը՝ $1$։</div>
+  </div>
+
+  <div class="think">Ինչո՞ւ է $2$-ը միակ զույգ պարզ թիվը։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> $1$-ը սխալմամբ համարել պարզ թիվ։</p>
+    <p><span class="k">Ինչու՞</span> Մակերեսայնորեն թվում է, թե $1$-ն ունի «միայն իրեն» որպես բաժանարար, բայց իրականում $1$-ի միակ բաժանարարը հենց ինքն է, ոչ երկու տարբեր թիվ (1-ը և ինքը՝ նույն թիվն են)։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Հարցրու. «Այս թիվն ունի՞ ուղիղ 2 ՏԱՐԲԵՐ բաժանարար»։ $1$-ի համար՝ ոչ (ունի միայն 1 բաժանարար)։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>Պարզ թիվ = ուղիղ 2 բաժանարար (1 և ինքը)։</li>
+      <li>$1$-ը ո՛չ պարզ է, ո՛չ բաղադրյալ։</li>
+      <li>$2$-ը միակ զույգ պարզ թիվն է։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Պարզ թվերը մաթեմատիկայի «շինանյութն» են. ցանկացած բաղադրյալ թիվ կարելի է կառուցել դրանցից, ինչպես կտեսնես հաջորդ դասում (պարզ արտադրիչների վերլուծություն)։
+  </div>
+</section>
+
+<section class="chapter" id="s8">
+  <div class="chapter-head"><span class="chapter-num">08</span><h2>Թվի վերլուծումը պարզ արտադրիչների</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">$24=6\cdot4$։ Բայց $6$-ն ու $4$-ը իրենք էլ բաղադրյալ են. $6=2\cdot3$, $4=2\cdot2$։ Ի՞նչ կստանանք, եթե շարունակենք վերլուծել, մինչև բոլոր արտադրիչները դառնան պարզ։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">$24=2\cdot3\cdot2\cdot2$, կամ դասավորելով փոքրից մեծ՝ $24=2\cdot2\cdot2\cdot3$։ Սա թվի «ամենախորը» վերլուծությունն է. այլևս հնարավոր չէ ոչինչ բաժանել։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p><b class="term">Պարզ արտադրիչների վերլուծում</b> — բաղադրյալ թիվը միայն պարզ արտադրիչների արտադրյալի տեսքով գրելը ($12=2\cdot2\cdot3$)։ Պարզ թվի պարզ արտադրիչների վերլուծումը հենց այդ թվի գրառումն է։</p>
+    <p><b class="term">Քայլաշար.</b> 1) գտնել որևէ պարզ բաժանարար (հայտանիշներով կամ բաժանմամբ); 2) թիվը բաժանել գտած բաժանարարին; 3) ստացված քանորդի համար կրկնել 1-ին քայլը, մինչև ստացվի պարզ թիվ։ Ընդունված է արտադրիչները գրել փոքրից մեծ կարգով։</p>
+  </div>
+
+  <div class="block-title">Վիզուալ պատկեր</div>
+  <div class="visual-container table-wrap">
+    <table>
+      <tr><th>Քայլ</th><td>$126:2=63$</td><td>$63:3=21$</td><td>$21:3=7$</td><td>$7$ (պարզ)</td></tr>
+    </table>
+  </div>
+  <p style="text-align:center; color:var(--muted); font-size:.9rem; margin-top:-6px;">$126=2\cdot3\cdot3\cdot7$</p>
+
+  <div class="block-title">Կանոն</div>
+  <div class="formula-box"><span class="label">Միակություն</span>
+    Պարզ արտադրիչների վերլուծումն ինքնուրույն է (անկախ մեկնարկային արտադրիչներից)։ Երկու թվերի արտադրյալը վերլուծելու համար կարելի է առանձին վերլուծել յուրաքանչյուր արտադրիչը և արդյունքները միացնել։
+  </div>
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>$20\cdot14$-ը վերլուծեք պարզ արտադրիչների։</p>
+    <div class="step">$20=2\cdot2\cdot5$, $14=2\cdot7$։ Միացնելով. $2\cdot2\cdot5\cdot2\cdot7$, կարգավորելով՝ $2\cdot2\cdot2\cdot5\cdot7$։</div>
+    <div class="answer">Պատասխան. $2\cdot2\cdot2\cdot5\cdot7$։</div>
+  </div>
+
+  <div class="think">Ինչո՞ւ երկու տարբեր աշակերտ, սկսելով վերլուծել $24$-ը տարբեր արտադրիչներից (մեկը $2\cdot12$-ից, մյուսը՝ $3\cdot8$-ից), վերջում ստանում են նույն պատասխանը։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> Վերլուծությունն անավարտ թողնել (կանգ առնել, երբ քանորդը դեռ բաղադրյալ է)։</p>
+    <p><span class="k">Ինչու՞</span> Առաջին քայլից հետո ստացված արտադրիչներից մեկը կարող է «տեսքով պարզ» թվալ, բայց իրականում դեռ բաղադրյալ է (օր.՝ $6$-ը կանգնեցնում է վերլուծությունը, թեև $6=2\cdot3$)։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Ամեն արտադրիչի համար ինքդ քեզ հարցրու. «Սա պա՞րզ է»։ Եթե ոչ, շարունակիր բաժանել։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>Վերլուծիր, մինչև ԲՈԼՈՐ արտադրիչները պարզ դառնան։</li>
+      <li>Գրիր փոքրից մեծ կարգով (ընդունված ձև)։</li>
+      <li>Վերլուծումը միակ է, անկախ մեկնարկային եղանակից։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Մեծ թվերի համար («սյունակով» վերլուծություն) գրիր թիվը ձախում, ամեն քայլում աջում՝ պարզ բաժանարարը, և ներքևում՝ նոր քանորդը։ Այս ձևաչափը թույլ չի տալիս մոռանալ քայլ։
+  </div>
+</section>
+
+<section class="chapter" id="s9">
+  <div class="chapter-head"><span class="chapter-num">09</span><h2>ԱԸԲ և ԱՓԲ պարզ արտադրիչների վերլուծությամբ</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">$7700$-ի և $168$-ի ամենամեծ ընդհանուր բաժանարարն ու ամենափոքր ընդհանուր բազմապատիկը գտնելը ցուցակագրելով գործնական չէ (չափազանց մեծ թվեր են)։ Կա՞ ավելի արագ ճանապարհ։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">Թվի ցանկացած բազմապատիկը պարունակում է տրված թվի պարզ արտադրիչների վերլուծման բոլոր արտադրիչները։ Սա բանալի է ամենամեծ ընդհանուր բաժանարարի/ամենափոքր ընդհանուր բազմապատիկի արագ հաշվարկի համար։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p><b class="term">Կանոն (ամենամեծ ընդհանուր բաժանարար).</b> հավասար է թվերի պարզ արտադրիչների վերլուծման բոլոր ընդհանուր արտադրիչների արտադրյալին. ամեն ընդհանուր պարզ արտադրիչից վերցվում է <b>նվազագույն</b> (եղածից քիչը) քանակությամբ։</p>
+    <p><b class="term">Կանոն (ամենափոքր ընդհանուր բազմապատիկ).</b> հավասար է թվերի պարզ արտադրիչների վերլուծություններից վերցված բոլոր արտադրիչների արտադրյալին, ամեն արտադրիչից վերցնելով <b>առավելագույն</b> (եղածից շատը) քանակությամբ։</p>
+  </div>
+
+  <div class="block-title">Վիզուալ պատկեր</div>
+  <div class="visual-container table-wrap">
+    <table>
+      <tr><th>Պարզ արտադրիչ</th><td>$2$</td><td>$3$</td><td>$5$</td><td>$7$</td><td>$11$</td></tr>
+      <tr><th>7700-ում</th><td>$2^2$</td><td>$0$</td><td>$2^2$</td><td>$1$</td><td>$1$</td></tr>
+      <tr><th>168-ում</th><td>$2^3$</td><td>$1$</td><td>$0$</td><td>$1$</td><td>$0$</td></tr>
+      <tr><th>ԱԸԲ (նվազագույն)</th><td>$2^2$</td><td>—</td><td>—</td><td>$7$</td><td>—</td></tr>
+      <tr><th>ԱՓԲ (առավելագույն)</th><td>$2^3$</td><td>$3$</td><td>$5^2$</td><td>$7$</td><td>$11$</td></tr>
+    </table>
+  </div>
+
+  <div class="block-title">Կանոն</div>
+  <div class="formula-box"><span class="label">Հակադիր սկզբունք</span>
+    ԱԸԲ = «եղածից քիչը» ամեն ընդհանուր արտադրիչից։ ԱՓԲ = «եղածից շատը» ամեն արտադրիչից (ընդհանուր թե ոչ)։
+  </div>
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>Արդյոք $42$-ը $12$-ի բազմապատի՞կն է. ստուգեք պարզ արտադրիչների վերլուծությամբ։</p>
+    <div class="step">$12=2\cdot2\cdot3$, $42=2\cdot3\cdot7$։ $12$-ի վերլուծության մեջ կա երկու $2$, բայց $42$-ինում՝ միայն մեկ $2$։</div>
+    <div class="answer">Պատասխան. ոչ, $42$-ը $12$-ի բազմապատիկ չէ (պակասում է մեկ $2$)։</div>
+  </div>
+
+  <div class="think">Ինչո՞ւ է ամենամեծ ընդհանուր բաժանարարի հաշվարկում ընդգրկվում միայն ընդհանուր արտադրիչները, մինչդեռ ամենափոքր ընդհանուր բազմապատիկինում՝ բոլորը։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> Ամենամեծ ընդհանուր բաժանարարի և ամենափոքր ընդհանուր բազմապատիկի կանոնները շփոթել («եղածից քիչը» ընդդեմ «եղածից շատը»)։</p>
+    <p><span class="k">Ինչու՞</span> Երկու կանոնն էլ հիմնված են նույն աղյուսակի վրա, տարբերվում են միայն մեկ բառով («նվազագույն» ընդդեմ «առավելագույն»)։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Հիշիր՝ ամենամեծ ընդհանուր բաժանարարը ՓՈՔՐ է (ուստի՝ քիչ արտադրիչ), ամենափոքր ընդհանուր բազմապատիկը՝ ՄԵԾ (ուստի՝ շատ արտադրիչ)։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>ԱԸԲ-ի համար՝ միայն ընդհանուր արտադրիչներ, նվազագույն ցուցիչով։</li>
+      <li>ԱՓԲ-ի համար՝ բոլոր արտադրիչները, առավելագույն ցուցիչով։</li>
+      <li>Այս մեթոդն արագ է մեծ թվերի համար, երբ ցուցակագրումն անհարմար է։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Աղյուսակի ձևով համեմատումը (ինչպես վերևում) հատկապես օգտակար է 3+ թվերի ամենամեծ ընդհանուր բաժանարար/ամենափոքր ընդհանուր բազմապատիկ հաշվելիս. պարզապես ավելացրու ևս մեկ տող։
+  </div>
+</section>
+
+<hr class="sep">
+
+<!-- ============ ԱՌԱՋԱԴՐԱՆՔՆԵՐ ============ -->
+<section class="tasks-section" id="tasks">
+  <h2>Առաջադրանքներ</h2>
+
+  <h3>Հաշվարկային առաջադրանքներ</h3>
+  <ol class="tasks">
+    <li>Ո՞րն է 9-ին բազմապատիկ ամենափոքր բնական թիվը։</li>
+    <li>Գտեք 12, 14, 30 թվերի բոլոր բաժանարարները։</li>
+    <li>77 թիվն ունի ընդամենը երկու երկնիշ բաժանարար. գտեք դրանք։</li>
+    <li>Գտեք 18 և 35 թվերի ամենամեծ ընդհանուր բաժանարարը։</li>
+    <li>Գտեք 15, 25, 45 թվերի ամենամեծ ընդհանուր բաժանարարը։</li>
+    <li>Որո՞նք են 6-ի ու 8-ի բոլոր ընդհանուր բաժանարարները։</li>
+    <li>5ա և 5բ դասարաններում 36 աղջիկ և 24 տղա. ամենաշատը քանի՞ հավասար խումբ։</li>
+    <li>Գտեք 3, 4, 6 թվերի ամենափոքր ընդհանուր բազմապատիկը։</li>
+    <li>Անիի ավտոբուսը 4, Սոնայինը՝ 6 րոպեն մեկ. քանի՞ րոպե սպասեն, որ միասին նստեն։</li>
+    <li>Երևան-Գյումրի 20 րոպեն մեկ, Երևան-Վարդենիս՝ 45 րոպեն մեկ, մեկնարկը 08:00-ին. ե՞րբ կմեկնեն կրկին միաժամանակ։</li>
+    <li>Դուրս գրեք 10-ի բաժանվողները՝ 7, 12, 100, 52, 140, 0, 75, 45, 1020, 705։</li>
+    <li>Ո՞ր թվերն են բաժանվում և՛ 5-ի, և՛ 2-ի՝ ընտրելով 30, 45, 100, 51 թվերից։</li>
+    <li>Առանց գործողություններ կատարելու որոշեք՝ $4\cdot17\cdot95$-ը բաժանվում է 5-ի, 2-ի, 10-ի։</li>
+    <li>Ստուգեք, որ 170-ը չի բաժանվում 4-ի, բացատրեք հայտանիշով։</li>
+    <li>2500, 1708, 1725 թվերից որո՞նք են բաժանվում 4-ի։</li>
+    <li>Աստղանիշի փոխարեն գրեք թվանշան, որ թիվը բաժանվի 4-ի՝ $24{*}4$։</li>
+    <li>Առանց բաժանում կատարելու որոշեք, ի՞նչ մնացորդ կստացվի 5566-ը 4-ի բաժանելիս։</li>
+    <li>Արդյոք 104076-ը բաժանվում է 9-ի։</li>
+    <li>Նշեք տրված թվերից 3-ի և 9-ի բազմապատիկները՝ 27, 42, 81, 100։</li>
+    <li>Գրեք բազմանիշ թիվ, որը բաժանվում է և՛ 5-ի, և՛ 9-ի։</li>
+    <li>Գրեք 5 ամենափոքր երկնիշ պարզ թվերը։</li>
+    <li>Քանի՞ զույգ պարզ թիվ կա։</li>
+    <li>Նշեք, թե տրված թվերից որոնք են պարզ, որոնք՝ բաղադրյալ՝ 7, 12, 100, 1, 75, 3, 13, 23, 33։</li>
+    <li>$20\cdot14$ արտադրյալը վերլուծեք պարզ արտադրիչների։</li>
+    <li>126 թիվը վերլուծեք պարզ արտադրիչների։</li>
+    <li>Թիվը վերլուծեք պարզ արտադրիչների՝ 18, 96, 45, 1000։</li>
+    <li>Գտեք ամենափոքր բնական թիվը, որն ունի երեք իրարից տարբեր պարզ բաժանարար։</li>
+    <li>Արդյոք 42-ը 12-ի բազմապատի՞կն է. ստուգեք երկու եղանակով։</li>
+    <li>Գտեք 7700 և 168 թվերի ամենամեծ ընդհանուր բաժանարարն ու ամենափոքր ընդհանուր բազմապատիկը։</li>
+    <li>Հաշվեք $(50,75)$, $(30,45)$։</li>
+    <li>Հաշվեք ամենամեծ ընդհանուր բաժանարարն ու ամենափոքր ընդհանուր բազմապատիկը՝ $2\cdot2\cdot3\cdot3$ և $2\cdot3\cdot3\cdot3$։</li>
+    <li>Գտեք 60-ի և 135-ի ամենամեծ ընդհանուր բաժանարարն ու ամենափոքր ընդհանուր բազմապատիկը։</li>
+  </ol>
+
+  <h3>Տրամաբանական և հայեցակարգային հարցեր</h3>
+  <ol class="tasks" start="33">
+    <li>Կա՞ արդյոք բնական թիվ, որի բաժանարարներն ավելի շատ են, քան բազմապատիկները։</li>
+    <li>Ինչո՞ւ երկու տարբեր պարզ թիվ միշտ փոխադարձաբար պարզ են։</li>
+    <li>Ինչո՞ւ ցանկացած երկու թիվ ունի ընդհանուր բազմապատիկ, բայց ոչ միշտ ընդհանուր բաժանարար 1-ից բացի։</li>
+    <li>Ինչպե՞ս կձևակերպես թվի կենտ լինելու հայտանիշը։</li>
+    <li>Ինչո՞ւ է բավական ստուգել միայն երկու վերջին թվանշանը 4-ի հայտանիշում, ոչ ամբողջ թիվը։</li>
+    <li>Ինչո՞ւ է 9-ի հայտանիշը ավտոմատ ապահովում 3-ի հայտանիշը, բայց ոչ հակառակը։</li>
+    <li>Ինչո՞ւ է 2-ը միակ զույգ պարզ թիվը։</li>
+    <li>Ինչո՞ւ երկու տարբեր աշակերտ, սկսելով վերլուծել 24-ը տարբեր արտադրիչներից, վերջում ստանում են նույն պատասխանը։</li>
+  </ol>
+</section>
+
+<hr class="sep">
+
+<!-- ============ ՊԱՏԱՍԽԱՆՆԵՐ ============ -->
+<section class="answers-section" id="answers">
+  <h2>Պատասխաններ</h2>
+  <h3>Հաշվարկային առաջադրանքների պատասխանները</h3>
+  <ol class="answers-list">
+    <li>$9$</li>
+    <li>$12$՝ $1,2,3,4,6,12$; $14$՝ $1,2,7,14$; $30$՝ $1,2,3,5,6,10,15,30$</li>
+    <li>$11,\ 77$</li>
+    <li>$1$</li>
+    <li>$5$</li>
+    <li>$1,2$</li>
+    <li>$12$ խումբ</li>
+    <li>$12$</li>
+    <li>$12$ րոպե</li>
+    <li>$08{:}00$-ից 180 րոպե հետո, այսինքն $11{:}00$-ին</li>
+    <li>$100,52,140,0,1020$</li>
+    <li>$30,100$</li>
+    <li>Այո, երեքին էլ</li>
+    <li>$70:4$ մնացորդով է, ուստի ոչ</li>
+    <li>$1708$</li>
+    <li>$0,4,8$ (կամ ցանկացած՝ որ $24{*}4$-ի վերջին 2 թվանշանը 4-ի բազմապատիկ դարձնի)</li>
+    <li>$5566:4$ մն. $2$</li>
+    <li>Այո ($1{+}0{+}4{+}0{+}7{+}6=18$)</li>
+    <li>$27,81$ (9-ի); $27,42,81$ (3-ի)</li>
+    <li>օրինակ՝ $45$</li>
+    <li>$11,13,17,19,23$</li>
+    <li>$1$</li>
+    <li>պարզ՝ $7,3,13,23$; բաղադրյալ՝ $12,75,33$; ոչ մեկը՝ $1$</li>
+    <li>$2\cdot2\cdot2\cdot5\cdot7$</li>
+    <li>$2\cdot3\cdot3\cdot7$</li>
+    <li>$18{=}2\cdot3\cdot3$, $96{=}2^5\cdot3$, $45{=}3^2\cdot5$, $1000{=}2^3\cdot5^3$</li>
+    <li>$30$ ($2\cdot3\cdot5$)</li>
+    <li>ոչ, $12$-ի վերլուծության մեջ 2 հատ $2$ կա, $42$-ինում՝ 1</li>
+    <li>ԱԸԲ$=28$, ԱՓԲ$=46200$</li>
+    <li>$(50,75)=25$, $(30,45)=15$</li>
+    <li>ԱԸԲ$=2\cdot3\cdot3=18$, ԱՓԲ$=2\cdot3\cdot3\cdot3=54$</li>
+    <li>ԱԸԲ$=15$, ԱՓԲ$=540$</li>
+  </ol>
+  <h3>Տրամաբանական և հայեցակարգային հարցերի պատասխանները</h3>
+  <ol class="answers-list answers-list-conceptual" start="33">
+    <li>Ոչ, բազմապատիկների քանակն անվերջ է, բաժանարարներինը՝ վերջավոր</li>
+    <li>Երկու պարզ թվի միակ ընդհանուր բաժանարարը 1-ն է (այլապես մեկը մյուսի բաժանարար կլիներ, հակասելով պարզությանը)</li>
+    <li>Ցանկացած երկու թիվ ունի ընդհանուր բազմապատիկ (իրենց արտադրյալը), բայց ընդհանուր բաժանարար ունենալը կախված է թվերի կազմից</li>
+    <li>Կենտ թիվը 1, 3, 5, 7, 9 թվանշանով վերջացող թիվն է (2-ի բաժանելիության հայտանիշի հակառակը)</li>
+    <li>Քանի որ 100=4·25, ցանկացած թիվ = (100-ի բազմապատիկ) + (վերջին 2 թվանշան), և առաջին մասն ավտոմատ բաժանվում է 4-ի</li>
+    <li>Ամեն 9-ի բազմապատիկ թիվ (թվանշանների գումարը 9-ի բազմապատիկ) ավտոմատ 3-ի էլ բազմապատիկ է, քանի որ 9-ը 3-ի բազմապատիկ է, բայց ոչ հակառակը</li>
+    <li>Բոլոր մյուս զույգ թվերն ունեն 2-ը որպես բաժանարար, բացի իրենցից և 1-ից, ուստի բաղադրյալ են</li>
+    <li>Պարզ արտադրիչների վերլուծումը միակ է, անկախ մեկնարկային արտադրիչներից (հիմնարար հատկություն)</li>
+  </ol>
+</section>
+
+</main>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  renderMathInElement(document.body, {
+    delimiters: [
+      {left: "$$", right: "$$", display: true},
+      {left: "$", right: "$", display: false}
+    ],
+    strict: false
+  });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="hy">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Կոորդինատային համակարգ 5-9 | Ուսումնական ուղեցույց</title>
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$', '$']], displayMath: [['$$', '$$']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js" id="MathJax-script" async></script>
+<style>
+  :root{
+    --bg:#0f1f2e;
+    --paper:#f6f8fb;
+    --ink:#152233;
+    --accent:#1e5f8c;
+    --accent2:#c0562b;
+    --crust:#8fb3cc;
+    --line:#dde6ee;
+    --muted:#5b7188;
+    --card:#ffffff;
+  }
+  *{box-sizing:border-box;}
+  
+  /* Ընթեռնելի հայերեն ֆոնտ */
+  body{
+    margin:0; 
+    font-family:'Sylfaen', 'Arial', serif; 
+    background:var(--paper); 
+    color:var(--ink); 
+    font-size:18px; 
+    line-height:1.7;
+  }
+  
+  .hero{
+    background:
+      linear-gradient(180deg, rgba(22,18,37,.94), rgba(22,18,37,.88)),
+      repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(143,179,204,.16) 40px),
+      repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(143,179,204,.16) 40px);
+    background-color: var(--bg);
+    color:#eaf2f8; padding:64px 24px 56px; position:relative; overflow:hidden;
+  }
+  .hero::after{
+    content:""; position:absolute; left:-50px; top:-50px; width:220px;height:220px;
+    border:2px solid rgba(192,86,43,.5); border-radius:50%;
+    background: radial-gradient(circle at 65% 65%, rgba(192,86,43,.22), transparent 60%);
+  }
+  .hero-inner{max-width:820px; margin:0 auto; position:relative; z-index:2;}
+  h1.title{font-size:2.3rem; margin:0 0 14px; font-weight:bold; color:#fff;}
+  .hero p{color:#cfe0ec; max-width:640px; font-size:1.1rem;}
+
+  main{max-width:820px; margin:44px auto 90px; padding:0 24px;}
+  section.chapter{margin-bottom:64px;}
+  .chapter-head{display:flex; align-items:baseline; gap:16px; border-bottom:3px solid var(--accent2); padding-bottom:10px; margin-bottom:22px;}
+  .chapter-num{font-size:2.1rem; color:var(--accent); font-weight:bold;}
+  .chapter-head h2{margin:0; font-size:1.6rem; color:var(--ink); font-weight:bold;}
+  .chapter-grade{font-size:.85rem; color:var(--muted); text-transform:uppercase; letter-spacing:.05em;}
+
+  .theory{background:var(--card); border:1px solid var(--line); border-radius:10px; padding:22px 24px; margin-bottom:24px;}
+  .theory h3{margin-top:0; color:var(--accent2); font-size:1.2rem; font-weight:bold;}
+  .theory ul{padding-left:22px;} .theory li{margin-bottom:10px;}
+  .term{color:var(--accent); font-weight:bold;}
+  .why{background:#eef4f9; border-left:3px solid var(--accent2); padding:10px 16px; margin:12px 0; border-radius:0 8px 8px 0; font-size:1rem;}
+  .why b{color:var(--accent2);}
+
+  table{border-collapse:collapse; width:100%; margin:14px 0; display:block; overflow-x:auto; -webkit-overflow-scrolling:touch;}
+  svg{max-width:100%; height:auto;}
+  html, body{overflow-x:hidden;}
+  .chapter-head > *{min-width:0;}
+  th,td{border:1px solid var(--line); padding:8px 12px; text-align:center; font-size:1rem;}
+  th{background:#eef4f9; font-weight:bold;}
+
+  .example{border-left:4px solid var(--accent2); background:#fff; padding:18px 22px; margin:20px 0; border-radius:0 10px 10px 0; box-shadow:0 2px 8px rgba(15,31,46,.05);}
+  .example .tag{display:inline-block; font-size:.85rem; text-transform:uppercase; letter-spacing:.08em; color:#fff; background:var(--accent2); padding:4px 10px; border-radius:20px; margin-bottom:10px; font-weight:bold;}
+  .example p{margin:.5em 0;} .example .solution-step{margin:6px 0 6px 4px;}
+  .example .answer{margin-top:12px; padding:10px 14px; background:#eef4f9; border-radius:8px; border-left:3px solid var(--accent); font-weight:bold;}
+
+  /* Բաց և ընթեռնելի առաջադրանքներ թեմայի ներսում */
+  .practice{background:#fff8ee; border:1px solid #ecd9b6; border-radius:10px; padding:20px; margin:20px 0;}
+  .practice-title{font-weight:bold; color:var(--accent); margin:0 0 12px 0; font-size: 1.1rem;}
+  .practice-title::before{content:"✎ Առաջադրանք. ";}
+  .practice .question{margin-bottom: 12px; font-weight: 500;}
+  .practice .reveal{padding-top:12px; border-top:1px dashed #ecd9b6;}
+  .practice .see-answer{font-size:.85rem; text-transform:uppercase; color:var(--muted); letter-spacing:.06em; margin-bottom:6px; font-weight:bold;}
+
+  /* Ամփոփիչ թեստի հարցեր (Առանց լուծումների) */
+  .test-question{background:#fff; border:1px solid var(--line); border-radius:8px; padding:16px 20px; margin-bottom:16px; box-shadow:0 2px 5px rgba(0,0,0,0.03);}
+  .test-question-num{font-weight:bold; color:var(--accent); margin-right:8px; font-size:1.1rem;}
+
+  /* Պատասխանների բլոկ վերջում */
+  .answers-section{background:#fff; padding:30px; border-radius:10px; border:2px solid var(--accent2); margin-top:50px;}
+  .answers-section h2{color:var(--accent2); margin-top:0; font-weight:bold;}
+  .answers-list{columns: 2; column-gap: 40px; padding-left: 20px; margin:0;}
+  .answers-list li{margin-bottom: 10px; font-weight:bold;}
+
+  .mistake{background:#fdeeec; border:1px solid #f0c6bf; border-radius:10px; padding:16px 22px; margin:20px 0;}
+  .mistake .tag{font-size:.85rem; text-transform:uppercase; letter-spacing:.08em; color:#c0562b; font-weight:bold;}
+  .mistake p{margin:.5em 0;}
+  .mistake .step-label{font-weight:bold; color:var(--accent2);}
+
+  .think{background:#f3ede0; border-left:4px solid var(--crust); border-radius:0 10px 10px 0; padding:14px 20px; margin:20px 0; font-style:italic; color:#4a3a1f;}
+
+  hr.div{border:none; border-top:1px dashed var(--line); margin:40px 0;}
+
+  .backtop{position:fixed; right:18px; bottom:18px; width:42px; height:42px; border-radius:50%; background:var(--accent); color:#fff; display:flex; align-items:center; justify-content:center; text-decoration:none; font-size:1.3rem; box-shadow:0 4px 12px rgba(15,31,46,.25); opacity:.85;}
+  .backtop:hover{opacity:1;}
+
+  @media (max-width:600px){
+    nav.toc ol{columns:1;}
+    .answers-list{columns:1;}
+    main{padding:0 14px;}
+  }
+
+  @media print {
+      body { background: white !important; color: black !important; font-size: 12pt; }
+      .hero { padding: 10px 0; background: none !important; color: black !important; }
+      .hero::after { display: none !important; }
+      h1.title { color: black !important; }
+      .theory, .example, .practice, .test-question, .answers-section { page-break-inside: avoid !important; box-shadow: none !important; border: 1px solid #ccc !important; }
+      .chapter { page-break-before: always; }
+      .chapter:first-of-type { page-break-before: auto; }
+      .answers-list { columns: 3; }
+      .backtop{display:none !important;}
+  }
+</style>
+
+<style id="tj-unified">
+  /* ԸՆԴՀԱՆՈՒՐ ՎԵՐԻՆ ՎԱՀԱՆԱԿ — նույնական բոլոր 19 ուղեցույցում։
+     Class-երը սկսվում են tj- նախածանցով, որ երբեք չբախվեն էջի
+     սեփական ոճերի հետ։ */
+  .tj-bar{background:#0f1f2e;color:#eaf2f8;font-family:'Sylfaen','Arial',serif;}
+  .tj-bar-in{max-width:840px;margin:0 auto;padding:10px 20px;display:flex;
+             align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+  .tj-back{color:#eaf2f8;text-decoration:none;font-weight:bold;font-size:.95rem;
+           border:1px solid rgba(234,242,248,.35);border-radius:8px;padding:5px 12px;}
+  .tj-back:hover{background:rgba(234,242,248,.12);}
+  .tj-grade{font-size:.85rem;color:#cfe0ec;letter-spacing:.03em;}
+  @media print{ .tj-bar{display:none;} }
+</style>
+</head>
+<body>
+<div class="tj-bar"><div class="tj-bar-in"><a class="tj-back" href="../index.html">← Տրենաժոր</a><span class="tj-grade">6, 8–9 դասարան</span></div></div>
+
+
+<div class="hero">
+  <div class="hero-inner">
+    <h1 class="title">Կոորդինատային համակարգը՝ ուղղից մինչև շրջանագիծ</h1>
+  </div>
+</div>
+
+<main>
+
+<!-- ============ CHAPTER 1 ============ -->
+<section class="chapter" id="ch1">
+  <div class="chapter-head">
+    <span class="chapter-num">01</span>
+    <div><div class="chapter-grade">5-րդ դասարան</div><h2>Կոորդինատային ճառագայթ</h2></div>
+  </div>
+
+  <div class="theory">
+    <h3>Ինչու՞ է անհրաժեշտ կոորդինատը</h3>
+    <p>Ուղղի (կամ հարթության) վրա կետի ճշգրիտ դիրքը նկարագրելու համար մաթեմատիկան օգտագործում է <span class="term">կոորդինատներ</span>։ Ամենապարզ տարբերակը՝ <span class="term">կոորդինատային ճառագայթն</span> է. ճառագայթ՝ սկզբնակետով, ուղղությամբ և միավոր հատվածով։</p>
+    <ul>
+      <li><b>Սկզբնակետ $O$.</b> Ճառագայթի մեկնարկային կետը, $O(0)$։</li>
+      <li><b>Միավոր հատված.</b> Ընտրված չափման միավոր, որով ճառագայթի վրա տեղադրվում են բոլոր թվերը հավասար հեռավորությամբ։</li>
+      <li><b>Կետի կոորդինատ.</b> Թիվն է, որը ցույց է տալիս սկզբնակետից եղած հեռավորությունը միավոր հատվածներով։</li>
+    </ul>
+    <div class="why"><b>Ինչու՞</b> միավոր հատվածները պետք է լինեն խստորեն հավասար. կոորդինատային ճառագայթը «անվերջ քանոն» է, և եթե սանտիմետրերը իրար հավասար չեն, չափումները սխալ կլինեն։</div>
+  </div>
+
+  <div class="example">
+    <span class="tag">Օրինակ · Հատվածի երկարություն և միջնակետ</span>
+    <p>$A(4)$ և $B(12)$ կետերը տրված են։ $M$-ը $AB$-ի միջնակետն է։ Գտե՛ք $AB$-ի երկարությունը և $M$-ի կոորդինատը։</p>
+    <div class="solution-step">Երկարությունը՝ աջ կետից հանում ենք ձախը. $AB = 12 - 4 = 8$</div>
+    <div class="solution-step">Միջնակետը՝ կոորդինատների միջին թվաբանականը. $M = \dfrac{4+12}{2} = 8$</div>
+    <div class="answer">AB = 8 միավոր, M(8)</div>
+  </div>
+
+  <div class="mistake">
+    <span class="tag">⚠ Հաճախակի սխալ</span>
+    <p><span class="step-label">Ինչ է սխալ.</span> Ճառագայթի վրա միավոր հատվածները գծում են տարբեր երկարությամբ (0-ից 1-ը՝ 2 վանդակ, 1-ից 2-ը՝ 3 վանդակ)։</p>
+    <p><span class="step-label">Ինչու՞</span> Աշակերտը դեռ լիովին չի յուրացրել, որ կոորդինատային առանցքը միասնական «քանոն» է, ոչ թե կամայական նշագրում։</p>
+    <p><span class="step-label">Ինչպես ուղղել.</span> Նախքան կետեր նշելը, ամբողջ առանցքի երկարությամբ նշիր հավասար վանդակներ (ինչպես քանոնի սանտիմետրերը)։</p>
+  </div>
+
+  <div class="practice">
+    <div class="practice-title"></div>
+    <div class="question">$K(2)$ և $P(14)$ կետերը տրված են։ Գտե՛ք $KP$-ի երկարությունը և միջնակետի ($N$) կոորդինատը։</div>
+    <div class="reveal">
+      <div class="see-answer">Լուծում</div>
+      <p>$KP = 14 - 2 = 12$։ $N = \dfrac{2+14}{2} = 8$</p>
+      <div class="answer">KP = 12, N(8)</div>
+    </div>
+  </div>
+
+  <div class="practice">
+    <div class="practice-title"></div>
+    <div class="question">Ցատկռանը սկզբնակետից անում է 5 ցատկ աջ (յուրաքանչյուրը 3 միավոր), ապա 2 ցատկ ձախ (յուրաքանչյուրը 2 միավոր)։ Ո՞ր կետում կհայտնվի։</div>
+    <div class="reveal">
+      <div class="see-answer">Լուծում</div>
+      <p>Աջ. $5 \cdot 3 = 15$։ Ձախ. $2 \cdot 2 = 4$։ $15 - 4 = 11$</p>
+      <div class="answer">Կոորդինատ 11</div>
+    </div>
+  </div>
+</section>
+
+<hr class="div">
+
+<!-- ============ CHAPTER 2 ============ -->
+<section class="chapter" id="ch2">
+  <div class="chapter-head">
+    <span class="chapter-num">02</span>
+    <div><div class="chapter-grade">6-րդ դասարան</div><h2>Դեկարտյան համակարգ հարթության վրա</h2></div>
+  </div>
+
+  <div class="theory">
+    <h3>Անցումն երկչափ տարածության</h3>
+    <p>Բացասական թվերի ներմուծումից հետո ճառագայթը դառնում է <b>ուղիղ</b> (0-ից ձախ՝ բացասական թվեր)։ Երկու փոխուղղահայաց ուղիղներ, որոնք հատվում են $O(0,0)$-ում, կազմում են <span class="term">Դեկարտյան կոորդինատային համակարգը</span>։</p>
+    <ul>
+      <li><b>Աբսցիսների առանցք ($Ox$).</b> Հորիզոնական. աջ՝ դրական, ձախ՝ բացասական։</li>
+      <li><b>Օրդինատների առանցք ($Oy$).</b> Ուղղահայաց. վեր՝ դրական, վար՝ բացասական։</li>
+      <li><b>Կետի կոորդինատներ.</b> $M(x, y)$, $x$-ը՝ աբսցիս, $y$-ը՝ օրդինատ։</li>
+    </ul>
+    <table>
+      <tr><th>Քառորդ</th><th>$x$</th><th>$y$</th><th>Դիրք</th></tr>
+      <tr><td>I</td><td>$+$</td><td>$+$</td><td>աջ-վերև</td></tr>
+      <tr><td>II</td><td>$-$</td><td>$+$</td><td>ձախ-վերև</td></tr>
+      <tr><td>III</td><td>$-$</td><td>$-$</td><td>ձախ-ներքև</td></tr>
+      <tr><td>IV</td><td>$+$</td><td>$-$</td><td>աջ-ներքև</td></tr>
+    </table>
+    <div class="why"><b>Ուշադրություն.</b> Եթե կոորդինատներից գոնե մեկը զրո է, կետը գտնվում է առանցքի վրա, ոչ մի քառորդում (օրինակ՝ $(0,5)$-ը $Oy$-ի վրա է, ոչ թե I կամ II քառորդում)։</div>
+  </div>
+
+  <div class="example">
+    <span class="tag">Օրինակ · Պատկեր և մակերես</span>
+    <p>$A(2,3)$, $B(-4,3)$, $C(-4,-1)$, $D(2,-1)$։ Ո՞ր քառորդներում են, և ի՞նչ պատկեր է ստացվում $A\to B\to C\to D\to A$ միացնելիս։</p>
+    <div class="solution-step">$A$՝ I քառորդ, $B$՝ II, $C$՝ III, $D$՝ IV քառորդ։</div>
+    <div class="solution-step">Ստացվում է ուղղանկյուն. $AB = 2 - (-4) = 6$, $AD = 3 - (-1) = 4$</div>
+    <div class="answer">Ուղղանկյուն, $P = 2(6+4) = 20$ միավոր, $S = 6 \cdot 4 = 24$ միավոր²</div>
+  </div>
+
+  <div class="mistake">
+    <span class="tag">⚠ Հաճախակի սխալ</span>
+    <p><span class="step-label">Ինչ է սխալ.</span> $A(2,5)$ նշելիս աբսցիսների առանցքով քայլում են 5, օրդինատով՝ 2 (հակառակը)։</p>
+    <p><span class="step-label">Ինչու՞</span> Կոորդինատների հերթականությունը դեռ ավտոմատացված չէ. աշակերտը կռահում է՝ ո՞ր թիվն ինչի՞ համար է, փոխանակ հետևելու հաստատուն կանոնին։</p>
+    <p><span class="step-label">Ինչպես ուղղել.</span> «Նախ քայլիր, հետո բարձրացիր». $(x,y)$-ում $x$-ը միշտ հորիզոնական քայլն է, $y$-ը՝ ուղղահայացը։</p>
+  </div>
+
+  <div class="practice">
+    <div class="practice-title"></div>
+    <div class="question">$A(-3,2)$ կետից 5 միավոր աջ և 3 միավոր ներքև գտնվում է $B$ կետը։ Գտե՛ք $B$-ի կոորդինատները։</div>
+    <div class="reveal">
+      <div class="see-answer">Լուծում</div>
+      <p>Աջ $\Rightarrow$ $x$-ին գումարել 5, ներքև $\Rightarrow$ $y$-ից հանել 3.</p>
+      <div class="answer">B(2, -1)</div>
+    </div>
+  </div>
+
+  <div class="practice">
+    <div class="practice-title"></div>
+    <div class="question">Ուղղանկյան երեք գագաթներն են $M(-2,-2)$, $N(-2,4)$, $P(5,4)$։ Գտե՛ք $K$-ի կոորդինատները և մակերեսը։</div>
+    <div class="reveal">
+      <div class="see-answer">Լուծում</div>
+      <p>$K$-ն ունի $P$-ի աբսցիսը և $M$-ի օրդինատը. $K(5,-2)$։ Կողմեր՝ $7$ և $6$, $S=42$</p>
+      <div class="answer">K(5, -2), S = 42 միավոր²</div>
+    </div>
+  </div>
+</section>
+
+<hr class="div">
+
+<!-- ============ CHAPTER 3 ============ -->
+<section class="chapter" id="ch3">
+  <div class="chapter-head">
+    <span class="chapter-num">03</span>
+    <div><div class="chapter-grade">7-րդ դասարան</div><h2>Համաչափություն կոորդինատային հարթության վրա</h2></div>
+  </div>
+
+  <div class="theory">
+    <h3>Երեք տեսակի համաչափություն</h3>
+    <table>
+      <tr><th>Առանցք</th><th>Բանաձև</th><th>Ինչ է փոխվում</th></tr>
+      <tr><td>$Ox$</td><td>$A(x,y)\to A'(x,-y)$</td><td>միայն $y$-ի նշանը</td></tr>
+      <tr><td>$Oy$</td><td>$A(x,y)\to A'(-x,y)$</td><td>միայն $x$-ի նշանը</td></tr>
+      <tr><td>$O(0,0)$</td><td>$A(x,y)\to A'(-x,-y)$</td><td>երկուսի նշանն էլ</td></tr>
+    </table>
+    <div class="why"><b>Ինչու՞</b> $Ox$-ի նկատմամբ համաչափությունը նման է թղթի ծալքին հորիզոնական գծով. վերևի կետը «ընկնում» է նույն հեռավորությամբ ներքև (փոխվում է միայն բարձրությունը՝ $y$-ը), իսկ հորիզոնական դիրքը ($x$) մնում է անփոփոխ։</div>
+  </div>
+
+  <div class="example">
+    <span class="tag">Օրինակ · Երեք համաչափ կետ</span>
+    <p>$M(-3,4)$։ Գտե՛ք $M_1$ ($Ox$-ի նկատմամբ), $M_2$ ($Oy$-ի նկատմամբ), $M_3$ ($O$-ի նկատմամբ)։</p>
+    <div class="solution-step">$M_1(-3,-4)$ — միայն $y$-ի նշանը փոխվեց</div>
+    <div class="solution-step">$M_2(3,4)$ — միայն $x$-ի նշանը փոխվեց</div>
+    <div class="solution-step">$M_3(3,-4)$ — երկուսն էլ փոխվեցին</div>
+  </div>
+
+  <div class="mistake">
+    <span class="tag">⚠ Հաճախակի սխալ</span>
+    <p><span class="step-label">Ինչ է սխալ.</span> Կարծում են, թե $Ox$-ի նկատմամբ համաչափության ժամանակ պետք է փոխվի $x$-ի նշանը (անվան հետ ասոցիացիայի սխալ)։</p>
+    <p><span class="step-label">Ինչու՞</span> «$Ox$ առանցք» անվանումը ինտուիտիվորեն կապվում է $x$-ի հետ, բայց փոխվում է հակառակ կոորդինատը՝ $y$-ը։</p>
+    <p><span class="step-label">Ինչպես ուղղել.</span> Հիշիր. համաչափությունը «ծալք» է հենց այդ առանցքով, ուստի ուղղահայաց դիրքն է փոխվում $Ox$-ի դեպքում, ոչ թե հորիզոնականը։</p>
+  </div>
+
+  <div class="practice">
+    <div class="practice-title"></div>
+    <div class="question">$A(5,-2)$-ի համաչափ կետերը՝ $Ox$, $Oy$ և սկզբնակետի նկատմամբ։</div>
+    <div class="reveal">
+      <div class="see-answer">Լուծում</div>
+      <div class="answer">A₁(5, 2), A₂(−5, −2), A₃(−5, 2)</div>
+    </div>
+  </div>
+
+  <div class="practice">
+    <div class="practice-title"></div>
+    <div class="question">$B(-1,-6)$-ն արտացոլվում է $Oy$-ով (ստանում ենք $B'$), ապա $B'$-ը՝ $Ox$-ով (ստանում ենք $B''$)։ Ցո՛ւյց տվեք, որ $B''$-ը համաչափ է սկզբնական $B$-ին սկզբնակետի նկատմամբ։</div>
+    <div class="reveal">
+      <div class="see-answer">Լուծում</div>
+      <p>$B'(1,-6)$, ապա $B''(1,6)$։ Համեմատած սկզբնական $(-1,-6)$-ի հետ, երկու կոորդինատներն էլ փոխել են նշանը, ինչը հենց սկզբնակետի նկատմամբ համաչափության սահմանումն է։</p>
+      <div class="answer">B″(1, 6)</div>
+    </div>
+  </div>
+</section>
+
+<hr class="div">
+
+<!-- ============ CHAPTER 4 ============ -->
+<section class="chapter" id="ch4">
+  <div class="chapter-head">
+    <span class="chapter-num">04</span>
+    <div><div class="chapter-grade">8-րդ դասարան</div><h2>Հեռավորություն և հատվածի միջնակետ</h2></div>
+  </div>
+
+  <div class="theory">
+    <h3>Երկու բանաձև՝ Պյութագորասից ածանցված</h3>
+    <p><span class="term">Հատվածի միջնակետը</span> — $A(x_1,y_1)$ և $B(x_2,y_2)$ կետերի համար՝</p>
+    $$x_M=\frac{x_1+x_2}{2}, \quad y_M=\frac{y_1+y_2}{2}$$
+    <p><span class="term">Հեռավորության բանաձևը</span> — Պյութագորասի թեորեմով.</p>
+    $$d=AB=\sqrt{(x_2-x_1)^2+(y_2-y_1)^2}$$
+    <div class="why"><b>Ինչու՞</b> $A$-ից $B$-ին տանող հատվածը ուղղանկյուն եռանկյան ներքնաձիգն է, որի էջերն են $|x_2-x_1|$ և $|y_2-y_1|$ (հորիզոնական և ուղղահայաց տարբերությունները)։ Ներքնաձիգը՝ էջերի քառակուսիների գումարի արմատը։</div>
+  </div>
+
+  <div class="example">
+    <span class="tag">Օրինակ · Միջնակետ և հեռավորություն</span>
+    <p>$A(-2,1)$, $B(4,9)$։ Գտե՛ք $AB$-ի միջնակետը և երկարությունը։</p>
+    <div class="solution-step">$x_M=\dfrac{-2+4}{2}=1$, $y_M=\dfrac{1+9}{2}=5$ $\Rightarrow$ $M(1,5)$</div>
+    <div class="solution-step">$d=\sqrt{(4-(-2))^2+(9-1)^2}=\sqrt{6^2+8^2}=\sqrt{100}=10$</div>
+    <div class="answer">M(1,5), AB = 10 միավոր</div>
+  </div>
+
+  <div class="mistake">
+    <span class="tag">⚠ Հաճախակի սխալ 1</span>
+    <p><span class="step-label">Ինչ է սխալ.</span> Բացասական կոորդինատով հանելիս սխալվում են նշանի հետ. $5-(-3)$-ը հաշվում են որպես $5-3=2$՝ $8$-ի փոխարեն։</p>
+    <p><span class="step-label">Ինչու՞</span> «Հանել բացասականը» գործողությունը մեխանիկորեն կատարվում է առանց փակագծերին ուշադրություն դարձնելու։</p>
+    <p><span class="step-label">Ինչպես ուղղել.</span> Միշտ գրիր փակագծերով. $5-(-3)=5+3=8$։</p>
+  </div>
+
+  <div class="mistake">
+    <span class="tag">⚠ Հաճախակի սխալ 2</span>
+    <p><span class="step-label">Ինչ է սխալ.</span> Քառակուսի արմատը «բացում են գումարելիով». $\sqrt{36+64}=\sqrt{36}+\sqrt{64}=6+8=14$ (սխալ, ճիշտն է $\sqrt{100}=10$)։</p>
+    <p><span class="step-label">Ինչու՞</span> Շփոթում են արմատի հատկությունը արտադրյալի հետ ($\sqrt{ab}=\sqrt{a}\sqrt{b}$ ճիշտ է, բայց $\sqrt{a+b}\ne\sqrt{a}+\sqrt{b}$)։</p>
+    <p><span class="step-label">Ինչպես ուղղել.</span> Նախ գումարիր փակագծի ներսում ամբողջությամբ, հետո միայն հանիր արմատը։</p>
+  </div>
+
+  <div class="practice">
+    <div class="practice-title"></div>
+    <div class="question">Գտե՛ք $A(-5,-3)$ և $B(3,2)$ կետերի հեռավորությունը (թողե՛ք արմատի տակ)։</div>
+    <div class="reveal">
+      <div class="see-answer">Լուծում</div>
+      <p>$d=\sqrt{(3-(-5))^2+(2-(-3))^2}=\sqrt{8^2+5^2}=\sqrt{64+25}=\sqrt{89}$</p>
+      <div class="answer">√89 միավոր</div>
+    </div>
+  </div>
+
+  <div class="practice">
+    <div class="practice-title"></div>
+    <div class="question">Եռանկյան գագաթներն են $A(1,1)$, $B(5,1)$, $C(3,4)$։ Ապացուցե՛ք, որ հավասարասրուն է, և գտե՛ք $AB$ հիմքին տարված միջնագիծը։</div>
+    <div class="reveal">
+      <div class="see-answer">Լուծում</div>
+      <p>$AC=\sqrt{4+9}=\sqrt{13}$, $BC=\sqrt{4+9}=\sqrt{13}$ — հավասար են, ուստի հավասարասրուն է։ $AB$-ի միջնակետը $M(3,1)$։ $CM=\sqrt{0+9}=3$</p>
+      <div class="answer">AC = BC = √13, միջնագիծը = 3 միավոր</div>
+    </div>
+  </div>
+</section>
+
+<hr class="div">
+
+<!-- ============ CHAPTER 5 ============ -->
+<section class="chapter" id="ch5">
+  <div class="chapter-head">
+    <span class="chapter-num">05</span>
+    <div><div class="chapter-grade">9-րդ դասարան</div><h2>Շրջանագծի հավասարում և գրաֆիկների ձևափոխություններ</h2></div>
+  </div>
+
+  <div class="theory">
+    <h3>Շրջանագծի հավասարումը</h3>
+    <p><span class="term">Շրջանագիծը</span> հարթության այն կետերի բազմությունն է, որոնք հավասարահեռ են կենտրոնից՝ $C(a,b)$։ Հեռավորության բանաձևից ածանցվում է.</p>
+    $$(x-a)^2+(y-b)^2=R^2$$
+    <p>Եթե կենտրոնը սկզբնակետն է. $x^2+y^2=R^2$։</p>
+    <div class="why"><b>Ինչպես հիշել կենտրոնի նշանները.</b> Հավասարման մեջ փակագիծը զրոյացնող արժեքն է կենտրոնի կոորդինատը. $x+3=0 \Rightarrow x=-3$ (ոչ թե $+3$)։</div>
+  </div>
+
+  <div class="theory">
+    <h3>Գրաֆիկների տեղաշարժեր (կրկնություն ֆունկցիաներից)</h3>
+    <ul>
+      <li>$y=f(x-c)$ $\Rightarrow$ աջ $c$ միավոր (եթե $c>0$)</li>
+      <li>$y=f(x+c)$ $\Rightarrow$ ձախ $c$ միավոր</li>
+      <li>$y=f(x)+c$ $\Rightarrow$ վեր $c$ միավոր</li>
+      <li>$y=f(x)-c$ $\Rightarrow$ վար $c$ միավոր</li>
+    </ul>
+  </div>
+
+  <div class="example">
+    <span class="tag">Օրինակ A · Հավասարման կազմում և ստուգում</span>
+    <p>Կենտրոն $C(-3,2)$, $R=5$։ Գրե՛ք հավասարումը և ստուգե՛ք՝ $A(1,5)$-ը պատկանում է շրջանագծին։</p>
+    <div class="solution-step">$(x+3)^2+(y-2)^2=25$</div>
+    <div class="solution-step">$A$-ի ստուգում. $(1+3)^2+(5-2)^2=16+9=25$ ✓</div>
+    <div class="answer">Հավասարումը ճիշտ է, A(1,5) պատկանում է շրջանագծին</div>
+  </div>
+
+  <div class="example">
+    <span class="tag">Օրինակ B · Ստանդարտ տեսքի բերում (լրիվ քառակուսի)</span>
+    <p>$x^2+y^2-8x+2y+8=0$-ից գտե՛ք կենտրոնն ու շառավիղը։</p>
+    <div class="solution-step">Խմբավորում. $(x^2-8x)+(y^2+2y)=-8$</div>
+    <div class="solution-step">Լրիվ քառակուսի (գումարել 16 և 1). $(x-4)^2+(y+1)^2=-8+16+1=9$</div>
+    <div class="answer">Կենտրոն C(4, −1), R = 3</div>
+  </div>
+
+  <div class="mistake">
+    <span class="tag">⚠ Հաճախակի սխալ</span>
+    <p><span class="step-label">Ինչ է սխալ.</span> $(x+3)^2+(y-4)^2=16$-ից կենտրոնը սխալմամբ գրում են $(3,-4)$։</p>
+    <p><span class="step-label">Ինչու՞</span> Ուշադրություն չեն դարձնում, որ ստանդարտ տեսքը $x-a$ է, ուստի $x+3=x-(-3)\Rightarrow a=-3$, ոչ թե $a=3$։</p>
+    <p><span class="step-label">Ինչպես ուղղել.</span> Զրոյացրու փակագիծը. $x+3=0\Rightarrow x=-3$։</p>
+  </div>
+
+  <div class="practice">
+    <div class="practice-title"></div>
+    <div class="question">Գրե՛ք շրջանագծի հավասարումը, որի տրամագծի ծայրակետերն են $A(-1,3)$ և $B(5,3)$։</div>
+    <div class="reveal">
+      <div class="see-answer">Լուծում</div>
+      <p>Կենտրոն = միջնակետ. $C(2,3)$։ $R=AB/2=6/2=3$</p>
+      <div class="answer">(x−2)² + (y−3)² = 9</div>
+    </div>
+  </div>
+
+  <div class="practice">
+    <div class="practice-title"></div>
+    <div class="question">$y=x^2$-ից ինչպե՞ս ստանալ $y=(x+2)^2-5$-ը, և որտե՞ղ է նոր գագաթը։</div>
+    <div class="reveal">
+      <div class="see-answer">Լուծում</div>
+      <p>$x+2$ $\Rightarrow$ տեղաշարժ ձախ 2 միավոր։ $-5$ $\Rightarrow$ տեղաշարժ վար 5 միավոր։</p>
+      <div class="answer">Գագաթ G(−2, −5)</div>
+    </div>
+  </div>
+
+  <div class="think">
+    Մտածելու համար. կոորդինատային ուղղին սովորեցինք 5-րդ դասարանում, բայց նույն սկզբունքով է կառուցվում GPS նավիգացիան, քարտեզագրումը և նույնիսկ համակարգչային էկրանի պիքսելների հասցեավորումը։ Ինչո՞ւ է այս «պարզ» գաղափարը այդքան ունիվերսալ։
+  </div>
+</section>
+
+<!-- ============ CHAPTER 6 ============ -->
+<section class="chapter" id="ch6">
+  <div class="chapter-head">
+    <span class="chapter-num">06</span>
+    <div><div class="chapter-grade">5-9-րդ դասարան</div><h2>Ամփոփիչ Ինքնուրույն Աշխատանք</h2></div>
+  </div>
+
+  <div class="theory">
+    <p>Այս բաժնում հավաքված են 30 ինքնուրույն առաջադրանքներ կոորդինատների և շրջանագծի հավասարումների թեմաներից։ Լուծեք ինքնուրույն, իսկ պատասխանները ստուգեք ֆայլի վերջում գտնվող աղյուսակով։</p>
+  </div>
+
+  <div class="test-question"><span class="test-question-num">1.</span> Կոորդինատային ճառագայթի վրա տրված են $A(3)$ և $B(11)$ կետերը: Գտե՛ք $AB$ հատվածի երկարությունը:</div>
+  
+  <div class="test-question"><span class="test-question-num">2.</span> Գտե՛ք $K(5)$ և $M(17)$ կետերի միջնակետի կոորդինատը:</div>
+  
+  <div class="test-question"><span class="test-question-num">3.</span> Կետը գտնվում է աբսցիսների առանցքի վրա և սկզբնակետից ձախ է 4 միավորով: Ո՞րն է կետի կոորդինատը:</div>
+  
+  <div class="test-question"><span class="test-question-num">4.</span> Ո՞ր քառորդում է գտնվում $A(-5, 2)$ կետը:</div>
+  
+  <div class="test-question"><span class="test-question-num">5.</span> Գտե՛ք $P(-2, 4)$ և $Q(5, 4)$ կետերի հեռավորությունը:</div>
+  
+  <div class="test-question"><span class="test-question-num">6.</span> $M(x, -3)$ կետը գտնվում է օրդինատների առանցքի վրա: Ինչի՞ է հավասար $x$-ը:</div>
+  
+  <div class="test-question"><span class="test-question-num">7.</span> Գտե՛ք $A(-4, 7)$ կետի համաչափ կետը $Ox$ առանցքի նկատմամբ:</div>
+  
+  <div class="test-question"><span class="test-question-num">8.</span> Գտե՛ք $B(3, -5)$ կետի համաչափ կետը $Oy$ առանցքի նկատմամբ:</div>
+  
+  <div class="test-question"><span class="test-question-num">9.</span> Գտե՛ք $C(-2, -6)$ կետի համաչափ կետը կոորդինատների սկզբնակետի նկատմամբ:</div>
+  
+  <div class="test-question"><span class="test-question-num">10.</span> Ուղղանկյան երեք գագաթներն են՝ $(0, 0), (0, 4), (6, 0)$: Գտե՛ք չորրորդ գագաթի կոորդինատները:</div>
+  
+  <div class="test-question"><span class="test-question-num">11.</span> Գտե՛ք $A(-1, 3)$ և $B(5, -5)$ կետերով անցնող հատվածի միջնակետի կոորդինատները:</div>
+  
+  <div class="test-question"><span class="test-question-num">12.</span> Գտե՛ք $M(0, 4)$ և $N(3, 0)$ կետերի հեռավորությունը:</div>
+  
+  <div class="test-question"><span class="test-question-num">13.</span> Գտե՛ք $P(-2, -1)$ և $Q(4, 7)$ կետերի հեռավորությունը:</div>
+  
+  <div class="test-question"><span class="test-question-num">14.</span> Եռանկյան գագաթներն են $A(0, 0), B(0, 6), C(8, 0)$: Գտե՛ք եռանկյան ներքնաձիգի ($BC$) երկարությունը:</div>
+  
+  <div class="test-question"><span class="test-question-num">15.</span> Գրե՛ք այն շրջանագծի հավասարումը, որի կենտրոնը սկզբնակետն է, իսկ շառավիղը 4 է:</div>
+  
+  <div class="test-question"><span class="test-question-num">16.</span> Ո՞ր կետն է $(x - 3)^2 + (y + 2)^2 = 25$ շրջանագծի կենտրոնը:</div>
+  
+  <div class="test-question"><span class="test-question-num">17.</span> Գտե՛ք $(x + 1)^2 + (y - 4)^2 = 49$ շրջանագծի տրամագիծը:</div>
+  
+  <div class="test-question"><span class="test-question-num">18.</span> $y = x^2$ ֆունկցիայի գրաֆիկը տեղաշարժել են 3 միավոր աջ և 1 միավոր վեր: Ո՞րն է նոր գագաթի կոորդինատը:</div>
+  
+  <div class="test-question"><span class="test-question-num">19.</span> Արդյո՞ք $A(3, 4)$ կետը պատկանում է $x^2 + y^2 = 25$ շրջանագծին:</div>
+  
+  <div class="test-question"><span class="test-question-num">20.</span> $y = (x + 5)^2 - 2$ ֆունկցիայի գրաֆիկը ստացվել է $y = x^2$ գրաֆիկից: Քանի՞ միավոր և ո՞ր ուղղությամբ են այն տեղաշարժել հորիզոնական առանցքով ($Ox$):</div>
+
+  <div class="test-question"><span class="test-question-num">21.</span> Գտե՛ք $A(6, -3)$ և $B(6, 5)$ կետերի հեռավորությունը (ուշադրություն՝ նույն աբսցիսով կետեր):</div>
+
+  <div class="test-question"><span class="test-question-num">22.</span> Ո՞ր քառորդում է գտնվում $M(7, -1)$ կետը:</div>
+
+  <div class="test-question"><span class="test-question-num">23.</span> Գտե՛ք $D(-3, -3)$ և $E(1, 0)$ կետերի միջնակետի կոորդինատները:</div>
+
+  <div class="test-question"><span class="test-question-num">24.</span> Գրե՛ք այն շրջանագծի հավասարումը, որի կենտրոնն է $(2, -3)$, իսկ շառավիղը՝ 5:</div>
+
+  <div class="test-question"><span class="test-question-num">25.</span> $x^2 + y^2 - 6x + 4y - 12 = 0$ հավասարումը գրե՛ք կանոնական տեսքով (կենտրոն + շառավիղ), լրացնելով լրիվ քառակուսի:</div>
+
+  <div class="test-question"><span class="test-question-num">26.</span> Գտե՛ք $A(0, 5)$ կետի համաչափ կետը կոորդինատների սկզբնակետի նկատմամբ:</div>
+
+  <div class="test-question"><span class="test-question-num">27.</span> Եռանկյան գագաթներն են $A(-2, 0), B(4, 0), C(1, 5)$: Գտե՛ք $AB$ կողմի երկարությունը:</div>
+
+  <div class="test-question"><span class="test-question-num">28.</span> $y = x^2$ ֆունկցիայի գրաֆիկը տեղաշարժել են 2 միավոր ձախ և 3 միավոր վար: Գրե՛ք նոր ֆունկցիայի բանաձևը:</div>
+
+  <div class="test-question"><span class="test-question-num">29.</span> Արդյո՞ք $K(-3, 4)$ կետը պատկանում է $(x+3)^2+(y-4)^2=1$ շրջանագծին, թե՞ գտնվում է դրա ներսում/դրսում:</div>
+
+  <div class="test-question"><span class="test-question-num">30.</span> Քառակուսու երեք գագաթներն են $(1, 1), (1, 5), (5, 5)$: Գտե՛ք չորրորդ գագաթի կոորդինատները:</div>
+  
+</section>
+
+<!-- ՊԱՏԱՍԽԱՆՆԵՐԻ ԲԼՈԿ -->
+<div class="answers-section">
+  <h2>Ինքնուրույն Աշխատանքի Պատասխաններ</h2>
+  <ol class="answers-list">
+    <li>8</li>
+    <li>11</li>
+    <li>(-4, 0)</li>
+    <li>II (Երկրորդ քառորդ)</li>
+    <li>7</li>
+    <li>0</li>
+    <li>(-4, -7)</li>
+    <li>(-3, -5)</li>
+    <li>(2, 6)</li>
+    <li>(6, 4)</li>
+    <li>(2, -1)</li>
+    <li>5</li>
+    <li>10</li>
+    <li>10</li>
+    <li>$x^2 + y^2 = 16$</li>
+    <li>(3, -2)</li>
+    <li>14</li>
+    <li>(3, 1)</li>
+    <li>Այո</li>
+    <li>5 միավոր ձախ</li>
+    <li>8</li>
+    <li>IV (Չորրորդ քառորդ)</li>
+    <li>(-1, -1.5)</li>
+    <li>$(x-2)^2+(y+3)^2=25$</li>
+    <li>$(x-3)^2+(y+2)^2=25$, կենտրոն $(3,-2)$, շառավիղ 5</li>
+    <li>(0, -5)</li>
+    <li>6</li>
+    <li>$y=(x+2)^2-3$</li>
+    <li>Ներսում է (հեռավորությունը կենտրոնից 0 է, ինքը կենտրոնն է)</li>
+    <li>(5, 1)</li>
+  </ol>
+</div>
+
+</main>
+
+<a href="#" class="backtop" title="Վերև">↑</a>
+
+</body>
+</html>

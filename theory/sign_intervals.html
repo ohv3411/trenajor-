@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="hy">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Նշանապահպանման միջակայքեր | Ուսումնական ուղեցույց</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<style>
+  :root{
+    --bg:#0f1f2e; --paper:#f6f8fb; --ink:#152233; --accent:#1e5f8c; --accent2:#c0562b;
+    --crust:#8fb3cc; --muted:#5b7188; --card:#ffffff; --line:#dde6ee;
+  }
+  *{box-sizing:border-box;}
+  html, body{overflow-x:hidden;}
+  body{margin:0; font-family:'Sylfaen','Arial',serif; background:var(--paper); color:var(--ink); font-size:18px; line-height:1.7;}
+  .hero{background:linear-gradient(135deg, var(--bg) 0%, #1c3b52 100%); color:#eaf2f8; padding:56px 24px 48px;}
+  .hero-inner{max-width:840px; margin:0 auto;}
+  h1.title{font-size:2.2rem; margin:0 0 10px; font-weight:bold; color:#fff;}
+  .hero p{color:#cfe0ec; max-width:620px; font-size:1.05rem;}
+  nav.toc{max-width:840px; margin:-26px auto 0; position:relative; z-index:3; background:var(--card); border-radius:10px; box-shadow:0 12px 30px rgba(15,31,46,.18); padding:22px 26px; border:1px solid var(--line);}
+  nav.toc h2{font-size:1.05rem; text-transform:uppercase; letter-spacing:.07em; color:var(--muted); margin:0 0 12px; font-weight:bold;}
+  nav.toc ol{margin:0; padding-left:20px; columns:2; column-gap:28px;}
+  nav.toc li{margin-bottom:8px; font-size:.98rem;}
+  nav.toc a{color:var(--accent); text-decoration:none; border-bottom:1px dotted var(--accent);}
+  main{max-width:840px; margin:40px auto 90px; padding:0 24px;}
+  section.part-header{margin:48px 0 20px; padding-bottom:8px; border-bottom:2px solid var(--crust); color:var(--muted); font-weight:bold; text-transform:uppercase; letter-spacing:.05em; font-size:.95rem;}
+  section.chapter{margin-bottom:56px;}
+  .chapter-head{display:flex; align-items:baseline; gap:14px; border-bottom:3px solid var(--accent2); padding-bottom:10px; margin-bottom:20px;}
+  .chapter-num{font-size:1.9rem; color:var(--accent); font-weight:bold;}
+  .chapter-head h2{margin:0; font-size:1.4rem; color:var(--ink); font-weight:bold;}
+
+  .block-title{font-weight:bold; color:var(--accent); font-size:1.02rem; margin:22px 0 8px; text-transform:uppercase; letter-spacing:.04em;}
+  .hook{background:#eef4f9; border-radius:10px; padding:16px 20px; margin:10px 0 18px; font-style:italic;}
+  .intuitive{padding:0 2px; margin-bottom:14px;}
+  .formal-def{background:#fff; border:1px solid var(--line); border-left:4px solid var(--accent); border-radius:0 10px 10px 0; padding:16px 20px; margin:14px 0;}
+  .formal-def b.term{color:var(--accent2);}
+
+  .visual-container.table-wrap{overflow-x:auto; width:100%; margin:18px 0; -webkit-overflow-scrolling:touch;}
+  table{border-collapse:collapse; width:100%;}
+  th,td{border:1px solid var(--line); padding:8px 12px; text-align:center; font-size:.98rem;}
+  th{background:#eaf1f7; font-weight:bold;}
+  svg{max-width:100%; height:auto; display:block; margin:0 auto;}
+
+  .formula-box{background:#fff8ee; border:1px solid #ecd9b6; border-radius:10px; padding:18px 22px; margin:16px 0;}
+  .formula-box .label{display:block; font-weight:bold; color:var(--accent2); margin-bottom:8px; text-transform:uppercase; font-size:.85rem; letter-spacing:.05em;}
+
+  .example-box{border-left:4px solid var(--accent); background:#fff; padding:16px 20px; margin:16px 0; border-radius:0 10px 10px 0; box-shadow:0 2px 8px rgba(15,31,46,.05);}
+  .example-box .tag{display:inline-block; font-size:.8rem; text-transform:uppercase; letter-spacing:.07em; color:#fff; background:var(--accent); padding:3px 10px; border-radius:20px; margin-bottom:8px; font-weight:bold;}
+  .example-box .step{margin:6px 0 6px 2px;}
+  .example-box .answer{margin-top:10px; padding:8px 14px; background:#eef4f9; border-radius:8px; border-left:3px solid var(--accent); font-weight:bold;}
+
+  .think{background:#f3ede0; border-left:4px solid var(--crust); border-radius:0 10px 10px 0; padding:12px 18px; margin:14px 0; font-style:italic; color:#4a3a1f;}
+
+  .error-box{background:#fdeeec; border:1px solid #f0c6bf; border-radius:10px; padding:16px 20px; margin:16px 0;}
+  .error-box h4{margin:0 0 8px; color:var(--accent2); font-size:1rem;}
+  .error-box .k{font-weight:bold; color:var(--accent2);}
+
+  .remember{background:#eef6ef; border:1px solid #cfe6d2; border-radius:10px; padding:14px 20px; margin:16px 0;}
+  .remember .label{font-weight:bold; color:#2f6b3a; text-transform:uppercase; font-size:.85rem; letter-spacing:.05em; display:block; margin-bottom:6px;}
+
+  .teacher-corner{background:#eaf1f7; border:1px dashed var(--crust); border-radius:10px; padding:16px 20px; margin:16px 0 28px;}
+  .teacher-corner .label{font-weight:bold; color:var(--accent); text-transform:uppercase; font-size:.85rem; letter-spacing:.05em; display:block; margin-bottom:6px;}
+
+  hr.sep{border:none; border-top:1px dashed var(--line); margin:36px 0;}
+
+  .tasks-section h2{color:var(--accent); border-bottom:3px solid var(--accent2); padding-bottom:8px;}
+  .tasks-section h3{color:var(--accent2); margin-top:26px;}
+  ol.tasks{padding-left:24px;}
+  ol.tasks li{margin-bottom:10px;}
+
+  .answers-section{background:#fff; padding:26px 28px; border-radius:10px; border:2px solid var(--accent); margin-top:44px;}
+  .answers-section h2{color:var(--accent); margin-top:0;}
+  .answers-section h3{color:var(--accent2); font-size:1rem; margin:22px 0 10px;}
+  .answers-list{columns:2; column-gap:36px; padding-left:20px; margin:0;}
+  .answers-list li{margin-bottom:9px; font-weight:bold;}
+  .answers-list-conceptual{columns:1; list-style-position:outside;}
+
+  @media (max-width:600px){
+    nav.toc ol{columns:1;}
+    .answers-list{columns:1;}
+    main{padding:0 14px;}
+  }
+
+  @media print {
+    body{background:#fff !important; color:#000 !important; font-size:12pt;}
+    .hero{padding:10px 0; background:none !important; color:#000 !important;}
+    h1.title{color:#000 !important;}
+    nav.toc{display:none !important;}
+    .formula-box, .example-box, .error-box, .visual-container, .table-wrap{page-break-inside:avoid !important; box-shadow:none !important; border:1px solid #ccc !important;}
+    .table-wrap, .visual-container{overflow-x:visible !important; white-space:pre-wrap !important; word-break:break-word !important;}
+    html, body{overflow-x:visible !important;}
+    .chapter{page-break-before:always;}
+    .chapter:first-of-type{page-break-before:auto;}
+    .answers-list{columns:3;}
+  }
+</style>
+
+<style id="tj-unified">
+  /* ԸՆԴՀԱՆՈՒՐ ՎԵՐԻՆ ՎԱՀԱՆԱԿ — նույնական բոլոր 19 ուղեցույցում։
+     Class-երը սկսվում են tj- նախածանցով, որ երբեք չբախվեն էջի
+     սեփական ոճերի հետ։ */
+  .tj-bar{background:#0f1f2e;color:#eaf2f8;font-family:'Sylfaen','Arial',serif;}
+  .tj-bar-in{max-width:840px;margin:0 auto;padding:10px 20px;display:flex;
+             align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+  .tj-back{color:#eaf2f8;text-decoration:none;font-weight:bold;font-size:.95rem;
+           border:1px solid rgba(234,242,248,.35);border-radius:8px;padding:5px 12px;}
+  .tj-back:hover{background:rgba(234,242,248,.12);}
+  .tj-grade{font-size:.85rem;color:#cfe0ec;letter-spacing:.03em;}
+  @media print{ .tj-bar{display:none;} }
+</style>
+</head>
+<body>
+<div class="tj-bar"><div class="tj-bar-in"><a class="tj-back" href="../index.html">← Տրենաժոր</a><span class="tj-grade">9 դասարան</span></div></div>
+
+
+<div class="hero">
+  <div class="hero-inner">
+    <h1 class="title">Նշանապահպանման միջակայքեր</h1>
+    <p>Թվային արտադրյալի նշանից մինչև ռացիոնալ արտահայտության, քառակուսային եռանդամի և ֆունկցիայի գրաֆիկի նշանապահպանման միջակայքերը։</p>
+  </div>
+</div>
+
+<nav class="toc">
+  <h2>Բովանդակություն</h2>
+  <ol>
+    <li><a href="#s1">Թվային արտահայտությունների արտադրյալի նշանը</a></li>
+    <li><a href="#s2">Տառային արտահայտությունների արտադրյալի նշանը</a></li>
+    <li><a href="#s3">Ռացիոնալ արտահայտության նշանը</a></li>
+    <li><a href="#s4">Քառակուսային եռանդամի նշանը</a></li>
+    <li><a href="#s5">Ֆունկցիայի գրաֆիկն ու նշանապահպանման միջակայքերը</a></li>
+    <li><a href="#tasks">Առաջադրանքներ</a></li>
+    <li><a href="#answers">Պատասխաններ</a></li>
+  </ol>
+</nav>
+
+<main>
+
+<!-- ============ ՄԱՍ 1/2 ============ -->
+<section class="part-header">Մաս 1 / 2</section>
+
+<section class="chapter" id="s1">
+  <div class="chapter-head"><span class="chapter-num">01</span><h2>Թվային արտահայտությունների արտադրյալի նշանը</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">$(-6)\cdot(-7)\cdot5\cdot(-\sqrt{2})$-ի նշանը որոշելու համար պե՞տք է ամեն ինչ հաշվարկել, թե՞ կա ավելի արագ ճանապարհ։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">Բացասական թվով բազմապատկելը «փողոց անցնելուն» է նման (նշանը փոխվում է), դրականով բազմապատկելը՝ «տեղում մնալուն» (նշանը մնում է)։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p><b class="term">ԿԱՆՈՆ.</b> $0$-ից տարբեր թվերի արտադրյալը դրական է, եթե բացասական արտադրիչների քանակը զույգ է; բացասական է, եթե կենտ է; $0$ է, եթե արտադրիչներից գոնե մեկը $0$ է։</p>
+  </div>
+
+  <div class="block-title">Վիզուալ պատկեր</div>
+  <div class="visual-container table-wrap">
+    <table>
+      <tr><th>$(-6)\cdot(-7)\cdot5\cdot(-\sqrt2)$</th><td>3 բացասական (կենտ)</td><td>Բացասական</td></tr>
+      <tr><th>$6\cdot(-2)\cdot(1-\sqrt2)\cdot7\cdot(-\sqrt3-1)\cdot(-5)$</th><td>4 բացասական (զույգ)</td><td>Դրական</td></tr>
+    </table>
+  </div>
+
+  <div class="block-title">Կանոն</div>
+  <div class="formula-box"><span class="label">Զույգ/կենտ հաշվարկ</span>
+    Հաշվիր ԲԱՑԱՍԱԿԱՆ արտադրիչների քանակը (ուշադիր՝ $1-\sqrt{2}$-ը իրականում բացասական է, թեև տեսքով «պարզ» չէ)։ Զույգ→դրական, կենտ→բացասական։
+  </div>
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>Հաշվեք $(-2)^{15}\cdot(-1)^6\cdot4^5$ արտահայտության նշանը։</p>
+    <div class="step">$(-2)^{15}$ բացասական է (կենտ ցուցիչ), $(-1)^6$ դրական է (զույգ ցուցիչ), $4^5$ դրական է։</div>
+    <div class="step">Ընդհանուր բացասականների քանակ (հաշվելով յուրաքանչյուր բացասական հիմքի ցուցչի կենտության դեպքում). $1$ (կենտ)։</div>
+    <div class="answer">Պատասխան. բացասական։</div>
+  </div>
+
+  <div class="think">Հնարավո՞ր է ընտրել $a,b,c$ իրական թվեր, որ $ab$, $bc$, $ca$ բոլորը բացասական լինեն։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> Բացասական արտադրիչների քանակը սխալ հաշվել, հատկապես երբ արտադրիչներից ոմանք իռացիոնալ արտահայտություններ են ($1-\sqrt{2}$ տիպի)։</p>
+    <p><span class="k">Ինչու՞</span> $1-\sqrt{2}$-ը տեսքով «դրական թվից հանել» է թվում, բայց իրականում $\sqrt{2}\approx1.41>1$, ուստի արտահայտությունը բացասական է։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Ամեն իռացիոնալ արտադրիչի համար համեմատիր թվերը ուշադիր, նախքան նշանը որոշելը։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>Զույգ բացասական → դրական, կենտ → բացասական։</li>
+      <li>0 արտադրիչ → ամբողջ արտադրյալը 0։</li>
+      <li>Իռացիոնալ արտադրիչների նշանը ուշադիր ստուգիր (թվային համեմատությամբ)։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Բացասական թիվն աստիճան բարձրացնելիս, ցուցչի զույգ/կենտությունը որոշում է նշանը, նույն սկզբունքով, ինչ արտադրիչների հաշվարկը. $(-a)^n$ բացասական է, եթե $n$ կենտ է, դրական՝ եթե զույգ։
+  </div>
+</section>
+
+<section class="chapter" id="s2">
+  <div class="chapter-head"><span class="chapter-num">02</span><h2>Տառային արտահայտությունների արտադրյալի նշանը</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">$(x-2)(x-700)$-ի նշանը $x=4$-ի դեպքում հեշտ է հաշվել։ Բայց ի՞նչ, եթե պետք է իմանալ նշանը ԲՈԼՈՐ $x$-երի համար։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">Յուրաքանչյուր գծային արտադրիչի արմատով թվային առանցքը բաժանվում է հատվածների, որոնցից յուրաքանչյուրում նշանը հաստատուն է։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p><b class="term">Գծային արտադրիչ</b>՝ մեկ փոփոխականի առաջին կարգի բազմանդամ արտադրիչ ($ax+b$ տեսք, $a\neq0$)։ <b class="term">Արմատ</b>՝ այն արժեքը, որի դեպքում արտադրիչը $0$ է։</p>
+    <p><b class="term">Նշանապահպանման միջակայք</b>՝ արմատներով բաժանված միջակայքերից յուրաքանչյուրը, որտեղ արտահայտության նշանը հաստատուն է։</p>
+    <p><b class="term">ԿԱՆՈՆ.</b> գծային արտադրիչի արմատով անցնելիս նշանը փոխվում է, եթե ցուցիչը կենտ է, մնում է նույնը, եթե ցուցիչը զույգ է։</p>
+  </div>
+
+  <div class="block-title">Վիզուալ պատկեր</div>
+  <div class="visual-container table-wrap">
+    <table>
+      <tr><th>Միջակայք</th><td>$(-\infty,2)$</td><td>$(2,700)$</td><td>$(700,+\infty)$</td></tr>
+      <tr><th>$(x-2)(x-700)$ նշան</th><td>դրական</td><td>բացասական</td><td>դրական</td></tr>
+    </table>
+  </div>
+
+  <div class="block-title">Կանոն</div>
+  <div class="formula-box"><span class="label">Սխեմատիկ պատկերի քայլեր</span>
+    1) Նշիր արմատները առանցքի վրա (աճման կարգով); 2) յուրաքանչյուր միջակայքում որոշիր նշանը (ներկայացուցիչ կետով); 3) նշիր +/− հերթականությամբ։
+  </div>
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>Գտեք $(x-7)(x-90)$-ի նշանապահպանման միջակայքերը։</p>
+    <div class="step">Արմատներ. $x=7$, $x=90$։ Երեք միջակայք. $(-\infty,7)$, $(7,90)$, $(90,+\infty)$։</div>
+    <div class="step">$(90,+\infty)$-ում երկուսն էլ դրական→դրական; $(7,90)$-ում առաջինը դրական, երկրորդը բացասական→բացասական; $(-\infty,7)$-ում երկուսն էլ բացասական→դրական։</div>
+    <div class="answer">Պատասխան. $+,-,+$ հերթականությամբ ($(-\infty,7)$-ից սկսած)։</div>
+  </div>
+
+  <div class="think">Ինչո՞ւ զույգ ցուցիչով արտադրիչի արմատով անցնելիս նշանը ՉԻ փոխվում։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> Զույգ ցուցիչով արտադրիչի արմատով անցնելիս սխալմամբ փոխել նշանը. սա ամենակարևոր, կրկնվող սխալն է։</p>
+    <p><span class="k">Ինչու՞</span> Ուշադրությունն ընդհանրապես կենտրոնանում է «արմատով անցնելիս նշանը փոխվում է» կանոնի վրա, մոռանալով ցուցչի զույգության բացառությունը։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Ամեն արմատի համար ուշադիր ստուգիր ցուցիչի զույգ/կենտությունը, նախքան նշանի փոփոխություն նշանակելը։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>Արմատները դասավորիր աճման կարգով։</li>
+      <li>Կենտ ցուցիչ → նշանը փոխվում է, զույգ → չի փոխվում։</li>
+      <li>Ստուգիր մեկ ներկայացուցիչ կետով յուրաքանչյուր միջակայքում։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    $(x+1)(x-3)+7$-ը ՉԻ ունենում գծային արտադրիչներ (առաջին հայացքից տեսքով նման է, բայց $+7$-ը փչացնում է արտադրյալ-տեսքը)։ Զգույշ եղիր՝ ինչը իսկապես արտադրյալ է, ինչը՝ ոչ։
+  </div>
+</section>
+
+<section class="chapter" id="s3">
+  <div class="chapter-head"><span class="chapter-num">03</span><h2>Ռացիոնալ արտահայտության նշանը</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">$\dfrac{x-7}{x-9}$-ի նշանապահպանման միջակայքերը որոշելիս, ինչո՞վ է $x=9$ կետը յուրահատուկ։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">$0$-ից տարբեր երկու թվի հարաբերությունն ու արտադրյալն ունեն նույն նշանը, ուստի կիրառելի է նույն միջակայքերի եղանակը, բայց հայտարարը զրոյացնող կետերում արտահայտությունը ընդհանրապես գոյություն չունի (խաչով նշվում)։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p>Ռացիոնալ արտահայտության (գծային արտադրիչներից կազմված համարիչով ու հայտարարով կոտորակի) նշանը որոշվում է նույն միջակայքերի եղանակով, ինչ արտադրյալինը, բայց ԹԱԲ-ից բացակա արժեքները սխեմատիկ պատկերում նշվում են խաչով։</p>
+    <p>Եթե նույն արմատով արտադրիչ կա և՛ համարիչում, և՛ հայտարարում (տարբեր ցուցիչներով), նշանի փոփոխությունը որոշվում է ԸՆԴՀԱՆՈՒՐ ցուցիչով (համարիչի ցուցիչ + հայտարարի ցուցիչ)։</p>
+  </div>
+
+  <div class="block-title">Վիզուալ պատկեր</div>
+  <div class="visual-container table-wrap">
+    <table>
+      <tr><th>Միջակայք</th><td>$(-\infty,7)$</td><td>$(7,9)$</td><td>$(9,+\infty)$</td></tr>
+      <tr><th>$\dfrac{x-7}{x-9}$ նշան</th><td>դրական</td><td>բացասական</td><td>դրական</td></tr>
+      <tr><th>$x=9$</th><td colspan="3">ԹԱԲ-ից բացակա (խաչ)</td></tr>
+    </table>
+  </div>
+
+  <div class="block-title">Կանոն</div>
+  <div class="formula-box"><span class="label">Խաչի կանոն</span>
+    Հայտարարի արմատները միշտ ԽԱՉՈՎ նշիր (իմաստ չունեն), ոչ երբեք որպես սովորական լուծում։
+  </div>
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>$ab>0$ պայմանից պարզեք $\dfrac{a^9}{b}$-ի նշանը։</p>
+    <div class="step">$ab>0$ նշանակում է $a,b$ նույն նշանով են։ $a^9$-ը կրում է $a$-ի նշանը (կենտ ցուցիչ)։</div>
+    <div class="step">$a^9/b$-ի նշանը = $a$-ի նշան / $b$-ի նշան = նույն նշան / նույն նշան = դրական։</div>
+    <div class="answer">Պատասխան. դրական։</div>
+  </div>
+
+  <div class="think">Ինչո՞ւ հայտարարի արմատում արտահայտության «արժեքը» չի կարելի համարել $0$։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> ԹԱԲ-ից բացակա կետերը (հայտարարի արմատները) սխալմամբ ներառել լուծումների մեջ, փոխարեն խաչով նշելու։</p>
+    <p><span class="k">Ինչու՞</span> Համարիչի և հայտարարի արմատները տեսքով նման են (երկուսն էլ «զրոյացնող» կետեր), բայց դերով բոլորովին տարբեր։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Հարցրու. «Այս արմատը ՀԱՄԱՐԻՉինն է, թե՞ ՀԱՅՏԱՐԱՐինը»։ Հայտարարինը միշտ խաչով է։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>Հարաբերության նշանը = արտադրյալի նշանը (նույն կանոն)։</li>
+      <li>Հայտարարի արմատները՝ ԽԱՉՈՎ, ոչ լուծում։</li>
+      <li>Նույն արմատով երկու արտադրիչ (համարիչ+հայտարար) → հաշվիր ընդհանուր ցուցիչը։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Փորձիր ինքդ քեզ մարտահրավեր նետել. կազմիր ռացիոնալ արտահայտություն, որի ԹԱԲ-ը $(-\infty,-1)\cup(-1,3)\cup(3,+\infty)$ է։ Սա լավ ստուգում է ամբողջ միջակայքերի եղանակի հասկացողությունը։
+  </div>
+</section>
+
+<!-- ============ ՄԱՍ 2/2 ============ -->
+<section class="part-header">Մաս 2 / 2</section>
+
+<section class="chapter" id="s4">
+  <div class="chapter-head"><span class="chapter-num">04</span><h2>Քառակուսային եռանդամի նշանը</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">$ax^2+15x+c$-ի համար հայտնի է $a<0$ և $D=-85$ (բացասական)։ Առանց արմատներ գտնելու, ի՞նչ կարելի է ասել եռանդամի նշանի մասին, ԲՈԼՈՐ $x$-երի համար։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">Երբ $D\ge0$, եռանդամը վերլուծվում է գծային արտադրիչների, և կիրառելի է արդեն ծանոթ միջակայքերի եղանակը։ Երբ $D<0$, արմատներ չկան, և եռանդամը ամբողջովին «մեկ» նշան ունի, միշտ։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p>Ոչ բացասական տարբերիչով ($D\ge0$) քառակուսային եռանդամը վերլուծվում է. $ax^2+bx+c=a(x-x_1)(x-x_2)$, որից հետո միջակայքերի եղանակը ուղիղ կիրառելի է։</p>
+    <p><b class="term">Հատկություն</b> ($D<0$). քառակուսային եռանդամը փոփոխականի ԲՈԼՈՐ արժեքների դեպքում ունի իր ավագ անդամի ($a$-ի) նշանը (ամբողջ առանցքը մեկ միջակայք է)։</p>
+  </div>
+
+  <div class="block-title">Վիզուալ պատկեր</div>
+  <div class="visual-container table-wrap">
+    <table>
+      <tr><th>$D$</th><td>$D>0$</td><td>$D=0$</td><td>$D<0$</td></tr>
+      <tr><th>Միջակայքերի քանակ</th><td>$3$</td><td>$2$ (նշան չի փոխվում)</td><td>$1$ (ամբողջ առանցքը)</td></tr>
+    </table>
+  </div>
+
+  <div class="block-title">Կանոն</div>
+  <div class="formula-box"><span class="label">D<0 դեպք</span>
+    Ստուգիր $a$-ի (ավագ գործակցի) նշանը. $a>0 \Rightarrow$ եռանդամը միշտ դրական, $a<0 \Rightarrow$ միշտ բացասական։
+  </div>
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>$ax^2+15x+c$-ի համար $a<0$, $D=-85$. գտեք $ac$-ն։</p>
+    <div class="step">$D=b^2-4ac=225-4ac=-85$։</div>
+    <div class="step">$4ac=225+85=310 \Rightarrow ac=77.5$։</div>
+    <div class="answer">Պատասխան. $ac=77.5$։</div>
+  </div>
+
+  <div class="think">Ինչո՞ւ D=0 դեպքում նշանապահպանման 2 միջակայք կա, բայց նշանը չի փոխվում կրկնվող արմատով անցնելիս։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> $D<0$ դեպքում փորձել վերլուծել արտադրիչների (անհնար է իրական թվերում)։</p>
+    <p><span class="k">Ինչու՞</span> Բոլոր նախորդ դասերում աշխատել էինք արտադրիչների վերլուծությամբ, ուստի բնազդաբար կրկին փորձում ենք նույնը, թեև $D<0$-ը հենց ասում է, որ դա անհնար է։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Նախ ՄԻՇՏ հաշվիր $D$-ն. եթե բացասական է, կիրառիր ուղիղ հատկությունը (ավագ գործակցի նշանը), ոչ վերլուծություն։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>$D\ge0$ → վերլուծիր, կիրառիր միջակայքերի եղանակը։</li>
+      <li>$D<0$ → եռանդամն ունի $a$-ի նշանը, ամբողջովին։</li>
+      <li>$D=0$ → կրկնվող արմատ, նշանը չի փոխվում այդ կետով անցնելիս։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Ֆինանսագիտության մեջ վարկերի հաշվարկների որոշ մոդելներ հենվում են հենց քառակուսային եռանդամի նշանի վրա (ե՞րբ է ձեռնտու, ե՞րբ՝ ոչ)։ Այս թեման ունի իրական կիրառություն, ոչ միայն վերացական հանրահաշիվ։
+  </div>
+</section>
+
+<section class="chapter" id="s5">
+  <div class="chapter-head"><span class="chapter-num">05</span><h2>Ֆունկցիայի գրաֆիկն ու նշանապահպանման միջակայքերը</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">Տրված է ֆունկցիայի գրաֆիկ (առանց բանաձևի)։ Կարո՞ղ ես որոշել նշանապահպանման միջակայքերը՝ նայելով միայն նկարին։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">Այո. այնտեղ, որտեղ գրաֆիկը $x$-առանցքից վեր է, ֆունկցիան դրական է, որտեղ ներքև՝ բացասական։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p>Ֆունկցիայի նշանապահպանման միջակայքերն ըստ գրաֆիկի որոշվում են՝ դիտարկելով, թե որ $x$-երի համար է գրաֆիկը $x$-առանցքից վեր (դրական) կամ ներքև (բացասական)։</p>
+    <p>Ֆունկցիայի գրաֆիկը $x$-առանցքը հատող կետերը (<b class="term">ֆունկցիայի զրոները</b>) սահմանազատում են նշանապահպանման միջակայքերը։</p>
+  </div>
+
+  <div class="block-title">Վիզուալ պատկեր</div>
+  <div class="visual-container table-wrap">
+    <svg viewBox="0 0 500 260" xmlns="http://www.w3.org/2000/svg">
+      <line x1="20" y1="130" x2="480" y2="130" stroke="#152233" stroke-width="1.5"/>
+      <line x1="250" y1="20" x2="250" y2="240" stroke="#152233" stroke-width="1.5"/>
+      <path d="M 60 190 Q 150 40 250 130 T 440 60" fill="none" stroke="#1e5f8c" stroke-width="3"/>
+      <circle cx="130" cy="130" r="4" fill="#c0562b"/>
+      <circle cx="330" cy="130" r="4" fill="#c0562b"/>
+      <text x="130" y="150" font-family="Sylfaen,Arial" font-size="13" text-anchor="middle" fill="#c0562b">զրո</text>
+      <text x="330" y="150" font-family="Sylfaen,Arial" font-size="13" text-anchor="middle" fill="#c0562b">զրո</text>
+      <text x="90" y="215" font-family="Sylfaen,Arial" font-size="13" fill="#5b7188">բացասական</text>
+      <text x="200" y="70" font-family="Sylfaen,Arial" font-size="13" fill="#5b7188">դրական</text>
+      <text x="390" y="45" font-family="Sylfaen,Arial" font-size="13" fill="#5b7188">դրական</text>
+    </svg>
+  </div>
+  <p style="text-align:center; color:var(--muted); font-size:.9rem; margin-top:-6px;">Զրոները սահմանազատում են դրական/բացասական միջակայքերը։</p>
+
+  <div class="block-title">Կանոն</div>
+  <div class="formula-box"><span class="label">Ոչ եզակիություն</span>
+    Տրված նշանապահպանման միջակայքերին բավարարող գրաֆիկը ԵԶԱԿԻ ՉԷ. շատ տարբեր տեսքով գրաֆիկներ կարող են բավարարել նույն պայմաններին։
+  </div>
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>Գծեք ֆունկցիայի գրաֆիկ, որի նշանապահպանման միջակայքերն են՝ բացասական $(-\infty,-2)$-ում, դրական $(-2,3)$-ում, բացասական $(3,+\infty)$-ում։</p>
+    <div class="step">Գրաֆիկը պիտի հատի $x$-առանցքը $x=-2$ և $x=3$ կետերում, լինի ներքևում մինչև $-2$-ը, վերևում $-2$-ից $3$-ը, կրկին ներքևում $3$-ից հետո։</div>
+    <div class="answer">Պատասխան. կան բազմաթիվ ճիշտ գրաֆիկներ (օր.՝ $-(x+2)(x-3)$-ի պատկերը)։</div>
+  </div>
+
+  <div class="think">Ինչո՞ւ կարող են տարբեր աշակերտներ, նույն պայմաններով, գծել տեսքով տարբեր, բայց երկուսն էլ ճիշտ գրաֆիկներ։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> Կարծել, որ տրված պայմաններին բավարարող գրաֆիկը եզակի է։</p>
+    <p><span class="k">Ինչու՞</span> Մաթեմատիկայում շատ խնդիրների լուծումը եզակի է, ուստի բնազդաբար ակնկալում ենք նույնը այստեղ էլ, մոռանալով, որ նշանապահպանման միջակայքերը ֆունկցիայի ամբողջական տեսքը չեն որոշում։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Համեմատիր քո գրաֆիկը դասընկերոջ հետ. եթե տարբեր են, բայց երկուսն էլ բավարարում են պայմանները, երկուսն էլ ճիշտ են։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>Դրական միջակայք = գրաֆիկը $x$-առանցքից վեր։</li>
+      <li>Զրոները = գրաֆիկի հատումը $x$-առանցքի հետ (ոչ $y$-առանցքի)։</li>
+      <li>Գրաֆիկը (նշանապահպանման միջակայքերով որոշված) եզակի չէ։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Այս թեման կապում է ամբողջ գլուխը (1.1-1.4)՝ ֆունկցիայի գրաֆիկի հետ. նշանապահպանման միջակայքերի հասկացությունը վերացական մաթեմատիկայից դառնում է վիզուալ, տեսանելի հասկացություն։
+  </div>
+</section>
+
+<hr class="sep">
+
+<!-- ============ ԱՌԱՋԱԴՐԱՆՔՆԵՐ ============ -->
+<section class="tasks-section" id="tasks">
+  <h2>Առաջադրանքներ</h2>
+
+  <h3>Հաշվարկային առաջադրանքներ</h3>
+  <ol class="tasks">
+    <li>Պարզեք $(-6)\cdot(-7)\cdot5\cdot(-\sqrt{2})$ արտահայտության նշանը։</li>
+    <li>Պարզեք $6\cdot(-2)\cdot(1-\sqrt2)\cdot7\cdot(-\sqrt3-1)\cdot(-5)$ արտահայտության նշանը։</li>
+    <li>Որոշեք $(-3)^5$ և $(-5)^{10}$ արտահայտությունների նշանը։</li>
+    <li>Հաշվեք $(-2)^{15}\cdot(-1)^6\cdot4^5$ արտահայտության նշանը երկու եղանակով։</li>
+    <li>Պարզեք $(x-2)(x-700)$ արտահայտության նշանը, երբ $x=4$։</li>
+    <li>Գտեք $(x-2)(x-700)$-ի բոլոր նշանապահպանման միջակայքերը։</li>
+    <li>Պարզեք $(x-7)(x-90)$ արտահայտության նշանապահպանման միջակայքերը։</li>
+    <li>Պարզեք $\dfrac{x-7}{x-9}$ արտահայտության նշանապահպանման միջակայքերը։</li>
+    <li>$ab>0$ պայմանից պարզեք $\dfrac{a^9}{b}$-ի նշանը։</li>
+    <li>$ax^2+15x+c$-ի համար $a<0$, $D=-85$. ի՞նչ նշանի արժեքներ է ընդունում։</li>
+    <li>Նույն պայմաններից գտեք $ac$-ն։</li>
+    <li>Ըստ գրաֆիկի՝ որոշեք ֆունկցիայի նշանապահպանման միջակայքերը (զրոներ $x=-2$ և $x=3$)։</li>
+    <li>Գծեք ֆունկցիայի գրաֆիկ, որի նշանապահպանման միջակայքերն են՝ դրական $(-\infty,1)$-ում, բացասական $(1,+\infty)$-ում։</li>
+    <li>Հնարավո՞ր է ընտրել $a,b,c$ իրական թվեր, որ $ab$, $bc$, $ca$ բոլորը բացասական լինեն։</li>
+    <li>Գտեք $x^2-5x+6$-ի նշանապահպանման միջակայքերը՝ նախապես վերլուծելով արտադրիչների։</li>
+    <li>Գտեք $-x^2+4$-ի նշանապահպանման միջակայքերը։</li>
+    <li>Պարզեք $(x+3)^2(x-1)$ արտահայտության նշանապահպանման միջակայքերը (ուշադրություն՝ $x=-3$-ի)։</li>
+    <li>Հաշվեք $(-1)^{100}\cdot(-3)^{7}$ արտահայտության նշանը։</li>
+    <li>$ab<0$ պայմանից պարզեք $\dfrac{a^5b^2}{b}$-ի նշանը։</li>
+    <li>Ցույց տվեք, որ $x^2+2x+5$-ը դրական է բոլոր $x$-երի համար (հաշվեք $D$-ն)։</li>
+    <li>Ցույց տվեք, որ $-x^2+x-3$-ը բացասական է բոլոր $x$-երի համար։</li>
+    <li>Գտեք $\dfrac{(x-1)^2}{x+4}$ արտահայտության նշանապահպանման միջակայքերը։</li>
+    <li>Գտեք $2x^2-8$-ի նշանապահպանման միջակայքերը։</li>
+    <li>Պարզեք $x^2+6x+9$-ի նշանը (ուշադրություն՝ $D=0$)։</li>
+    <li>Հաշվեք $(-2)^3\cdot(-1)^5\cdot3^2$ արտահայտության նշանը։</li>
+    <li>Գտեք $(x+5)(x-1)(x-4)$-ի նշանապահպանման միջակայքերը։</li>
+    <li>Պարզեք $\dfrac{x+2}{(x-3)^2}$ արտահայտության նշանապահպանման միջակայքերը։</li>
+    <li>Ցույց տվեք, որ $3x^2-2x+1$-ը դրական է բոլոր $x$-երի համար։</li>
+    <li>Գտեք $x^2-9$-ի նշանապահպանման միջակայքերը։</li>
+    <li>$ab>0$, $bc<0$ պայմաններից պարզեք $ac$-ի նշանը։</li>
+  </ol>
+
+  <h3>Տրամաբանական և հայեցակարգային հարցեր</h3>
+  <ol class="tasks" start="31">
+    <li>Ինչո՞ւ զույգ ցուցիչով արտադրիչի արմատով անցնելիս նշանը ՉԻ փոխվում։</li>
+    <li>Ինչո՞ւ հայտարարի արմատում արտահայտության «արժեքը» չի կարելի համարել $0$։</li>
+    <li>Ինչո՞ւ $D=0$ դեպքում նշանապահպանման 2 միջակայք կա, բայց նշանը չի փոխվում կրկնվող արմատով անցնելիս։</li>
+    <li>Ինչո՞ւ կարող են տարբեր աշակերտներ, նույն պայմաններով, գծել տեսքով տարբեր, բայց երկուսն էլ ճիշտ գրաֆիկներ։</li>
+  </ol>
+</section>
+
+<hr class="sep">
+
+<!-- ============ ՊԱՏԱՍԽԱՆՆԵՐ ============ -->
+<section class="answers-section" id="answers">
+  <h2>Պատասխաններ</h2>
+  <h3>Հաշվարկային առաջադրանքների պատասխանները</h3>
+  <ol class="answers-list">
+    <li>Բացասական</li>
+    <li>Դրական</li>
+    <li>$(-3)^5$ բացասական, $(-5)^{10}$ դրական</li>
+    <li>Բացասական (2 եղանակով)</li>
+    <li>Դրական</li>
+    <li>$(-\infty,2)$՝ դրական, $(2,700)$՝ բացասական, $(700,+\infty)$՝ դրական</li>
+    <li>$(-\infty,7)$՝ դրական, $(7,90)$՝ բացասական, $(90,+\infty)$՝ դրական</li>
+    <li>$(-\infty,7)$՝ դրական, $(7,9)$՝ բացասական, $(9,+\infty)$՝ դրական, $x=9$՝ ԹԱԲ-ից բացակա</li>
+    <li>Դրական</li>
+    <li>Բացասական բոլոր $x$-երի համար</li>
+    <li>$ac=77.5$</li>
+    <li>$(-\infty,-2)$՝ +, $(-2,3)$՝ −, $(3,+\infty)$՝ + (կամ հակառակը, ըստ գրաֆիկի)</li>
+    <li>Օրինակ՝ $-(x-1)$ ուղիղ գծի պատկեր</li>
+    <li>Ոչ (հիմնավորում՝ եթե բոլորը բացասական, արտադրյալը՝ $(ab)(bc)(ca)=(abc)^2\ge0$, հակասություն)</li>
+    <li>$(-\infty,2)$՝ +, $(2,3)$՝ −, $(3,+\infty)$՝ +</li>
+    <li>$(-\infty,-2)$՝ −, $(-2,2)$՝ +, $(2,+\infty)$՝ −</li>
+    <li>$(-\infty,-3)$՝ −, $x=-3$՝ 0, $(-3,1)$՝ −, $(1,+\infty)$՝ +</li>
+    <li>Բացասական</li>
+    <li>Դրական (a⁵ կրում է a-ի նշանը, ուստի a⁵b²/b = a⁵/b, և $ab<0$-ից $a/b<0$)</li>
+    <li>$D=4-20=-16<0$, $a=1>0$ → միշտ դրական</li>
+    <li>$D=1-12=-11<0$, $a=-1<0$ → միշտ բացասական</li>
+    <li>$(-\infty,-4)$՝ −, $(-4,1)$՝ +, $(1,+\infty)$՝ +, $x=1$՝ 0 (նշանը չի փոխվում)</li>
+    <li>$(-\infty,-2)$՝ +, $(-2,2)$՝ −, $(2,+\infty)$՝ +</li>
+    <li>Միշտ $\ge0$, հավասար $0$ միայն $x=-3$-ում (կրկնվող արմատ)</li>
+    <li>Դրական ($-2\cdot-1\cdot9$, 2 բացասական՝ զույգ)</li>
+    <li>$(-\infty,-5)$՝ −, $(-5,1)$՝ +, $(1,4)$՝ −, $(4,+\infty)$՝ +</li>
+    <li>$(-\infty,-2)$՝ −, $(-2,3)$՝ +, $x=3$՝ ԹԱԲ-ից բացակա, $(3,+\infty)$՝ +</li>
+    <li>$D=4-12=-8<0$, $a=3>0$ → միշտ դրական</li>
+    <li>$(-\infty,-3)$՝ +, $(-3,3)$՝ −, $(3,+\infty)$՝ +</li>
+    <li>Բացասական ($a,b$ նույն նշան, $b,c$ հակառակ նշան → $a,c$ հակառակ նշան → $ac<0$)</li>
+  </ol>
+  <h3>Տրամաբանական և հայեցակարգային հարցերի պատասխանները</h3>
+  <ol class="answers-list answers-list-conceptual" start="31">
+    <li>Զույգ ցուցիչով արտադրիչը միշտ $\ge0$ է, երբեք չի փոխանցվում բացասականի</li>
+    <li>Հայտարարում $0$ ունենալը նշանակում է կոտորակն ամբողջովին անորոշ է, ոչ թե հավասար $0$-ի</li>
+    <li>Կրկնվող արմատի ցուցիչը $2$ է (զույգ), ուստի կանոնով նշանը մնում է անփոփոխ</li>
+    <li>Նշանապահպանման միջակայքերը ֆունկցիայի ամբողջական տեսքը (ձևը) չեն որոշում, միայն նշանը</li>
+  </ol>
+</section>
+
+</main>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  renderMathInElement(document.body, {
+    delimiters: [
+      {left: "$$", right: "$$", display: true},
+      {left: "$", right: "$", display: false}
+    ],
+    strict: false
+  });
+});
+</script>
+</body>
+</html>

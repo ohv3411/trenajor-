@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="hy">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ամբողջ թվեր | Ուսումնական ուղեցույց</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<style>
+  :root{
+    --bg:#0f1f2e; --paper:#f6f8fb; --ink:#152233; --accent:#1e5f8c; --accent2:#c0562b;
+    --crust:#8fb3cc; --muted:#5b7188; --card:#ffffff; --line:#dde6ee;
+  }
+  *{box-sizing:border-box;}
+  html, body{overflow-x:hidden;}
+  body{margin:0; font-family:'Sylfaen','Arial',serif; background:var(--paper); color:var(--ink); font-size:18px; line-height:1.7;}
+  .hero{background:linear-gradient(135deg, var(--bg) 0%, #1c3b52 100%); color:#eaf2f8; padding:56px 24px 48px;}
+  .hero-inner{max-width:840px; margin:0 auto;}
+  h1.title{font-size:2.2rem; margin:0 0 10px; font-weight:bold; color:#fff;}
+  .hero p{color:#cfe0ec; max-width:620px; font-size:1.05rem;}
+  nav.toc{max-width:840px; margin:-26px auto 0; position:relative; z-index:3; background:var(--card); border-radius:10px; box-shadow:0 12px 30px rgba(15,31,46,.18); padding:22px 26px; border:1px solid var(--line);}
+  nav.toc h2{font-size:1.05rem; text-transform:uppercase; letter-spacing:.07em; color:var(--muted); margin:0 0 12px; font-weight:bold;}
+  nav.toc ol{margin:0; padding-left:20px; columns:2; column-gap:28px;}
+  nav.toc li{margin-bottom:8px; font-size:.98rem;}
+  nav.toc a{color:var(--accent); text-decoration:none; border-bottom:1px dotted var(--accent);}
+  main{max-width:840px; margin:40px auto 90px; padding:0 24px;}
+  section.part-header{margin:48px 0 20px; padding-bottom:8px; border-bottom:2px solid var(--crust); color:var(--muted); font-weight:bold; text-transform:uppercase; letter-spacing:.05em; font-size:.95rem;}
+  section.chapter{margin-bottom:56px;}
+  .chapter-head{display:flex; align-items:baseline; gap:14px; border-bottom:3px solid var(--accent2); padding-bottom:10px; margin-bottom:20px;}
+  .chapter-num{font-size:1.9rem; color:var(--accent); font-weight:bold;}
+  .chapter-head h2{margin:0; font-size:1.4rem; color:var(--ink); font-weight:bold;}
+
+  .block-title{font-weight:bold; color:var(--accent); font-size:1.02rem; margin:22px 0 8px; text-transform:uppercase; letter-spacing:.04em;}
+  .hook{background:#eef4f9; border-radius:10px; padding:16px 20px; margin:10px 0 18px; font-style:italic;}
+  .intuitive{padding:0 2px; margin-bottom:14px;}
+  .formal-def{background:#fff; border:1px solid var(--line); border-left:4px solid var(--accent); border-radius:0 10px 10px 0; padding:16px 20px; margin:14px 0;}
+  .formal-def b.term{color:var(--accent2);}
+
+  .visual-container.table-wrap{overflow-x:auto; width:100%; margin:18px 0; -webkit-overflow-scrolling:touch;}
+  table{border-collapse:collapse; width:100%;}
+  th,td{border:1px solid var(--line); padding:8px 12px; text-align:center; font-size:.98rem;}
+  th{background:#eaf1f7; font-weight:bold;}
+  svg{max-width:100%; height:auto; display:block; margin:0 auto;}
+
+  .formula-box{background:#fff8ee; border:1px solid #ecd9b6; border-radius:10px; padding:18px 22px; margin:16px 0;}
+  .formula-box .label{display:block; font-weight:bold; color:var(--accent2); margin-bottom:8px; text-transform:uppercase; font-size:.85rem; letter-spacing:.05em;}
+
+  .example-box{border-left:4px solid var(--accent); background:#fff; padding:16px 20px; margin:16px 0; border-radius:0 10px 10px 0; box-shadow:0 2px 8px rgba(15,31,46,.05);}
+  .example-box .tag{display:inline-block; font-size:.8rem; text-transform:uppercase; letter-spacing:.07em; color:#fff; background:var(--accent); padding:3px 10px; border-radius:20px; margin-bottom:8px; font-weight:bold;}
+  .example-box .step{margin:6px 0 6px 2px;}
+  .example-box .answer{margin-top:10px; padding:8px 14px; background:#eef4f9; border-radius:8px; border-left:3px solid var(--accent); font-weight:bold;}
+
+  .think{background:#f3ede0; border-left:4px solid var(--crust); border-radius:0 10px 10px 0; padding:12px 18px; margin:14px 0; font-style:italic; color:#4a3a1f;}
+
+  .error-box{background:#fdeeec; border:1px solid #f0c6bf; border-radius:10px; padding:16px 20px; margin:16px 0;}
+  .error-box h4{margin:0 0 8px; color:var(--accent2); font-size:1rem;}
+  .error-box .k{font-weight:bold; color:var(--accent2);}
+
+  .remember{background:#eef6ef; border:1px solid #cfe6d2; border-radius:10px; padding:14px 20px; margin:16px 0;}
+  .remember .label{font-weight:bold; color:#2f6b3a; text-transform:uppercase; font-size:.85rem; letter-spacing:.05em; display:block; margin-bottom:6px;}
+
+  .teacher-corner{background:#eaf1f7; border:1px dashed var(--crust); border-radius:10px; padding:16px 20px; margin:16px 0 28px;}
+  .teacher-corner .label{font-weight:bold; color:var(--accent); text-transform:uppercase; font-size:.85rem; letter-spacing:.05em; display:block; margin-bottom:6px;}
+
+  hr.sep{border:none; border-top:1px dashed var(--line); margin:36px 0;}
+
+  .bloom-legend{background:#fff; border:1px solid var(--line); border-radius:10px; padding:14px 18px; margin:20px 0; font-size:.92rem; color:var(--muted);}
+
+  .tasks-section h2{color:var(--accent); border-bottom:3px solid var(--accent2); padding-bottom:8px;}
+  .tasks-section h3{color:var(--accent2); margin-top:26px;}
+  ol.tasks{padding-left:24px;}
+  ol.tasks li{margin-bottom:10px;}
+
+  .answers-section{background:#fff; padding:26px 28px; border-radius:10px; border:2px solid var(--accent); margin-top:44px;}
+  .answers-section h2{color:var(--accent); margin-top:0;}
+  .answers-section h3{color:var(--accent2); font-size:1rem; margin:22px 0 10px;}
+  .answers-list{columns:2; column-gap:36px; padding-left:20px; margin:0;}
+  .answers-list li{margin-bottom:9px; font-weight:bold;}
+  .answers-list-conceptual{columns:1; list-style-position:outside;}
+
+  @media (max-width:600px){
+    nav.toc ol{columns:1;}
+    .answers-list{columns:1;}
+    main{padding:0 14px;}
+  }
+
+  @media print {
+    body{background:#fff !important; color:#000 !important; font-size:12pt;}
+    .hero{padding:10px 0; background:none !important; color:#000 !important;}
+    h1.title{color:#000 !important;}
+    nav.toc{display:none !important;}
+    .formula-box, .example-box, .error-box, .visual-container, .table-wrap{page-break-inside:avoid !important; box-shadow:none !important; border:1px solid #ccc !important;}
+    .table-wrap, .visual-container{overflow-x:visible !important; white-space:pre-wrap !important; word-break:break-word !important;}
+    html, body{overflow-x:visible !important;}
+    .chapter{page-break-before:always;}
+    .chapter:first-of-type{page-break-before:auto;}
+    .answers-list{columns:3;}
+  }
+</style>
+
+<style id="tj-unified">
+  /* ԸՆԴՀԱՆՈՒՐ ՎԵՐԻՆ ՎԱՀԱՆԱԿ — նույնական բոլոր 19 ուղեցույցում։
+     Class-երը սկսվում են tj- նախածանցով, որ երբեք չբախվեն էջի
+     սեփական ոճերի հետ։ */
+  .tj-bar{background:#0f1f2e;color:#eaf2f8;font-family:'Sylfaen','Arial',serif;}
+  .tj-bar-in{max-width:840px;margin:0 auto;padding:10px 20px;display:flex;
+             align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+  .tj-back{color:#eaf2f8;text-decoration:none;font-weight:bold;font-size:.95rem;
+           border:1px solid rgba(234,242,248,.35);border-radius:8px;padding:5px 12px;}
+  .tj-back:hover{background:rgba(234,242,248,.12);}
+  .tj-grade{font-size:.85rem;color:#cfe0ec;letter-spacing:.03em;}
+  @media print{ .tj-bar{display:none;} }
+</style>
+</head>
+<body>
+<div class="tj-bar"><div class="tj-bar-in"><a class="tj-back" href="../index.html">← Տրենաժոր</a><span class="tj-grade">6 դասարան</span></div></div>
+
+
+<div class="hero">
+  <div class="hero-inner">
+    <h1 class="title">Ամբողջ թվեր. կոորդինատային առանցքից մինչև գործողություններ</h1>
+    <p>Ինչպես թվային առանցքն ընդլայնվում է դեպի ձախ, և ինչպես գործում են բացասական թվերը գումարման, հանման, բազմապատկման ու բաժանման մեջ։</p>
+  </div>
+</div>
+
+<nav class="toc">
+  <h2>Բովանդակություն</h2>
+  <ol>
+    <li><a href="#s1">Կոորդինատային ճառագայթի սկզբնակետից ձախ</a></li>
+    <li><a href="#s2">Թվի բացարձակ արժեք, հակադիր թվեր</a></li>
+    <li><a href="#s3">Ամբողջ թվերի համեմատումը</a></li>
+    <li><a href="#s4">Բնական թվերի տարբերությունը</a></li>
+    <li><a href="#s5">Բացասական թվից բնական թվի հանումը</a></li>
+    <li><a href="#s6">Ամբողջ թվերի գումարումն ու հանումը</a></li>
+    <li><a href="#s7">Գումարման օրենքների կիրառությունները</a></li>
+    <li><a href="#s8">Ամբողջ թվերի բազմապատկումը</a></li>
+    <li><a href="#s9">Փակագծերի բացումը</a></li>
+    <li><a href="#s10">Ամբողջ թվերի բաժանումը</a></li>
+    <li><a href="#tasks">Առաջադրանքներ</a></li>
+    <li><a href="#answers">Պատասխաններ</a></li>
+  </ol>
+</nav>
+
+<main>
+
+<!-- ============ ՄԱՍ 1/4 ============ -->
+<section class="part-header">Մաս 1 / 4</section>
+
+<section class="chapter" id="s1">
+  <div class="chapter-head"><span class="chapter-num">01</span><h2>Կոորդինատային ճառագայթի սկզբնակետից ձախ</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">Ամառային օրով ջերմաչափը ցույց է տալիս $+27°C$։ Իսկ ձմռանը, բարձր լեռնային գյուղում, ջերմաչափի սյունը կարող է իջնել զրոյից էլ ցածր և ցույց տալ $−15°C$։ Ինչպե՞ս գրանցել այս «զրոյից ցածր» արժեքը թվային առանցքի վրա։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">Մինչ այժմ թվային ճառագայթի վրա նշվում էին միայն $0,1,2,3,...$ կետերը՝ սկսած $0$-ից աջ։ Բայց եթե $0$-ից ձախ էլ նույն հեռավորություններով կետեր դնենք, ստացվում է նոր տեսակի թիվ՝ ամեն մեկը «հայելային զույգ» ունի $0$-ի աջ կողմում գտնվող համապատասխան թվի հետ։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p>$0$-ից մեկ միավոր ձախ գտնվող կետի կոորդինատը նշանակում են $−1$ (նման է $1$-ին, բայց $0$-ից ձախ), $2$ միավոր ձախինը՝ $−2$ և այդպես շարունակ։</p>
+    <p>Ուղիղը, որի վրա պատկերված են $...,−3,−2,−1,0,1,2,3,...$ կոորդինատներով կետերը, կոչվում է <b class="term">կոորդինատային ուղիղ (առանցք)</b>. $0$ կոորդինատով կետը՝ <b class="term">սկզբնակետ</b>։</p>
+    <p>Այս թվերը կոչվում են <b class="term">ամբողջ թվեր</b>։ $0$-ից ձախ գտնվողները ($−1,−2,−3,...$)՝ <b class="term">բացասական ամբողջ թվեր</b>, աջինները՝ <b class="term">դրական</b>։ Դրական թվերի դիմաց ընդունված է գրել $+$ նշանը ($+7=7$)։ $0$-ն ո՛չ դրական է, ո՛չ բացասական։</p>
+  </div>
+
+  <div class="block-title">Վիզուալ պատկեր</div>
+  <div class="visual-container table-wrap">
+    <svg viewBox="0 0 640 120" xmlns="http://www.w3.org/2000/svg">
+      <line x1="30" y1="60" x2="610" y2="60" stroke="#152233" stroke-width="2" marker-end="url(#arrow1)"/>
+      <defs><marker id="arrow1" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#152233"/></marker></defs>
+      <g font-family="Sylfaen,Arial" font-size="17" fill="#152233" text-anchor="middle">
+        <!-- -4..+4 -->
+        <g><line x1="60" y1="54" x2="60" y2="66" stroke="#152233"/><text x="60" y="90">−4</text></g>
+        <g><line x1="130" y1="54" x2="130" y2="66" stroke="#152233"/><text x="130" y="90">−3</text></g>
+        <g><line x1="200" y1="54" x2="200" y2="66" stroke="#1e5f8c"/><text x="200" y="90" fill="#1e5f8c" font-weight="bold">−2</text></g>
+        <g><line x1="270" y1="54" x2="270" y2="66" stroke="#152233"/><text x="270" y="90">−1</text></g>
+        <g><circle cx="340" cy="60" r="4" fill="#c0562b"/><line x1="340" y1="54" x2="340" y2="66" stroke="#c0562b" stroke-width="2"/><text x="340" y="90" fill="#c0562b" font-weight="bold">0</text></g>
+        <g><line x1="410" y1="54" x2="410" y2="66" stroke="#152233"/><text x="410" y="90">1</text></g>
+        <g><line x1="480" y1="54" x2="480" y2="66" stroke="#152233"/><text x="480" y="90">2</text></g>
+        <g><line x1="550" y1="54" x2="550" y2="66" stroke="#152233"/><text x="550" y="90">3</text></g>
+      </g>
+      <text x="340" y="25" text-anchor="middle" font-family="Sylfaen,Arial" font-size="14" fill="#5b7188">սկզբնակետ</text>
+    </svg>
+  </div>
+  <p style="text-align:center; color:var(--muted); font-size:.9rem; margin-top:-6px;">Կոորդինատային առանցքը՝ ընդլայնված $0$-ից ձախ. $−2$ կետը նշված է կապույտով։</p>
+
+  <div class="block-title">Կանոն</div>
+  <div class="formula-box"><span class="label">Կարևոր տարբերակում</span>
+    Ամեն դրական ամբողջ թիվ ունի «հայելային զույգ»՝ նույն հեռավորությամբ $0$-ից, բայց ձախ կողմում։ $+$ նշանը կարելի է չգրել (դրական թիվը եւ առանց նշանի նույն թիվն է), սակայն $−$ նշանը երբեք բաց չի թողնվում։
+  </div>
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ · Ջերմաստիճան</span>
+    <p>Աշոցքի դաշտավայրում ձմռանը ջերմաստիճանը հասնում է $−40°C$-ի։ Ի՞նչ է սա նշանակում։</p>
+    <div class="step">$−40$-ը գտնվում է $0$-ից $40$ միավոր ձախ։ Սա նշանակում է, որ ջերմաստիճանը $40$ աստիճանով ցածր է $0°C$-ից (սառցի հալման կետից)։</div>
+    <div class="answer">Պատասխան. ջերմաստիճանը $40°C$-ով ցածր է $0$-ից։</div>
+  </div>
+
+  <div class="think">Ի՞նչ կլինի, եթե կոորդինատային առանցքի սկզբնակետը տեղափոխենք մեկ այլ կետ (օրինակ՝ ներկայիս $+5$ կետը դառնա նոր $0$)։ Փոխվու՞մ են արդյոք կետերի «իրական» դիրքերը միմյանց նկատմամբ։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> Աշակերտը կարծում է, թե $0$-ը կամ դրական է, կամ բացասական։</p>
+    <p><span class="k">Ինչու՞</span> Քանի որ $0$-ը գրվում է առանց նշանի, թվում է՝ պետք է «ինչ-որ կողմի» պատկանի։ Բայց $0$-ն ինքը սահմանն է դրական և բացասական տիրույթների միջև, ոչ մի կողմին։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Հարցրու ինքդ քեզ. «$0$-ը մեծ է՞, թե՞ փոքր $0$-ից»։ Քանի որ ոչ մեկը ճշմարիտ չէ, $0$-ն ո՛չ դրական է, ո՛չ բացասական։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>Ձախ ուղղությունը = բացասական, աջը = դրական, $0$-ը՝ սահման։</li>
+      <li>$−$ նշանը երբեք բաց չի թողնվում, $+$ նշանը՝ կարելի է։</li>
+      <li>Իրական համատեքստում (ջերմաստիճան, ֆինանսներ) $−$ նշանը ցույց է տալիս ուղղություն/պակասորդ, ոչ թե «վատ» արժեք։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Երբ բանկային քաղվածքում տեսնում ես $−6000$, դա ոչ թե սխալ գրառում է, այլ ուղղակի ասում է. «քո հաշվից $6000$ դուրս է եկել»։ Նույն տրամաբանությամբ ծովային կրիայի հետևող GPS սարքի «$−15$» ցուցմունքը նշանակում է՝ կրիան ծովի մակարդակից $15$ մետր ցածր է (այսինքն՝ ջրի տակ)։ Բացասական թիվը միշտ ունի կոնկրետ, հասկանալի իմաստ՝ կախված նրանից, թե ինչն ես համարել $0$։
+  </div>
+</section>
+
+<section class="chapter" id="s2">
+  <div class="chapter-head"><span class="chapter-num">02</span><h2>Թվի բացարձակ արժեք, հակադիր թվեր</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">Երևանից Գյումրի հեռավորությունը մոտ $120$ կմ է։ Իսկ Գյումրիից Երևան հեռավորությունը՝ ճիշտ նույնը, $120$ կմ։ Ուղղությունը տարբեր է, բայց հեռավորությունը («քանի՞ կիլոմետր») նույնն է։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">Կոորդինատային առանցքի վրա $5$ և $−5$ կետերը գտնվում են $0$-ից նույն հեռավորության վրա, պարզապես հակառակ ուղղություններով։ Այս «հեռավորությունը՝ առանց ուղղության» հասկացությունը կոչվում է բացարձակ արժեք։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p>Կոորդինատային առանցքի տվյալ կոորդինատով կետի հեռավորությունը սկզբնակետից կոչվում է այդ թվի <b class="term">բացարձակ արժեք</b> կամ <b class="term">մոդուլ</b>, նշանակվում է $|\ |$։ Դրական թիվը հավասար է իր բացարձակ արժեքին, բացասականինը՝ նույն թվին առանց $−$ նշանի; $|0|=0$։</p>
+    <p>Միայն նշանով տարբերվող թվերը կոչվում են <b class="term">հակադիր</b> ($5$-ի հակադիրը $−5$-ն է)։ Հակադիր թվերի բացարձակ արժեքները հավասար են։</p>
+  </div>
+
+  <div class="block-title">Վիզուալ պատկեր</div>
+  <div class="visual-container table-wrap">
+    <table>
+      <tr><th>Թիվ</th><td>$−7$</td><td>$−17$</td><td>$0$</td><td>$29$</td><td>$157$</td></tr>
+      <tr><th>Հակադիրը</th><td>$7$</td><td>$17$</td><td>$0$</td><td>$−29$</td><td>$−157$</td></tr>
+      <tr><th>Բացարձակ արժեքը</th><td>$7$</td><td>$17$</td><td>$0$</td><td>$29$</td><td>$157$</td></tr>
+    </table>
+  </div>
+
+  <div class="block-title">Կանոն</div>
+  <div class="formula-box"><span class="label">Կրկնակի նշան</span>
+    $+(−a)=−a$ &nbsp;&nbsp; $−(−a)=+a$ &nbsp;&nbsp; $0$-ն ինքն իր հակադիրն է։
+  </div>
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ 1</span>
+    <p>Հաշվեք $|−17|$, $|29|$, $|−1|$, $|157|$։</p>
+    <div class="step">Բացարձակ արժեքը միշտ ոչ-բացասական է. թիվն ուղղակի «մերկացվում» է նշանից։</div>
+    <div class="answer">Պատասխան. $17,\ 29,\ 1,\ 157$։</div>
+  </div>
+  <div class="example-box"><span class="tag">Օրինակ 2</span>
+    <p>Որոշեք թվերը, որոնց մոդուլը $7$ է։</p>
+    <div class="step">Երկու թիվ գտնվում է $0$-ից ուղիղ $7$ միավոր հեռավորության վրա՝ մեկը աջում, մեկը ձախում։</div>
+    <div class="answer">Պատասխան. $7$ և $−7$։</div>
+  </div>
+
+  <div class="think">Ինչո՞ւ բացարձակ արժեքը երբեք չի կարող լինել բացասական թիվ։ Ի՞նչ կնշանակեր «բացասական հեռավորություն»։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> $|−7|=−7$ գրելը (կարծես մոդուլը «ուղղակի հանում է փակագիծը»)։</p>
+    <p><span class="k">Ինչու՞</span> Աշակերտը մեխանիկորեն «բացում է» $| \ |$-ը՝ առանց հիշելու, որ մոդուլը հեռավորություն է, ոչ թե զուտ նշանազերծված գրառում։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Հարցրու. «Հեռավորությունը կարո՞ղ է բացասական լինել»։ Պատասխանը միշտ՝ ոչ, ուստի $|−7|=7$։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>Մոդուլը՝ միշտ $\ge 0$, հակադիրը՝ կարող է լինել դրական կամ բացասական։</li>
+      <li>$−(−a)=+a$. երկու մինուս իրար չեղարկում են։</li>
+      <li>Յուրաքանչյուր դրական մոդուլի («$7$») համապատասխանում է ուղիղ $2$ թիվ։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Կրկնակի նշանով արտահայտություններ ($−(−k)$, $+(−p)$) հանդիպելիս մի շտապիր. մեկուսացրու ամեն նշանը առանձին և կիրառիր կանոնը քայլ առ քայլ։ Երկար կրկնակի շղթայի դեպքում ուղղակի հաշվիր մինուսների քանակը. զույգ քանակը տալիս է $+$, կենտը՝ $−$։
+  </div>
+</section>
+
+<section class="chapter" id="s3">
+  <div class="chapter-head"><span class="chapter-num">03</span><h2>Ամբողջ թվերի համեմատումը</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">Ձմռան երկու օր. մեկում ջերմաստիճանը $−8°C$ է, մյուսում՝ $−11°C$։ Ո՞ր օրն է ավելի ցուրտ, և ինչպե՞ս դա գրել համեմատության նշանով։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">Կոորդինատային առանցքի վրա մեծ է այն թիվը, որը գտնվում է ավելի աջ։ Սա միշտ ճշմարիտ է, նաև երբ երկու թվերն էլ բացասական են։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p>Ամբողջ թվերի համեմատման կարգը.</p>
+    <ol>
+      <li>Դրական ամբողջ թվերը բնական թվեր են և համեմատվում են ինչպես բնական թվերը։</li>
+      <li>Ցանկացած դրական թիվ մեծ է ցանկացած բացասականից։</li>
+      <li>Ցանկացած դրական թիվ մեծ է $0$-ից, ցանկացած բացասական թիվ՝ փոքր $0$-ից։</li>
+      <li>Երկու բացասական թվից մեծ է այն, որի բացարձակ արժեքը փոքր է ($−8>−11$, քանի որ $8<11$)։</li>
+    </ol>
+  </div>
+
+  <div class="block-title">Վիզուալ պատկեր</div>
+  <div class="visual-container table-wrap">
+    <svg viewBox="0 0 640 100" xmlns="http://www.w3.org/2000/svg">
+      <line x1="30" y1="55" x2="610" y2="55" stroke="#152233" stroke-width="2" marker-end="url(#arrow2)"/>
+      <defs><marker id="arrow2" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#152233"/></marker></defs>
+      <g font-family="Sylfaen,Arial" font-size="16" fill="#152233" text-anchor="middle">
+        <g><circle cx="90" cy="55" r="5" fill="#c0562b"/><line x1="90" y1="49" x2="90" y2="61" stroke="#c0562b" stroke-width="2"/><text x="90" y="80" fill="#c0562b" font-weight="bold">−11</text></g>
+        <g><circle cx="230" cy="55" r="5" fill="#1e5f8c"/><line x1="230" y1="49" x2="230" y2="61" stroke="#1e5f8c" stroke-width="2"/><text x="230" y="80" fill="#1e5f8c" font-weight="bold">−8</text></g>
+        <g><line x1="480" y1="49" x2="480" y2="61" stroke="#152233"/><text x="480" y="80">0</text></g>
+      </g>
+      <text x="160" y="30" text-anchor="middle" font-family="Sylfaen,Arial" font-size="14" fill="#5b7188">−8-ը աջում է, ուստի ավելի մեծ է</text>
+    </svg>
+  </div>
+
+  <div class="block-title">Կանոն</div>
+  <div class="formula-box"><span class="label">Հակադարձ կարգ</span>
+    Երկու բացասական թիվ համեմատելիս՝ «փոքր բացարձակ արժեք = մեծ թիվ»։ Սա հակադիր է դրական թվերի բնական զգացողությանը։
+  </div>
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>Ինչո՞ւ $−8>−11$։</p>
+    <div class="step">Կոորդինատային առանցքի վրա $−8$-ը գտնվում է $−11$-ից աջ (ավելի մոտ $0$-ին)։</div>
+    <div class="answer">Պատասխան. $−8>−11$, քանի որ $|-8|=8<11=|-11|$։</div>
+  </div>
+
+  <div class="think">Կանգառից $1$ մետր հեռու գտնվող աղջկա և լապտերից $2$ մետր հեռու գտնվող տղայի դիրքերը կոորդինատային առանցքի վրա նշելիս՝ ինչո՞ւ նրանց հարաբերական կարգը մնում է նույնը, անկախ նրանից, թե որ կետն ենք ընտրում որպես $0$։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> $−11>−8$ գրելը, քանի որ «$11>8$»։</p>
+    <p><span class="k">Ինչու՞</span> Աշակերտը կիրառում է դրական թվերի սովորական կարգը՝ մոռանալով, որ բացասական թվերի աշխարհում ուղղությունը հակադարձված է։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Միշտ պատկերացրու (կամ նկարիր) կոորդինատային առանցքը. ով աջում է, նա մեծ է։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>Աջ = մեծ, ձախ = փոքր, միշտ, առանց բացառության։</li>
+      <li>Երկու բացասականից մեծ է «փոքր բացարձակ արժեքով» թիվը։</li>
+      <li>Ցանկացած դրական թիվ մեծ է ցանկացած բացասականից, առանց հաշվարկի։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Եթե ուղղաթիռի բարձրության հրահանգում գրված է «$−20$ մետր», դա նշանակում է՝ $20$ մետրով ցածր, քան ընթացիկ դիրքը (ոչ թե «թռչել դեպի $−20$ բացարձակ բարձրություն»)։ Համեմատության կանոնները հենց այս տեսակի իրավիճակներում են օգտակար դառնում. հասկանալու համար, թե որ ուղղությամբ և որքանով է փոփոխությունը։
+  </div>
+</section>
+
+<!-- ============ ՄԱՍ 2/4 ============ -->
+<section class="part-header">Մաս 2 / 4</section>
+
+<section class="chapter" id="s4">
+  <div class="chapter-head"><span class="chapter-num">04</span><h2>Բնական թվերի տարբերությունը</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">Ձեռնարկությունում շաբաթվա արտադրության պլանից շեղումը հաշվարկվում է որպես «փաստացի$-$պլան»։ Եթե փաստացին $5$-ով պակաս է պլանից, ինչպե՞ս գրել այս «բացասական» շեղումը։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">Ավելի վաղ՝ բնական թվերով, փոքրից մեծը հանել չէինք կարող։ Հիմա, ամբողջ թվերի շնորհիվ, կարող ենք. արդյունքը պարզապես բացասական է լինելու։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p>Կոորդինատային առանցքի $A(3)$ կետից $5$ միավոր ձախ շարժվելով՝ հայտնվում ենք $B(−2)$-ում, այսինքն՝ $3−5=−2$։</p>
+    <p><b class="term">Կանոն.</b> Բնական թվեր հանելիս մեծ թվից հանում ենք փոքրը, և արդյունքի դիմաց դնում ենք մեծ թվի նշանը ($9−5=4$, $5−9=−4$)։</p>
+    <p><b class="term">Հատկություն.</b> $(−a)+b=b+(−a)=b−a$ — բացասական թվերի համար էլ ճշմարիտ է գումարման տեղափոխական օրենքը։</p>
+  </div>
+
+  <div class="block-title">Վիզուալ պատկեր</div>
+  <div class="visual-container table-wrap">
+    <table>
+      <tr><th>Արտահայտություն</th><td>$45-27$</td><td>$21-32$</td><td>$125-153$</td></tr>
+      <tr><th>Մեծ թիվը</th><td>$45$</td><td>$32$</td><td>$153$</td></tr>
+      <tr><th>Արդյունք</th><td>$18$</td><td>$−11$</td><td>$−28$</td></tr>
+    </table>
+  </div>
+
+  <div class="block-title">Կանոն</div>
+  <div class="formula-box"><span class="label">Մեծից հանել, մեծի նշան դնել</span>
+    $a−b$ հաշվելու համար. հանել $\max(a,b)$-ից $\min(a,b)$-ն, և արդյունքի դիմաց դնել այն թվի նշանը, որն ուներ ավելի մեծ բացարձակ արժեք։
+  </div>
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>Հաշվեք $19−15−12$, $20−35+17$, $−97+68+16$։</p>
+    <div class="step">$19−15−12$. նախ $19−15=4$, ապա $4−12=−8$։</div>
+    <div class="step">$20−35+17$. նախ $20−35=−15$, ապա $−15+17=2$։</div>
+    <div class="step">$−97+68+16$. նախ $−97+68=−29$, ապա $−29+16=−13$։</div>
+    <div class="answer">Պատասխան. $−8$, $2$, $−13$։</div>
+  </div>
+
+  <div class="think">Ինչու՞ $−a+b=b−a$. կապիր սա կոորդինատային առանցքի վրայի շարժման հետ (սկսելով $−a$-ից և $b$ քայլ աջ գնալով)։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> $5−9$ հաշվելիս գրել $+4$՝ մոռանալով, որ $9$-ը (հանելին) մեծ է։</p>
+    <p><span class="k">Ինչու՞</span> Սովորությունը՝ միշտ «մեծից հանել», ստիպում է անտեսել, թե որ թիվն է իրականում մեծ։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Նախքան հանելը՝ հարցրու. «Ո՞րն է մեծ, նվազելի՞ն, թե՞ հանելին»։ Այդ թիվն է տալիս արդյունքի նշանը։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>Եթե հանելին մեծ է նվազելիից, արդյունքը բացասական է։</li>
+      <li>Արդյունքի նշանը որոշում է մեծ բացարձակ արժեք ունեցող թիվը։</li>
+      <li>$−a+b=b−a$. կարգը կարելի է փոխել, եթե նշանները ճիշտ են տեղափոխվում։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Երբ Օսլոն $14°$-ով ցուրտ է Գորիսից, և Գորիսում $8°C$ է, մի հաշվիր «$8-14$»-ը մեխանիկորեն, առանց մտածելու։ Նկարիր (կամ պատկերացրու) թվային առանցքը. Գորիսը՝ $8$-ում, Օսլոն՝ $14$ միավոր ձախ։ Այդպես սխալի հավանականությունը շատ ավելի փոքր է։
+  </div>
+</section>
+
+<section class="chapter" id="s5">
+  <div class="chapter-head"><span class="chapter-num">05</span><h2>Բացասական թվից բնական թվի հանումը</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">Սուզանավը արդեն գտնվում է ծովի մակարդակից $100$ մետր ցածր (այսինքն՝ $−100$ մետր դիրքում)։ Այն էլի իջնում է ևս $23$ մետր։ Ի՞նչ դիրքում է հայտնվում։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">Եթե արդեն ձախում ես (բացասական դիրքում) և էլի ձախ ես շարժվում (հանում ես դրական թիվ), միշտ ավելի ձախ ես գնում. արդյունքի բացարձակ արժեքն ուղղակի աճում է։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p><b class="term">Կանոն.</b> Բացասական թվից բնական թիվ հանելիս՝ նվազելիի բացարձակ արժեքին գումարում ենք հանելին և արդյունքի առջև դնում $−$ նշան ($−2−3=−5$, $−50−6=−56$)։</p>
+    <p><b class="term">«Հայելային» մեկնաբանություն.</b> $2+3=5$ գործողության արտացոլանքը սկզբնակետի հայելիում է $−2−3=−5$. կետի արտացոլանքը հայելիում այդ կետի հակադիր կոորդինատով կետն է, և աջ շարժումը հայելիում դառնում է ձախ շարժում։</p>
+  </div>
+
+  <div class="block-title">Վիզուալ պատկեր</div>
+  <div class="visual-container table-wrap">
+    <table>
+      <tr><th>Աջ կողմում</th><td>$2+3=5$</td></tr>
+      <tr><th>Ձախ կողմում (հայելի)</th><td>$−2−3=−5$</td></tr>
+    </table>
+  </div>
+
+  <div class="block-title">Կանոն</div>
+  <div class="formula-box"><span class="label">Բացասականից բնական հանելիս</span>
+    $(−a)−b=−(a+b)$, որտեղ $a,b$ դրական են։ Բացարձակ արժեքները գումարվում են, նշանը մնում է $−$։
+  </div>
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>Հաշվեք $−50−6$, $−12−17$, $−8−1$։</p>
+    <div class="step">$−50−6$. $50+6=56$, ուստի $−56$։</div>
+    <div class="step">$−12−17$. $12+17=29$, ուստի $−29$։</div>
+    <div class="step">$−8−1$. $8+1=9$, ուստի $−9$։</div>
+    <div class="answer">Պատասխան. $−56$, $−29$, $−9$։</div>
+  </div>
+
+  <div class="think">Սուզանավի օրինակում ($−100$ մետրից ևս $23$ մետր իջնելը) ինչո՞ւ պատասխանը ստացվում է թվերի գումարով, ոչ թե տարբերությամբ, չնայած գործողությունը կոչվում է «հանում»։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> $−2−3$-ը հաշվել որպես «$−2$-ի և $3$-ի տարբերություն», ստանալով $−1$ կամ $1$։</p>
+    <p><span class="k">Ինչու՞</span> «Հանում» բառը ասոցացվում է տարբերության հետ, մինչդեռ այստեղ երկու քայլն էլ նույն ուղղությամբ են (երկուսն էլ ձախ)։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Հարցրու. «Երկու քայլն էլ նույն ուղղությա՞մբ են»։ Եթե այո, բացարձակ արժեքները գումարվում են։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>Բացասականից բնական հանելը = երկու քայլն էլ ձախ, ուստի բացարձակ արժեքները գումարվում են։</li>
+      <li>Արդյունքի նշանը միշտ $−$ է (եթե սկզբնական թիվը բացասական էր)։</li>
+      <li>«Հայելային» սկզբունքը՝ նույն թվաբանությունը, հակադիր ուղղությամբ։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Այս թեման հաճախ շփոթեցնող է թվում, քանի որ «հանում» բառը մեզ սովորեցնում է մտածել տարբերության մասին։ Բայց հիշիր. $−a−b$ միշտ նշանակում է «սկսել $−a$-ից և ևս $b$ քայլ ձախ գնալ», ոչ թե «հանել $a$-ից $b$-ն»։
+  </div>
+</section>
+
+<section class="chapter" id="s6">
+  <div class="chapter-head"><span class="chapter-num">06</span><h2>Ամբողջ թվերի գումարումն ու հանումը</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">Դուբայում $+27°C$ է, Երևանում՝ $−12°C$։ Որքանո՞վ է տարբերվում ջերմաստիճանը երկու քաղաքների միջև։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">Երբ արտահայտության մեջ հանդիպում են կրկնակի նշաններ ($−(−5)$, $+(−7)$), նախ դրանք «պարզեցվում» են մեկ նշանի, ապա կիրառվում է արդեն ծանոթ գումարման/հանման կանոնը։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p>Ամբողջ թվերի գումար/տարբերություն հաշվելու կարգը.</p>
+    <ol>
+      <li>$−(−a)$ փոխարինել $+a$-ով։</li>
+      <li>$+(−a)$ և $−(+a)$ փոխարինել $−a$-ով։</li>
+      <li>Եթե $a$-ի և $b$-ի դիմաց տարբեր նշաններ են, հանել մեծից փոքրը և դնել մեծի նշանը։</li>
+      <li>Եթե նույն նշաններն են, գումարել բացարձակ արժեքները և դնել ընդհանուր նշանը։</li>
+    </ol>
+  </div>
+
+  <div class="block-title">Վիզուալ պատկեր</div>
+  <div class="visual-container table-wrap">
+    <table>
+      <tr><th>Կրկնակի նշան</th><td>$−(−5)$</td><td>$+(−7)$</td><td>$−(+9)$</td></tr>
+      <tr><th>Պարզեցված</th><td>$+5$</td><td>$−7$</td><td>$−9$</td></tr>
+    </table>
+  </div>
+
+  <div class="block-title">Կանոն</div>
+  <div class="formula-box"><span class="label">4-քայլանի կարգ</span>
+    Պարզեցրու կրկնակի նշանները → նույն նշան՝ գումարել բացարձակ արժեքները → տարբեր նշան՝ հանել փոքրը մեծից, դնել մեծի նշանը։
+  </div>
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ 1</span>
+    <p>Հաշվեք $4−(−5)$։</p>
+    <div class="step">$−(−5)=+5$, ուստի $4−(−5)=4+5=9$։</div>
+    <div class="answer">Պատասխան. $9$։</div>
+  </div>
+  <div class="example-box"><span class="tag">Օրինակ 2</span>
+    <p>Հաշվեք $−(−4)+(−7)$։</p>
+    <div class="step">$−(−4)=+4$, ուստի $4+(−7)=4−7=−3$։</div>
+    <div class="answer">Պատասխան. $−3$։</div>
+  </div>
+
+  <div class="think">Ինչո՞ւ է հարմար կրկնակի նշանները պարզեցնել *առաջին* քայլում, նախքան մեծ/փոքր կանոնը կիրառելը։ Ի՞նչ կպատահեր, եթե փորձեինք հակառակ հերթականությամբ։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> $−(−a)$-ն մեկնաբանել որպես $−a$, ոչ թե $+a$։</p>
+    <p><span class="k">Ինչու՞</span> Երկու $−$ նշան կողք կողքի տեսնելով՝ աշակերտը հակված է պարզապես «թողնել մեկը», առանց հասկանալու, որ երկուսը միասին չեղարկվում են։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Հաշվիր $−$ նշանների քանակը. զույգ թիվ → $+$, կենտ թիվ → $−$։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>Կրկնակի նշանը միշտ պարզեցրու առաջինը։</li>
+      <li>Նույն նշան → գումարել, տարբեր → հանել (մեծից փոքրը)։</li>
+      <li>Վերջնական պատասխանը ստուգիր՝ վերադառնալով պարզեցված տեսքին։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Դուբայի ($+27°C$) և Երևանի ($−12°C$) օրինակում փնտրում ես տարբերությունը՝ $27−(−12)$։ Սա նույն կանոնով է լուծվում. $−(−12)=+12$, ուստի $27+12=39$։ Ջերմաստիճանների տարբերությունը միշտ հաշվվում է որպես մեծի հանում փոքրից, անկախ նշաններից։
+  </div>
+</section>
+
+<!-- ============ ՄԱՍ 3/4 ============ -->
+<section class="part-header">Մաս 3 / 4</section>
+
+<section class="chapter" id="s7">
+  <div class="chapter-head"><span class="chapter-num">07</span><h2>Գումարման օրենքների կիրառությունները</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">Օդապարուկը սկզբում $25$ մետր բարձրության վրա էր, հետո բարձրացավ ևս $4$ մետր, ապա իջավ $9$ մետր։ Ի՞նչ բարձրության վրա է հայտնվել. կարո՞ղ ես հաշվել ամենահարմար հերթականությամբ։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">Գումարման տեղափոխական օրենքը ($a+b=b+a$) աշխատում է նաև հանման հետ խառը արտահայտություններում, եթե յուրաքանչյուր անդամին «կպցնենք» իր դիմացի նշանը և տեղափոխենք միասին։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p>Ամբողջ թվերի համար ճշմարիտ են գումարման <b class="term">տեղափոխական</b> ($a+b=b+a$) և <b class="term">զուգորդական</b> ($(a+b)+c=a+(b+c)$) օրենքները։</p>
+    <p>Օգտվելով $−7=+(−7)$ հավասարությունից, հանման մեջ մասնակցող թիվը կարելի է տեղափոխել՝ պարտադիր հետը տանելով դիմացի նշանը՝ $3+5−7=3+5+(−7)=3−7+5=−7+5+3$։</p>
+  </div>
+
+  <div class="block-title">Վիզուալ պատկեր</div>
+  <div class="visual-container table-wrap">
+    <table>
+      <tr><th>Սկզբնական</th><td colspan="3">$−157−21+158$</td></tr>
+      <tr><th>Վերադասավորված</th><td>$158$</td><td>$-157$</td><td>$-21$</td></tr>
+      <tr><th>Հաշվարկ</th><td colspan="3">$158-157=1$, ապա $1-21=-20$</td></tr>
+    </table>
+  </div>
+
+  <div class="block-title">Կանոն</div>
+  <div class="formula-box"><span class="label">Հարմար խմբավորում</span>
+    Անդամը տեղափոխելիս՝ դիմացի նշանը միշտ գնում է նրա հետ։ Խմբավորիր այնպես, որ ստացվեն «կլոր» թվեր կամ իրար չեղարկող զույգեր։
+  </div>
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>Հաշվեք $−9−7+17−2$ հարմար կերպով։</p>
+    <div class="step">Տեղափոխենք $17$-ը առաջինը՝ նշանով. $17−9−7−2$։</div>
+    <div class="step">$17−9=8$, $8−7=1$, $1−2=−1$։</div>
+    <div class="answer">Պատասխան. $−1$։</div>
+  </div>
+
+  <div class="think">Օդապարուկի խնդրում ($25$, $+4$, $−9$) ինչո՞ւ ամենահարմար է հաշվել $+4−9$-ը նախ (ստանալով $−5$), ապա գումարել $25$-ին, փոխարեն ձախից աջ հերթականությամբ գնալու։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> Անդամ տեղափոխելիս մոռանալ նշանը հետը տանել (օրինակ՝ $−157−21+158$-ում $21$-ը տեղափոխել որպես $+21$)։</p>
+    <p><span class="k">Ինչու՞</span> Տեղափոխումը զգացվում է որպես զուտ «տեղափոխություն», և նշանը մոռացվում է, թեև այն անդամի անբաժանելի մասն է։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Միշտ ընդգծիր (մտովի կամ իրապես) ամեն անդամի նշանը՝ նախքան տեղափոխելը, և տեղափոխիր նշան+թիվը որպես մեկ միասնական բլոկ։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>Նշանը միշտ «կպած» է իր թվին, նույնիսկ տեղափոխելիս։</li>
+      <li>Փնտրիր «կլոր» թվեր կամ չեղարկվող զույգեր՝ հաշվարկը հեշտացնելու համար։</li>
+      <li>Զուգորդական օրենքը կիրառելի է միայն միատեսակ գործողությունների (գումարում/հանում) շարքում, ոչ բազմապատկման հետ խառը։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Այս հնարքը հատկապես արժեքավոր է քննության ժամանակ. մի քանի վայրկյան ծախսիր՝ նայելու, թե որ թվերն են «հարմար զույգ» կազմում (գումարվում են $0$-ի, կամ տալիս կլոր թիվ), նախքան մեխանիկորեն ձախից աջ հաշվելը։
+  </div>
+</section>
+
+<section class="chapter" id="s8">
+  <div class="chapter-head"><span class="chapter-num">08</span><h2>Ամբողջ թվերի բազմապատկումը, բազմապատկման օրենքները</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">Թեստում ամեն ճիշտ պատասխանի համար $+4$ միավոր, ամեն սխալի համար՝ $−2$։ $25$ հարցից $22$-ը ճիշտ են, մնացածը՝ սխալ։ Քանի՞ միավոր է հավաքվել ընդհանուր առմամբ։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">$5\cdot(-1)=-5$-ը հետևում է անմիջապես բազմապատկման բաշխական օրենքից. $5\cdot(2-3)=5\cdot2-5\cdot3=10-15=-5$։ Հենց սրանից էլ բխում է նշանների ամբողջ կանոնը։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p>$(−1)\cdot(−1)=+1$։ <b class="term">Կանոն.</b> Նույն նշանի երկու թիվ բազմապատկելիս ստացվում է դրական թիվ, տարբեր նշանների դեպքում՝ բացասական։</p>
+    <p>Երկու ամբողջ թիվ բազմապատկելու կարգ. 1) հաշվել բացարձակ արժեքների արտադրյալը; 2) եթե արտադրիչները տարբեր նշանների են, դնել $−$ նշան։</p>
+  </div>
+
+  <div class="block-title">Վիզուալ պատկեր</div>
+  <div class="visual-container table-wrap">
+    <table>
+      <tr><th></th><th>դրական</th><th>բացասական</th></tr>
+      <tr><th>դրական</th><td style="background:#eef6ef;">դրական</td><td style="background:#fdeeec;">բացասական</td></tr>
+      <tr><th>բացասական</th><td style="background:#fdeeec;">բացասական</td><td style="background:#eef6ef;">դրական</td></tr>
+    </table>
+  </div>
+
+  <div class="block-title">Կանոն</div>
+  <div class="formula-box"><span class="label">Նշանների աղյուսակ</span>
+    Նույն նշան → $+$, տարբեր նշան → $−$։ Բազմաքայլ արտահայտության մեջ պահպանիր գործողությունների կարգը (փակագիծ → բազմապատկում → գումարում/հանում)։
+  </div>
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ 1, 2</span>
+    <p>Հաշվեք $(−3)\cdot 6$ և $(−4)\cdot(−15)$։</p>
+    <div class="step">$(−3)\cdot 6$. տարբեր նշան → $−(3\cdot6)=−18$։</div>
+    <div class="step">$(−4)\cdot(−15)$. նույն նշան → $+(4\cdot15)=60$։</div>
+    <div class="answer">Պատասխան. $−18$ և $60$։</div>
+  </div>
+  <div class="example-box"><span class="tag">Օրինակ 3</span>
+    <p>Հաշվեք $31+6\cdot(2−7)$։</p>
+    <div class="step">Նախ փակագիծը. $2−7=−5$։</div>
+    <div class="step">Ապա բազմապատկումը. $6\cdot(−5)=−30$։</div>
+    <div class="step">Վերջում գումարումը. $31+(−30)=1$։</div>
+    <div class="answer">Պատասխան. $1$։</div>
+  </div>
+
+  <div class="think">Երեք արտադրիչի արտադրյալի ($(-2)\cdot(-3)\cdot(-4)$ նման) նշանը որոշելիս ինչո՞ւ է բավական հաշվել միայն բացասական արտադրիչների քանակի զույգ/կենտ լինելը, առանց ամեն զույգը առանձին հաշվարկելու։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> Նշանի կանոնը շրջել՝ կարծելով, թե նույն նշանները տալիս են բացասական։</p>
+    <p><span class="k">Ինչու՞</span> Հանման կանոնների հետ խառնում («տարբեր նշան → հանում») սխալմամբ տեղափոխվում է բազմապատկման վրա։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Հիշիր փոքր օրինակ. $(−1)\cdot(−1)=+1$ (նույն նշան → դրական)։ Համեմատիր ցանկացած նոր դեպք սրա հետ։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>Նույն նշան → դրական, տարբեր → բացասական (բազմապատկման/բաժանման կանոն)։</li>
+      <li>Բազմաքայլ արտահայտության մեջ՝ նախ փակագիծ, ապա բազմապատկում, հետո գումարում/հանում։</li>
+      <li>3+ արտադրիչի դեպքում՝ հաշվիր բացասականների զույգ/կենտ քանակը։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Բացասական թվերի գաղափարը դանդաղ է զարգացել մաթեմատիկայի պատմության մեջ․ նույնիսկ 16-րդ դարի եվրոպացի մաթեմատիկոսները դրանք համարում էին «կեղծ» թվեր։ Եթե նշանների կանոնը թվում է անբնական, դու միայնակ չես. սա իսկապես պահանջում է վարժություն, ոչ միայն ինտուիցիա։
+  </div>
+</section>
+
+<section class="chapter" id="s9">
+  <div class="chapter-head"><span class="chapter-num">09</span><h2>Փակագծերի բացումը</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">$25+8\cdot(10−3)$ հաշվելու երկու տարբեր ճանապարհ կա. կարո՞ղ ես գուշակել, թե երկուսն էլ կտան նույն պատասխանը։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">Փակագծից առաջ եղած նշանը որոշում է, թե ինչպես է այն «անհետանում»՝ $+$-ը թողնում է ներսի նշանները անփոփոխ, $−$-ը՝ շրջում է բոլորը։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p><b class="term">Կանոն.</b> Եթե փակագծից առաջ $+$ նշան է, փակագիծը բացելիս ներսի թվերի նշանները մնում են նույնը; եթե $−$ նշան է, բոլոր նշանները փոխվում են հակառակի։</p>
+    <p>Սա բազմապատկման բաշխական օրենքի ուղիղ կիրառությունն է ($−2$-ով բազմապատկելը հավասարազոր է նշանները փոխելուն)։</p>
+  </div>
+
+  <div class="block-title">Վիզուալ պատկեր</div>
+  <div class="visual-container table-wrap">
+    <table>
+      <tr><th>Փակագծից առաջ</th><th>Օրինակ</th><th>Բացված տեսքը</th></tr>
+      <tr><td>$+$</td><td>$25+8\cdot(10−3)$</td><td>$25+8\cdot10−8\cdot3$</td></tr>
+      <tr><td>$−$</td><td>$16−2\cdot(8−1)$</td><td>$16−2\cdot8+2\cdot1$</td></tr>
+    </table>
+  </div>
+
+  <div class="block-title">Կանոն</div>
+  <div class="formula-box"><span class="label">Բացման կանոն</span>
+    $+(a−b)=a−b$ &nbsp;&nbsp; $−(a−b)=−a+b$
+  </div>
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ 3</span>
+    <p>Հաշվեք $−4\cdot(7−5)+2\cdot(−1+6)$։</p>
+    <div class="step">Առաջին փակագիծ. $7−5=2$, ուստի $−4\cdot2=−8$։</div>
+    <div class="step">Երկրորդ փակագիծ. $−1+6=5$, ուստի $2\cdot5=10$։</div>
+    <div class="step">Գումարենք. $−8+10=2$։</div>
+    <div class="answer">Պատասխան. $2$։</div>
+  </div>
+
+  <div class="think">$25+8\cdot(10−3)$-ը հաշվելիս ինչո՞ւ են երկու տարբեր մեթոդները (նախ փակագիծը հաշվել, կամ բացել այն) տալիս նույն $81$ պատասխանը. ինչի՞ վրա է դա հիմնված։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> $−$ նշանով փակագիծ բացելիս փոխել միայն առաջին անդամի նշանը, մոռանալ մնացածները։</p>
+    <p><span class="k">Ինչու՞</span> Ուշադրությունը կենտրոնանում է առաջին անդամի վրա, և «շրջել բոլորը» կանոնը կիրառվում է թերի։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Փակագիծը բացելուց հետո հաշվիր անդամների քանակը՝ ներսում և դրսում. պետք է նույնը մնա, և ամեն մեկի նշանը շրջված լինի $−$-ի դեպքում։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>$+$ փակագծից առաջ → նշանները մնում են։</li>
+      <li>$−$ փակագծից առաջ → ԲՈԼՈՐ նշանները շրջվում են։</li>
+      <li>Սա բաշխական օրենքի հետևանք է, ոչ առանձին «նոր» կանոն։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Երբ մի քանի փակագիծ ես տեսնում մեկ արտահայտության մեջ, ամեն մեկը վերաբերվիր առանձին, իր սեփական դիմացի նշանով. մի թող, որ մեկի «զգացողությունը» ազդի մյուսի բացման վրա։
+  </div>
+</section>
+
+<!-- ============ ՄԱՍ 4/4 ============ -->
+<section class="part-header">Մաս 4 / 4</section>
+
+<section class="chapter" id="s10">
+  <div class="chapter-head"><span class="chapter-num">10</span><h2>Ամբողջ թվերի բաժանումը</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">Ինչ-որ մեկը մտապահել է մի թիվ, դրան գումարել $4$, ապա արդյունքը բաժանել $3$-ի, և ստացել $−7$։ Ի՞նչ թիվ էր մտապահված։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">Բազմապատկման նշանների կանոնը ուղղակիորեն փոխանցվում է բաժանմանը, քանի որ բաժանումը հակադարձ գործողություն է։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p>Ամբողջ թվերի բաժանման կարգը՝ բաժանել բացարձակ արժեքները, ապա որոշել քանորդի նշանը. եթե բաժանելին ու բաժանարարը նույն նշանի են, քանորդը դրական է, հակառակ դեպքում՝ բացասական։</p>
+    <p><b class="term">Զգուշացեք.</b> ամբողջ թիվը հնարավոր չէ բաժանել $0$-ի։</p>
+  </div>
+
+  <div class="block-title">Վիզուալ պատկեր</div>
+  <div class="visual-container table-wrap">
+    <table>
+      <tr><th>Գործողություն</th><th>Տարբեր նշան</th><th>Նույն նշան</th></tr>
+      <tr><td>Գումարում/Հանում</td><td>հանել, մեծի նշան</td><td>գումարել, ընդհանուր նշան</td></tr>
+      <tr><td>Բազմապատկում/Բաժանում</td><td>բացասական</td><td>դրական</td></tr>
+    </table>
+  </div>
+
+  <div class="block-title">Կանոն</div>
+  <div class="formula-box"><span class="label">Բաժանման նշան</span>
+    $\dfrac{(-a)}{b}=\dfrac{a}{(-b)}=-\dfrac{a}{b}$, &nbsp; $\dfrac{(-a)}{(-b)}=\dfrac{a}{b}$ &nbsp; ($a,b>0$)
+  </div>
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ 4</span>
+    <p>Հաշվեք $10+3\cdot(−5)−8:(−4)$։</p>
+    <div class="step">Բազմապատկում. $3\cdot(−5)=−15$։</div>
+    <div class="step">Բաժանում. $8:(−4)=−2$։</div>
+    <div class="step">Գումարում/հանում ձախից աջ. $10+(−15)−(−2)=10−15+2=−3$։</div>
+    <div class="answer">Պատասխան. $−3$։</div>
+  </div>
+
+  <div class="think">«Մտապահված թիվ» խնդիրները (գումարեցին $4$-ը, բաժանեցին $3$-ի, ստացվեց $−7$) ինչո՞ւ է հարմար լուծել «հակադարձ» քայլերով, վերջից սկսած։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> Բազմագործողությամբ արտահայտության մեջ նախ գումարել/հանել, ապա բազմապատկել/բաժանել։</p>
+    <p><span class="k">Ինչու՞</span> Ձախից աջ «մեխանիկական» կարդալը գերադասվում է գործողությունների պաշտոնական հերթականությանը։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Նախքան հաշվարկելը՝ նշիր (թվերով վերևից) ամեն գործողության «հերթը». բազմապատկում/բաժանում = 1, գումարում/հանում = 2։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>Բաժանման նշանի կանոնը նույնն է, ինչ բազմապատկման։</li>
+      <li>$0$-ի բաժանել հնարավոր չէ, երբեք։</li>
+      <li>«Մտապահված թիվ» խնդիրները լուծիր հակադարձ քայլերով, վերջից սկսած։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Ամբողջ թվերի բաժանումը հարմար է գրել կոտորակի տեսքով և կրճատել. սա հատկապես օգտակար է, երբ բացասական ամբողջ թվերի «$−$» նշանը հայտնվում է և՛ համարիչում, և՛ հայտարարում՝ դրանք կրճատվում են։ Հաջորդ գլուխներում (ռացիոնալ արտահայտություններ) հենց այս սովորությունը կդառնա հիմնական գործիք։
+  </div>
+</section>
+
+<hr class="sep">
+
+<!-- ============ ԱՌԱՋԱԴՐԱՆՔՆԵՐ ============ -->
+<section class="tasks-section" id="tasks">
+  <h2>Առաջադրանքներ</h2>
+
+  <h3>Հաշվարկային առաջադրանքներ</h3>
+  <ol class="tasks">
+    <li>Համեմատեք. $4$ և $−1$, $−1$ և $−4$։</li>
+    <li>Հաշվեք. $|−23|$, $|41|$, $|−1|$, $|0|$։</li>
+    <li>Գրեք $8$, $−15$, $−3$, $+6$ թվերի հակադիրները։</li>
+    <li>Հաշվեք $−(−k)$, երբ $k=8$, և $+(−p)$, երբ $p=12$։</li>
+    <li>Համեմատեք. $−15$ և $−9$; $−4$ և $−4$; $0$ և $−6$։</li>
+    <li>Հաշվեք. $45−27$, $21−32$, $125−153$։</li>
+    <li>Հաշվեք. $19−15−12$, $20−35+17$, $−97+68+16$։</li>
+    <li>Հաշվեք. $−50−6$, $−12−17$, $−8−1$։</li>
+    <li>Հաշվեք. $−14−8$, $−15−9$, $−36−89$։</li>
+    <li>Հաշվեք. $−3−(−9)$, $(−1)+(−6)$։</li>
+    <li>Հաշվեք. $−(−4)+(−7)$, $−(+9)+(−27)$։</li>
+    <li>Հաշվեք. $2−(−8)$, $26−(−4)$, $−18−(−6)$։</li>
+    <li>Հաշվեք. $−67+(−8)−13$, $13−(−4)−(−9)$։</li>
+    <li>Հաշվեք $−157−21+158$ և $−9−7+17−2$ հարմար կերպով։</li>
+    <li>Գրեք տարբերությունը գումարի տեսքով. $46−58$։</li>
+    <li>Հաշվեք. $(−3)\cdot 6$, $(−4)\cdot(−15)$։</li>
+    <li>Հաշվեք. $31+6\cdot(2−7)$, $6\cdot(8−12)−5\cdot(9−14)$։</li>
+    <li>Հաշվեք. $25+8\cdot(10−3)$ երկու եղանակով։</li>
+    <li>Հաշվեք. $16−2\cdot(8−1)$ երկու եղանակով։</li>
+    <li>Հաշվեք. $−4\cdot(7−5)+2\cdot(−1+6)$։</li>
+    <li>Բացեք փակագծերը և հաշվեք. $−56+7\cdot(8−12)$։</li>
+    <li>Հաշվեք. $(−12):6$, $(−132):(−22)$։</li>
+    <li>Հաշվեք. $10+3\cdot(−5)−8:(−4)$։</li>
+    <li>Ուղղաթիռը $98$ մետրի վրա է, հրահանգում են $−20$ մետր փոխել բարձրությունը. ի՞նչ բարձրության վրա պիտի թռչի։</li>
+    <li>Օդապարուկը $25$ մետրի վրա էր, բարձրությունը փոխվեց $+4$ մետրով, ապա $−9$ մետրով. ի՞նչ բարձրության վրա հայտնվեց։</li>
+    <li>Դուբայում $+27°C$ է, Երևանում՝ $−12°C$։ Որքանո՞վ է տարբերվում ջերմաստիճանը։</li>
+    <li>Օսլոն Գորիսից $14°$-ով ցուրտ է, Գորիսում $8°C$ է. որքա՞ն է Օսլոյում։</li>
+    <li>Սուզանավը ծովի մակարդակից իջավ $100$ մետր, ապա ևս $23$ մետր. ի՞նչ դիրքում է։</li>
+    <li>Թեստում ամեն ճիշտ պատասխանի համար $+4$, սխալի համար $−2$. $25$ հարցից $22$-ը ճիշտ են. քանի՞ միավոր հավաքվեց։</li>
+    <li>Թեստի ամեն ճիշտ պատասխանի համար $+3$, սխալի համար $−1$. $4$ սխալով ստացվեց $17$ միավոր. քանի՞ հարց էր թեստում։</li>
+    <li>Մտապահված թվին գումարեցին $4$-ը, ապա բաժանեցին $3$-ի, ստացվեց $−7$. գտեք թիվը։</li>
+  </ol>
+
+  <h3>Տրամաբանական և հայեցակարգային հարցեր</h3>
+  <ol class="tasks" start="32">
+    <li>Ինչո՞ւ $0$-ն ո՛չ դրական է, ո՛չ բացասական։</li>
+    <li>Ինչո՞ւ բացարձակ արժեքը երբեք չի կարող լինել բացասական։</li>
+    <li>Ինչո՞ւ $−8>−11$, թեև $8<11$։</li>
+    <li>Ինչո՞ւ երկու քայլ նույն ուղղությամբ (օրինակ՝ $−2−3$) տալիս են բացարձակ արժեքների գումար, ոչ տարբերություն։</li>
+    <li>Բացատրեք, թե ինչու $−(−a)=+a$՝ առանց թվային օրինակ օգտագործելու։</li>
+    <li>Ինչո՞ւ ամբողջ թիվը հնարավոր չէ բաժանել $0$-ի։</li>
+    <li>Ինչո՞ւ $3$ և ավելի արտադրիչի արտադրյալի նշանը կախված է միայն բացասական արտադրիչների զույգ/կենտ քանակից։</li>
+  </ol>
+</section>
+
+<hr class="sep">
+
+<!-- ============ ՊԱՏԱՍԽԱՆՆԵՐ ============ -->
+<section class="answers-section" id="answers">
+  <h2>Պատասխաններ</h2>
+  <h3>Հաշվարկային առաջադրանքների պատասխանները</h3>
+  <ol class="answers-list">
+    <li>$4>−1$; $−1>−4$</li>
+    <li>$23,\ 41,\ 1,\ 0$</li>
+    <li>$−8,\ 15,\ 3,\ −6$</li>
+    <li>$8,\ −12$</li>
+    <li>$−15<−9$; $−4=−4$; $0>−6$</li>
+    <li>$18,\ −11,\ −28$</li>
+    <li>$−8,\ 2,\ −13$</li>
+    <li>$−56,\ −29,\ −9$</li>
+    <li>$−22,\ −24,\ −125$</li>
+    <li>$6,\ −7$</li>
+    <li>$−3,\ −36$</li>
+    <li>$10,\ 30,\ −12$</li>
+    <li>$−88,\ 6$</li>
+    <li>$−20,\ −1$</li>
+    <li>$46+(−58)$</li>
+    <li>$−18,\ 60$</li>
+    <li>$1,\ 1$</li>
+    <li>$81$ (երկու եղանակով)</li>
+    <li>$2$ (երկու եղանակով)</li>
+    <li>$2$</li>
+    <li>$−84$</li>
+    <li>$−2,\ 6$</li>
+    <li>$−3$</li>
+    <li>$78$ մետր</li>
+    <li>$20$ մետր</li>
+    <li>$39°$-ով</li>
+    <li>$−6°C$</li>
+    <li>$−123$ մետր</li>
+    <li>$78$ միավոր</li>
+    <li>$7$ հարց</li>
+    <li>$−25$</li>
+  </ol>
+  <h3>Տրամաբանական և հայեցակարգային հարցերի պատասխանները</h3>
+  <ol class="answers-list answers-list-conceptual" start="32">
+    <li>$0$-ը սահման է դրական/բացասական տիրույթների միջև, ոչ մեկին չի պատկանում</li>
+    <li>Բացարձակ արժեքը հեռավորություն է, հեռավորությունը միշտ $\ge 0$</li>
+    <li>Կոորդինատային առանցքի վրա $−8$-ը $−11$-ից ավելի աջ է</li>
+    <li>Երկու քայլն էլ ձախ ուղղությամբ են, ուստի հեռավորությունները գումարվում են</li>
+    <li>Երկու հաջորդական մինուսը փոխադարձաբար չեղարկվում է</li>
+    <li>Բաժանումը հակադարձ բազմապատկում է, և ոչ մի թիվ բազմապատկելով $0$-ով չի կարող տալ ոչ-զրոյական արդյունք</li>
+    <li>Դրական արտադրիչները չեն ազդում նշանի վրա, միայն բացասականների զույգ/կենտ քանակն է որոշիչ</li>
+  </ol>
+</section>
+
+</main>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  renderMathInElement(document.body, {
+    delimiters: [
+      {left: "$$", right: "$$", display: true},
+      {left: "$", right: "$", display: false}
+    ],
+    strict: false
+  });
+});
+</script>
+</body>
+</html>

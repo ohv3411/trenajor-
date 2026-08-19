@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="hy">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Վիճակագրություն և հավանականություն 5-9 | Ուսումնական ուղեցույց</title>
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['\\(', '\\)'], ['$', '$']], displayMath: [['\\[', '\\]'], ['$$', '$$']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js" id="MathJax-script" async></script>
+<style>
+  :root{
+    --bg:#0f1f2e;
+    --paper:#f6f8fb;
+    --ink:#152233;
+    --accent:#1e5f8c;
+    --accent2:#c0562b;
+    --die:#8fb3cc;
+    --muted:#5b7188;
+    --card:#ffffff;
+    --line:#dde6ee;
+  }
+  *{box-sizing:border-box;}
+  
+  /* Ընթեռնելի հայերեն ֆոնտ */
+  body{
+    margin:0;
+    font-family:'Sylfaen', 'Arial', serif;
+    background:var(--paper);
+    color:var(--ink);
+    font-size:18px; line-height:1.7;
+  }
+  
+  .hero{
+    background:
+      radial-gradient(circle at 85% 15%, rgba(143,179,204,.18), transparent 45%),
+      radial-gradient(circle at 10% 85%, rgba(192,86,43,.22), transparent 40%),
+      var(--bg);
+    color:#eaf2f8;
+    padding:64px 24px 56px;
+    position:relative; overflow:hidden;
+  }
+  .dice{
+    position:absolute; font-family:'Arial', sans-serif; font-size:5rem;
+    opacity:.14; right:30px; top:20px; transform:rotate(8deg);
+  }
+  .hero-inner{max-width:820px; margin:0 auto; position:relative; z-index:2;}
+  h1.title{font-size:2.3rem; margin:0 0 14px; font-weight:bold; color:#fff;}
+  .hero p{color:#cfe0ec; max-width:640px; font-size:1.1rem;}
+  .bars{display:flex; gap:6px; align-items:flex-end; margin-top:28px; height:40px;}
+  .bars span{display:block; width:14px; background:var(--accent); border-radius:2px 2px 0 0; opacity:.85;}
+
+  main{max-width:820px; margin:44px auto 90px; padding:0 24px;}
+
+  section.chapter{margin-bottom:64px;}
+  .chapter-head{
+    display:flex; align-items:baseline; gap:16px; border-bottom:3px solid var(--accent2);
+    padding-bottom:10px; margin-bottom:22px;
+  }
+  .chapter-num{font-size:2.1rem; color:var(--accent); font-weight:bold;}
+  .chapter-head h2{margin:0; font-size:1.6rem; color:var(--ink); font-weight:bold;}
+  .chapter-grade{font-size:.85rem; color:var(--muted); text-transform:uppercase; letter-spacing:.05em;}
+
+  .theory{background:var(--card); border:1px solid var(--line); border-radius:10px; padding:22px 24px; margin-bottom:24px;}
+  .theory h3{margin-top:0; color:var(--accent2); font-size:1.2rem; font-weight:bold;}
+  .theory ul{padding-left:22px;}
+  .theory li{margin-bottom:10px;}
+  .term{color:var(--accent); font-weight:bold;}
+
+  .example{
+    border-left:4px solid var(--accent2); background:#fff; padding:18px 22px; margin:20px 0;
+    border-radius:0 10px 10px 0; box-shadow:0 2px 8px rgba(15,31,46,.05);
+  }
+  .example .tag{
+    display:inline-block; font-size:.85rem; text-transform:uppercase;
+    letter-spacing:.08em; color:#fff; background:var(--accent2); padding:4px 10px; border-radius:20px; margin-bottom:10px; font-weight:bold;
+  }
+  .example p{margin:.5em 0;}
+  .example .solution-step{margin:6px 0 6px 4px;}
+  .example .answer{margin-top:12px; padding:10px 14px; background:#eef4f9; border-radius:8px; border-left:3px solid var(--accent); font-weight:bold;}
+
+  /* Բաց և ընթեռնելի առաջադրանքներ թեմայի ներսում */
+  .practice{background:#fff8ee; border:1px solid #ecd9b6; border-radius:10px; padding:20px; margin:20px 0;}
+  .practice-title{font-weight:bold; color:var(--accent); margin:0 0 12px 0; font-size: 1.1rem;}
+  .practice-title::before{content:"✎ Առաջադրանք. ";}
+  .practice .question{margin-bottom: 12px; font-weight: 500;}
+  .practice .reveal{padding-top:12px; border-top:1px dashed #ecd9b6;}
+  .practice .see-answer{font-size:.85rem; text-transform:uppercase; color:var(--muted); letter-spacing:.06em; margin-bottom:6px; font-weight:bold;}
+
+  /* Ամփոփիչ թեստի հարցեր (Առանց լուծումների) */
+  .test-question{background:#fff; border:1px solid var(--line); border-radius:8px; padding:16px 20px; margin-bottom:16px; box-shadow:0 2px 5px rgba(0,0,0,0.03);}
+  .test-question-num{font-weight:bold; color:var(--accent); margin-right:8px; font-size:1.1rem;}
+
+  /* Պատասխանների բլոկ վերջում */
+  .answers-section{background:#fff; padding:30px; border-radius:10px; border:2px solid var(--accent2); margin-top:50px;}
+  .answers-section h2{color:var(--accent2); margin-top:0; font-weight:bold;}
+  .answers-list{columns: 2; column-gap: 40px; padding-left: 20px; margin:0;}
+  .answers-list li{margin-bottom: 10px; font-weight:bold;}
+
+  table{border-collapse:collapse; width:100%; margin:14px 0; display:block; overflow-x:auto; -webkit-overflow-scrolling:touch;}
+  svg{max-width:100%; height:auto;}
+  html, body{overflow-x:hidden;}
+  .chapter-head > *{min-width:0;}
+  th,td{border:1px solid var(--line); padding:8px 12px; text-align:center; font-size:1rem;}
+  th{background:#eaf1f7; font-weight:bold;}
+
+  .mistake{background:#fdeeec; border:1px solid #f0c6bf; border-radius:10px; padding:16px 22px; margin:20px 0;}
+  .mistake .tag{font-size:.85rem; text-transform:uppercase; letter-spacing:.08em; color:#c0562b; font-weight:bold;}
+  .mistake p{margin:.5em 0;}
+
+  .think{background:#f3ede0; border-left:4px solid var(--die); border-radius:0 10px 10px 0; padding:14px 20px; margin:20px 0; font-style:italic; color:#4a3a1f;}
+
+  .stem-leaf{font-family:'Courier New', monospace; background:#eef4f9; padding:12px 16px; border-radius:8px; white-space:pre; overflow-x:auto; font-size:.95rem; font-weight:bold;}
+
+  hr.div{border:none; border-top:1px dashed var(--line); margin:40px 0;}
+
+  .backtop{position:fixed; right:18px; bottom:18px; width:42px; height:42px; border-radius:50%; background:var(--accent); color:#fff; display:flex; align-items:center; justify-content:center; text-decoration:none; font-size:1.3rem; box-shadow:0 4px 12px rgba(15,31,46,.25); opacity:.85;}
+  .backtop:hover{opacity:1;}
+
+  @media (max-width:600px){
+    nav.toc ol{columns:1;}
+    .answers-list{columns:1;}
+    main{padding:0 14px;}
+  }
+
+  @media print {
+      body { background: white !important; color: black !important; font-size: 12pt; }
+      .hero { padding: 10px 0; background: none !important; color: black !important; }
+      h1.title { color: black !important; }
+      .dice, .bars { display: none !important; }
+      .theory, .example, .practice, .test-question, .answers-section { page-break-inside: avoid !important; box-shadow: none !important; border: 1px solid #ccc !important; }
+      .chapter { page-break-before: always; }
+      .chapter:first-of-type { page-break-before: auto; }
+      .answers-list { columns: 3; }
+      .backtop{display:none !important;}
+  }
+</style>
+
+<style id="tj-unified">
+  /* ԸՆԴՀԱՆՈՒՐ ՎԵՐԻՆ ՎԱՀԱՆԱԿ — նույնական բոլոր 19 ուղեցույցում։
+     Class-երը սկսվում են tj- նախածանցով, որ երբեք չբախվեն էջի
+     սեփական ոճերի հետ։ */
+  .tj-bar{background:#0f1f2e;color:#eaf2f8;font-family:'Sylfaen','Arial',serif;}
+  .tj-bar-in{max-width:840px;margin:0 auto;padding:10px 20px;display:flex;
+             align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+  .tj-back{color:#eaf2f8;text-decoration:none;font-weight:bold;font-size:.95rem;
+           border:1px solid rgba(234,242,248,.35);border-radius:8px;padding:5px 12px;}
+  .tj-back:hover{background:rgba(234,242,248,.12);}
+  .tj-grade{font-size:.85rem;color:#cfe0ec;letter-spacing:.03em;}
+  @media print{ .tj-bar{display:none;} }
+</style>
+</head>
+<body>
+<div class="tj-bar"><div class="tj-bar-in"><a class="tj-back" href="../index.html">← Տրենաժոր</a><span class="tj-grade">7–9 դասարան</span></div></div>
+
+
+<div class="hero">
+  <div class="dice">⚄ ⚀</div>
+  <div class="hero-inner">
+    <h1 class="title">Վիճակագրություն և հավանականություն</h1>
+    <div class="bars">
+      <span style="height:16px"></span><span style="height:28px"></span><span style="height:40px"></span>
+      <span style="height:22px"></span><span style="height:34px"></span>
+    </div>
+  </div>
+</div>
+
+<main>
+
+<!-- ============ CHAPTER 1 ============ -->
+<section class="chapter" id="ch1">
+  <div class="chapter-head">
+    <span class="chapter-num">01</span>
+    <div><div class="chapter-grade">5-րդ դասարան</div><h2>Տվյալների առաջին ընկալումը</h2></div>
+  </div>
+
+  <div class="theory">
+    <h3>Հիմնական գաղափարներ</h3>
+    <p><span class="term">Տվյալը</span> շրջակա աշխարհի մասին տեղեկատվության հավաքագրված միավորն է։ Տվյալների հետ աշխատանքն ունի երեք փուլ.</p>
+    <ul>
+      <li><b>Հավաքագրում</b> — հարցումների, չափումների կամ դիտարկումների միջոցով տեղեկատվության ստացում։</li>
+      <li><b>Կարգավորում (աղյուսակավորում)</b> — տվյալների դասակարգում և հաճախականությունների աղյուսակի կազմում։</li>
+      <li><b>Պատկերում</b> — տվյալների տեսողական ներկայացում հատվածներով կամ սյունակային գծապատկերով, որտեղ յուրաքանչյուր հատվածի երկարությունը համեմատական է տվյալի քանակին։</li>
+    </ul>
+  </div>
+
+  <div class="example">
+    <span class="tag">Օրինակ · Սիրած միրգ</span>
+    <p>25 աշակերտի հարցումից ստացվել է. խնձոր՝ 10, բանան՝ 8, նարինջ՝ 5, դեղձ՝ 2։ Կազմե՛ք հաճախականությունների աղյուսակ և պատկերե՛ք հատվածներով (1 աշակերտ = 2 մմ)։</p>
+    <table>
+      <tr><th>Միրգ</th><th>Հաճախականություն</th><th>Մասնաբաժին</th></tr>
+      <tr><td>Խնձոր</td><td>10</td><td>\(\frac{10}{25}=\frac{2}{5}\)</td></tr>
+      <tr><td>Բանան</td><td>8</td><td>\(\frac{8}{25}\)</td></tr>
+      <tr><td>Նարինջ</td><td>5</td><td>\(\frac{5}{25}=\frac{1}{5}\)</td></tr>
+      <tr><td>Դեղձ</td><td>2</td><td>\(\frac{2}{25}\)</td></tr>
+      <tr><td><b>Ընդհանուր</b></td><td><b>25</b></td><td><b>1</b></td></tr>
+    </table>
+    <div class="solution-step">Հատվածների երկարությունները (1 աշակերտ = 2 մմ). խնձոր՝ 20 մմ, բանան՝ 16 մմ, նարինջ՝ 10 մմ, դեղձ՝ 4 մմ։</div>
+  </div>
+
+  <div class="practice">
+    <div class="practice-title"></div>
+    <div class="question">30 աշակերտից 15-ը սիրում են արկածային, 9-ը՝ գիտաֆանտաստիկ գրքեր, մնացածը՝ պատմական։ Գտե՛ք պատմական գրքեր նախընտրողների քանակն ու մասնաբաժինը։</div>
+    <div class="reveal">
+      <div class="see-answer">Լուծում</div>
+      <p>\(30-(15+9)=6\) աշակերտ, մասնաբաժինը՝ \(\frac{6}{30}=\frac{1}{5}=20\%\)</p>
+      <div class="answer">6 աշակերտ, մասնաբաժինը՝ 1/5 (20%)</div>
+    </div>
+  </div>
+
+  <div class="mistake">
+    <span class="tag">⚠ Հաճախակի սխալ</span>
+    <p>Մասշտաբի ընտրության հարցում աշակերտները հաճախ փորձում են գծել շատ երկար հատվածներ, որոնք չեն տեղավորվում էջում։ Մասշտաբը կամուրջ է իրական թվերի և թղթի սահմանափակ տարածության միջև. ընտրիր փոքր միավոր (մմ), եթե թվերը մեծ են։</p>
+  </div>
+</section>
+
+<hr class="div">
+
+<!-- ============ CHAPTER 2 ============ -->
+<section class="chapter" id="ch2">
+  <div class="chapter-head">
+    <span class="chapter-num">02</span>
+    <div><div class="chapter-grade">6-րդ դասարան</div><h2>Հավանականության ծնունդը</h2></div>
+  </div>
+
+  <div class="theory">
+    <h3>Հիմնական գաղափարներ</h3>
+    <ul>
+      <li><span class="term">Փորձ</span> — գործողություն, որը կարող է բերել տարբեր արդյունքների (օրինակ՝ զառի նետում)։</li>
+      <li><span class="term">Փորձի ելք</span> — փորձի ցանկացած հնարավոր վերջնական արդյունք։</li>
+      <li><span class="term">Պատահույթ</span> — ելքերի որոշակի բազմություն, որի հանդես գալը կարող է տեղի ունենալ կամ չունենալ։</li>
+      <li><span class="term">Կլասիկ հավանականություն</span> — \(P(A) = \dfrac{m}{n}\), որտեղ \(m\)-ը՝ նպաստավոր ելքերի, \(n\)-ը՝ բոլոր հավասարահավանական ելքերի քանակն է։</li>
+    </ul>
+    <p><b>Ինչպես հիշել.</b> Հավանականությունը միշտ 0-ի և 1-ի միջև է (ներառյալ). 0-ը՝ անհնար պատահույթ, 1-ը՝ հավաստի պատահույթ։ Մետաղադրամը հիշողություն չունի. յուրաքանչյուր նետում լիովին անկախ է նախորդից։</p>
+  </div>
+
+  <div class="example">
+    <span class="tag">Օրինակ 1 · Կապույտ և կարմիր գնդակներ</span>
+    <p>Տուփում կա 12 կապույտ և 8 կարմիր գնդակ։ Ի՞նչ հավանականությամբ կհանվի կապույտ գնդակ։</p>
+    <div class="solution-step">\(n=12+8=20\), \(m=12\)</div>
+    <div class="answer">P(կապույտ) = 12/20 = 3/5 = 0,6 (60%)</div>
+  </div>
+
+  <div class="practice">
+    <div class="practice-title"></div>
+    <div class="question">Մետաղադրամը նետում ենք երկու անգամ։ Ի՞նչ հավանականությամբ գոնե մեկ անգամ կբացվի զինանշան։</div>
+    <div class="reveal">
+      <div class="see-answer">Լուծում</div>
+      <p>Ելքեր՝ ԶԶ, ԶԳ, ԳԶ, ԳԳ (\(n=4\))։ Նպաստավոր՝ ԶԶ, ԶԳ, ԳԶ (\(m=3\))։</p>
+      <div class="answer">P = 3/4 = 0,75 (75%)</div>
+    </div>
+  </div>
+
+  <div class="mistake">
+    <span class="tag">⚠ Հաճախակի սխալ</span>
+    <p>Աշակերտները երբեմն կարծում են, թե հավանականությունը կարող է լինել 1-ից մեծ կամ բացասական։ Տարածված է նաև «մոլագարի մոլորությունը». եթե մետաղադրամը 5 անգամ անընդմեջ զինանշան է ցույց տվել, կարծում են, թե հաջորդը «պարտադիր» գիր կլինի, թեև հավանականությունը դեռ 0,5 է։</p>
+  </div>
+</section>
+
+<hr class="div">
+
+<!-- ============ CHAPTER 3 ============ -->
+<section class="chapter" id="ch3">
+  <div class="chapter-head">
+    <span class="chapter-num">03</span>
+    <div><div class="chapter-grade">7-րդ դասարան</div><h2>Նկարագրական վիճակագրություն</h2></div>
+  </div>
+
+  <div class="theory">
+    <h3>Հիմնական գաղափարներ</h3>
+    <ul>
+      <li><span class="term">Լայնք (Range)</span> — մեծագույն և փոքրագույն արժեքների տարբերությունը։</li>
+      <li><span class="term">Միջին թվաբանական (Mean)</span> — բոլոր տվյալների գումարի հարաբերությունը դրանց քանակին։</li>
+      <li><span class="term">Մոդ (Mode)</span> — ամենահաճախ հանդիպող տվյալը (կարող է լինել մեկից ավելի կամ ընդհանրապես չլինել)։</li>
+      <li><span class="term">Մեդիան (Median)</span> — աճման կարգով դասավորված շարքի մեջտեղի անդամը (կենտ քանակի դեպքում), կամ մեջտեղի երկուսի միջին թվաբանականը (զույգ քանակի դեպքում)։</li>
+    </ul>
+  </div>
+
+  <div class="theory">
+    <h3>🧠 Միջինի խաբկանքը</h3>
+    <p>Երկու դասարանների գնահատականներ (5-բալանոց)՝ Դասարան Ա՝ 4, 4, 4, 4, 4 (միջին՝ 4,0, լայնք՝ 0), Դասարան Բ՝ 5, 5, 5, 1, 4 (միջին՝ 4,0, լայնք՝ 4)։</p>
+    <p><b>Եզրակացություն.</b> Երկու դասարանն էլ ունեն նույն միջինը, բայց իրական պատկերը լիովին տարբեր է. Ա-ն կայուն է, Բ-ն՝ բևեռացված։ Ահա թե ինչու միջինի հետ մեկտեղ միշտ պետք է դիտարկել լայնքը, մոդն ու մեդիանը։</p>
+  </div>
+
+  <div class="example">
+    <span class="tag">Օրինակ 1 · Թեստի գնահատականներ</span>
+    <p>10 աշակերտի գնահատականներն են՝ 7, 8, 8, 9, 6, 10, 8, 5, 9, 10։ Գտե՛ք լայնքը, միջինը, մոդը, մեդիանը և կառուցե՛ք ցողուն-տերև պատկերը։</p>
+    <div class="solution-step">Դասավորված շարք՝ 5, 6, 7, 8, 8, 8, 9, 9, 10, 10</div>
+    <div class="solution-step">Լայնք = 10 − 5 = 5</div>
+    <div class="solution-step">Միջին = 80 / 10 = 8,0</div>
+    <div class="solution-step">Մոդ = 8 (հանդիպում է 3 անգամ)</div>
+    <div class="solution-step">Մեդիան (զույգ քանակ, N=10) = (8+8)/2 = 8,0</div>
+    <div class="stem-leaf">Ցողուն | Տերևներ
+--------+-------------------
+   0    | 5, 6, 7, 8, 8, 8, 9, 9
+   1    | 0, 0</div>
+  </div>
+
+  <div class="practice">
+    <div class="practice-title"></div>
+    <div class="question">Ջերմաստիճաններ. 12, 14, 14, 15, 18, 20, 12։ Գտե՛ք լայնքը, միջինը, մոդն ու մեդիանը։</div>
+    <div class="reveal">
+      <div class="see-answer">Լուծում</div>
+      <p>Դասավորված՝ 12, 12, 14, 14, 15, 18, 20։ Լայնք = 20−12 = 8։ Միջին = 105/7 = 15,0։ Երկմոդալ՝ 12 և 14 (երկուսն էլ 2 անգամ)։ Մեդիան (կենտ, N=7) = 4-րդ անդամը = 14։</p>
+      <div class="answer">Լայնք՝ 8, Միջին՝ 15,0, Մոդեր՝ 12 և 14, Մեդիան՝ 14</div>
+    </div>
+  </div>
+
+  <div class="mistake">
+    <span class="tag">⚠ Հաճախակի սխալ</span>
+    <p>Մեդիանը հաշվելիս աշակերտները հաճախ մոռանում են տվյալները նախապես դասավորել աճման կարգով։</p>
+  </div>
+</section>
+
+<hr class="div">
+
+<!-- ============ CHAPTER 4 ============ -->
+<section class="chapter" id="ch4">
+  <div class="chapter-head">
+    <span class="chapter-num">04</span>
+    <div><div class="chapter-grade">8-րդ դասարան</div><h2>Քվարտիլներ և երկրաչափական հավանականություն</h2></div>
+  </div>
+
+  <div class="theory">
+    <h3>Հիմնական գաղափարներ</h3>
+    <ul>
+      <li><span class="term">Կուտակային հաճախություն</span> — տվյալ կարգի և դրան նախորդող բոլոր կարգերի հաճախությունների գումարը։</li>
+      <li><span class="term">Քվարտիլներ</span> — արժեքներ, որոնք աճման կարգով դասավորված տվյալները բաժանում են 4 հավասար մասի ($Q_1, Q_2, Q_3$)։ $Q_2$-ը հենց մեդիանն է։ Հաշվարկի եղանակ (այս նյութում կիրառվող). տվյալները երկու կիսում ես մեդիանով, կենտ $N$-ի դեպքում ընդհանուր մեդիանը երկու կիսից դուրս է թողնվում, ապա $Q_1$-ը ստորին կիսի, $Q_3$-ը՝ վերին կիսի մեդիանն է։</li>
+      <li><span class="term">Երկրաչափական հավանականություն</span> — \(P(A) = \dfrac{\text{Մակերես}(g)}{\text{Մակերես}(G)}\)</li>
+    </ul>
+  </div>
+
+  <div class="example">
+    <span class="tag">Օրինակ 1 · Շրջան քառակուսու մեջ</span>
+    <p>\(a\) կողմով քառակուսու մեջ ներգծված է շրջան։ Ի՞նչ հավանականությամբ պատահական կետը կընկնի շրջանի մեջ։</p>
+    <div class="solution-step">\(S_G=a^2\), շրջանի շառավիղը \(R=\dfrac{a}{2}\), \(S_g=\pi R^2=\dfrac{\pi a^2}{4}\)</div>
+    <div class="answer">P(A) = π/4 ≈ 0,7854 (78,54%)</div>
+  </div>
+
+  <div class="practice">
+    <div class="practice-title"></div>
+    <div class="question">Տվյալներ. 12, 15, 15, 17, 21, 23, 25, 30։ Գտե՛ք մեդիանը, Q₁-ը և Q₃-ը։</div>
+    <div class="reveal">
+      <div class="see-answer">Լուծում</div>
+      <p>N=8 (զույգ)։ Մեդիան = (17+21)/2 = 19։ Ձախ կես՝ 12,15,15,17 → Q₁ = (15+15)/2 = 15։ Աջ կես՝ 21,23,25,30 → Q₃ = (23+25)/2 = 24։</p>
+      <div class="answer">Մեդիան՝ 19, Q₁ = 15, Q₃ = 24</div>
+    </div>
+  </div>
+
+</section>
+
+<hr class="div">
+
+<!-- ============ CHAPTER 5 ============ -->
+<section class="chapter" id="ch5">
+  <div class="chapter-head">
+    <span class="chapter-num">05</span>
+    <div><div class="chapter-grade">9-րդ դասարան</div><h2>Ցրվածության չափանիշներ և բարդ պատահույթներ</h2></div>
+  </div>
+
+  <div class="theory">
+    <h3>Հիմնական գաղափարներ</h3>
+    <ul>
+      <li><span class="term">Շեղում</span> — \(d_i = x_i - \bar{x}\)</li>
+      <li><span class="term">Դիսպերսիա (Variance)</span> — \(\sigma^2 = \dfrac{\sum(x_i-\bar{x})^2}{n}\) (միջին թվաբանականից շեղումների քառակուսիների միջին թվաբանականը)։ <i>Ծանոթություն. որոշ դասագրքերում կիրառվում է նաև «ընտրանքային» տարբերակը՝ $n{-}1$ բաժանարարով. այս նյութում հիմնականը պոպուլյացիոն բանաձևն է։</i></li>
+      <li><span class="term">Միջին քառակուսային շեղում (ՄՔՇ)</span> — \(\sigma=\sqrt{\sigma^2}\)</li>
+      <li><span class="term">Անկախ պատահարներ</span> — \(P(A\cap B)=P(A)\cdot P(B)\)</li>
+      <li><span class="term">Գումարման թեորեմ</span> — \(P(A\cup B) = P(A)+P(B)-P(A\cap B)\)</li>
+    </ul>
+  </div>
+
+  <div class="example">
+    <span class="tag">Օրինակ 1 · Դիսպերսիա և շեղում (զույգ քանակ)</span>
+    <p>Տվյալներ՝ 2, 4, 6, 8։ Հաշվե՛ք միջինը, դիսպերսիան և շեղումը (պոպուլյացիոն և ընտրանքային)։</p>
+    <div class="solution-step">\(\bar{x}=\dfrac{2+4+6+8}{4}=5,0\)</div>
+    <div class="solution-step">Շեղումներ՝ −3, −1, 1, 3 → քառակուսիներ՝ 9, 1, 1, 9 → գումար = 20</div>
+    <div class="solution-step">Պոպուլյացիոն. \(\sigma^2=20/4=5,0\), \(\sigma=\sqrt{5}\approx2,24\)</div>
+    <div class="solution-step">Ընտրանքային. \(s^2=20/3\approx6,67\), \(s=\sqrt{6,67}\approx2,58\)</div>
+  </div>
+
+  <div class="practice">
+    <div class="practice-title"></div>
+    <div class="question">Անկախ պատահույթներ՝ P(A)=0,6, P(B)=0,4։ Հաշվե՛ք P(A∪B)։</div>
+    <div class="reveal">
+      <div class="see-answer">Լուծում</div>
+      <p>\(P(A\cap B)=0,6\cdot 0,4=0,24\)</p>
+      <div class="answer">P(A∪B) = 0,6 + 0,4 − 0,24 = 0,76 (76%)</div>
+    </div>
+  </div>
+</section>
+
+<hr class="div">
+
+<!-- ============ CHAPTER 6 ============ -->
+<section class="chapter" id="ch6">
+  <div class="chapter-head">
+    <span class="chapter-num">06</span>
+    <div><div class="chapter-grade">5-9-րդ դասարան</div><h2>Ամփոփիչ Ինքնուրույն Աշխատանք</h2></div>
+  </div>
+
+  <div class="theory">
+    <p>Այս բաժնում հավաքված են 30 ինքնուրույն առաջադրանքներ վիճակագրության և հավանականության թեմաներից։ Լուծեք ինքնուրույն, իսկ պատասխանները ստուգեք ֆայլի վերջում գտնվող աղյուսակով։</p>
+  </div>
+
+  <div class="test-question"><span class="test-question-num">1.</span> 40 աշակերտից 12-ը նախընտրում է ֆուտբոլ, 18-ը՝ բասկետբոլ, մնացածը՝ վոլեյբոլ։ Որքա՞ն է վոլեյբոլ նախընտրողների մասնաբաժինը (անկրճատելի կոտորակով)։</div>
+  
+  <div class="test-question"><span class="test-question-num">2.</span> 5 օրվա ընթացքում վաճառվել է համապատասխանաբար 10, 15, 12, 18 և 20 գիրք։ Քանի՞ գիրք է վաճառվել միջինում մեկ օրում։</div>
+  
+  <div class="test-question"><span class="test-question-num">3.</span> 200 մարդու հարցումից պարզվեց, որ 30%-ը տանը կենդանի ունի։ Քանի՞ հոգի ունի տնային կենդանի։</div>
+  
+  <div class="test-question"><span class="test-question-num">4.</span> Գծապատկերում 1 սմ-ը համապատասխանում է 5 աշակերտի։ Որքա՞ն երկարություն կունենա 35 աշակերտ ներկայացնող սյունակը (սմ-ով)։</div>
+  
+  <div class="test-question"><span class="test-question-num">5.</span> Զառը նետելիս ի՞նչ հավանականությամբ կբացվի զույգ թիվ։</div>
+  
+  <div class="test-question"><span class="test-question-num">6.</span> Տուփում կա 8 կարմիր, 4 կապույտ և 3 կանաչ գնդակ։ Ի՞նչ հավանականությամբ պատահական հանված գնդակը կլինի կապույտ։</div>
+  
+  <div class="test-question"><span class="test-question-num">7.</span> Մետաղադրամը նետում են 2 անգամ։ Ի՞նչ հավանականությամբ երկու անգամն էլ կընկնի «գիր»։</div>
+  
+  <div class="test-question"><span class="test-question-num">8.</span> 1-ից մինչև 30 թվերի միջից պատահական ընտրվում է մեկը։ Ի՞նչ հավանականությամբ այն կլինի 5-ի բազմապատիկ։</div>
+  
+  <div class="test-question"><span class="test-question-num">9.</span> Գտե՛ք տվյալների շարքի լայնքը. 14, 25, 9, 31, 18, 22։</div>
+  
+  <div class="test-question"><span class="test-question-num">10.</span> Գտե՛ք տվյալների շարքի մեդիանը. 5, 8, 12, 15, 18, 20։</div>
+  
+  <div class="test-question"><span class="test-question-num">11.</span> Գտե՛ք տվյալների շարքի մոդը. 4, 7, 7, 9, 12, 7, 4, 15։</div>
+  
+  <div class="test-question"><span class="test-question-num">12.</span> 6 աշակերտների գնահատականների միջինը 7,5 է։ Նրանցից 5-ի գնահատականներն են՝ 6, 8, 7, 9, 8։ Ի՞նչ գնահատական է ստացել 6-րդ աշակերտը։</div>
+  
+  <div class="test-question"><span class="test-question-num">13.</span> Տվյալների շարքն է. 2, 5, 8, 11, 14, 17, 20։ Գտե՛ք ստորին քվարտիլը (\(Q_1\))։</div>
+  
+  <div class="test-question"><span class="test-question-num">14.</span> 8 սմ շառավղով շրջանի մեջ պատահականորեն նշվում է կետ։ Ի՞նչ հավանականությամբ այն կգտնվի կենտրոնից 4 սմ-ից պակաս հեռավորության վրա։</div>
+  
+  <div class="test-question"><span class="test-question-num">15.</span> 10 սմ կողմով քառակուսու մեջ նկարված է 3 սմ կողմով քառակուսի։ Ի՞նչ հավանականությամբ մեծ քառակուսում նշված պատահական կետը կընկնի փոքր քառակուսու մեջ (տասնորդական կոտորակով)։</div>
+  
+  <div class="test-question"><span class="test-question-num">16.</span> Գտե՛ք վերին քվարտիլը (\(Q_3\)) 10, 12, 15, 18, 20, 22, 25, 30 շարքի համար։</div>
+  
+  <div class="test-question"><span class="test-question-num">17.</span> Հաշվե՛ք 2, 4, 6, 8, 10 պոպուլյացիոն ընտրանքի դիսպերսիան (\(\sigma^2\))։</div>
+  
+  <div class="test-question"><span class="test-question-num">18.</span> Երկու անկախ պատահույթների հավանականություններն են P(A)=0,5 և P(B)=0,4։ Գտե՛ք դրանց միաժամանակ տեղի ունենալու P(A ∩ B) հավանականությունը։</div>
+  
+  <div class="test-question"><span class="test-question-num">19.</span> P(A)=0,3, P(B)=0,6, պատահույթներն անկախ են։ Գտե՛ք P(A ∪ B) հավանականությունը։</div>
+  
+  <div class="test-question"><span class="test-question-num">20.</span> Տուփում կա 5 սև և 5 սպիտակ գնդակ։ Առանց վերադարձնելու հանում են 2 գնդակ։ Ի՞նչ հավանականությամբ երկուսն էլ կլինեն սև։</div>
+  <div class="test-question"><span class="test-question-num">21.</span> Գտե՛ք 3, 7, 7, 2, 9, 5, 7 շարքի մոդան։</div>
+  <div class="test-question"><span class="test-question-num">22.</span> Գտե՛ք 12, 15, 11, 18, 14 շարքի միջինը (միջին թվաբանական)։</div>
+  <div class="test-question"><span class="test-question-num">23.</span> Զառը նետում են մեկ անգամ։ Ի՞նչ հավանականությամբ կընկնի զույգ թիվ։</div>
+  <div class="test-question"><span class="test-question-num">24.</span> Երկու զառ են նետում։ Ի՞նչ հավանականությամբ գումարը կլինի 7։</div>
+  <div class="test-question"><span class="test-question-num">25.</span> Դասարանում 30 աշակերտից 18-ը աղջիկ է։ Պատահականորեն ընտրված աշակերտի աղջիկ լինելու հավանականությունը որքա՞ն է։</div>
+  <div class="test-question"><span class="test-question-num">26.</span> Գտե՛ք ստորին քվարտիլը ($Q_1$) 4, 8, 10, 12, 15, 18, 20, 25 շարքի համար։</div>
+  <div class="test-question"><span class="test-question-num">27.</span> P(A)=0,7։ Գտե՛ք P(ոչ A)-ն (հակադիր պատահույթի հավանականությունը)։</div>
+  <div class="test-question"><span class="test-question-num">28.</span> Մետաղադրամը նետում են 3 անգամ։ Ի՞նչ հավանականությամբ երեքն էլ կլինեն «զինանշան»։</div>
+  <div class="test-question"><span class="test-question-num">29.</span> Հաշվե՛ք 5, 7, 9, 11, 13 շարքի ստանդարտ շեղումը ($\sigma$), իմանալով, որ դիսպերսիան 8 է։</div>
+  <div class="test-question"><span class="test-question-num">30.</span> Տուփում կա 3 կարմիր և 7 կապույտ գնդակ։ Ի՞նչ հավանականությամբ պատահականորեն հանված գնդակը կարմիր կլինի։</div>
+
+</section>
+
+<!-- ՊԱՏԱՍԽԱՆՆԵՐԻ ԲԼՈԿ -->
+<div class="answers-section">
+  <h2>Ինքնուրույն Աշխատանքի Պատասխաններ</h2>
+  <ol class="answers-list">
+    <li>1/4</li>
+    <li>15</li>
+    <li>60</li>
+    <li>7</li>
+    <li>1/2 (կամ 0,5)</li>
+    <li>4/15</li>
+    <li>1/4 (կամ 0,25)</li>
+    <li>1/5 (կամ 0,2)</li>
+    <li>22</li>
+    <li>13,5</li>
+    <li>7</li>
+    <li>7</li>
+    <li>5</li>
+    <li>1/4 (կամ 0,25)</li>
+    <li>0,09</li>
+    <li>23,5</li>
+    <li>8</li>
+    <li>0,2</li>
+    <li>0,72</li>
+    <li>2/9</li>
+    <li>7</li>
+    <li>14</li>
+    <li>1/2 (կամ 0,5)</li>
+    <li>1/6 (կամ ≈0,167)</li>
+    <li>0,6 (կամ 60%)</li>
+    <li>9</li>
+    <li>0,3</li>
+    <li>1/8 (կամ 0,125)</li>
+    <li>$\sigma=\sqrt8\approx2,83$</li>
+    <li>0,3 (կամ 3/10)</li>
+  </ol>
+</div>
+
+</main>
+
+<a href="#" class="backtop" title="Վերև">↑</a>
+
+</body>
+</html>
