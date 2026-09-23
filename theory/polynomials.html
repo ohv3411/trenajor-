@@ -110,9 +110,11 @@
   .tj-grade{font-size:.85rem;color:#cfe0ec;letter-spacing:.03em;}
   @media print{ .tj-bar{display:none;} }
 </style>
+<style id="teacher-mode-css">html:not(.teacher-mode) .teacher-corner, html:not(.teacher-mode) .tc-title{display:none}.tj-teacher{margin-left:auto;background:transparent;border:1px solid currentColor;border-radius:14px;padding:2px 10px;font:inherit;font-size:.8rem;cursor:pointer;color:inherit;opacity:.85}</style>
+<script id="teacher-mode-js">(function(){var K="trenajor_teacher_mode",H=document.documentElement;try{if(localStorage.getItem(K)==="1")H.classList.add("teacher-mode")}catch(e){}document.addEventListener("DOMContentLoaded",function(){document.querySelectorAll(".teacher-corner").forEach(function(t){var p=t.previousElementSibling;if(p&&p.classList.contains("block-title"))p.classList.add("tc-title")});var b=document.getElementById("tj-teacher");if(!b)return;function lab(){b.textContent=H.classList.contains("teacher-mode")?"👩‍🏫 Ուսուցչի նշումները՝ միացված":"👩‍🏫 Ուսուցչի նշումներ"}lab();b.addEventListener("click",function(){H.classList.toggle("teacher-mode");try{localStorage.setItem(K,H.classList.contains("teacher-mode")?"1":"0")}catch(e){}lab()})})})();</script>
 </head>
 <body>
-<div class="tj-bar"><div class="tj-bar-in"><a class="tj-back" href="../index.html">← Տրենաժոր</a><span class="tj-grade">7 դասարան</span></div></div>
+<div class="tj-bar"><div class="tj-bar-in"><a class="tj-back" href="../index.html">← Տրենաժոր</a><span class="tj-grade">7 դասարան</span><button type="button" class="tj-teacher" id="tj-teacher">👩‍🏫 Ուսուցչի նշումներ</button></div></div>
 
 
 <div class="hero">
@@ -155,10 +157,10 @@
 
   <div class="block-title">Ֆորմալ սահմանում</div>
   <div class="formal-def">
-    <p><b class="term">Միանդամ</b>՝ թվերի և տառային փոփոխականների արտադրյալ ($3$, $2x$, $7abc$ միանդամներ են; $a+b$, $2+4x$ միանդամներ չեն)։ Թիվը նույնպես միանդամ է։</p>
+    <p><b class="term">Միանդամ</b>՝ թվերի, փոփոխականների և դրանց բնական ցուցիչով աստիճանների արտադրյալ ($3$, $2x$, $7abc$ միանդամներ են; $a+b$, $2+4x$ միանդամներ չեն)։ Թիվը նույնպես միանդամ է։</p>
     <p><b class="term">Հակադիր միանդամ</b>՝ միանդամը $-1$-ով բազմապատկելիս ստացվող միանդամը ($2ax$-ի հակադիրը $-2ax$-ն է)։</p>
-    <p><b class="term">Միանդամի կարգ</b>՝ միանդամի գրառման մեջ առկա տառային արտադրիչների քանակը ($-5abba$-ի կարգը $4$ է, $23x$-ինը՝ $1$, $7$-ինը՝ $0$)։</p>
-    <p><b class="term">Զրոյական միանդամ</b>՝ միանդամ, որը միշտ հավասար է $0$-ի (պարունակում է $0$ արտադրիչը); ընդունված է համարել, որ այն կարգ չունի։</p>
+    <p><b class="term">Միանդամի կարգ</b>՝ փոփոխականների ցուցիչների գումարը, այսինքն՝ գրառման մեջ առկա տառային արտադրիչների քանակը ($-5abba$-ի կարգը $4$ է, $23x$-ինը՝ $1$, $7$-ինը՝ $0$)։</p>
+    <p><b class="term">Զրոյական միանդամ</b>՝ միանդամ, որի թվային գործակիցը $0$ է (այն միշտ հավասար է $0$-ի); ընդունված է համարել, որ այն կարգ չունի։</p>
   </div>
 
   <div class="block-title">Վիզուալ պատկեր</div>
@@ -216,7 +218,7 @@
 
   <div class="block-title">Ֆորմալ սահմանում</div>
   <div class="formal-def">
-    <p>Երկու ոչ զրոյական միանդամ կոչվում են <b class="term">նման</b>, եթե նրանց տառային մասերը բաղկացած են նույն արտադրիչներից ($3ab2b4ac$ և $-2aabbc$ նման են)։ Զրոյական միանդամը ոչ մի այլ միանդամի նման չէ։</p>
+    <p>Երկու ոչ զրոյական միանդամ կոչվում են <b class="term">նման</b>, եթե նրանք ունեն նույն փոփոխականները՝ նույն ցուցիչներով (տառային մասերը բաղկացած են նույն արտադրիչներից) ($3ab2b4ac$ և $-2aabbc$ նման են)։ Զրոյական միանդամը ոչ մի այլ միանդամի նման չէ։</p>
     <p><b class="term">Միանդամի գործակից</b>՝ միանդամի թվային արտադրիչների արտադրյալը ($2a3b$-ի գործակիցը $6$ է, $xy$-ինը՝ $1$)։</p>
     <p><b class="term">Հատկություն.</b> երկու նման միանդամների գումարը միանդամ է, որի գործակիցը հավասար է գործակիցների գումարին։</p>
   </div>
@@ -445,7 +447,7 @@
 
   <div class="block-title">Ուսուցչի անկյուն</div>
   <div class="teacher-corner"><span class="label">Քեզ համար</span>
-    Երբ հաշվում ես բազմանդամի արժեքը կոնկրետ թվերի դեպքում, միշտ նախ բեր կատարյալ տեսքի (ավելի քիչ անդամ = ավելի քիչ սխալի հնարավորություն)։
+    Երբ հաշվում ես բազմանդամի արժեքը կոնկրետ թվերի դեպքում, անհրաժեշտության դեպքում նախ բեր կատարյալ տեսքի (ավելի քիչ անդամ = ավելի քիչ սխալի հնարավորություն)։
   </div>
 </section>
 
@@ -648,7 +650,7 @@
   <div class="block-title">Ֆորմալ սահմանում</div>
   <div class="formal-def">
     <p><b class="term">Արտադրիչների վերլուծում</b>՝ բազմանդամը երկու (կամ ավելի) բազմանդամի արտադրյալի տեսքով գրելը։</p>
-    <p><b class="term">Ընդհանուր արտադրիչի եղանակ.</b> $2xy+6ax=2x(y+3a)$։ Կարևոր. թիվը (միայն) դուրս բերելը ($2x+6=2(x+3)$) ինքնին վերլուծում չի համարվում որպես ինքնուրույն նպատակ, եթե մնացած արտահայտության մեջ էլ արտադրիչներ կան։</p>
+    <p><b class="term">Ընդհանուր արտադրիչի եղանակ.</b> $2xy+6ax=2x(y+3a)$։ Կարևոր. ընդհանուր արտադրիչը պետք է դուրս բերել <b>ամբողջությամբ</b>. $4x^2+6x=2(2x^2+3x)$-ը ճիշտ է, բայց լրիվ վերլուծությունը $2x(2x+3)$-ն է։</p>
     <p><b class="term">Խմբավորման եղանակ.</b> $xy+x+2y+2=x(y+1)+2(y+1)=(x+2)(y+1)$։ Երբեմն միանդամը պետք է տրոհել երկուսի՝ $x^2+6x+8=x^2+4x+2x+8=(x+2)(x+4)$։</p>
   </div>
 
@@ -694,7 +696,7 @@
 
   <div class="block-title">Ուսուցչի անկյուն</div>
   <div class="teacher-corner"><span class="label">Քեզ համար</span>
-    $x^2+6x+8$-ի նման եռանդամներ վերլուծելիս, միջին անդամը ($6x$) տրոհիր այնպես, որ 2 մասերի արտադրյալը հավասար լինի ազատ անդամին ($8$) և գումարը՝ միջին գործակցին ($6$)՝ $4x+2x$ ($4\cdot2=8$, $4+2=6$)։
+    $x^2+bx+c$ տեսքի (ավագ գործակիցը $1$ է) եռանդամներ վերլուծելիս, օրինակ՝ $x^2+6x+8$-ը, միջին անդամը ($6x$) տրոհիր այնպես, որ 2 մասերի արտադրյալը հավասար լինի ազատ անդամին ($8$) և գումարը՝ միջին գործակցին ($6$)՝ $4x+2x$ ($4\cdot2=8$, $4+2=6$)։
   </div>
 </section>
 

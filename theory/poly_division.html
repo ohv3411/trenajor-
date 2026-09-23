@@ -110,9 +110,11 @@
   .tj-grade{font-size:.85rem;color:#cfe0ec;letter-spacing:.03em;}
   @media print{ .tj-bar{display:none;} }
 </style>
+<style id="teacher-mode-css">html:not(.teacher-mode) .teacher-corner, html:not(.teacher-mode) .tc-title{display:none}.tj-teacher{margin-left:auto;background:transparent;border:1px solid currentColor;border-radius:14px;padding:2px 10px;font:inherit;font-size:.8rem;cursor:pointer;color:inherit;opacity:.85}</style>
+<script id="teacher-mode-js">(function(){var K="trenajor_teacher_mode",H=document.documentElement;try{if(localStorage.getItem(K)==="1")H.classList.add("teacher-mode")}catch(e){}document.addEventListener("DOMContentLoaded",function(){document.querySelectorAll(".teacher-corner").forEach(function(t){var p=t.previousElementSibling;if(p&&p.classList.contains("block-title"))p.classList.add("tc-title")});var b=document.getElementById("tj-teacher");if(!b)return;function lab(){b.textContent=H.classList.contains("teacher-mode")?"👩‍🏫 Ուսուցչի նշումները՝ միացված":"👩‍🏫 Ուսուցչի նշումներ"}lab();b.addEventListener("click",function(){H.classList.toggle("teacher-mode");try{localStorage.setItem(K,H.classList.contains("teacher-mode")?"1":"0")}catch(e){}lab()})})})();</script>
 </head>
 <body>
-<div class="tj-bar"><div class="tj-bar-in"><a class="tj-back" href="../index.html">← Տրենաժոր</a><span class="tj-grade">9 դասարան</span></div></div>
+<div class="tj-bar"><div class="tj-bar-in"><a class="tj-back" href="../index.html">← Տրենաժոր</a><span class="tj-grade">9 դասարան</span><button type="button" class="tj-teacher" id="tj-teacher">👩‍🏫 Ուսուցչի նշումներ</button></div></div>
 
 
 <div class="hero">
@@ -212,8 +214,8 @@
 
   <div class="block-title">Ֆորմալ սահմանում</div>
   <div class="formal-def">
-    <p><b class="term">Կապ.</b> $\text{բաժանելի}=\text{բաժանարար}\cdot\text{թերի քանորդ}+\text{մնացորդ}$ (ինչպես բնական թվերի մնացորդով բաժանման դեպքում)։</p>
-    <p>Կարելի է գրել նաև ռացիոնալ հավասարության տեսքով. $\dfrac{\text{բաժանելի}}{\text{բաժանարար}}=\text{թերի քանորդ}+\dfrac{\text{մնացորդ}}{\text{բաժանարար}}$։</p>
+    <p><b class="term">Կապ.</b> $\text{բաժանելի}=\text{բաժանարար}\cdot\text{քանորդ}+\text{մնացորդ}$ (ինչպես բնական թվերի մնացորդով բաժանման դեպքում), որտեղ <b>մնացորդի աստիճանը փոքր է բաժանարարի աստիճանից</b> (կամ մնացորդը $0$ է)։</p>
+    <p>Կարելի է գրել նաև ռացիոնալ հավասարության տեսքով. $\dfrac{\text{բաժանելի}}{\text{բաժանարար}}=\text{քանորդ}+\dfrac{\text{մնացորդ}}{\text{բաժանարար}}$։</p>
     <p>Բացակա աստիճանի անդամները նպատակահարմար է գրել $0$ գործակցով (սյունակով բաժանման հեշտության համար)։</p>
   </div>
 
@@ -336,7 +338,7 @@
   <div class="block-title">Ֆորմալ սահմանում</div>
   <div class="formal-def">
     <p><b class="term">Ամբողջ գործակիցներով բազմանդամ</b>՝ բազմանդամ, որի բոլոր գործակիցները ամբողջ թվեր են։</p>
-    <p><b class="term">Թեորեմ.</b> եթե ամբողջ գործակիցներով $P(x)=a_nx^n+...+a_1x+a_0$ բազմանդամն ունի ամբողջ արմատ, ապա այդ արմատը ազատ անդամի ($a_0$-ի) բաժանարար է։</p>
+    <p><b class="term">Թեորեմ.</b> եթե ամբողջ գործակիցներով $P(x)=a_nx^n+...+a_1x+a_0$ բազմանդամն ունի <b>ոչ զրոյական</b> ամբողջ արմատ, ապա այդ արմատը ազատ անդամի ($a_0$-ի) բաժանարար է։ (Եթե $a_0=0$, ապա $x=0$-ն արմատ է. նախ դուրս ենք բերում $x$-ը։)</p>
   </div>
 
   <div class="block-title">Վիզուալ պատկեր</div>
@@ -355,7 +357,7 @@
 
   <div class="block-title">Լուծված օրինակ(ներ)</div>
   <div class="example-box"><span class="tag">Օրինակ</span>
-    <p>Խմբավորմամբ վերլուծեք և լուծեք $x^3+3x^2-24x+28=0$։</p>
+    <p>Ամբողջ արմատների որոնմամբ վերլուծեք և լուծեք $x^3+3x^2-24x+28=0$։</p>
     <div class="step">Ազատ անդամի ($28$) բաժանարարներից ստուգելով՝ $x=2$ արմատ է. $8+12-48+28=0$ ✓։</div>
     <div class="step">Վերլուծելով՝ $(x-2)(x^2+5x-14)=(x-2)(x+7)(x-2)=(x+7)(x-2)^2$։</div>
     <div class="answer">Պատասխան. $x=-7$, $x=2$ (կրկնակի)։</div>
@@ -406,10 +408,10 @@
     <li>Ստուգեք, թե $P(x)=x^3-1$-ը առանց մնացորդի բաժանվու՞մ է $(x-1)$-ի։</li>
     <li>Ստուգեք, թե $P(x)=x^2+x+1$-ը առանց մնացորդի բաժանվու՞մ է $(x-1)$-ի։</li>
     <li>$P(x)$-ն առանց մնացորդի բաժանվում է $x^2-x-2$-ի. գտեք $(x-2)$-ի բաժանելիս մնացորդը։</li>
-    <li>Սահմանեք ամբողջ գործակիցներով բազմանդամ և բերեք 1 օրինակ, 1 ժխտօրինակ։</li>
+    <li>Սահմանեք ամբողջ գործակիցներով բազմանդամ և բերեք մեկ օրինակ, որը բավարարում է սահմանմանը, և մեկը, որը չի բավարարում։</li>
     <li>Գտեք $x^2-5x-6=0$-ի ամբողջ արմատները։</li>
     <li>Գտեք $x^2+x-6=0$-ի ամբողջ արմատները (ազատ անդամի բաժանարարներից)։</li>
-    <li>Խմբավորմամբ վերլուծեք և լուծեք $x^3+3x^2-24x+28=0$։</li>
+    <li>Ամբողջ արմատների որոնմամբ վերլուծեք և լուծեք $x^3+3x^2-24x+28=0$։</li>
     <li>Խմբավորմամբ վերլուծեք և լուծեք $x^4+3x^3-8x-24=0$։</li>
     <li>Հաշվեք $P(x)=x^4-2x^3+x-5$-ը $(x-1)$-ի վրա բաժանելիս ստացվող մնացորդը՝ Բեզուի թեորեմով։</li>
     <li>Ստուգեք, թե $x=3$-ը $P(x)=x^3-27$-ի արմատն է, և եզրակացրեք՝ բաժանվու՞մ է $(x-3)$-ի։</li>
@@ -443,18 +445,18 @@
     <li>$x^3-x^2-5x+2$</li>
     <li>քանորդ $x^2+x-1$, մնացորդ $0$</li>
     <li>քանորդ $x^2-x-1$, մնացորդ $2$</li>
-    <li>Ստուգված է Օրինակների միջոցով</li>
+    <li>$x^3-2x+1=(x-1)(x^2+x-1)+0$ և $x^3-2x+1=(x+1)(x^2-x-1)+2$ — բացելով փակագծերը՝ երկու դեպքում էլ ստացվում է բաժանելին</li>
     <li>քանորդ $x^3+x^2+x+1$, մնացորդ $0$</li>
     <li>$3$</li>
     <li>$8$</li>
     <li>Այո, մնացորդը $0$ է</li>
     <li>Ոչ, մնացորդը $3$ է</li>
     <li>$0$</li>
-    <li>Օրինակ՝ $x^2+3x+2$, ժխտօրինակ՝ $0.5x^2+3$</li>
+    <li>Բավարարում է՝ $x^2+3x+2$; չի բավարարում՝ $0{,}5x^2+3$ (գործակիցն ամբողջ չէ)</li>
     <li>$x=6,\ x=-1$</li>
     <li>$x=2,\ x=-3$</li>
-    <li>$x=-7,\ x=2$</li>
-    <li>$x=-3,\ x=2$</li>
+    <li>$x=2$ արմատ է ($8+12-48+28=0$), ուստի $x^3+3x^2-24x+28=(x-2)(x^2+5x-14)=(x-2)^2(x+7)=0$ ⇒ $x=2$ (կրկնակի), $x=-7$</li>
+    <li>$x^3(x+3)-8(x+3)=(x+3)(x^3-8)=(x+3)(x-2)(x^2+2x+4)=0$ ⇒ $x=-3$, $x=2$ ($x^2+2x+4\gt0$, քանի որ $D=4-16\lt0$)</li>
     <li>$-5$</li>
     <li>Այո, $27-27=0$, ուստի բաժանվում է</li>
     <li>$x=2$ (ստուգում՝ $8-6-2=0$)</li>

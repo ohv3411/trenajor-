@@ -110,9 +110,11 @@
   .tj-grade{font-size:.85rem;color:#cfe0ec;letter-spacing:.03em;}
   @media print{ .tj-bar{display:none;} }
 </style>
+<style id="teacher-mode-css">html:not(.teacher-mode) .teacher-corner, html:not(.teacher-mode) .tc-title{display:none}.tj-teacher{margin-left:auto;background:transparent;border:1px solid currentColor;border-radius:14px;padding:2px 10px;font:inherit;font-size:.8rem;cursor:pointer;color:inherit;opacity:.85}</style>
+<script id="teacher-mode-js">(function(){var K="trenajor_teacher_mode",H=document.documentElement;try{if(localStorage.getItem(K)==="1")H.classList.add("teacher-mode")}catch(e){}document.addEventListener("DOMContentLoaded",function(){document.querySelectorAll(".teacher-corner").forEach(function(t){var p=t.previousElementSibling;if(p&&p.classList.contains("block-title"))p.classList.add("tc-title")});var b=document.getElementById("tj-teacher");if(!b)return;function lab(){b.textContent=H.classList.contains("teacher-mode")?"👩‍🏫 Ուսուցչի նշումները՝ միացված":"👩‍🏫 Ուսուցչի նշումներ"}lab();b.addEventListener("click",function(){H.classList.toggle("teacher-mode");try{localStorage.setItem(K,H.classList.contains("teacher-mode")?"1":"0")}catch(e){}lab()})})})();</script>
 </head>
 <body>
-<div class="tj-bar"><div class="tj-bar-in"><a class="tj-back" href="../index.html">← Տրենաժոր</a><span class="tj-grade">3–4 դասարան</span></div></div>
+<div class="tj-bar"><div class="tj-bar-in"><a class="tj-back" href="../index.html">← Տրենաժոր</a><span class="tj-grade">3–4 դասարան</span><button type="button" class="tj-teacher" id="tj-teacher">👩‍🏫 Ուսուցչի նշումներ</button></div></div>
 
 
 <div class="hero">
@@ -152,7 +154,7 @@
   <div class="formal-def">
     <p>$10$-ով, $100$-ով, $1000$-ով բազմապատկելիս թվին աջից <b>կցագրում ենք այնքան զրո</b>, որքան կա բազմապատկիչում։</p>
     <p>Կլոր թվերը բազմապատկելիս նախ բազմապատկում ենք առանց զրոների, հետո կցագրում <b>բոլոր</b> զրոները. $30\cdot200=6\cdot1000=6000$։</p>
-    <p>Կլոր թիվը բաժանելիս զրոները պահպանվում են քանորդում. $500:5=100$։</p>
+    <p>Կլոր թիվը <b>միանիշ</b> թվի վրա բաժանելիս կարելի է բաժանել առանց վերջին զրոների և հետո կցագրել դրանք, եթե մնացած թիվը բաժանվում է. $500:5=100$ ($5:5=1$)։ Սա ընդհանուր կանոն չէ. $500:25=20$, $1200:30=40$։</p>
   </div>
 
 
@@ -199,8 +201,8 @@
 
   <div class="block-title">Ֆորմալ սահմանում</div>
   <div class="formal-def">
-    <p>Սյունակով բազմապատկում ենք <b>աջից</b>՝ միավորներից սկսած։ Մտքում պահած թիվը գումարվում է <b>բազմապատկելուց հետո</b>։</p>
-    <p>Երկնիշ թվով բազմապատկելիս ստացվում են <b class="term">թերի արտադրյալներ</b>. երկրորդը գրվում է <b>մեկ նիշ ձախ</b>, քանի որ բազմապատկում ենք տասնավորներով։</p>
+    <p>Սյունակով բազմապատկելիս սկսում ենք բազմապատկիչի <b>միավորների կարգից</b> (աջից)։ Մտքում պահած թիվը գումարվում է <b>բազմապատկելուց հետո</b>։</p>
+    <p>Երկնիշ թվով բազմապատկելիս ստացվում են <b class="term">թերի արտադրյալներ</b>. բազմապատկիչի յուրաքանչյուր կարգին համապատասխան թերի արտադրյալը տեղաշարժվում է այդ կարգի չափով ձախ. <b>երկնիշ</b> բազմապատկիչի դեպքում երկրորդը գրվում է <b>մեկ նիշ ձախ</b>, քանի որ բազմապատկում ենք տասնավորներով։</p>
   </div>
 
 
@@ -224,9 +226,9 @@
   <div class="block-title">Ինչ հիշել</div>
   <div class="remember"><span class="label">3 կետ</span>
     <ul>
-      <li>Սկսում ենք աջից։</li>
+      <li>Սկսում ենք միավորների կարգից։</li>
       <li>Մտքում պահածը՝ բազմապատկելուց հետո։</li>
-      <li>II թերի արտադրյալ՝ մեկ նիշ ձախ։</li>
+      <li>Երկնիշ բազմապատկիչ՝ II թերի արտադրյալը մեկ նիշ ձախ։</li>
     </ul>
   </div>
 
@@ -250,7 +252,7 @@
   <div class="block-title">Ֆորմալ սահմանում</div>
   <div class="formal-def">
     <p>Անկյունով բաժանում ենք <b>ձախից</b>՝ ավագ կարգից։</p>
-    <p>Եթե իջեցված թիվը փոքր է բաժանարարից, <b>քանորդում գրում ենք $0$</b> և իջեցնում հաջորդ թվանշանը։</p>
+    <p>Եթե քանորդի գրառումն արդեն սկսվել է, և հերթական իջեցված թիվը փոքր է բաժանարարից, <b>քանորդի այդ կարգում գրում ենք $0$</b> և իջեցնում հաջորդ թվանշանը։ Քանորդի <b>սկզբում</b> $0$ չի գրվում. $100:4$-ում բաժանումն սկսում ենք $10$-ից։</p>
     <p>Մնացորդով բաժանման դեպքում մնացորդը միշտ փոքր է բաժանարարից. $85:25=3$ (մն. $10$)։</p>
   </div>
 
@@ -276,7 +278,7 @@
   <div class="remember"><span class="label">3 կետ</span>
     <ul>
       <li>Բաժանում ենք ձախից։</li>
-      <li>Չի բաժանվում → քանորդում $0$։</li>
+      <li>Սկսված քանորդի մեջ չի բաժանվում → այդ կարգում $0$։</li>
       <li>Մնացորդ $\lt$ բաժանարար։</li>
     </ul>
   </div>
@@ -416,7 +418,7 @@
   </ol>
 </section>
 
-<section class="tasks-section" id="answers">
+<section class="answers-section" id="answers">
   <h2>Պատասխաններ</h2>
   <h3>Հաշվարկային առաջադրանքների պատասխանները</h3>
   <ol class="answers-list">

@@ -110,9 +110,11 @@
   .tj-grade{font-size:.85rem;color:#cfe0ec;letter-spacing:.03em;}
   @media print{ .tj-bar{display:none;} }
 </style>
+<style id="teacher-mode-css">html:not(.teacher-mode) .teacher-corner, html:not(.teacher-mode) .tc-title{display:none}.tj-teacher{margin-left:auto;background:transparent;border:1px solid currentColor;border-radius:14px;padding:2px 10px;font:inherit;font-size:.8rem;cursor:pointer;color:inherit;opacity:.85}</style>
+<script id="teacher-mode-js">(function(){var K="trenajor_teacher_mode",H=document.documentElement;try{if(localStorage.getItem(K)==="1")H.classList.add("teacher-mode")}catch(e){}document.addEventListener("DOMContentLoaded",function(){document.querySelectorAll(".teacher-corner").forEach(function(t){var p=t.previousElementSibling;if(p&&p.classList.contains("block-title"))p.classList.add("tc-title")});var b=document.getElementById("tj-teacher");if(!b)return;function lab(){b.textContent=H.classList.contains("teacher-mode")?"👩‍🏫 Ուսուցչի նշումները՝ միացված":"👩‍🏫 Ուսուցչի նշումներ"}lab();b.addEventListener("click",function(){H.classList.toggle("teacher-mode");try{localStorage.setItem(K,H.classList.contains("teacher-mode")?"1":"0")}catch(e){}lab()})})})();</script>
 </head>
 <body>
-<div class="tj-bar"><div class="tj-bar-in"><a class="tj-back" href="../index.html">← Տրենաժոր</a><span class="tj-grade">5 դասարան</span></div></div>
+<div class="tj-bar"><div class="tj-bar-in"><a class="tj-back" href="../index.html">← Տրենաժոր</a><span class="tj-grade">5 դասարան</span><button type="button" class="tj-teacher" id="tj-teacher">👩‍🏫 Ուսուցչի նշումներ</button></div></div>
 
 
 <div class="hero">
@@ -157,11 +159,8 @@
 
   <div class="block-title">Վիզուալ պատկեր</div>
   <div class="visual-container table-wrap">
-    <table>
-      <tr><th>կմ</th><th>մ</th><th>դմ</th><th>սմ</th><th>մմ</th></tr>
-      <tr><td>$1$</td><td>$1000$</td><td>$10\,000$</td><td>$100\,000$</td><td>$1\,000\,000$</td></tr>
-      <tr><td></td><td>$1$</td><td>$10$</td><td>$100$</td><td>$1000$</td></tr>
-    </table>
+    <p>$1$ կմ $=1000$ մ $=10\,000$ դմ $=100\,000$ սմ $=1\,000\,000$ մմ</p>
+<p>$1$ մ $=10$ դմ $=100$ սմ $=1000$ մմ</p>
   </div>
 
   <div class="block-title">Լուծված օրինակ(ներ)</div>
@@ -273,7 +272,7 @@
   <div class="block-title">Ֆորմալ սահմանում</div>
   <div class="formal-def">
     <p><b class="term">Շրջանագիծը</b> կենտրոնից միևնույն հեռավորության վրա գտնվող կետերի բազմությունն է։ Այդ հեռավորությունը <b class="term">շառավիղն</b> է։</p>
-    <p>Շրջանագծի երկու կետը միացնող հատվածը <b class="term">լար</b> է։ Կենտրոնով անցնող լարը <b class="term">տրամագիծ</b> է և հավասար է երկու շառավղի։</p>
+    <p>Շրջանագծի երկու տարբեր կետերը միացնող հատվածը <b class="term">լար</b> է։ Կենտրոնով անցնող լարը <b class="term">տրամագիծ</b> է և հավասար է երկու շառավղի։</p>
     <p>Կենտրոնը <b>չի գտնվում</b> շրջանագծի վրա։ Շրջանագծով սահմանափակված մասը կոչվում է <b class="term">շրջան</b>։</p>
   </div>
 
@@ -407,7 +406,7 @@
     <div class="answer">Պատասխան. $64$ սմ²</div>
   </div>
 
-  <div class="think">Կա՞ ուղղանկյուն, որի մակերեսը և պարագիծը հավասար թվեր են։</div>
+  <div class="think">Կա՞ ուղղանկյուն, որի մակերեսի (սմ²) և պարագծի (սմ) <b>թվային արժեքները</b> հավասար են։</div>
 
   <div class="block-title">Տիպիկ սխալ</div>
   <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
@@ -497,7 +496,7 @@
     <li>$ABCDE$ բեկյալում $AB=14$ սմ ($2$ անգամ կարճ $BC$-ից), $CD$-ն $12$ սմ-ով երկար է $BC$-ից և $5$ սմ-ով կարճ $DE$-ից։ Գտիր բեկյալի երկարությունը։</li>
     <li>Շառավիղը $24$ սմ է. գտիր տրամագիծը։ Տրամագիծը $158$ սմ է. գտիր շառավիղը։</li>
     <li>Որոշիր անկյան տեսակը. $92^\circ$, $180^\circ$, $90^\circ$։</li>
-    <li>$\angle AOB$ ուղիղ անկյունը $OC$-ով բաժանված է երկու մասի, $\angle AOC$-ն $50^\circ$-ով մեծ է։ Գտիր երկու անկյունները։</li>
+    <li>$\angle AOB$ ուղիղ անկյունը $OC$-ով բաժանված է երկու մասի, $\angle AOC$-ն $50^\circ$-ով մեծ է $\angle COB$-ից։ Գտիր երկու անկյունները։</li>
     <li>Ի՞նչ անկյուն են կազմում ժամացույցի սլաքները $15{:}00$-ին։</li>
     <li>Գտիր $8$ սմ կողմով քառակուսու մակերեսը։</li>
     <li>Գտիր ուղղանկյան մակերեսը. $3$ մ և $18$ մ; $4$ դմ և $10$ սմ։</li>
@@ -513,7 +512,7 @@
   </ol>
 </section>
 
-<section class="tasks-section" id="answers">
+<section class="answers-section" id="answers">
   <h2>Պատասխաններ</h2>
   <h3>Հաշվարկային առաջադրանքների պատասխանները</h3>
   <ol class="answers-list">

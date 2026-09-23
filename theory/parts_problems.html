@@ -110,9 +110,11 @@
   .tj-grade{font-size:.85rem;color:#cfe0ec;letter-spacing:.03em;}
   @media print{ .tj-bar{display:none;} }
 </style>
+<style id="teacher-mode-css">html:not(.teacher-mode) .teacher-corner, html:not(.teacher-mode) .tc-title{display:none}.tj-teacher{margin-left:auto;background:transparent;border:1px solid currentColor;border-radius:14px;padding:2px 10px;font:inherit;font-size:.8rem;cursor:pointer;color:inherit;opacity:.85}</style>
+<script id="teacher-mode-js">(function(){var K="trenajor_teacher_mode",H=document.documentElement;try{if(localStorage.getItem(K)==="1")H.classList.add("teacher-mode")}catch(e){}document.addEventListener("DOMContentLoaded",function(){document.querySelectorAll(".teacher-corner").forEach(function(t){var p=t.previousElementSibling;if(p&&p.classList.contains("block-title"))p.classList.add("tc-title")});var b=document.getElementById("tj-teacher");if(!b)return;function lab(){b.textContent=H.classList.contains("teacher-mode")?"👩‍🏫 Ուսուցչի նշումները՝ միացված":"👩‍🏫 Ուսուցչի նշումներ"}lab();b.addEventListener("click",function(){H.classList.toggle("teacher-mode");try{localStorage.setItem(K,H.classList.contains("teacher-mode")?"1":"0")}catch(e){}lab()})})})();</script>
 </head>
 <body>
-<div class="tj-bar"><div class="tj-bar-in"><a class="tj-back" href="../index.html">← Տրենաժոր</a><span class="tj-grade">5 դասարան</span></div></div>
+<div class="tj-bar"><div class="tj-bar-in"><a class="tj-back" href="../index.html">← Տրենաժոր</a><span class="tj-grade">5 դասարան</span><button type="button" class="tj-teacher" id="tj-teacher">👩‍🏫 Ուսուցչի նշումներ</button></div></div>
 
 
 <div class="hero">
@@ -151,8 +153,8 @@
 
   <div class="block-title">Ֆորմալ սահմանում</div>
   <div class="formal-def">
-    <p>Խնդրի տվյալները հատվածներով ներկայացնելը կոչվում է <b class="term">համառոտագրում</b>։ Մեծ թիվը պատկերվում է ավելի երկար հատվածով։</p>
-    <p>Նույն գծապատկերը կարող է նկարագրել բազմաթիվ տարբեր խնդիրներ (կքանիստ, կիլոգրամ, գիրք) — և դրանք բոլորն ունեն <b>նույն լուծումը</b>։</p>
+    <p>Խնդրի տվյալները հատվածներով ներկայացնելը կոչվում է <b class="term">համառոտագրում</b>։ Նույն մասշտաբով գծելիս մեծ թիվը պատկերվում է ավելի երկար հատվածով։</p>
+    <p>Նույն գծապատկերը կարող է նկարագրել բազմաթիվ տարբեր խնդիրներ (կքանիստ, կիլոգրամ, գիրք) — և դրանք լուծվում են <b>նույն եղանակով</b>։</p>
   </div>
 
 
@@ -201,7 +203,7 @@
   <div class="formal-def">
     <p>Երբ հատվածներն անհավասար են, բայց հայտնի է տարբերությունը, տարբերությունը մտովի <b class="term">հանում ենք</b> մեծից (կամ <b>ավելացնում</b> փոքրին), ստանում հավասար հատվածներ և միայն դրանից հետո <b>բաժանում</b>։</p>
     <p>Հավասարեցումից ստացված հավասար հատվածը կոչվում է <b class="term">մաս</b>։</p>
-    <p><b>Բաժանումը կիրառելի է միայն հավասար մասերի դեպքում։</b> «Տիգրանն ու Քրիստինեն միասին ունեն 4 գրիչ»՝ առանց լրացուցիչ տվյալի հնարավոր չէ ասել, թե քանիսն ունի յուրաքանչյուրը։</p>
+    <p><b>Ամբողջը մասերի քանակի վրա բաժանելով մեկ մասը ստանում ենք միայն այն դեպքում, երբ մասերը հավասար են։</b> «Տիգրանն ու Քրիստինեն միասին ունեն 4 գրիչ»՝ առանց լրացուցիչ տվյալի հնարավոր չէ ասել, թե քանիսն ունի յուրաքանչյուրը։</p>
   </div>
 
   <div class="block-title">Կանոն</div>
@@ -372,13 +374,13 @@
   <div class="hook">Հեծանվորդը շարժվում է $18$ կմ/ժ, հետիոտնը՝ $5$ կմ/ժ, իսկ վարորդը $15$ րոպեում անցնում է $18$ կմ։ Ո՞վ է ամենաարագը։</div>
 
   <div class="block-title">Ինտուիտիվ բացատրություն</div>
-  <div class="intuitive">Վարորդը $15$ րոպեում անցնում է $18$ կմ, ուստի ժամում (4 անգամ ավելի ժամանակ)՝ $72$ կմ։ Համեմատելու համար բոլոր արագությունները պետք է բերել <b>նույն միավորի</b>։</div>
+  <div class="intuitive">Եթե վարորդը շարժվում է հավասարաչափ և $15$ րոպեում անցնում է $18$ կմ, ապա ժամում (4 անգամ ավելի ժամանակ)՝ $72$ կմ։ Համեմատելու համար բոլոր արագությունները պետք է բերել <b>նույն միավորի</b>։</div>
 
   <div class="block-title">Ֆորմալ սահմանում</div>
   <div class="formal-def">
     <p>Միավոր ժամանակում անցած ճանապարհը կոչվում է <b class="term">արագություն</b>։ Եթե արագությունը չի փոխվում, շարժումը <b class="term">հավասարաչափ</b> է։</p>
     <p>Միավորներ՝ կմ/ժ (մեքենա), կմ/վ (լույս, մոլորակներ), մ/ր կամ սմ/ր (դանդաղ շարժում)։</p>
-    <p>Հանդիպակաց շարժման դեպքում մարմինները մոտենում են իրար՝ ամեն ժամում անցնելով <b>արագությունների գումարի</b> չափ ճանապարհ։</p>
+    <p>Եթե երկու մարմին հավասարաչափ շարժվում են իրար ընդառաջ, նրանց միջև հեռավորությունը ամեն ժամում փոքրանում է <b>արագությունների գումարի</b> չափով։</p>
   </div>
 
   <div class="block-title">Կանոն</div>
@@ -444,7 +446,7 @@
 
   <div class="block-title">Կանոն</div>
   <div class="formula-box"><span class="label">Կեղծ մետաղադրամ</span>
-    Մեկ կշռումը տալիս է 3 ելք, ուստի $k$ կշռումով կարելի է ստուգել մինչև $3^k$ մետաղադրամ։
+    Եթե հայտնի է, որ մետաղադրամներից ճիշտ մեկն է կեղծ, և այն ավելի թեթև է, ապա մեկ կշռումը տալիս է 3 ելք, ուստի $k$ կշռումով կեղծը կարելի է անպայման գտնել մինչև $3^k$ մետաղադրամից։
   </div>
 
   <div class="block-title">Լուծված օրինակ(ներ)</div>
@@ -520,7 +522,7 @@
   </ol>
 </section>
 
-<section class="tasks-section" id="answers">
+<section class="answers-section" id="answers">
   <h2>Պատասխաններ</h2>
   <h3>Հաշվարկային առաջադրանքների պատասխանները</h3>
   <ol class="answers-list">
@@ -545,7 +547,7 @@
   </ol>
   <h3>Տրամաբանական և հայեցակարգային հարցերի պատասխանները</h3>
   <ol class="answers-list answers-list-conceptual" start="19">
-    <li>Ոչ, բաժանումը կիրառելի է միայն հավասար մասերի դեպքում, իսկ այստեղ չգիտենք՝ հավասա՞ր են</li>
+    <li>Ոչ. $4:2$-ը կտար Քրիստինեի գրիչները միայն այն դեպքում, եթե նրանց գրիչների քանակները հավասար լինեին, իսկ դա հայտնի չէ</li>
     <li>«$2$ անգամ»՝ նույն քանակի 2 պատճեն, «$2$-ով»՝ նույն քանակը գումարած $2$ միավոր</li>
     <li>Եթե սկզբում կողմերը հավասար էին, նույն թիվը երկուսից հանելիս նրանք հավասար են մնում</li>
     <li>Երկու մատանի դնում ենք նժարներին։ Թեթև կողմում է կեղծը, իսկ եթե հավասար են՝ կեղծը երրորդն է</li>

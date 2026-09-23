@@ -110,9 +110,11 @@
   .tj-grade{font-size:.85rem;color:#cfe0ec;letter-spacing:.03em;}
   @media print{ .tj-bar{display:none;} }
 </style>
+<style id="teacher-mode-css">html:not(.teacher-mode) .teacher-corner, html:not(.teacher-mode) .tc-title{display:none}.tj-teacher{margin-left:auto;background:transparent;border:1px solid currentColor;border-radius:14px;padding:2px 10px;font:inherit;font-size:.8rem;cursor:pointer;color:inherit;opacity:.85}</style>
+<script id="teacher-mode-js">(function(){var K="trenajor_teacher_mode",H=document.documentElement;try{if(localStorage.getItem(K)==="1")H.classList.add("teacher-mode")}catch(e){}document.addEventListener("DOMContentLoaded",function(){document.querySelectorAll(".teacher-corner").forEach(function(t){var p=t.previousElementSibling;if(p&&p.classList.contains("block-title"))p.classList.add("tc-title")});var b=document.getElementById("tj-teacher");if(!b)return;function lab(){b.textContent=H.classList.contains("teacher-mode")?"👩‍🏫 Ուսուցչի նշումները՝ միացված":"👩‍🏫 Ուսուցչի նշումներ"}lab();b.addEventListener("click",function(){H.classList.toggle("teacher-mode");try{localStorage.setItem(K,H.classList.contains("teacher-mode")?"1":"0")}catch(e){}lab()})})})();</script>
 </head>
 <body>
-<div class="tj-bar"><div class="tj-bar-in"><a class="tj-back" href="../index.html">← Տրենաժոր</a><span class="tj-grade">2–3 դասարան</span></div></div>
+<div class="tj-bar"><div class="tj-bar-in"><a class="tj-back" href="../index.html">← Տրենաժոր</a><span class="tj-grade">2–3 դասարան</span><button type="button" class="tj-teacher" id="tj-teacher">👩‍🏫 Ուսուցչի նշումներ</button></div></div>
 
 
 <div class="hero">
@@ -176,7 +178,7 @@
   <div class="block-title">Ինչ հիշել</div>
   <div class="remember"><span class="label">3 կետ</span>
     <ul>
-      <li>Բազմապատկում՝ նույն գումարելիների կրկնություն։</li>
+      <li>Բազմապատկում՝ հավասար խմբերի կարճ գրառում ($4$ խումբ $6$-ական՝ $6\cdot4$)։</li>
       <li>Արտադրիչներ → արտադրյալ։</li>
       <li>$a\cdot b=b\cdot a$։</li>
     </ul>
@@ -199,7 +201,7 @@
 
   <div class="block-title">Ֆորմալ սահմանում</div>
   <div class="formal-def">
-    <p><b class="term">Բաժանումը</b> հավասար մասերի բաժանելն է։ $a:b=c$-ում $a$-ն <b class="term">բաժանելին</b> է, $b$-ն՝ <b class="term">բաժանարարը</b>, $c$-ն՝ <b class="term">քանորդը</b>։</p>
+    <p><b class="term">Բաժանումը</b> նշանակում է. 1) տրված քանակը բաժանել հավասար խմբերի, կամ 2) պարզել, թե քանի այդպիսի խումբ է տեղավորվում տրված քանակում։ $a:b=c$-ում $a$-ն <b class="term">բաժանելին</b> է, $b$-ն՝ <b class="term">բաժանարարը</b>, $c$-ն՝ <b class="term">քանորդը</b>։</p>
     <p>Բաժանումը բազմապատկման հակադարձն է. $12:3=4$, քանի որ $4\cdot3=12$։</p>
     <p>$0$-ի վրա բաժանել <b>չի կարելի</b>։</p>
   </div>
@@ -299,7 +301,7 @@
 
   <div class="block-title">Ֆորմալ սահմանում</div>
   <div class="formal-def">
-    <p>Անհայտ արտադրիչ $=$ արտադրյալ $:$ հայտնի արտադրիչ։ Անհայտ բաժանելի $=$ քանորդ $\cdot$ բաժանարար։ Անհայտ բաժանարար $=$ բաժանելի $:$ քանորդ։</p>
+    <p>Անհայտ արտադրիչ $=$ արտադրյալ $:$ հայտնի արտադրիչ։ Անհայտ բաժանելի $=$ քանորդ $\cdot$ բաժանարար։ Անհայտ բաժանարար $=$ բաժանելի $:$ քանորդ (քանորդը $\ne0$)։</p>
     <p><b class="term">Մնացորդով բաժանում.</b> $17:5=3$ (մն. $2$), քանի որ $5\cdot3+2=17$։ <b>Մնացորդը միշտ փոքր է բաժանարարից</b>։</p>
   </div>
 
@@ -416,7 +418,7 @@
   </ol>
 </section>
 
-<section class="tasks-section" id="answers">
+<section class="answers-section" id="answers">
   <h2>Պատասխաններ</h2>
   <h3>Հաշվարկային առաջադրանքների պատասխանները</h3>
   <ol class="answers-list">

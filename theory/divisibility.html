@@ -110,9 +110,11 @@
   .tj-grade{font-size:.85rem;color:#cfe0ec;letter-spacing:.03em;}
   @media print{ .tj-bar{display:none;} }
 </style>
+<style id="teacher-mode-css">html:not(.teacher-mode) .teacher-corner, html:not(.teacher-mode) .tc-title{display:none}.tj-teacher{margin-left:auto;background:transparent;border:1px solid currentColor;border-radius:14px;padding:2px 10px;font:inherit;font-size:.8rem;cursor:pointer;color:inherit;opacity:.85}</style>
+<script id="teacher-mode-js">(function(){var K="trenajor_teacher_mode",H=document.documentElement;try{if(localStorage.getItem(K)==="1")H.classList.add("teacher-mode")}catch(e){}document.addEventListener("DOMContentLoaded",function(){document.querySelectorAll(".teacher-corner").forEach(function(t){var p=t.previousElementSibling;if(p&&p.classList.contains("block-title"))p.classList.add("tc-title")});var b=document.getElementById("tj-teacher");if(!b)return;function lab(){b.textContent=H.classList.contains("teacher-mode")?"👩‍🏫 Ուսուցչի նշումները՝ միացված":"👩‍🏫 Ուսուցչի նշումներ"}lab();b.addEventListener("click",function(){H.classList.toggle("teacher-mode");try{localStorage.setItem(K,H.classList.contains("teacher-mode")?"1":"0")}catch(e){}lab()})})})();</script>
 </head>
 <body>
-<div class="tj-bar"><div class="tj-bar-in"><a class="tj-back" href="../index.html">← Տրենաժոր</a><span class="tj-grade">5 դասարան</span></div></div>
+<div class="tj-bar"><div class="tj-bar-in"><a class="tj-back" href="../index.html">← Տրենաժոր</a><span class="tj-grade">5 դասարան</span><button type="button" class="tj-teacher" id="tj-teacher">👩‍🏫 Ուսուցչի նշումներ</button></div></div>
 
 
 <div class="hero">
@@ -128,9 +130,9 @@
     <li><a href="#s1">Բաժանարար և բազմապատիկ</a></li>
     <li><a href="#s2">Ընդհանուր բաժանարար, ամենամեծ ընդհանուր բաժանարար</a></li>
     <li><a href="#s3">Ընդհանուր բազմապատիկ, ամենափոքր ընդհանուր բազմապատիկ</a></li>
-    <li><a href="#s4">2-ի, 5-ի և 10-ի բազմապատիկ թվերը</a></li>
-    <li><a href="#s5">4-ի բազմապատիկ թվերը</a></li>
-    <li><a href="#s6">3-ի և 9-ի բազմապատիկ թվերը</a></li>
+    <li><a href="#s4">Բաժանելիությունը 2-ի, 5-ի և 10-ի</a></li>
+    <li><a href="#s5">Բաժանելիությունը 4-ի</a></li>
+    <li><a href="#s6">Բաժանելիությունը 3-ի և 9-ի</a></li>
     <li><a href="#s7">Պարզ և բաղադրյալ թվեր</a></li>
     <li><a href="#s8">Թվի վերլուծումը պարզ արտադրիչների</a></li>
     <li><a href="#s9">ԱԸԲ և ԱՓԲ պարզ արտադրիչների վերլուծությամբ</a></li>
@@ -268,7 +270,7 @@
 
   <div class="block-title">Ուսուցչի անկյուն</div>
   <div class="teacher-corner"><span class="label">Քեզ համար</span>
-    36 աղջիկ և 24 տղա բաժանելիս հավասար խմբերի (ամեն խմբում՝ նույն սեռի աշակերտներ), ամենաշատ խմբերի քանակը $(36,24)$-ն է։ Սա նույն տրամաբանությունն է, ինչ «Գիտելիքի փառատոն»-ի օրինակում։
+    Ուշադրություն՝ տարբեր իրավիճակներ։ Եթե 36 աղջիկ և 24 տղա բաժանում ենք հավասար <b>խառը</b> խմբերի (ամեն խմբում՝ նույն քանակով աղջիկներ և նույն քանակով տղաներ), ամենաշատ խմբերի քանակը $(36,24)=12$ է՝ ամեն խմբում $3$ աղջիկ և $2$ տղա։ Իսկ «Գիտելիքի փառատոն»-ի օրինակում ամեն թիմ կազմված էր միայն նույն խմբի աշակերտներից։ Երկու դեպքում էլ օգտագործվում է ԱԸԲ-ն, բայց խմբերի կազմը տարբեր է։
   </div>
 </section>
 
@@ -337,7 +339,7 @@
 <section class="part-header">Մաս 2 / 3</section>
 
 <section class="chapter" id="s4">
-  <div class="chapter-head"><span class="chapter-num">04</span><h2>2-ի, 5-ի և 10-ի բազմապատիկ թվերը</h2></div>
+  <div class="chapter-head"><span class="chapter-num">04</span><h2>Բաժանելիությունը 2-ի, 5-ի և 10-ի</h2></div>
 
   <div class="block-title">Իրական կյանքի օրինակ</div>
   <div class="hook">Կարո՞ղ ես, առանց փաստացի բաժանելու, ասել՝ $1\,725\,340$-ը բաժանվում է 10-ի, թե ոչ։ Ինչքա՞ն արագ։</div>
@@ -399,7 +401,7 @@
 </section>
 
 <section class="chapter" id="s5">
-  <div class="chapter-head"><span class="chapter-num">05</span><h2>4-ի բազմապատիկ թվերը</h2></div>
+  <div class="chapter-head"><span class="chapter-num">05</span><h2>Բաժանելիությունը 4-ի</h2></div>
 
   <div class="block-title">Իրական կյանքի օրինակ</div>
   <div class="hook">$7\,932$-ը զույգ է։ Բաժանվու՞մ է արդյոք 4-ի։ Իսկ $7\,942$-ը, որն էլ զույգ է. արդյո՞ք երկուսն էլ 4-ի բազմապատիկ են։</div>
@@ -459,7 +461,7 @@
 </section>
 
 <section class="chapter" id="s6">
-  <div class="chapter-head"><span class="chapter-num">06</span><h2>3-ի և 9-ի բազմապատիկ թվերը</h2></div>
+  <div class="chapter-head"><span class="chapter-num">06</span><h2>Բաժանելիությունը 3-ի և 9-ի</h2></div>
 
   <div class="block-title">Իրական կյանքի օրինակ</div>
   <div class="hook">Անին գնեց 3 միանման բացիկ, վաճառողն ասաց՝ ընդամենը 1400 դրամ։ Անին անմիջապես հասկացավ, որ գումարը սխալ են հաշվել, չնայած ինքը չգիտեր բացիկի գինը։ Ինչպե՞ս։</div>
@@ -536,7 +538,7 @@
   <div class="formal-def">
     <p>Այն բնական թվերը, որոնք ունեն ընդամենը երկու բաժանարար՝ $1$-ը և տվյալ թիվը, կոչվում են <b class="term">պարզ թվեր</b> ($2,3,5,7,11,13,...$)։</p>
     <p>Այն բնական թվերը, որոնք $1$-ից և տվյալ թվից բացի ունեն նաև այլ բաժանարար, կոչվում են <b class="term">բաղադրյալ թվեր</b> ($4,6,8,9,10,12,...$)։</p>
-    <p>$1$ թիվը երկու թվերի արտադրյալի տեսքով գրվում է միայն մեկ եղանակով ($1=1\cdot1$), ուստի այն ո՛չ պարզ է, ո՛չ բաղադրյալ։</p>
+    <p>$1$-ն ունի միայն մեկ բաժանարար՝ $1$-ը։ Պարզ թիվն ունի ճիշտ երկու բաժանարար ($1$ և ինքը), իսկ բաղադրյալը՝ երկուսից ավելի, ուստի $1$-ը ո՛չ պարզ է, ո՛չ բաղադրյալ։</p>
   </div>
 
   <div class="block-title">Վիզուալ պատկեր</div>
@@ -609,7 +611,7 @@
 
   <div class="block-title">Կանոն</div>
   <div class="formula-box"><span class="label">Միակություն</span>
-    Պարզ արտադրիչների վերլուծումն ինքնուրույն է (անկախ մեկնարկային արտադրիչներից)։ Երկու թվերի արտադրյալը վերլուծելու համար կարելի է առանձին վերլուծել յուրաքանչյուր արտադրիչը և արդյունքները միացնել։
+    Պարզ արտադրիչների վերլուծումը <b>միակն է</b>՝ արտադրիչների կարգը հաշվի չառնելով (անկախ նրանից, թե որ արտադրիչից ենք սկսում)։ Կրկնվող արտադրիչը գրում ենք աստիճանով. $2\cdot2\cdot2=2^3$, որտեղ ցուցիչը ($3$) ցույց է տալիս, թե քանի անգամ է արտադրիչը կրկնվում։ Երկու թվերի արտադրյալը վերլուծելու համար կարելի է առանձին վերլուծել յուրաքանչյուր արտադրիչը և արդյունքները միացնել։
   </div>
 
   <div class="block-title">Լուծված օրինակ(ներ)</div>
@@ -662,11 +664,12 @@
   <div class="visual-container table-wrap">
     <table>
       <tr><th>Պարզ արտադրիչ</th><td>$2$</td><td>$3$</td><td>$5$</td><td>$7$</td><td>$11$</td></tr>
-      <tr><th>7700-ում</th><td>$2^2$</td><td>$0$</td><td>$2^2$</td><td>$1$</td><td>$1$</td></tr>
-      <tr><th>168-ում</th><td>$2^3$</td><td>$1$</td><td>$0$</td><td>$1$</td><td>$0$</td></tr>
+      <tr><th>$7700=2^2\cdot5^2\cdot7\cdot11$</th><td>$2^2$</td><td>—</td><td>$5^2$</td><td>$7$</td><td>$11$</td></tr>
+      <tr><th>$168=2^3\cdot3\cdot7$</th><td>$2^3$</td><td>$3$</td><td>—</td><td>$7$</td><td>—</td></tr>
       <tr><th>ԱԸԲ (նվազագույն)</th><td>$2^2$</td><td>—</td><td>—</td><td>$7$</td><td>—</td></tr>
       <tr><th>ԱՓԲ (առավելագույն)</th><td>$2^3$</td><td>$3$</td><td>$5^2$</td><td>$7$</td><td>$11$</td></tr>
     </table>
+<p>Արդյունք. ԱԸԲ$=2^2\cdot7=28$, ԱՓԲ$=2^3\cdot3\cdot5^2\cdot7\cdot11=46\,200$։</p>
   </div>
 
   <div class="block-title">Կանոն</div>

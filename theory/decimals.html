@@ -110,9 +110,11 @@
   .tj-grade{font-size:.85rem;color:#cfe0ec;letter-spacing:.03em;}
   @media print{ .tj-bar{display:none;} }
 </style>
+<style id="teacher-mode-css">html:not(.teacher-mode) .teacher-corner, html:not(.teacher-mode) .tc-title{display:none}.tj-teacher{margin-left:auto;background:transparent;border:1px solid currentColor;border-radius:14px;padding:2px 10px;font:inherit;font-size:.8rem;cursor:pointer;color:inherit;opacity:.85}</style>
+<script id="teacher-mode-js">(function(){var K="trenajor_teacher_mode",H=document.documentElement;try{if(localStorage.getItem(K)==="1")H.classList.add("teacher-mode")}catch(e){}document.addEventListener("DOMContentLoaded",function(){document.querySelectorAll(".teacher-corner").forEach(function(t){var p=t.previousElementSibling;if(p&&p.classList.contains("block-title"))p.classList.add("tc-title")});var b=document.getElementById("tj-teacher");if(!b)return;function lab(){b.textContent=H.classList.contains("teacher-mode")?"👩‍🏫 Ուսուցչի նշումները՝ միացված":"👩‍🏫 Ուսուցչի նշումներ"}lab();b.addEventListener("click",function(){H.classList.toggle("teacher-mode");try{localStorage.setItem(K,H.classList.contains("teacher-mode")?"1":"0")}catch(e){}lab()})})})();</script>
 </head>
 <body>
-<div class="tj-bar"><div class="tj-bar-in"><a class="tj-back" href="../index.html">← Տրենաժոր</a><span class="tj-grade">6 դասարան</span></div></div>
+<div class="tj-bar"><div class="tj-bar-in"><a class="tj-back" href="../index.html">← Տրենաժոր</a><span class="tj-grade">6 դասարան</span><button type="button" class="tj-teacher" id="tj-teacher">👩‍🏫 Ուսուցչի նշումներ</button></div></div>
 
 
 <div class="hero">
@@ -159,7 +161,7 @@
 
   <div class="block-title">Կանոն</div>
   <div class="formula-box"><span class="label">Կանոն</span>
-    Ստորակետից հետո նիշերի քանակ = հայտարարի զրոների քանակ
+    $10$, $100$, $1000$, … հայտարարի դեպքում ստորակետից հետո գրում ենք այնքան նիշ, որքան զրո ունի հայտարարը (պակասողները՝ ձախից $0$-ով)
   </div>
 
   <div class="block-title">Լուծված օրինակ(ներ)</div>
@@ -246,7 +248,7 @@
   <div class="chapter-head"><span class="chapter-num">03</span><h2>Կլորացում</h2></div>
 
   <div class="block-title">Իրական կյանքի օրինակ</div>
-  <div class="hook">Հենրիխ Մխիթարյանը խաղի ընթացքում վազել է $12$ կմ $574$ մ։ Ինչպե՞ս դա ասել կարճ՝ մեկ տասնորդական նիշով։</div>
+  <div class="hook">Ֆուտբոլիստը խաղի ընթացքում վազել է $12$ կմ $574$ մ։ Ինչպե՞ս դա ասել կարճ՝ մեկ տասնորդական նիշով։</div>
 
   <div class="block-title">Ինտուիտիվ բացատրություն</div>
   <div class="intuitive">$12{,}574$ կմ։ Տասնորդականից հետո եկող թվանշանը $7$ է ($\ge5$), ուստի $5$-ը դառնում է $6$. $\approx12{,}6$ կմ։</div>
@@ -356,7 +358,7 @@
 
   <div class="block-title">Ֆորմալ սահմանում</div>
   <div class="formal-def">
-    <p>Բազմապատկելիս. 1) բազմապատկում ենք՝ ստորակետերն անտեսելով; 2) արդյունքում աջից անջատում ենք այնքան նիշ, որքան ընդհանուր նիշ կա արտադրիչների ստորակետերից հետո։</p>
+    <p>Բազմապատկելիս. 1) բազմապատկում ենք՝ ստորակետերն անտեսելով; 2) արդյունքում աջից անջատում ենք այնքան նիշ, որքան ընդհանուր նիշ կա արտադրիչների ստորակետերից հետո։ Եթե թվանշանները չեն բավականացնում, ձախից ավելացնում ենք զրոներ. $0{,}2\cdot0{,}3=0{,}06$։</p>
     <p>$10$-ով, $100$-ով, $1000$-ով բազմապատկելիս ստորակետը տեղաշարժվում է <b>աջ</b> այնքան կարգ, որքան զրո կա. բաժանելիս՝ <b>ձախ</b>։</p>
   </div>
 
@@ -404,7 +406,7 @@
 
   <div class="block-title">Ֆորմալ սահմանում</div>
   <div class="formal-def">
-    <p>Բնական թվի վրա բաժանելիս բաժանում ենք ինչպես սովորաբար, և բաժանելիի ստորակետին հասնելիս <b>ստորակետ ենք դնում քանորդում</b>։</p>
+    <p>Բնական թվի վրա բաժանելիս բաժանում ենք ինչպես սովորաբար, և բաժանելիի ստորակետին հասնելիս <b>ստորակետ ենք դնում քանորդում</b>։ Եթե բաժանելիի ամբողջ մասը փոքր է բաժանարարից, քանորդի ամբողջ մասը $0$ է. $0{,}84:4=0{,}21$։</p>
     <p>Տասնորդական կոտորակի վրա բաժանելիս երկու թվի ստորակետն էլ տեղաշարժում ենք <b>նույն քանակով</b> աջ, մինչև բաժանարարը դառնա բնական թիվ։</p>
   </div>
 
@@ -524,14 +526,14 @@
   </ol>
 </section>
 
-<section class="tasks-section" id="answers">
+<section class="answers-section" id="answers">
   <h2>Պատասխաններ</h2>
   <h3>Հաշվարկային առաջադրանքների պատասխանները</h3>
   <ol class="answers-list">
     <li>$18{,}73$; $91{,}002$; $0{,}19$; $0{,}7$</li>
     <li>$2$</li>
     <li>$0{,}08\lt0{,}15\lt0{,}23\lt0{,}4$</li>
-    <li>$7{,}944\gt7{,}94$ (քանի որ $7{,}944\gt7{,}940$)</li>
+    <li>$7{,}944\gt7{,}94$ (քանի որ $7{,}94=7{,}940$, իսկ $7{,}944\gt7{,}940$)</li>
     <li>$43{,}9$; $130$</li>
     <li>$12{,}574$ կմ $\approx12{,}6$ կմ</li>
     <li>$25{,}5$; $97{,}49$</li>
