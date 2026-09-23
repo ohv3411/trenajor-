@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="hy">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Կոտորակի առաջին քայլերը | Ուսումնական ուղեցույց</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<style>
+  :root{
+    --bg:#0f1f2e; --paper:#f6f8fb; --ink:#152233; --accent:#1e5f8c; --accent2:#c0562b;
+    --crust:#8fb3cc; --muted:#5b7188; --card:#ffffff; --line:#dde6ee;
+  }
+  *{box-sizing:border-box;}
+  html, body{overflow-x:hidden;}
+  body{margin:0; font-family:'Sylfaen','Arial',serif; background:var(--paper); color:var(--ink); font-size:18px; line-height:1.7;}
+  .hero{background:linear-gradient(135deg, var(--bg) 0%, #1c3b52 100%); color:#eaf2f8; padding:56px 24px 48px;}
+  .hero-inner{max-width:840px; margin:0 auto;}
+  h1.title{font-size:2.2rem; margin:0 0 10px; font-weight:bold; color:#fff;}
+  .hero p{color:#cfe0ec; max-width:620px; font-size:1.05rem;}
+  nav.toc{max-width:840px; margin:-26px auto 0; position:relative; z-index:3; background:var(--card); border-radius:10px; box-shadow:0 12px 30px rgba(15,31,46,.18); padding:22px 26px; border:1px solid var(--line);}
+  nav.toc h2{font-size:1.05rem; text-transform:uppercase; letter-spacing:.07em; color:var(--muted); margin:0 0 12px; font-weight:bold;}
+  nav.toc ol{margin:0; padding-left:20px; columns:2; column-gap:28px;}
+  nav.toc li{margin-bottom:8px; font-size:.98rem;}
+  nav.toc a{color:var(--accent); text-decoration:none; border-bottom:1px dotted var(--accent);}
+  main{max-width:840px; margin:40px auto 90px; padding:0 24px;}
+  section.part-header{margin:48px 0 20px; padding-bottom:8px; border-bottom:2px solid var(--crust); color:var(--muted); font-weight:bold; text-transform:uppercase; letter-spacing:.05em; font-size:.95rem;}
+  section.chapter{margin-bottom:56px;}
+  .chapter-head{display:flex; align-items:baseline; gap:14px; border-bottom:3px solid var(--accent2); padding-bottom:10px; margin-bottom:20px;}
+  .chapter-num{font-size:1.9rem; color:var(--accent); font-weight:bold;}
+  .chapter-head h2{margin:0; font-size:1.4rem; color:var(--ink); font-weight:bold;}
+
+  .block-title{font-weight:bold; color:var(--accent); font-size:1.02rem; margin:22px 0 8px; text-transform:uppercase; letter-spacing:.04em;}
+  .hook{background:#eef4f9; border-radius:10px; padding:16px 20px; margin:10px 0 18px; font-style:italic;}
+  .intuitive{padding:0 2px; margin-bottom:14px;}
+  .formal-def{background:#fff; border:1px solid var(--line); border-left:4px solid var(--accent); border-radius:0 10px 10px 0; padding:16px 20px; margin:14px 0;}
+  .formal-def b.term{color:var(--accent2);}
+
+  .visual-container.table-wrap{overflow-x:auto; width:100%; margin:18px 0; -webkit-overflow-scrolling:touch;}
+  table{border-collapse:collapse; width:100%;}
+  th,td{border:1px solid var(--line); padding:8px 12px; text-align:center; font-size:.98rem;}
+  th{background:#eaf1f7; font-weight:bold;}
+  svg{max-width:100%; height:auto; display:block; margin:0 auto;}
+
+  .formula-box{background:#fff8ee; border:1px solid #ecd9b6; border-radius:10px; padding:18px 22px; margin:16px 0;}
+  .formula-box .label{display:block; font-weight:bold; color:var(--accent2); margin-bottom:8px; text-transform:uppercase; font-size:.85rem; letter-spacing:.05em;}
+
+  .example-box{border-left:4px solid var(--accent); background:#fff; padding:16px 20px; margin:16px 0; border-radius:0 10px 10px 0; box-shadow:0 2px 8px rgba(15,31,46,.05);}
+  .example-box .tag{display:inline-block; font-size:.8rem; text-transform:uppercase; letter-spacing:.07em; color:#fff; background:var(--accent); padding:3px 10px; border-radius:20px; margin-bottom:8px; font-weight:bold;}
+  .example-box .step{margin:6px 0 6px 2px;}
+  .example-box .answer{margin-top:10px; padding:8px 14px; background:#eef4f9; border-radius:8px; border-left:3px solid var(--accent); font-weight:bold;}
+
+  .think{background:#f3ede0; border-left:4px solid var(--crust); border-radius:0 10px 10px 0; padding:12px 18px; margin:14px 0; font-style:italic; color:#4a3a1f;}
+
+  .error-box{background:#fdeeec; border:1px solid #f0c6bf; border-radius:10px; padding:16px 20px; margin:16px 0;}
+  .error-box h4{margin:0 0 8px; color:var(--accent2); font-size:1rem;}
+  .error-box .k{font-weight:bold; color:var(--accent2);}
+
+  .remember{background:#eef6ef; border:1px solid #cfe6d2; border-radius:10px; padding:14px 20px; margin:16px 0;}
+  .remember .label{font-weight:bold; color:#2f6b3a; text-transform:uppercase; font-size:.85rem; letter-spacing:.05em; display:block; margin-bottom:6px;}
+
+  .teacher-corner{background:#eaf1f7; border:1px dashed var(--crust); border-radius:10px; padding:16px 20px; margin:16px 0 28px;}
+  .teacher-corner .label{font-weight:bold; color:var(--accent); text-transform:uppercase; font-size:.85rem; letter-spacing:.05em; display:block; margin-bottom:6px;}
+
+  hr.sep{border:none; border-top:1px dashed var(--line); margin:36px 0;}
+
+  .tasks-section h2{color:var(--accent); border-bottom:3px solid var(--accent2); padding-bottom:8px;}
+  .tasks-section h3{color:var(--accent2); margin-top:26px;}
+  ol.tasks{padding-left:24px;}
+  ol.tasks li{margin-bottom:10px;}
+
+  .answers-section{background:#fff; padding:26px 28px; border-radius:10px; border:2px solid var(--accent); margin-top:44px;}
+  .answers-section h2{color:var(--accent); margin-top:0;}
+  .answers-section h3{color:var(--accent2); font-size:1rem; margin:22px 0 10px;}
+  .answers-list{columns:2; column-gap:36px; padding-left:20px; margin:0;}
+  .answers-list li{margin-bottom:9px; font-weight:bold;}
+  .answers-list-conceptual{columns:1; list-style-position:outside;}
+
+  @media (max-width:600px){
+    nav.toc ol{columns:1;}
+    .answers-list{columns:1;}
+    main{padding:0 14px;}
+  }
+
+  @media print {
+    body{background:#fff !important; color:#000 !important; font-size:12pt;}
+    .hero{padding:10px 0; background:none !important; color:#000 !important;}
+    h1.title{color:#000 !important;}
+    nav.toc{display:none !important;}
+    .formula-box, .example-box, .error-box, .visual-container, .table-wrap{page-break-inside:avoid !important; box-shadow:none !important; border:1px solid #ccc !important;}
+    .table-wrap, .visual-container{overflow-x:visible !important; white-space:pre-wrap !important; word-break:break-word !important;}
+    html, body{overflow-x:visible !important;}
+    .chapter{page-break-before:always;}
+    .chapter:first-of-type{page-break-before:auto;}
+    .answers-list{columns:3;}
+  }
+</style>
+
+<style id="tj-unified">
+  /* ԸՆԴՀԱՆՈՒՐ ՎԵՐԻՆ ՎԱՀԱՆԱԿ — նույնական բոլոր 19 ուղեցույցում։
+     Class-երը սկսվում են tj- նախածանցով, որ երբեք չբախվեն էջի
+     սեփական ոճերի հետ։ */
+  .tj-bar{background:#0f1f2e;color:#eaf2f8;font-family:'Sylfaen','Arial',serif;}
+  .tj-bar-in{max-width:840px;margin:0 auto;padding:10px 20px;display:flex;
+             align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+  .tj-back{color:#eaf2f8;text-decoration:none;font-weight:bold;font-size:.95rem;
+           border:1px solid rgba(234,242,248,.35);border-radius:8px;padding:5px 12px;}
+  .tj-back:hover{background:rgba(234,242,248,.12);}
+  .tj-grade{font-size:.85rem;color:#cfe0ec;letter-spacing:.03em;}
+  @media print{ .tj-bar{display:none;} }
+</style>
+</head>
+<body>
+<div class="tj-bar"><div class="tj-bar-in"><a class="tj-back" href="../index.html">← Տրենաժոր</a><span class="tj-grade">4 դասարան</span></div></div>
+
+
+<div class="hero">
+  <div class="hero-inner">
+    <h1 class="title">Կոտորակի առաջին քայլերը</h1>
+    <p>Մասից և ամբողջից մինչև թվի մասը, համեմատում և նույն հայտարարով գործողություններ։</p>
+  </div>
+</div>
+
+<nav class="toc">
+  <h2>Բովանդակություն</h2>
+  <ol>
+    <li><a href="#s1">Մաս և ամբողջ. համարիչ և հայտարար</a></li>
+    <li><a href="#s2">Կանոնավոր և անկանոն կոտորակներ. համեմատում</a></li>
+    <li><a href="#s3">Թվի մասը և թիվն ըստ մասի</a></li>
+    <li><a href="#s4">Նույն հայտարարով գումարում և հանում</a></li>
+    <li><a href="#tasks">Առաջադրանքներ</a></li>
+    <li><a href="#answers">Պատասխաններ</a></li>
+  </ol>
+</nav>
+
+<main>
+
+<section class="part-header">Մաս 1 / 2 — Կոտորակ</section>
+
+<section class="chapter" id="s1">
+  <div class="chapter-head"><span class="chapter-num">01</span><h2>Մաս և ամբողջ. համարիչ և հայտարար</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">Պիցցան կտրեցին 8 հավասար կտորի, և դու կերար 3 կտոր։ Պիցցայի ո՞ր մասը կերար։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">Ամբողջը $8$ հավասար մաս է, վերցրել ես $3$-ը. $\frac{3}{8}$ («երեք ութերորդ»)։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p>Ամբողջը բաժանվում է <b>հավասար</b> մասերի։ Եթե մասերը հավասար չեն, դրանք կոտորակով չեն կոչվում։</p>
+    <p>$\frac{a}{b}$ կոտորակում $b$-ն <b class="term">հայտարարն</b> է (քանի հավասար մասի է բաժանված ամբողջը), $a$-ն՝ <b class="term">համարիչը</b> (քանի մաս է վերցված)։</p>
+    <p>Կարդում ենք. համարիչը՝ քանակական թվականով, հայտարարը՝ դասականով. $\frac{5}{8}$՝ «հինգ ութերորդ»։</p>
+  </div>
+
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>Գրիր կոտորակով. «հինգ ութերորդ»։ Ո՞րն է նրա համարիչը և հայտարարը։</p>
+    <div class="step">«ութերորդ»՝ հայտարար $8$, «հինգ»՝ համարիչ $5$</div>
+    <div class="answer">Պատասխան. $\frac{5}{8}$. համարիչ $5$, հայտարար $8$</div>
+  </div>
+
+  <div class="think">Քանի՞ $\frac{1}{5}$ մաս կա մեկ ամբողջում։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> «Հինգ ութերորդ»-ը գրել $\frac{8}{5}$, կամ $\frac{3}{5}$-ում համարիչ համարել $5$-ը։</p>
+    <p><span class="k">Ինչու՞</span> Երեխան շփոթում է վերևի և ներքևի թվերի դերը։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Հիշիր. ներքևինը ասում է, թե քանի մասի է բաժանված ամբողջը։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>Մասերը՝ հավասար։</li>
+      <li>Հայտարար՝ քանի մաս, համարիչ՝ քանիսը վերցված։</li>
+      <li>$\frac{n}{n}=1$ ամբողջ։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Թղթից կտրված շրջաններ կամ ուղղանկյուններ ծալեք հավասար մասերի։ Երեխան ինքը կներկի վերցված մասերը և կգրի կոտորակը։
+  </div>
+</section>
+
+<section class="chapter" id="s2">
+  <div class="chapter-head"><span class="chapter-num">02</span><h2>Կանոնավոր և անկանոն կոտորակներ. համեմատում</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">Ո՞րն է մեծ՝ պիցցայի 1/4-ը, թե՞ 1/8-ը։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">Եթե պիցցան կտրենք 8 մասի, կտորները ավելի փոքր են, քան 4 մասի կտրելիս։ Ուստի $\frac{1}{4}\gt\frac{1}{8}$։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p>$\frac{a}{b}$-ն <b class="term">կանոնավոր</b> է, եթե $a\lt b$ (փոքր է $1$-ից), և <b class="term">անկանոն</b>, եթե $a\ge b$։</p>
+    <p>Նույն հայտարարով կոտորակներից մեծ է այն, որի <b>համարիչն է մեծ</b>։</p>
+    <p>Նույն համարիչով կոտորակներից մեծ է այն, որի <b>հայտարարն է փոքր</b>։</p>
+  </div>
+
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>Դասավորիր աճման կարգով. $\frac{1}{5}$, $\frac{1}{3}$, $\frac{1}{10}$, $\frac{1}{2}$։</p>
+    <div class="step">Համարիչները հավասար են → ինչքան մեծ հայտարար, այնքան փոքր կոտորակ</div>
+    <div class="answer">Պատասխան. $\frac{1}{10}\lt\frac{1}{5}\lt\frac{1}{3}\lt\frac{1}{2}$</div>
+  </div>
+
+  <div class="think">Կանոնավո՞ր է $\frac{7}{5}$-ը։ Մեծ է $1$-ից, թե՞ փոքր։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> $\frac{1}{4}\lt\frac{1}{8}$ («որովհետև $4\lt8$»)։</p>
+    <p><span class="k">Ինչու՞</span> Երեխան կոտորակները համեմատում է ինչպես սովորական թվեր։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Նկարիր երկու հավասար շրջան և բաժանիր $4$-ի և $8$-ի. ո՞ր կտորն է մեծ։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>Կանոնավոր՝ $\lt1$, անկանոն՝ $\ge1$։</li>
+      <li>Նույն հայտարար՝ համեմատիր համարիչները։</li>
+      <li>Նույն համարիչ՝ փոքր հայտարար → մեծ կոտորակ։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    «Կոտորակների պատ» (fraction wall) պատկերը, որտեղ նույն երկարությամբ շերտերը բաժանված են 2, 3, 4… մասի, հիանալի է համեմատման համար։
+  </div>
+</section>
+
+<section class="part-header">Մաս 2 / 2 — Գործողություններ</section>
+
+<section class="chapter" id="s3">
+  <div class="chapter-head"><span class="chapter-num">03</span><h2>Թվի մասը և թիվն ըստ մասի</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">Դասարանում 30 աշակերտ է, որոնց 2/5-ը աղջիկներ են։ Քանի՞ աղջիկ կա։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">$30$-ը բաժանում ենք $5$ հավասար մասի՝ $6$-ական։ $2$ այդպիսի մաս՝ $12$ աղջիկ։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p><b>Թվի մասը գտնելու համար</b> թիվը բաժանում ենք հայտարարի վրա և բազմապատկում համարիչով. $60$-ի $\frac{2}{3}$-ը՝ $60:3\cdot2=40$։</p>
+    <p><b>Թիվն ըստ մասի գտնելու համար</b> մասը բաժանում ենք համարիչի վրա և բազմապատկում հայտարարով. եթե $\frac{2}{3}$-ը $12$ է, թիվը՝ $12:2\cdot3=18$։</p>
+  </div>
+
+  <div class="block-title">Կանոն</div>
+  <div class="formula-box"><span class="label">Երկու խնդիր</span>
+    Թվի մասը՝ $N:b\cdot a$; թիվն ըստ մասի՝ $M:a\cdot b$
+  </div>
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>Քանի՞ րոպե է $1$ ժամի $\frac{3}{4}$ մասը։</p>
+    <div class="step">$1$ ժամ $=60$ րոպե</div>
+    <div class="step">$60:4\cdot3=45$</div>
+    <div class="answer">Պատասխան. $45$ րոպե</div>
+  </div>
+  <div class="example-box"><span class="tag">Օրինակ 2</span>
+    <p>Գտիր այն թիվը, որի $\frac{1}{4}$ մասը $10$ է։</p>
+    <div class="step">$1$ մաս $=10$, ամբողջը՝ $4$ մաս</div>
+    <div class="step">$10\cdot4=40$</div>
+    <div class="answer">Պատասխան. $40$</div>
+  </div>
+
+  <div class="think">Դասարանում $30$ աշակերտ է, $\frac{2}{5}$-ը աղջիկներ են։ Քանի՞ տղա կա։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> $60$-ի $\frac{2}{3}$-ի պատասխանը գրել $20$ (միայն առաջին քայլը), կամ «թիվը, որի $\frac{2}{3}$-ը $12$ է» խնդրում ստանալ $8$ (գտնել $12$-ի մասը)։</p>
+    <p><span class="k">Ինչու՞</span> Երեխան շփոթում է երկու հակադարձ խնդիրները։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Ստուգիր. $18$-ի $\frac{2}{3}$-ը իսկապե՞ս $12$ է։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>Թվի մասը՝ $:b$, $\cdot a$։</li>
+      <li>Թիվն ըստ մասի՝ $:a$, $\cdot b$։</li>
+      <li>Միշտ ստուգիր հակառակ ուղղությամբ։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Երկու խնդիրն էլ պատկերեք նույն հատվածային մոդելով։ Տարբերությունն այն է, թե հատվածի որ մասն է հայտնի՝ ամբողջը, թե մասը։
+  </div>
+</section>
+
+<section class="chapter" id="s4">
+  <div class="chapter-head"><span class="chapter-num">04</span><h2>Նույն հայտարարով գումարում և հանում</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">Առաջին օրը կատարեցիր աշխատանքի 2/7-ը, երկրորդ օրը՝ 3/7-ը։ Ո՞ր մասն է կատարված։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">Մասերը նույն չափի են (յոթերորդականներ). $2$ մաս $+$ $3$ մաս $=5$ մաս՝ $\frac{5}{7}$։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p>Նույն հայտարարով կոտորակները գումարելիս և հանելիս <b>գործողությունը կատարում ենք համարիչների հետ, իսկ հայտարարը մնում է նույնը</b>. $\frac{2}{7}+\frac{3}{7}=\frac{5}{7}$։</p>
+    <p>$1$-ից կոտորակ հանելիս $1$-ը գրում ենք նույն հայտարարով կոտորակի տեսքով. $1-\frac{2}{5}=\frac{5}{5}-\frac{2}{5}=\frac{3}{5}$։</p>
+  </div>
+
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>Հաշվիր. $\frac{5}{9}-\frac{2}{9}$ և $1-\frac{2}{5}$։</p>
+    <div class="step">$\frac{5-2}{9}=\frac{3}{9}=\frac{1}{3}$</div>
+    <div class="step">$\frac{5}{5}-\frac{2}{5}=\frac{3}{5}$</div>
+    <div class="answer">Պատասխան. $\frac{1}{3}$ և $\frac{3}{5}$</div>
+  </div>
+
+  <div class="think">Ինչո՞ւ $\frac{2}{7}+\frac{3}{7}$-ը $\frac{5}{14}$ չէ։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> $\frac{2}{7}+\frac{3}{7}=\frac{5}{14}$ (հայտարարները գումարված) կամ $1-\frac{2}{5}=\frac{2}{5}$։</p>
+    <p><span class="k">Ինչու՞</span> Երեխան գործողությունը կատարում է և՛ համարիչների, և՛ հայտարարների հետ։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Հիշիր. հայտարարը մասի «անունն» է. յոթերորդականներ $+$ յոթերորդականներ $=$ յոթերորդականներ։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>Գործողություն՝ համարիչների հետ։</li>
+      <li>Հայտարարը մնում է նույնը։</li>
+      <li>$1=\frac{n}{n}$։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Համեմատեք բառային գումարման հետ. «$2$ խնձոր $+$ $3$ խնձոր $=5$ խնձոր», և «խնձորը» չի դառնում «կրկնակի խնձոր»։ Նույն կերպ՝ «յոթերորդականները» չեն դառնում «տասնչորսերորդականներ»։
+  </div>
+</section>
+
+<hr class="sep">
+
+<section class="tasks-section" id="tasks">
+  <h2>Առաջադրանքներ</h2>
+  <h3>Հաշվարկային առաջադրանքներ</h3>
+  <ol class="tasks">
+    <li>Ո՞րն է $\frac{3}{5}$ կոտորակի համարիչը և հայտարարը։</li>
+    <li>Գրիր կոտորակով. «հինգ ութերորդ»։</li>
+    <li>Պիցցան կտրեցին $8$ կտորի, կերան $3$-ը։ Ո՞ր մասն են կերել։</li>
+    <li>Կանոնավո՞ր է $\frac{7}{5}$ կոտորակը։</li>
+    <li>Գտիր $60$-ի $\frac{2}{3}$ մասը։</li>
+    <li>Գտիր $20$-ի $\frac{3}{5}$ մասը։</li>
+    <li>Գտիր այն թիվը, որի $\frac{2}{3}$ մասը $12$ է։</li>
+    <li>Գտիր այն թիվը, որի $\frac{1}{4}$ մասը $10$ է։</li>
+    <li>Համեմատիր. $\frac{1}{4}$ և $\frac{1}{8}$։</li>
+    <li>Դասավորիր աճման կարգով. $\frac{1}{5}$, $\frac{1}{3}$, $\frac{1}{10}$, $\frac{1}{2}$։</li>
+    <li>Հաշվիր. $\frac{2}{7}+\frac{3}{7}$։</li>
+    <li>Հաշվիր. $\frac{5}{9}-\frac{2}{9}$։</li>
+    <li>Հաշվիր. $1-\frac{2}{5}$։</li>
+    <li>Քանի՞ րոպե է $1$ ժամի $\frac{3}{4}$ մասը։</li>
+    <li>Դասարանում $30$ աշակերտ է, $\frac{2}{5}$-ը աղջիկներ են։ Քանի՞ տղա կա։</li>
+  </ol>
+  <h3>Տրամաբանական և հայեցակարգային հարցեր</h3>
+  <ol class="tasks" start="16">
+    <li>Ինչո՞ւ $\frac{1}{8}\lt\frac{1}{4}$, թեև $8\gt4$։</li>
+    <li>Ինչո՞ւ նույն հայտարարով կոտորակները գումարելիս հայտարարը չի փոխվում։</li>
+    <li>Ինչո՞ւ $\frac{5}{5}=1$։</li>
+  </ol>
+</section>
+
+<section class="tasks-section" id="answers">
+  <h2>Պատասխաններ</h2>
+  <h3>Հաշվարկային առաջադրանքների պատասխանները</h3>
+  <ol class="answers-list">
+    <li>համարիչ՝ $3$, հայտարար՝ $5$</li>
+    <li>$\frac{5}{8}$</li>
+    <li>$\frac{3}{8}$</li>
+    <li>Ոչ, անկանոն է ($7\gt5$)</li>
+    <li>$40$</li>
+    <li>$12$</li>
+    <li>$18$</li>
+    <li>$40$</li>
+    <li>$\frac{1}{4}\gt\frac{1}{8}$</li>
+    <li>$\frac{1}{10}\lt\frac{1}{5}\lt\frac{1}{3}\lt\frac{1}{2}$</li>
+    <li>$\frac{5}{7}$</li>
+    <li>$\frac{3}{9}=\frac{1}{3}$</li>
+    <li>$\frac{3}{5}$</li>
+    <li>$45$ րոպե</li>
+    <li>$30-12=18$</li>
+  </ol>
+  <h3>Տրամաբանական և հայեցակարգային հարցերի պատասխանները</h3>
+  <ol class="answers-list answers-list-conceptual" start="16">
+    <li>Ամբողջը բաժանված է ավելի շատ մասերի, ուստի յուրաքանչյուր մասը ավելի փոքր է</li>
+    <li>Հայտարարը ցույց է տալիս մասի չափը. գումարելիս մասերի չափը չի փոխվում, փոխվում է միայն նրանց քանակը</li>
+    <li>Ամբողջը բաժանված է $5$ մասի, և վերցված են բոլոր $5$-ը, այսինքն՝ ամբողջը</li>
+  </ol>
+</section>
+
+</main>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  renderMathInElement(document.body, {
+    delimiters: [
+      {left: "$$", right: "$$", display: true},
+      {left: "$", right: "$", display: false}
+    ],
+    strict: false
+  });
+});
+</script>
+</body>
+</html>

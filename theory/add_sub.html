@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="hy">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Գումարում և հանում | Ուսումնական ուղեցույց</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<style>
+  :root{
+    --bg:#0f1f2e; --paper:#f6f8fb; --ink:#152233; --accent:#1e5f8c; --accent2:#c0562b;
+    --crust:#8fb3cc; --muted:#5b7188; --card:#ffffff; --line:#dde6ee;
+  }
+  *{box-sizing:border-box;}
+  html, body{overflow-x:hidden;}
+  body{margin:0; font-family:'Sylfaen','Arial',serif; background:var(--paper); color:var(--ink); font-size:18px; line-height:1.7;}
+  .hero{background:linear-gradient(135deg, var(--bg) 0%, #1c3b52 100%); color:#eaf2f8; padding:56px 24px 48px;}
+  .hero-inner{max-width:840px; margin:0 auto;}
+  h1.title{font-size:2.2rem; margin:0 0 10px; font-weight:bold; color:#fff;}
+  .hero p{color:#cfe0ec; max-width:620px; font-size:1.05rem;}
+  nav.toc{max-width:840px; margin:-26px auto 0; position:relative; z-index:3; background:var(--card); border-radius:10px; box-shadow:0 12px 30px rgba(15,31,46,.18); padding:22px 26px; border:1px solid var(--line);}
+  nav.toc h2{font-size:1.05rem; text-transform:uppercase; letter-spacing:.07em; color:var(--muted); margin:0 0 12px; font-weight:bold;}
+  nav.toc ol{margin:0; padding-left:20px; columns:2; column-gap:28px;}
+  nav.toc li{margin-bottom:8px; font-size:.98rem;}
+  nav.toc a{color:var(--accent); text-decoration:none; border-bottom:1px dotted var(--accent);}
+  main{max-width:840px; margin:40px auto 90px; padding:0 24px;}
+  section.part-header{margin:48px 0 20px; padding-bottom:8px; border-bottom:2px solid var(--crust); color:var(--muted); font-weight:bold; text-transform:uppercase; letter-spacing:.05em; font-size:.95rem;}
+  section.chapter{margin-bottom:56px;}
+  .chapter-head{display:flex; align-items:baseline; gap:14px; border-bottom:3px solid var(--accent2); padding-bottom:10px; margin-bottom:20px;}
+  .chapter-num{font-size:1.9rem; color:var(--accent); font-weight:bold;}
+  .chapter-head h2{margin:0; font-size:1.4rem; color:var(--ink); font-weight:bold;}
+
+  .block-title{font-weight:bold; color:var(--accent); font-size:1.02rem; margin:22px 0 8px; text-transform:uppercase; letter-spacing:.04em;}
+  .hook{background:#eef4f9; border-radius:10px; padding:16px 20px; margin:10px 0 18px; font-style:italic;}
+  .intuitive{padding:0 2px; margin-bottom:14px;}
+  .formal-def{background:#fff; border:1px solid var(--line); border-left:4px solid var(--accent); border-radius:0 10px 10px 0; padding:16px 20px; margin:14px 0;}
+  .formal-def b.term{color:var(--accent2);}
+
+  .visual-container.table-wrap{overflow-x:auto; width:100%; margin:18px 0; -webkit-overflow-scrolling:touch;}
+  table{border-collapse:collapse; width:100%;}
+  th,td{border:1px solid var(--line); padding:8px 12px; text-align:center; font-size:.98rem;}
+  th{background:#eaf1f7; font-weight:bold;}
+  svg{max-width:100%; height:auto; display:block; margin:0 auto;}
+
+  .formula-box{background:#fff8ee; border:1px solid #ecd9b6; border-radius:10px; padding:18px 22px; margin:16px 0;}
+  .formula-box .label{display:block; font-weight:bold; color:var(--accent2); margin-bottom:8px; text-transform:uppercase; font-size:.85rem; letter-spacing:.05em;}
+
+  .example-box{border-left:4px solid var(--accent); background:#fff; padding:16px 20px; margin:16px 0; border-radius:0 10px 10px 0; box-shadow:0 2px 8px rgba(15,31,46,.05);}
+  .example-box .tag{display:inline-block; font-size:.8rem; text-transform:uppercase; letter-spacing:.07em; color:#fff; background:var(--accent); padding:3px 10px; border-radius:20px; margin-bottom:8px; font-weight:bold;}
+  .example-box .step{margin:6px 0 6px 2px;}
+  .example-box .answer{margin-top:10px; padding:8px 14px; background:#eef4f9; border-radius:8px; border-left:3px solid var(--accent); font-weight:bold;}
+
+  .think{background:#f3ede0; border-left:4px solid var(--crust); border-radius:0 10px 10px 0; padding:12px 18px; margin:14px 0; font-style:italic; color:#4a3a1f;}
+
+  .error-box{background:#fdeeec; border:1px solid #f0c6bf; border-radius:10px; padding:16px 20px; margin:16px 0;}
+  .error-box h4{margin:0 0 8px; color:var(--accent2); font-size:1rem;}
+  .error-box .k{font-weight:bold; color:var(--accent2);}
+
+  .remember{background:#eef6ef; border:1px solid #cfe6d2; border-radius:10px; padding:14px 20px; margin:16px 0;}
+  .remember .label{font-weight:bold; color:#2f6b3a; text-transform:uppercase; font-size:.85rem; letter-spacing:.05em; display:block; margin-bottom:6px;}
+
+  .teacher-corner{background:#eaf1f7; border:1px dashed var(--crust); border-radius:10px; padding:16px 20px; margin:16px 0 28px;}
+  .teacher-corner .label{font-weight:bold; color:var(--accent); text-transform:uppercase; font-size:.85rem; letter-spacing:.05em; display:block; margin-bottom:6px;}
+
+  hr.sep{border:none; border-top:1px dashed var(--line); margin:36px 0;}
+
+  .tasks-section h2{color:var(--accent); border-bottom:3px solid var(--accent2); padding-bottom:8px;}
+  .tasks-section h3{color:var(--accent2); margin-top:26px;}
+  ol.tasks{padding-left:24px;}
+  ol.tasks li{margin-bottom:10px;}
+
+  .answers-section{background:#fff; padding:26px 28px; border-radius:10px; border:2px solid var(--accent); margin-top:44px;}
+  .answers-section h2{color:var(--accent); margin-top:0;}
+  .answers-section h3{color:var(--accent2); font-size:1rem; margin:22px 0 10px;}
+  .answers-list{columns:2; column-gap:36px; padding-left:20px; margin:0;}
+  .answers-list li{margin-bottom:9px; font-weight:bold;}
+  .answers-list-conceptual{columns:1; list-style-position:outside;}
+
+  @media (max-width:600px){
+    nav.toc ol{columns:1;}
+    .answers-list{columns:1;}
+    main{padding:0 14px;}
+  }
+
+  @media print {
+    body{background:#fff !important; color:#000 !important; font-size:12pt;}
+    .hero{padding:10px 0; background:none !important; color:#000 !important;}
+    h1.title{color:#000 !important;}
+    nav.toc{display:none !important;}
+    .formula-box, .example-box, .error-box, .visual-container, .table-wrap{page-break-inside:avoid !important; box-shadow:none !important; border:1px solid #ccc !important;}
+    .table-wrap, .visual-container{overflow-x:visible !important; white-space:pre-wrap !important; word-break:break-word !important;}
+    html, body{overflow-x:visible !important;}
+    .chapter{page-break-before:always;}
+    .chapter:first-of-type{page-break-before:auto;}
+    .answers-list{columns:3;}
+  }
+</style>
+
+<style id="tj-unified">
+  /* ԸՆԴՀԱՆՈՒՐ ՎԵՐԻՆ ՎԱՀԱՆԱԿ — նույնական բոլոր 19 ուղեցույցում։
+     Class-երը սկսվում են tj- նախածանցով, որ երբեք չբախվեն էջի
+     սեփական ոճերի հետ։ */
+  .tj-bar{background:#0f1f2e;color:#eaf2f8;font-family:'Sylfaen','Arial',serif;}
+  .tj-bar-in{max-width:840px;margin:0 auto;padding:10px 20px;display:flex;
+             align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+  .tj-back{color:#eaf2f8;text-decoration:none;font-weight:bold;font-size:.95rem;
+           border:1px solid rgba(234,242,248,.35);border-radius:8px;padding:5px 12px;}
+  .tj-back:hover{background:rgba(234,242,248,.12);}
+  .tj-grade{font-size:.85rem;color:#cfe0ec;letter-spacing:.03em;}
+  @media print{ .tj-bar{display:none;} }
+</style>
+</head>
+<body>
+<div class="tj-bar"><div class="tj-bar-in"><a class="tj-back" href="../index.html">← Տրենաժոր</a><span class="tj-grade">2–3 դասարան</span></div></div>
+
+
+<div class="hero">
+  <div class="hero-inner">
+    <h1 class="title">Գումարում և հանում</h1>
+    <p>Տասնավորներից և զույգ/կենտ թվերից մինչև սյունակով գործողություններ, անհայտ բաղադրիչ և ժամանակի հաշվարկ։</p>
+  </div>
+</div>
+
+<nav class="toc">
+  <h2>Բովանդակություն</h2>
+  <ol>
+    <li><a href="#s1">Տասնավորներ, միավորներ և կարգային գումարելիներ</a></li>
+    <li><a href="#s2">Համեմատում և զույգ/կենտ թվեր</a></li>
+    <li><a href="#s3">Գումարում և հանում 100-ի սահմաններում</a></li>
+    <li><a href="#s4">Սյունակով գումարում և հանում (բազմանիշ թվեր)</a></li>
+    <li><a href="#s5">Փակագծեր, անհայտ բաղադրիչ, հարմար հաշվարկ</a></li>
+    <li><a href="#s6">Ժամանակ և դրամ</a></li>
+    <li><a href="#tasks">Առաջադրանքներ</a></li>
+    <li><a href="#answers">Պատասխաններ</a></li>
+  </ol>
+</nav>
+
+<main>
+
+<section class="part-header">Մաս 1 / 3 — Թվեր 100-ի սահմաններում</section>
+
+<section class="chapter" id="s1">
+  <div class="chapter-head"><span class="chapter-num">01</span><h2>Տասնավորներ, միավորներ և կարգային գումարելիներ</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">Ունես 4 տասնյակ կոնֆետ (տուփերով) և 7 հատ առանձին։ Ինչպե՞ս գրել այդ քանակը մեկ թվով։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">4 տասնյակը $40$ է, գումարած $7$՝ $47$։ Ձախ թվանշանը ցույց է տալիս տասնավորները, աջը՝ միավորները։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p>Երկնիշ թվի ձախ թվանշանը <b class="term">տասնավորների</b> կարգն է, աջը՝ <b class="term">միավորների</b>։</p>
+    <p>$47=40+7$ գրառումը կոչվում է թվի ներկայացում <b class="term">կարգային գումարելիներով</b>։</p>
+    <p>Դատարկ կարգում գրվում է $0$. $700+4=704$, $5000+40+3=5043$։</p>
+  </div>
+
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>Ո՞ր թիվն է $5000+40+3$-ը։</p>
+    <div class="step">Հազարավորներ՝ $5$, հարյուրավորներ՝ <b>չկան</b> → $0$, տասնավորներ՝ $4$, միավորներ՝ $3$</div>
+    <div class="answer">Պատասխան. $5043$</div>
+  </div>
+
+  <div class="think">Քանի՞ տասնավոր կա $60$-ում։ Քանի՞ միավոր։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> $5000+40+3$-ը գրել $543$, իսկ «4 տասնավոր 7 միավոր»-ը՝ $407$։</p>
+    <p><span class="k">Ինչու՞</span> Երեխան թվանշանները կողք կողքի է գրում՝ չհաշվելով կարգերը։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Համեմատիր թվանշանների քանակը. հազարավորներով թիվը 4 թվանշան ունի։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>Ձախից՝ ավագ կարգերը։</li>
+      <li>Դատարկ կարգ՝ $0$։</li>
+      <li>$47=40+7$։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Թղթադրամներով (10 և 1 դրամանոց) կամ տասնյակներով կապված փայտիկներով աշխատելը օգնում է տեսնել կարգային կազմությունը։
+  </div>
+</section>
+
+<section class="chapter" id="s2">
+  <div class="chapter-head"><span class="chapter-num">02</span><h2>Համեմատում և զույգ/կենտ թվեր</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">Ո՞րն է մեծ՝ 38-ը, թե՞ 41-ը։ Իսկ 7-ը, թե՞ 38-ը։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">Համեմատում ենք նախ տասնավորները. $3\lt4$, ուստի $38\lt41$։ Միանիշ $7$-ը տասնավոր չունի, ուստի փոքր է ցանկացած երկնիշից։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p>Երկնիշ թվերը համեմատում ենք <b>նախ տասնավորներով</b>, հավասարության դեպքում՝ միավորներով։</p>
+    <p>Թիվը <b class="term">զույգ</b> է, եթե վերջին թվանշանն է $0, 2, 4, 6, 8$, և <b class="term">կենտ</b>, եթե $1, 3, 5, 7, 9$։ Զույգությունը որոշում է <b>միայն վերջին</b> թվանշանը։</p>
+    <p>Կենտ $+$ կենտ $=$ զույգ, զույգ $\cdot$ ցանկացած $=$ զույգ։</p>
+  </div>
+
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>Դասավորիր աճման կարգով. $41;\ 38;\ 9;\ 52$։</p>
+    <div class="step">Միանիշ $9$-ը ամենափոքրն է</div>
+    <div class="step">Երկնիշներ՝ ըստ տասնավորների. $38, 41, 52$</div>
+    <div class="answer">Պատասխան. $9\lt38\lt41\lt52$</div>
+  </div>
+
+  <div class="think">Զո՞ւյգ է $354$-ը, թեև սկսվում է կենտ $3$-ով։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> $38\gt41$ («որովհետև $8\gt1$»), կամ $354$-ը համարել կենտ «քանի որ $3$-ով է սկսվում»։</p>
+    <p><span class="k">Ինչու՞</span> Երեխան նայում է ոչ այն թվանշանին։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Համեմատման համար՝ նախ տասնավորներ, զույգության համար՝ միայն վերջին թվանշանը։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>Համեմատում՝ ձախից (տասնավորներից)։</li>
+      <li>Զույգություն՝ վերջին թվանշանով։</li>
+      <li>$0$-ով ավարտվողը զույգ է։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Զույգ/կենտ թվերը լավ է ցույց տալ «զույգերով շարվելով». եթե բոլորը զույգ կազմեցին, թիվը զույգ է, եթե մեկը մնաց, կենտ է։
+  </div>
+</section>
+
+<section class="part-header">Մաս 2 / 3 — Գործողություններ</section>
+
+<section class="chapter" id="s3">
+  <div class="chapter-head"><span class="chapter-num">03</span><h2>Գումարում և հանում 100-ի սահմաններում</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">Խանութում 34 և 25 դրամանոց երկու ապրանք գնեցիր։ Որքա՞ն վճարեցիր։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">Տասնավորները՝ տասնավորներին ($30+20=50$), միավորները՝ միավորներին ($4+5=9$). $59$։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p><b>Առանց անցման.</b> տասնավորները գումարում/հանում ենք տասնավորներին, միավորները՝ միավորներին։</p>
+    <p><b>Գումարում անցումով.</b> եթե միավորների գումարը $10$ կամ ավելի է, $1$ տասնավորը <b>փոխանցվում է</b> տասնավորների կարգ. $38+5=43$։</p>
+    <p><b>Հանում անցումով.</b> եթե նվազելիի միավորները քիչ են, $1$ տասնավորը <b>տրոհվում է</b> $10$ միավորի. $42-5=37$։</p>
+  </div>
+
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>Հաշվիր. $47+26$ և $63-27$։</p>
+    <div class="step">$7+6=13$ → գրում ենք $3$, փոխանցում $1$. $4+2+1=7$ → $73$</div>
+    <div class="step">$3$-ից $7$ չի հանվում → $13-7=6$, տասնավորներ՝ $6-1-2=3$ → $36$</div>
+    <div class="answer">Պատասխան. $73$ և $36$</div>
+  </div>
+
+  <div class="think">Ինչո՞ւ $63-27$-ում չի կարելի ուղղակի հանել $7-3$։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> $47+26$-ը գրել $613$ կամ $63$, իսկ $63-27$-ը՝ $44$ (միավորներում փոքրը մեծից)։</p>
+    <p><span class="k">Ինչու՞</span> Երեխան չի հասկանում, որ «փոխանցված 1»-ը իրականում $10$ է։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Ստուգիր հակառակ գործողությամբ. $36+27=63$ ✔։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>Տասնավոր՝ տասնավորին, միավոր՝ միավորին։</li>
+      <li>$10$ միավոր → $1$ տասնավոր (փոխանցում)։</li>
+      <li>$1$ տասնավոր → $10$ միավոր (տրոհում)։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Փոխանցումն ու տրոհումը նախ ցույց տվեք իրերով (փայտիկներ, դրամ), և միայն հետո անցեք սյունակով գրառման։
+  </div>
+</section>
+
+<section class="chapter" id="s4">
+  <div class="chapter-head"><span class="chapter-num">04</span><h2>Սյունակով գումարում և հանում (բազմանիշ թվեր)</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">Ինչպե՞ս գումարել $1234$ և $56$ թվերը, որ չսխալվես։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">Գրում ենք միավորները միավորների տակ՝ աջից հավասարեցնելով։ Եթե $56$-ը գրենք ձախից, կստացվի $1234+5600$՝ բոլորովին այլ թիվ։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p>Սյունակով գրելիս <b>նույն կարգերը գրվում են իրար տակ</b>՝ աջից հավասարեցնելով։</p>
+    <p>Գործողությունը սկսում ենք <b>աջից</b>՝ միավորներից։</p>
+    <p>Զրոներով թվից հանելիս փոխառությունը անցնում է զրոների վրայով. $5002-348$-ում զրոները դառնում են $9$։</p>
+  </div>
+
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>Հաշվիր. $1234+56$ և $5002-348$։</p>
+    <div class="step">$1234+56$. միավորներ $4+6=10$, տասնավորներ $3+5+1=9$ → $1290$</div>
+    <div class="step">$5002-348$. փոխառությունը զրոների վրայով → $4654$</div>
+    <div class="answer">Պատասխան. $1290$ և $4654$</div>
+  </div>
+
+  <div class="think">Ինչպե՞ս ստուգել հանման պատասխանը։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> $1234+56$-ը գրել $6834$ (թվերը ձախից հավասարեցնելով) կամ փոխառելիս մոռանալ զրոները $9$ դարձնել։</p>
+    <p><span class="k">Ինչու՞</span> Երեխան սյունակը գրում է ինչպես սովորական տեքստ՝ ձախից։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Հանման պատասխանին գումարիր հանելին. պետք է ստացվի նվազելին։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>Կարգերը՝ իրար տակ։</li>
+      <li>Սկսում ենք աջից։</li>
+      <li>Ստուգում՝ հակառակ գործողությամբ։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Վանդակավոր թղթի վրա սյունակ գրելը (մեկ թվանշան՝ մեկ վանդակ) կանխում է կարգերի շեղումը։
+  </div>
+</section>
+
+<section class="chapter" id="s5">
+  <div class="chapter-head"><span class="chapter-num">05</span><h2>Փակագծեր, անհայտ բաղադրիչ, հարմար հաշվարկ</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">Ունեիր 70 դրամ, գնեցիր 30-ի և 10-ի ապրանք։ Քանի՞ դրամ մնաց։ Ինչպե՞ս գրել մեկ արտահայտությամբ։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">$70-(30+10)=70-40=30$։ Փակագիծն ասում է. «նախ գումարիր գնածը»։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p>Փակագծերով արտահայտության մեջ <b>նախ կատարվում է փակագծի գործողությունը</b>, առանց փակագծերի՝ ձախից աջ. $50-20+10=40$։</p>
+    <p>Անհայտ գումարելի $=$ գումար $-$ գումարելի; անհայտ նվազելի $=$ տարբերություն $+$ հանելի; անհայտ հանելի $=$ նվազելի $-$ տարբերություն։</p>
+    <p>Գումարից թիվ հանելիս կարելի է այն հանել <b>մեկ</b> գումարելիից. $(47+36)-16=47+(36-16)$։</p>
+  </div>
+
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>Լուծիր. $x+18=45$, $x-24=36$, $70-x=25$։</p>
+    <div class="step">$x=45-18=27$</div>
+    <div class="step">$x=36+24=60$</div>
+    <div class="step">$x=70-25=45$</div>
+    <div class="answer">Պատասխան. $27$; $60$; $45$</div>
+  </div>
+
+  <div class="think">Ինչո՞ւ $(47+36)-16$-ում $16$-ը չի կարելի հանել երկու գումարելիից էլ։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> $x-24=36$-ում հանել ($x=12$) կամ $70-x=25$-ում գումարել ($x=95$)։</p>
+    <p><span class="k">Ինչու՞</span> Երեխան կիրառում է հավասարման նշանը՝ առանց մտածելու բաղադրիչի անվան մասին։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Տեղադրիր պատասխանը. $12-24$-ը $36$ չէ։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>Նախ՝ փակագիծը։</li>
+      <li>Անհայտ բաղադրիչ՝ ըստ իր անվան։</li>
+      <li>Հանելին՝ միայն մեկ գումարելիից։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Անհայտ բաղադրիչները լավ է ներկայացնել հատվածներով. «ամբողջ» և «մասեր» մոդելը ցույց է տալիս, թե երբ պետք է գումարել, երբ՝ հանել։
+  </div>
+</section>
+
+<section class="part-header">Մաս 3 / 3 — Կյանքում</section>
+
+<section class="chapter" id="s6">
+  <div class="chapter-head"><span class="chapter-num">06</span><h2>Ժամանակ և դրամ</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">Դասը սկսվեց 9:45-ին և տևեց 45 րոպե։ Ժամը քանիսի՞ն ավարտվեց։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">$45+45=90$ րոպե, իսկ $1$ ժամը $60$ րոպե է։ $90=60+30$, ուստի $10{:}30$։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p>$1$ ժամ $=60$ րոպե, $1$ օր $=24$ ժամ, $1$ շաբաթ $=7$ օր։</p>
+    <p>Րոպեները գումարելիս, եթե ստացվում է $60$ կամ ավելի, $60$ րոպեն <b>փոխարինում ենք 1 ժամով</b>։</p>
+    <p>Դրամային խնդիրներում. մանր $=$ վճարածը $-$ արժեքը։</p>
+  </div>
+
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>Գրադարանում կար $60$ գիրք։ Տարան $25$, բերեցին $18$։ Քանի՞ գիրք դարձավ։</p>
+    <div class="step">$60-25=35$</div>
+    <div class="step">$35+18=53$</div>
+    <div class="answer">Պատասխան. $53$ գիրք</div>
+  </div>
+
+  <div class="think">Քանի՞ րոպե է կես ժամը։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> $9{:}45+45$ րոպեն գրել $9{:}90$ կամ $10{:}90$։</p>
+    <p><span class="k">Ինչու՞</span> Երեխան ժամը հաշվում է 100 րոպե, ինչպես դրամում։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Հիշիր. րոպեների սլաքը 60 բաժանում ունի։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>$1$ ժամ $=60$ րոպե։</li>
+      <li>$60$ րոպեն → $1$ ժամ։</li>
+      <li>Երկքայլ խնդիր՝ քայլ առ քայլ։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Օգտագործեք իրական ժամացույց կամ ժամացույցի մոդել. «սլաքը պտտելը» օգնում է զգալ, թե ինչու $60$ րոպեից հետո ժամը փոխվում է։
+  </div>
+</section>
+
+<hr class="sep">
+
+<section class="tasks-section" id="tasks">
+  <h2>Առաջադրանքներ</h2>
+  <h3>Հաշվարկային առաջադրանքներ</h3>
+  <ol class="tasks">
+    <li>Գրիր թվով. «$4$ տասնավոր $7$ միավոր»։</li>
+    <li>Ո՞ր թվերն են. $700+4$; $5000+40+3$։</li>
+    <li>Դասավորիր աճման կարգով. $41;\ 38;\ 9;\ 52$։</li>
+    <li>Ո՞րն է զույգ. $35;\ 48;\ 51;\ 27$։</li>
+    <li>Հաշվիր. $34+25$; $76-43$։</li>
+    <li>Հաշվիր. $38+5$; $47+26$։</li>
+    <li>Հաշվիր. $42-5$; $63-27$։</li>
+    <li>Հաշվիր սյունակով. $1234+56$; $5002-348$։</li>
+    <li>Հաշվիր. $70-(30+10)$; $50-20+10$։</li>
+    <li>Լուծիր. $x+18=45$; $x-24=36$; $70-x=25$։</li>
+    <li>Հաշվիր հարմար եղանակով. $(47+36)-16$։</li>
+    <li>Դասը սկսվեց $9{:}45$-ին և տևեց $45$ րոպե։ Ե՞րբ ավարտվեց։</li>
+    <li>Գրադարանում $60$ գիրք կար, տարան $25$, բերեցին $18$։ Քանի՞ գիրք դարձավ։</li>
+  </ol>
+  <h3>Տրամաբանական և հայեցակարգային հարցեր</h3>
+  <ol class="tasks" start="14">
+    <li>Ինչո՞ւ $7\lt38$, թեև $7\gt3$։</li>
+    <li>Ինչո՞ւ սյունակում կարգերը պետք է գրել իրար տակ։</li>
+    <li>Ինչո՞ւ $0$-ով ավարտվող թիվը զույգ է։</li>
+  </ol>
+</section>
+
+<section class="tasks-section" id="answers">
+  <h2>Պատասխաններ</h2>
+  <h3>Հաշվարկային առաջադրանքների պատասխանները</h3>
+  <ol class="answers-list">
+    <li>$47$</li>
+    <li>$704$; $5043$</li>
+    <li>$9\lt38\lt41\lt52$</li>
+    <li>$48$</li>
+    <li>$59$; $33$</li>
+    <li>$43$; $73$</li>
+    <li>$37$; $36$</li>
+    <li>$1290$; $4654$</li>
+    <li>$30$; $40$</li>
+    <li>$27$; $60$; $45$</li>
+    <li>$47+(36-16)=47+20=67$</li>
+    <li>$10{:}30$</li>
+    <li>$53$</li>
+  </ol>
+  <h3>Տրամաբանական և հայեցակարգային հարցերի պատասխանները</h3>
+  <ol class="answers-list answers-list-conceptual" start="14">
+    <li>$7$-ը միանիշ է, իսկ $38$-ը ունի $3$ տասնավոր. երկնիշը մեծ է միանիշից</li>
+    <li>Գումարվում են միայն նույն կարգի միավորները՝ տասնավոր տասնավորին, միավոր միավորին</li>
+    <li>Վերջին թվանշանը՝ $0$, զույգ է, և այդպիսի թիվը բաժանվում է $2$-ի առանց մնացորդի</li>
+  </ol>
+</section>
+
+</main>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  renderMathInElement(document.body, {
+    delimiters: [
+      {left: "$$", right: "$$", display: true},
+      {left: "$", right: "$", display: false}
+    ],
+    strict: false
+  });
+});
+</script>
+</body>
+</html>

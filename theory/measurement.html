@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="hy">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Չափման միավորներ | Ուսումնական ուղեցույց</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<style>
+  :root{
+    --bg:#0f1f2e; --paper:#f6f8fb; --ink:#152233; --accent:#1e5f8c; --accent2:#c0562b;
+    --crust:#8fb3cc; --muted:#5b7188; --card:#ffffff; --line:#dde6ee;
+  }
+  *{box-sizing:border-box;}
+  html, body{overflow-x:hidden;}
+  body{margin:0; font-family:'Sylfaen','Arial',serif; background:var(--paper); color:var(--ink); font-size:18px; line-height:1.7;}
+  .hero{background:linear-gradient(135deg, var(--bg) 0%, #1c3b52 100%); color:#eaf2f8; padding:56px 24px 48px;}
+  .hero-inner{max-width:840px; margin:0 auto;}
+  h1.title{font-size:2.2rem; margin:0 0 10px; font-weight:bold; color:#fff;}
+  .hero p{color:#cfe0ec; max-width:620px; font-size:1.05rem;}
+  nav.toc{max-width:840px; margin:-26px auto 0; position:relative; z-index:3; background:var(--card); border-radius:10px; box-shadow:0 12px 30px rgba(15,31,46,.18); padding:22px 26px; border:1px solid var(--line);}
+  nav.toc h2{font-size:1.05rem; text-transform:uppercase; letter-spacing:.07em; color:var(--muted); margin:0 0 12px; font-weight:bold;}
+  nav.toc ol{margin:0; padding-left:20px; columns:2; column-gap:28px;}
+  nav.toc li{margin-bottom:8px; font-size:.98rem;}
+  nav.toc a{color:var(--accent); text-decoration:none; border-bottom:1px dotted var(--accent);}
+  main{max-width:840px; margin:40px auto 90px; padding:0 24px;}
+  section.part-header{margin:48px 0 20px; padding-bottom:8px; border-bottom:2px solid var(--crust); color:var(--muted); font-weight:bold; text-transform:uppercase; letter-spacing:.05em; font-size:.95rem;}
+  section.chapter{margin-bottom:56px;}
+  .chapter-head{display:flex; align-items:baseline; gap:14px; border-bottom:3px solid var(--accent2); padding-bottom:10px; margin-bottom:20px;}
+  .chapter-num{font-size:1.9rem; color:var(--accent); font-weight:bold;}
+  .chapter-head h2{margin:0; font-size:1.4rem; color:var(--ink); font-weight:bold;}
+
+  .block-title{font-weight:bold; color:var(--accent); font-size:1.02rem; margin:22px 0 8px; text-transform:uppercase; letter-spacing:.04em;}
+  .hook{background:#eef4f9; border-radius:10px; padding:16px 20px; margin:10px 0 18px; font-style:italic;}
+  .intuitive{padding:0 2px; margin-bottom:14px;}
+  .formal-def{background:#fff; border:1px solid var(--line); border-left:4px solid var(--accent); border-radius:0 10px 10px 0; padding:16px 20px; margin:14px 0;}
+  .formal-def b.term{color:var(--accent2);}
+
+  .visual-container.table-wrap{overflow-x:auto; width:100%; margin:18px 0; -webkit-overflow-scrolling:touch;}
+  table{border-collapse:collapse; width:100%;}
+  th,td{border:1px solid var(--line); padding:8px 12px; text-align:center; font-size:.98rem;}
+  th{background:#eaf1f7; font-weight:bold;}
+  svg{max-width:100%; height:auto; display:block; margin:0 auto;}
+
+  .formula-box{background:#fff8ee; border:1px solid #ecd9b6; border-radius:10px; padding:18px 22px; margin:16px 0;}
+  .formula-box .label{display:block; font-weight:bold; color:var(--accent2); margin-bottom:8px; text-transform:uppercase; font-size:.85rem; letter-spacing:.05em;}
+
+  .example-box{border-left:4px solid var(--accent); background:#fff; padding:16px 20px; margin:16px 0; border-radius:0 10px 10px 0; box-shadow:0 2px 8px rgba(15,31,46,.05);}
+  .example-box .tag{display:inline-block; font-size:.8rem; text-transform:uppercase; letter-spacing:.07em; color:#fff; background:var(--accent); padding:3px 10px; border-radius:20px; margin-bottom:8px; font-weight:bold;}
+  .example-box .step{margin:6px 0 6px 2px;}
+  .example-box .answer{margin-top:10px; padding:8px 14px; background:#eef4f9; border-radius:8px; border-left:3px solid var(--accent); font-weight:bold;}
+
+  .think{background:#f3ede0; border-left:4px solid var(--crust); border-radius:0 10px 10px 0; padding:12px 18px; margin:14px 0; font-style:italic; color:#4a3a1f;}
+
+  .error-box{background:#fdeeec; border:1px solid #f0c6bf; border-radius:10px; padding:16px 20px; margin:16px 0;}
+  .error-box h4{margin:0 0 8px; color:var(--accent2); font-size:1rem;}
+  .error-box .k{font-weight:bold; color:var(--accent2);}
+
+  .remember{background:#eef6ef; border:1px solid #cfe6d2; border-radius:10px; padding:14px 20px; margin:16px 0;}
+  .remember .label{font-weight:bold; color:#2f6b3a; text-transform:uppercase; font-size:.85rem; letter-spacing:.05em; display:block; margin-bottom:6px;}
+
+  .teacher-corner{background:#eaf1f7; border:1px dashed var(--crust); border-radius:10px; padding:16px 20px; margin:16px 0 28px;}
+  .teacher-corner .label{font-weight:bold; color:var(--accent); text-transform:uppercase; font-size:.85rem; letter-spacing:.05em; display:block; margin-bottom:6px;}
+
+  hr.sep{border:none; border-top:1px dashed var(--line); margin:36px 0;}
+
+  .tasks-section h2{color:var(--accent); border-bottom:3px solid var(--accent2); padding-bottom:8px;}
+  .tasks-section h3{color:var(--accent2); margin-top:26px;}
+  ol.tasks{padding-left:24px;}
+  ol.tasks li{margin-bottom:10px;}
+
+  .answers-section{background:#fff; padding:26px 28px; border-radius:10px; border:2px solid var(--accent); margin-top:44px;}
+  .answers-section h2{color:var(--accent); margin-top:0;}
+  .answers-section h3{color:var(--accent2); font-size:1rem; margin:22px 0 10px;}
+  .answers-list{columns:2; column-gap:36px; padding-left:20px; margin:0;}
+  .answers-list li{margin-bottom:9px; font-weight:bold;}
+  .answers-list-conceptual{columns:1; list-style-position:outside;}
+
+  @media (max-width:600px){
+    nav.toc ol{columns:1;}
+    .answers-list{columns:1;}
+    main{padding:0 14px;}
+  }
+
+  @media print {
+    body{background:#fff !important; color:#000 !important; font-size:12pt;}
+    .hero{padding:10px 0; background:none !important; color:#000 !important;}
+    h1.title{color:#000 !important;}
+    nav.toc{display:none !important;}
+    .formula-box, .example-box, .error-box, .visual-container, .table-wrap{page-break-inside:avoid !important; box-shadow:none !important; border:1px solid #ccc !important;}
+    .table-wrap, .visual-container{overflow-x:visible !important; white-space:pre-wrap !important; word-break:break-word !important;}
+    html, body{overflow-x:visible !important;}
+    .chapter{page-break-before:always;}
+    .chapter:first-of-type{page-break-before:auto;}
+    .answers-list{columns:3;}
+  }
+</style>
+
+<style id="tj-unified">
+  /* ԸՆԴՀԱՆՈՒՐ ՎԵՐԻՆ ՎԱՀԱՆԱԿ — նույնական բոլոր 19 ուղեցույցում։
+     Class-երը սկսվում են tj- նախածանցով, որ երբեք չբախվեն էջի
+     սեփական ոճերի հետ։ */
+  .tj-bar{background:#0f1f2e;color:#eaf2f8;font-family:'Sylfaen','Arial',serif;}
+  .tj-bar-in{max-width:840px;margin:0 auto;padding:10px 20px;display:flex;
+             align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+  .tj-back{color:#eaf2f8;text-decoration:none;font-weight:bold;font-size:.95rem;
+           border:1px solid rgba(234,242,248,.35);border-radius:8px;padding:5px 12px;}
+  .tj-back:hover{background:rgba(234,242,248,.12);}
+  .tj-grade{font-size:.85rem;color:#cfe0ec;letter-spacing:.03em;}
+  @media print{ .tj-bar{display:none;} }
+</style>
+</head>
+<body>
+<div class="tj-bar"><div class="tj-bar-in"><a class="tj-back" href="../index.html">← Տրենաժոր</a><span class="tj-grade">5 դասարան</span></div></div>
+
+
+<div class="hero">
+  <div class="hero-inner">
+    <h1 class="title">Չափման միավորներ</h1>
+    <p>Երկարության և մակերեսի միավորներից մինչև բեկյալ, շրջանագիծ, անկյուններ և ուղղանկյան մակերես։</p>
+  </div>
+</div>
+
+<nav class="toc">
+  <h2>Բովանդակություն</h2>
+  <ol>
+    <li><a href="#s1">Երկարության միավորներ</a></li>
+    <li><a href="#s2">Բեկյալ և բազմանկյուն</a></li>
+    <li><a href="#s3">Շրջանագիծ</a></li>
+    <li><a href="#s4">Անկյուն և անկյան չափում</a></li>
+    <li><a href="#s5">Ուղղանկյուն, քառակուսի, մակերես</a></li>
+    <li><a href="#s6">Մակերեսի միավորներ</a></li>
+    <li><a href="#tasks">Առաջադրանքներ</a></li>
+    <li><a href="#answers">Պատասխաններ</a></li>
+  </ol>
+</nav>
+
+<main>
+
+<section class="part-header">Մաս 1 / 2 — Երկարություն և պատկերներ</section>
+
+<section class="chapter" id="s1">
+  <div class="chapter-head"><span class="chapter-num">01</span><h2>Երկարության միավորներ</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">Եգիի հասակը $102$ սմ է։ Քանի՞ մետր և սանտիմետր է դա։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">$1$ մ-ում $100$ սմ կա։ $102$ սմ-ից $100$-ը կազմում է մեկ մետր, մնում է $2$ սմ. $1$ մ $2$ սմ։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p><b class="term">Մետրը</b> երկարության միջազգային միավորն է։ $1$ մ $=10$ դմ $=100$ սմ $=1000$ մմ, $1$ դմ $=10$ սմ, $1$ սմ $=10$ մմ, $1$ կմ $=1000$ մ։</p>
+    <p>Բաղադրյալ երկարությամբ ($2$ մ $15$ սմ) գործողություն կատարելուց առաջ այն վերածում ենք <b>մեկ միավորի</b>։</p>
+  </div>
+
+  <div class="block-title">Վիզուալ պատկեր</div>
+  <div class="visual-container table-wrap">
+    <table>
+      <tr><th>կմ</th><th>մ</th><th>դմ</th><th>սմ</th><th>մմ</th></tr>
+      <tr><td>$1$</td><td>$1000$</td><td>$10\,000$</td><td>$100\,000$</td><td>$1\,000\,000$</td></tr>
+      <tr><td></td><td>$1$</td><td>$10$</td><td>$100$</td><td>$1000$</td></tr>
+    </table>
+  </div>
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>Արտահայտիր միլիմետրով. $25$ սմ $7$ մմ։</p>
+    <div class="step">$25$ սմ $=250$ մմ</div>
+    <div class="step">$250+7=257$</div>
+    <div class="answer">Պատասխան. $257$ մմ</div>
+  </div>
+  <div class="example-box"><span class="tag">Օրինակ 2</span>
+    <p>Հաշվիր. $7$ կմ $-$ $50$ մ։</p>
+    <div class="step">$7$ կմ $=7000$ մ</div>
+    <div class="step">$7000-50=6950$</div>
+    <div class="answer">Պատասխան. $6950$ մ</div>
+  </div>
+
+  <div class="think">Ինչո՞ւ $2$ մ $5$ սմ-ը ոչ թե $25$ սմ է, այլ $205$ սմ։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> $1$ մ-ը համարել $10$ սմ, կամ $2$ մ $5$ սմ-ը գրել $25$ սմ։</p>
+    <p><span class="k">Ինչու՞</span> Աշակերտը թվերը «կպցնում» է իրար՝ չմտածելով, որ սանտիմետրերի համար նախատեսված է երկու կարգ։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Պատասխանը համեմատիր իրականության հետ. $2$ մետրանոց դուռը $25$ սմ չի կարող լինել։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>Նախ մեկ միավոր, հետո գործողություն։</li>
+      <li>$1$ մ $=100$ սմ, $1$ կմ $=1000$ մ։</li>
+      <li>Դատարկ կարգերը լրացնում ենք 0-ով։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Դասագիրքը մետրը կապում է 4-5 տարեկան երեխայի հասակի հետ։ Տուր աշակերտներին քանոն և խնդրիր չափել իրական առարկաներ, հետո գրել տարբեր միավորներով։
+  </div>
+</section>
+
+<section class="chapter" id="s2">
+  <div class="chapter-head"><span class="chapter-num">02</span><h2>Բեկյալ և բազմանկյուն</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">Դուբիի տան նկարում տանիքը և պատերը կազմված են հատվածներից, որոնք իրար են միացված ծայրերով։ Ինչպե՞ս հաշվել տան «եզրագծի» երկարությունը։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">Եզրագիծը հատվածների շղթա է։ Նրա երկարությունը ստանալու համար պարզապես գումարում ենք բոլոր հատվածները։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p><b class="term">Բեկյալը</b> հատվածների շղթա է, որտեղ ամեն հատվածի վերջը հաջորդի սկիզբն է։ Բեկյալի երկարությունը նրա հատվածների երկարությունների գումարն է։</p>
+    <p>Եթե առաջին և վերջին կետերը համընկնում են, բեկյալը <b class="term">փակ</b> է։ Ինքնահատում չունեցող փակ բեկյալը կոչվում է <b class="term">բազմանկյուն</b>, նրա հատվածները՝ <b>կողմեր</b>, ծայրակետերը՝ <b>գագաթներ</b>։</p>
+    <p>Բազմանկյան բոլոր կողմերի գումարը կոչվում է <b class="term">պարագիծ</b>։</p>
+  </div>
+
+  <div class="block-title">Կանոն</div>
+  <div class="formula-box"><span class="label">Գագաթներ և կողմեր</span>
+    Ոչ փակ բեկյալ՝ կողմեր $=$ գագաթներ $-1$։ Փակ բեկյալ՝ կողմեր $=$ գագաթներ։
+  </div>
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>$LKP$ եռանկյունում $LK=KP=12$ սմ $8$ մմ, $LP=210$ մմ։ Գտիր պարագիծը։</p>
+    <div class="step">$12$ սմ $8$ մմ $=128$ մմ</div>
+    <div class="step">$128+128+210=466$</div>
+    <div class="answer">Պատասխան. $466$ մմ</div>
+  </div>
+  <div class="example-box"><span class="tag">Օրինակ 2</span>
+    <p>$ABCDE$ բեկյալում $AB=14$ սմ, որը $2$ անգամ կարճ է $BC$-ից, $CD$-ն $12$ սմ-ով երկար է $BC$-ից և $5$ սմ-ով կարճ $DE$-ից։ Գտիր երկարությունը։</p>
+    <div class="step">$BC=28$, $CD=40$, $DE=45$</div>
+    <div class="step">$14+28+40+45=127$</div>
+    <div class="answer">Պատասխան. $127$ սմ</div>
+  </div>
+
+  <div class="think">Քանի՞ գագաթ ունի $4$ կողմ ունեցող ոչ փակ բեկյալը։ Իսկ փակը։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> Փակ բեկյալի կողմերը հաշվել «գագաթներ $-1$» բանաձևով կամ պարագիծ հաշվելիս մոռանալ հավասար կողմերից մեկը։</p>
+    <p><span class="k">Ինչու՞</span> Ոչ փակ բեկյալի կանոնը մեխանիկորեն տարածվում է փակի վրա։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Գծիր բեկյալը և հաշվիր մատով՝ կողմ առ կողմ։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>Բեկյալի երկարություն՝ բոլոր հատվածների գումար։</li>
+      <li>Փակ՝ կողմեր = գագաթներ։</li>
+      <li>Պարագիծը հաշվելիս՝ նույն միավորով։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Դասագիրքը տարբերակում է ինքնահատումով և պարզ բեկյալները։ Խնդրիր աշակերտներին գծել երկու տեսակն էլ և պատճառաբանել, թե ինչու միայն պարզ փակ բեկյալն է բազմանկյուն։
+  </div>
+</section>
+
+<section class="chapter" id="s3">
+  <div class="chapter-head"><span class="chapter-num">03</span><h2>Շրջանագիծ</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">Կարկինով շրջանագիծ գծելիս կարկինի բացվածքը չենք փոխում։ Ի՞նչ ընդհանուր բան ունեն շրջանագծի բոլոր կետերը։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">Բոլոր կետերը կենտրոնից <b>նույն հեռավորության</b> վրա են՝ կարկինի բացվածքի չափով։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p><b class="term">Շրջանագիծը</b> կենտրոնից միևնույն հեռավորության վրա գտնվող կետերի բազմությունն է։ Այդ հեռավորությունը <b class="term">շառավիղն</b> է։</p>
+    <p>Շրջանագծի երկու կետը միացնող հատվածը <b class="term">լար</b> է։ Կենտրոնով անցնող լարը <b class="term">տրամագիծ</b> է և հավասար է երկու շառավղի։</p>
+    <p>Կենտրոնը <b>չի գտնվում</b> շրջանագծի վրա։ Շրջանագծով սահմանափակված մասը կոչվում է <b class="term">շրջան</b>։</p>
+  </div>
+
+  <div class="block-title">Կանոն</div>
+  <div class="formula-box"><span class="label">Տրամագիծ և շառավիղ</span>
+    $d=2r,\qquad r=d:2$
+  </div>
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>Շրջանագծի տրամագիծը $158$ սմ է։ Գտիր շառավիղը։</p>
+    <div class="step">$r=158:2$</div>
+    <div class="answer">Պատասխան. $79$ սմ</div>
+  </div>
+  <div class="example-box"><span class="tag">Օրինակ 2</span>
+    <p>$3$ սմ շառավղով շրջանագծի կենտրոնից $OA=5$ սմ, $OK=2$ սմ, $OE=3$ սմ։ Ո՞ր կետն է որտեղ։</p>
+    <div class="step">$5\gt3$ → $A$-ն դրսում է</div>
+    <div class="step">$2\lt3$ → $K$-ն ներսում է</div>
+    <div class="step">$3=3$ → $E$-ն շրջանագծի վրա է</div>
+    <div class="answer">Պատասխան. $A$ դրսում, $K$ ներսում, $E$ շրջանագծի վրա</div>
+  </div>
+
+  <div class="think">Արդյո՞ք տրամագիծը լար է։ Արդյո՞ք ամեն լար տրամագիծ է։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> Շառավիղն ու տրամագիծը շփոթել կամ կենտրոնը համարել շրջանագծի կետ։</p>
+    <p><span class="k">Ինչու՞</span> Երկու բառն էլ կապված են շրջանագծի «չափի» հետ, իսկ կենտրոնը նկարում միշտ գծված է։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Հիշիր. տրամագիծն ավելի երկար է (շրջանագծի մի ծայրից մյուսը), շառավիղը՝ կենտրոնից մինչև եզր։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>Բոլոր կետերը կենտրոնից նույն հեռավորության վրա են։</li>
+      <li>$d=2r$։</li>
+      <li>Կենտրոնը շրջանագծի վրա չէ։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Տարբերակիր «շրջանագիծ» (եզրագիծ, ինչպես մատանին) և «շրջան» (ամբողջ տարածքը, ինչպես մետաղադրամը)։ Իրական առարկաները լավ են օգնում։
+  </div>
+</section>
+
+<section class="part-header">Մաս 2 / 2 — Անկյուն և մակերես</section>
+
+<section class="chapter" id="s4">
+  <div class="chapter-head"><span class="chapter-num">04</span><h2>Անկյուն և անկյան չափում</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">Ժամը $15{:}00$-ին ժամացույցի սլաքները ինչպիսի՞ անկյուն են կազմում։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">Ժամացույցը բաժանված է 12 մասի, ամբողջ պտույտը $360^\circ$ է, ուստի մեկ ժամին համապատասխանում է $30^\circ$։ Ժամը 3-ին սլաքների միջև 3 մաս է՝ $90^\circ$, ուղիղ անկյուն։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p>Ընդհանուր սկզբնակետով երկու ճառագայթը կազմում է <b class="term">անկյուն</b>։ Ճառագայթները՝ կողմեր, սկզբնակետը՝ գագաթ։ Նշանակում՝ $\angle MAN$ (գագաթը՝ մեջտեղում)։</p>
+    <p>Չափման միավորը <b class="term">աստիճանն</b> է ($^\circ$)։ <b>Սուր</b>՝ $90^\circ$-ից փոքր, <b>ուղիղ</b>՝ $90^\circ$, <b>բութ</b>՝ $90^\circ$-ից մեծ և $180^\circ$-ից փոքր, <b>փռված</b>՝ $180^\circ$։</p>
+    <p>Անկյան մեծությունը <b>կախված չէ</b> կողմերի երկարությունից։</p>
+  </div>
+
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>$\angle AOB$ ուղիղ անկյունը $OC$ ճառագայթով բաժանված է երկու անկյան, $\angle AOC$-ն $50^\circ$-ով մեծ է $\angle COB$-ից։ Գտիր երկուսն էլ։</p>
+    <div class="step">Հավասարեցում՝ $90-50=40$</div>
+    <div class="step">$\angle COB=40:2=20^\circ$</div>
+    <div class="step">$\angle AOC=20+50=70^\circ$</div>
+    <div class="answer">Պատասխան. $70^\circ$ և $20^\circ$</div>
+  </div>
+
+  <div class="think">Ինչպիսի՞ անկյուն են կազմում սլաքները ժամը $6{:}00$-ին։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> $90^\circ$-ը համարել սուր կամ $180^\circ$-ը բութ, կամ փոխադրիչով չափելիս կարդալ սխալ սանդղակը։</p>
+    <p><span class="k">Ինչու՞</span> Սահմանային արժեքները ամենադժվարն են, իսկ փոխադրիչը երկու սանդղակ ունի։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Համեմատիր անկյունը թղթի անկյունի հետ (ուղիղ) և որոշիր՝ ավելի նե՞ղ է, թե՞ լայն։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>Սուր $\lt90^\circ$, ուղիղ $=90^\circ$, բութ՝ $90^\circ$-ից $180^\circ$, փռված $=180^\circ$։</li>
+      <li>Գագաթը նշանակման մեջտեղում է։</li>
+      <li>Կողմերի երկարությունը չի ազդում անկյան վրա։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Գծիր նույն անկյունը կարճ և երկար կողմերով և հարցրու՝ ո՞րն է մեծ։ Շատ աշակերտներ ընտրում են երկար կողմերով անկյունը. սա բացահայտում է թյուր ընկալումը։
+  </div>
+</section>
+
+<section class="chapter" id="s5">
+  <div class="chapter-head"><span class="chapter-num">05</span><h2>Ուղղանկյուն, քառակուսի, մակերես</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">Երկու սենյակի հատակը պետք է ներկել։ Ինչպե՞ս իմանալ, թե որի համար ավելի շատ ներկ կպահանջվի։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">Ներկը ծախսվում է <b>տարածքի</b> վրա, ոչ թե եզրագծի։ Եթե հատակը բաժանենք $1$ մ կողմով քառակուսիների, որքան շատ քառակուսի, այնքան շատ ներկ։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p><b class="term">Ուղղանկյունը</b> քառանկյուն է, որի բոլոր անկյունները ուղիղ են։ <b class="term">Քառակուսին</b> ուղղանկյուն է, որի բոլոր կողմերը հավասար են։</p>
+    <p>Պատկերի զբաղեցրած տարածքը կոչվում է <b class="term">մակերես</b>։ Ուղղանկյան մակերեսը հավասար է երկարության և լայնության արտադրյալին։</p>
+    <p><b>Հավասար պարագիծը չի նշանակում հավասար մակերես</b>։ $1\times9$ և $5\times5$ ուղղանկյուններն ունեն նույն պարագիծը ($20$), բայց տարբեր մակերես ($9$ և $25$)։</p>
+  </div>
+
+  <div class="block-title">Կանոն</div>
+  <div class="formula-box"><span class="label">Ուղղանկյուն $a\times b$</span>
+    Մակերես $S=a\cdot b$, պարագիծ $P=2\cdot(a+b)$
+  </div>
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>Գտիր ուղղանկյան մակերեսը, եթե կողմերն են $4$ դմ և $10$ սմ։</p>
+    <div class="step">Նույն միավոր՝ $4$ դմ $=40$ սմ</div>
+    <div class="step">$40\cdot10=400$</div>
+    <div class="answer">Պատասխան. $400$ սմ²</div>
+  </div>
+  <div class="example-box"><span class="tag">Օրինակ 2</span>
+    <p>Քառակուսու պարագիծը $32$ սմ է։ Գտիր մակերեսը։</p>
+    <div class="step">Կողմ՝ $32:4=8$ սմ</div>
+    <div class="step">$8\cdot8=64$</div>
+    <div class="answer">Պատասխան. $64$ սմ²</div>
+  </div>
+
+  <div class="think">Կա՞ ուղղանկյուն, որի մակերեսը և պարագիծը հավասար թվեր են։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> Պարագիծն ու մակերեսը շփոթել, կամ բազմապատկել տարբեր միավորներով կողմեր ($4$ դմ $\cdot10$ սմ $=40$)։</p>
+    <p><span class="k">Ինչու՞</span> Երկուսն էլ հաշվվում են նույն կողմերից, և աշակերտը հիշում է «ինչ-որ բանաձև»։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Հարցրու. պատասխանը <b>սմ</b> է (եզրագիծ), թե՞ <b>սմ²</b> (տարածք)։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>Մակերես՝ $a\cdot b$, պարագիծ՝ $2(a+b)$։</li>
+      <li>Նախ նույն միավոր, հետո բազմապատկում։</li>
+      <li>Հավասար պարագիծ ≠ հավասար մակերես։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Վարժ. 376-ը ուղղակիորեն ստուգում է «հավասար պարագիծ ↔ հավասար մակերես» թյուր ընկալումը։ Տուր աշակերտներին 20 սմ լար և խնդրիր կազմել տարբեր ուղղանկյուններ՝ համեմատելով մակերեսները։
+  </div>
+</section>
+
+<section class="chapter" id="s6">
+  <div class="chapter-head"><span class="chapter-num">06</span><h2>Մակերեսի միավորներ</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">Ֆուտբոլի դաշտը $105$ մ $\times$ $68$ մ է։ Յուրաքանչյուր մ²-ին պետք է $25$ գ սերմ։ Որքա՞ն սերմ է պետք։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">Մակերես՝ $105\cdot68=7140$ մ²։ Սերմ՝ $7140\cdot25=178\,500$ գ, այսինքն՝ $178$ կգ $500$ գ։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p>Մակերեսի միավորները քառակուսիներ են՝ մմ², սմ², դմ², մ², կմ²։ Քանի որ $1$ մ $=10$ դմ, $1$ մ² քառակուսին պարունակում է $10\cdot10=100$ դմ²։</p>
+    <p><b class="term">Ար</b>՝ $10$ մ կողմով քառակուսի՝ $100$ մ²։ <b class="term">Հեկտար</b>՝ $100$ մ կողմով քառակուսի՝ $10\,000$ մ²։</p>
+  </div>
+
+  <div class="block-title">Կանոն</div>
+  <div class="formula-box"><span class="label">Փոխարկում</span>
+    Եթե երկարության գործակիցը $k$ է, մակերեսինը $k\cdot k$ է. $1$ մ² $=100$ դմ² $=10\,000$ սմ²
+  </div>
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>Արտահայտիր մ²-ով. $3$ հա։</p>
+    <div class="step">$1$ հա $=100\cdot100=10\,000$ մ²</div>
+    <div class="answer">Պատասխան. $30\,000$ մ²</div>
+  </div>
+
+  <div class="think">Քանի՞ սմ² է $1$ դմ²-ը։ Ինչո՞ւ ոչ $10$։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> $1$ մ²-ն համարել $100$ սմ² (երկարության գործակիցը չբարձրացնել քառակուսի)։</p>
+    <p><span class="k">Ինչու՞</span> Աշակերտը հիշում է «$1$ մ $=100$ սմ» և նույն թիվը կիրառում մակերեսի համար։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Գծիր $1$ դմ կողմով քառակուսի վանդակավոր թղթի վրա և հաշվիր սմ² վանդակները. $100$ է, ոչ $10$։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>Մակերեսի գործակիցը՝ երկարության գործակցի քառակուսին։</li>
+      <li>$1$ ար $=100$ մ², $1$ հա $=10\,000$ մ²։</li>
+      <li>Միավորը միշտ գրիր «²»-ով։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Վանդակավոր թղթի վրա «$1$ դմ² = քանի՞ սմ²» հարցը աշակերտներին թույլ է տալիս ինքնուրույն հայտնաբերել քառակուսի գործակիցը։ Սա կանխում է գլխի ամենատարածված սխալը։
+  </div>
+</section>
+
+<hr class="sep">
+
+<section class="tasks-section" id="tasks">
+  <h2>Առաջադրանքներ</h2>
+  <h3>Հաշվարկային առաջադրանքներ</h3>
+  <ol class="tasks">
+    <li>Եգին $102$ սմ է։ Քանի՞ մետր և սանտիմետր է դա։</li>
+    <li>Քանի՞ միլիմետր է $3$ դմ-ը։</li>
+    <li>Արտահայտիր մմ-ով. $25$ սմ $7$ մմ; $1$ դմ $1$ սմ $1$ մմ։</li>
+    <li>Հաշվիր. $3$ մ $4$ դմ $+$ $12$ մ $17$ դմ (պատասխանը դմ-ով); $7$ կմ $-$ $50$ մ։</li>
+    <li>Քանի՞ կողմ ունի $3$ գագաթ ունեցող ոչ փակ բեկյալը։ Քանի՞ գագաթ ունի $4$ կողմ ունեցող ոչ փակ բեկյալը։</li>
+    <li>$LKP$ եռանկյունում $LK=KP=12$ սմ $8$ մմ, $LP=210$ մմ։ Գտիր պարագիծը։</li>
+    <li>$ABCDE$ բեկյալում $AB=14$ սմ ($2$ անգամ կարճ $BC$-ից), $CD$-ն $12$ սմ-ով երկար է $BC$-ից և $5$ սմ-ով կարճ $DE$-ից։ Գտիր բեկյալի երկարությունը։</li>
+    <li>Շառավիղը $24$ սմ է. գտիր տրամագիծը։ Տրամագիծը $158$ սմ է. գտիր շառավիղը։</li>
+    <li>Որոշիր անկյան տեսակը. $92^\circ$, $180^\circ$, $90^\circ$։</li>
+    <li>$\angle AOB$ ուղիղ անկյունը $OC$-ով բաժանված է երկու մասի, $\angle AOC$-ն $50^\circ$-ով մեծ է։ Գտիր երկու անկյունները։</li>
+    <li>Ի՞նչ անկյուն են կազմում ժամացույցի սլաքները $15{:}00$-ին։</li>
+    <li>Գտիր $8$ սմ կողմով քառակուսու մակերեսը։</li>
+    <li>Գտիր ուղղանկյան մակերեսը. $3$ մ և $18$ մ; $4$ դմ և $10$ սմ։</li>
+    <li>Ֆուտբոլի դաշտը $105$ մ $\times$ $68$ մ է, $1$ մ²-ին $25$ գ սերմ։ Որքա՞ն սերմ է պետք։</li>
+    <li>Արտահայտիր մ²-ով. $1$ հա; $3$ ար։</li>
+  </ol>
+  <h3>Տրամաբանական և հայեցակարգային հարցեր</h3>
+  <ol class="tasks" start="16">
+    <li>Արդյո՞ք շրջանագծի տրամագիծը լար է։</li>
+    <li>Կարո՞ղ են երկու ուղղանկյուն ունենալ հավասար պարագիծ, բայց տարբեր մակերես։ Բեր օրինակ։</li>
+    <li>Ինչո՞ւ $1$ մ² $=10\,000$ սմ², թեև $1$ մ $=100$ սմ։</li>
+    <li>Կախվա՞ծ է անկյան մեծությունը նրա կողմերի երկարությունից։</li>
+  </ol>
+</section>
+
+<section class="tasks-section" id="answers">
+  <h2>Պատասխաններ</h2>
+  <h3>Հաշվարկային առաջադրանքների պատասխանները</h3>
+  <ol class="answers-list">
+    <li>$1$ մ $2$ սմ</li>
+    <li>$300$ մմ</li>
+    <li>$257$ մմ; $111$ մմ</li>
+    <li>$171$ դմ ($17$ մ $1$ դմ); $6950$ մ</li>
+    <li>$2$ կողմ; $5$ գագաթ</li>
+    <li>$128+128+210=466$ մմ</li>
+    <li>$14+28+40+45=127$ սմ</li>
+    <li>$48$ սմ; $79$ սմ</li>
+    <li>բութ, փռված, ուղիղ</li>
+    <li>$70^\circ$ և $20^\circ$</li>
+    <li>$90^\circ$ (ուղիղ)</li>
+    <li>$64$ սմ²</li>
+    <li>$54$ մ²; $400$ սմ²</li>
+    <li>$7140\cdot25=178\,500$ գ $=178$ կգ $500$ գ</li>
+    <li>$10\,000$ մ²; $300$ մ²</li>
+  </ol>
+  <h3>Տրամաբանական և հայեցակարգային հարցերի պատասխանները</h3>
+  <ol class="answers-list answers-list-conceptual" start="16">
+    <li>Այո, տրամագիծը կենտրոնով անցնող լար է</li>
+    <li>Այո, օր. $1\times9$ և $5\times5$՝ պարագիծ $20$, մակերես $9$ և $25$</li>
+    <li>$1$ մ² քառակուսին ունի $100$ շարք՝ ամեն մեկում $100$ սմ², ընդամենը $100\cdot100$</li>
+    <li>Ոչ, անկյունը որոշվում է ճառագայթների բացվածքով</li>
+  </ol>
+</section>
+
+</main>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  renderMathInElement(document.body, {
+    delimiters: [
+      {left: "$$", right: "$$", display: true},
+      {left: "$", right: "$", display: false}
+    ],
+    strict: false
+  });
+});
+</script>
+</body>
+</html>

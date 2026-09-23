@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="hy">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Բնական թվեր և գործողություններ | Ուսումնական ուղեցույց</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<style>
+  :root{
+    --bg:#0f1f2e; --paper:#f6f8fb; --ink:#152233; --accent:#1e5f8c; --accent2:#c0562b;
+    --crust:#8fb3cc; --muted:#5b7188; --card:#ffffff; --line:#dde6ee;
+  }
+  *{box-sizing:border-box;}
+  html, body{overflow-x:hidden;}
+  body{margin:0; font-family:'Sylfaen','Arial',serif; background:var(--paper); color:var(--ink); font-size:18px; line-height:1.7;}
+  .hero{background:linear-gradient(135deg, var(--bg) 0%, #1c3b52 100%); color:#eaf2f8; padding:56px 24px 48px;}
+  .hero-inner{max-width:840px; margin:0 auto;}
+  h1.title{font-size:2.2rem; margin:0 0 10px; font-weight:bold; color:#fff;}
+  .hero p{color:#cfe0ec; max-width:620px; font-size:1.05rem;}
+  nav.toc{max-width:840px; margin:-26px auto 0; position:relative; z-index:3; background:var(--card); border-radius:10px; box-shadow:0 12px 30px rgba(15,31,46,.18); padding:22px 26px; border:1px solid var(--line);}
+  nav.toc h2{font-size:1.05rem; text-transform:uppercase; letter-spacing:.07em; color:var(--muted); margin:0 0 12px; font-weight:bold;}
+  nav.toc ol{margin:0; padding-left:20px; columns:2; column-gap:28px;}
+  nav.toc li{margin-bottom:8px; font-size:.98rem;}
+  nav.toc a{color:var(--accent); text-decoration:none; border-bottom:1px dotted var(--accent);}
+  main{max-width:840px; margin:40px auto 90px; padding:0 24px;}
+  section.part-header{margin:48px 0 20px; padding-bottom:8px; border-bottom:2px solid var(--crust); color:var(--muted); font-weight:bold; text-transform:uppercase; letter-spacing:.05em; font-size:.95rem;}
+  section.chapter{margin-bottom:56px;}
+  .chapter-head{display:flex; align-items:baseline; gap:14px; border-bottom:3px solid var(--accent2); padding-bottom:10px; margin-bottom:20px;}
+  .chapter-num{font-size:1.9rem; color:var(--accent); font-weight:bold;}
+  .chapter-head h2{margin:0; font-size:1.4rem; color:var(--ink); font-weight:bold;}
+
+  .block-title{font-weight:bold; color:var(--accent); font-size:1.02rem; margin:22px 0 8px; text-transform:uppercase; letter-spacing:.04em;}
+  .hook{background:#eef4f9; border-radius:10px; padding:16px 20px; margin:10px 0 18px; font-style:italic;}
+  .intuitive{padding:0 2px; margin-bottom:14px;}
+  .formal-def{background:#fff; border:1px solid var(--line); border-left:4px solid var(--accent); border-radius:0 10px 10px 0; padding:16px 20px; margin:14px 0;}
+  .formal-def b.term{color:var(--accent2);}
+
+  .visual-container.table-wrap{overflow-x:auto; width:100%; margin:18px 0; -webkit-overflow-scrolling:touch;}
+  table{border-collapse:collapse; width:100%;}
+  th,td{border:1px solid var(--line); padding:8px 12px; text-align:center; font-size:.98rem;}
+  th{background:#eaf1f7; font-weight:bold;}
+  svg{max-width:100%; height:auto; display:block; margin:0 auto;}
+
+  .formula-box{background:#fff8ee; border:1px solid #ecd9b6; border-radius:10px; padding:18px 22px; margin:16px 0;}
+  .formula-box .label{display:block; font-weight:bold; color:var(--accent2); margin-bottom:8px; text-transform:uppercase; font-size:.85rem; letter-spacing:.05em;}
+
+  .example-box{border-left:4px solid var(--accent); background:#fff; padding:16px 20px; margin:16px 0; border-radius:0 10px 10px 0; box-shadow:0 2px 8px rgba(15,31,46,.05);}
+  .example-box .tag{display:inline-block; font-size:.8rem; text-transform:uppercase; letter-spacing:.07em; color:#fff; background:var(--accent); padding:3px 10px; border-radius:20px; margin-bottom:8px; font-weight:bold;}
+  .example-box .step{margin:6px 0 6px 2px;}
+  .example-box .answer{margin-top:10px; padding:8px 14px; background:#eef4f9; border-radius:8px; border-left:3px solid var(--accent); font-weight:bold;}
+
+  .think{background:#f3ede0; border-left:4px solid var(--crust); border-radius:0 10px 10px 0; padding:12px 18px; margin:14px 0; font-style:italic; color:#4a3a1f;}
+
+  .error-box{background:#fdeeec; border:1px solid #f0c6bf; border-radius:10px; padding:16px 20px; margin:16px 0;}
+  .error-box h4{margin:0 0 8px; color:var(--accent2); font-size:1rem;}
+  .error-box .k{font-weight:bold; color:var(--accent2);}
+
+  .remember{background:#eef6ef; border:1px solid #cfe6d2; border-radius:10px; padding:14px 20px; margin:16px 0;}
+  .remember .label{font-weight:bold; color:#2f6b3a; text-transform:uppercase; font-size:.85rem; letter-spacing:.05em; display:block; margin-bottom:6px;}
+
+  .teacher-corner{background:#eaf1f7; border:1px dashed var(--crust); border-radius:10px; padding:16px 20px; margin:16px 0 28px;}
+  .teacher-corner .label{font-weight:bold; color:var(--accent); text-transform:uppercase; font-size:.85rem; letter-spacing:.05em; display:block; margin-bottom:6px;}
+
+  hr.sep{border:none; border-top:1px dashed var(--line); margin:36px 0;}
+
+  .tasks-section h2{color:var(--accent); border-bottom:3px solid var(--accent2); padding-bottom:8px;}
+  .tasks-section h3{color:var(--accent2); margin-top:26px;}
+  ol.tasks{padding-left:24px;}
+  ol.tasks li{margin-bottom:10px;}
+
+  .answers-section{background:#fff; padding:26px 28px; border-radius:10px; border:2px solid var(--accent); margin-top:44px;}
+  .answers-section h2{color:var(--accent); margin-top:0;}
+  .answers-section h3{color:var(--accent2); font-size:1rem; margin:22px 0 10px;}
+  .answers-list{columns:2; column-gap:36px; padding-left:20px; margin:0;}
+  .answers-list li{margin-bottom:9px; font-weight:bold;}
+  .answers-list-conceptual{columns:1; list-style-position:outside;}
+
+  @media (max-width:600px){
+    nav.toc ol{columns:1;}
+    .answers-list{columns:1;}
+    main{padding:0 14px;}
+  }
+
+  @media print {
+    body{background:#fff !important; color:#000 !important; font-size:12pt;}
+    .hero{padding:10px 0; background:none !important; color:#000 !important;}
+    h1.title{color:#000 !important;}
+    nav.toc{display:none !important;}
+    .formula-box, .example-box, .error-box, .visual-container, .table-wrap{page-break-inside:avoid !important; box-shadow:none !important; border:1px solid #ccc !important;}
+    .table-wrap, .visual-container{overflow-x:visible !important; white-space:pre-wrap !important; word-break:break-word !important;}
+    html, body{overflow-x:visible !important;}
+    .chapter{page-break-before:always;}
+    .chapter:first-of-type{page-break-before:auto;}
+    .answers-list{columns:3;}
+  }
+</style>
+
+<style id="tj-unified">
+  /* ԸՆԴՀԱՆՈՒՐ ՎԵՐԻՆ ՎԱՀԱՆԱԿ — նույնական բոլոր 19 ուղեցույցում։
+     Class-երը սկսվում են tj- նախածանցով, որ երբեք չբախվեն էջի
+     սեփական ոճերի հետ։ */
+  .tj-bar{background:#0f1f2e;color:#eaf2f8;font-family:'Sylfaen','Arial',serif;}
+  .tj-bar-in{max-width:840px;margin:0 auto;padding:10px 20px;display:flex;
+             align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+  .tj-back{color:#eaf2f8;text-decoration:none;font-weight:bold;font-size:.95rem;
+           border:1px solid rgba(234,242,248,.35);border-radius:8px;padding:5px 12px;}
+  .tj-back:hover{background:rgba(234,242,248,.12);}
+  .tj-grade{font-size:.85rem;color:#cfe0ec;letter-spacing:.03em;}
+  @media print{ .tj-bar{display:none;} }
+</style>
+</head>
+<body>
+<div class="tj-bar"><div class="tj-bar-in"><a class="tj-back" href="../index.html">← Տրենաժոր</a><span class="tj-grade">5 դասարան</span></div></div>
+
+
+<div class="hero">
+  <div class="hero-inner">
+    <h1 class="title">Բնական թվեր և գործողություններ</h1>
+    <p>Կարգերից ու դասերից մինչև գործողությունների օրենքները, սյունակով հաշվարկը և մնացորդով բաժանումը։</p>
+  </div>
+</div>
+
+<nav class="toc">
+  <h2>Բովանդակություն</h2>
+  <ol>
+    <li><a href="#s1">Բնական թվերի շարքը և համարակալումը</a></li>
+    <li><a href="#s2">Կարգեր և կարգային միավորներ</a></li>
+    <li><a href="#s3">Դասեր. թվերի ընթերցում և գրառում</a></li>
+    <li><a href="#s4">Բնական թվերի համեմատում</a></li>
+    <li><a href="#s5">Կոորդինատային ճառագայթ</a></li>
+    <li><a href="#s6">Գումարում և հանում</a></li>
+    <li><a href="#s7">Բազմապատկում և բաշխական օրենք</a></li>
+    <li><a href="#s8">Բաժանում և մնացորդով բաժանում</a></li>
+    <li><a href="#s9">Գործողությունների կարգը</a></li>
+    <li><a href="#tasks">Առաջադրանքներ</a></li>
+    <li><a href="#answers">Պատասխաններ</a></li>
+  </ol>
+</nav>
+
+<main>
+
+<!-- ============ ՄԱՍ 1/2 ============ -->
+<section class="part-header">Մաս 1 / 2 — Թվեր</section>
+
+<section class="chapter" id="s1">
+  <div class="chapter-head"><span class="chapter-num">01</span><h2>Բնական թվերի շարքը և համարակալումը</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">Փողոցի սկզբում կանգնած ես և նայում ես երկայնքով։ Ձախ կողմում շենքերի համարներն են $1, 3, 5, 7, \dots$, աջ կողմում՝ $2, 4, 6, 8, \dots$։ Քանի՞ շենք կա ձախ կողմում $7$-ից մինչև $15$ համարը՝ ներառյալ։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">Թվարկենք՝ $7, 9, 11, 13, 15$ — հինգ շենք։ Նկատիր՝ $15-7=8$, բայց շենքերը ո՛չ 8 են, ո՛չ էլ 4. քայլերը 4 են (ամեն քայլը՝ 2 համար), իսկ շենքերը՝ մեկով ավելի, քանի որ երկու ծայրն էլ հաշվում ենք։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p>Աճման կարգով և առանց բացթողումների գրված բոլոր բնական թվերը կազմում են <b class="term">բնական թվերի շարքը</b>՝ $1, 2, 3, 4, \dots$</p>
+    <p>Շարքում յուրաքանչյուր թվին հաջորդում է $1$-ով մեծ թիվ, ուստի <b>ամենամեծ բնական թիվ չկա</b>։ $1$-ը ամենափոքրն է և միակն է, որին ոչ մի բնական թիվ չի նախորդում։</p>
+    <p>$0$-ն կարող է ցույց տալ քանակ («տուփում 0 կոնֆետ կա»), բայց <b>բնական թիվ չէ</b> և համարակալման մեջ չի օգտագործվում։</p>
+  </div>
+
+  <div class="block-title">Կանոն</div>
+  <div class="formula-box"><span class="label">Քանի՞ թիվ կա միջակայքում</span>
+    $a$-ից $b$ բոլոր թվերը (ներառյալ)՝ $b-a+1$ հատ։<br>
+    Նույն զույգությամբ թվերը (կենտ կամ զույգ) $a$-ից $b$ (ներառյալ)՝ $(b-a):2+1$ հատ։
+  </div>
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>Փողոցի աջ կողմում քանի՞ շենք կա $12$-ից $40$ համարներով (ներառյալ)։</p>
+    <div class="step">Աջ կողմում զույգ համարներն են. $12, 14, \dots, 40$։</div>
+    <div class="step">Քայլերի քանակը՝ $(40-12):2=14$։</div>
+    <div class="answer">Պատասխան. $14+1=15$ շենք։</div>
+  </div>
+
+  <div class="think">Եթե փողոցում ամենամեծ համարով շենքը $71$-րդն է, ո՞ր կողմում են ավելի շատ շենքեր։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> «$7$-ից $15$ քանի՞ շենք» հարցին պատասխանել $8$ (տարբերությունը) կամ $9$ (բոլոր համարները՝ մոռանալով, որ մի կողմում միայն կենտերն են)։</p>
+    <p><span class="k">Ինչու՞</span> Տարբերությունը հաշվում է «քայլերը», ոչ թե «կանգառները», իսկ կենտ/զույգ բաժանումը հեշտ է մոռանալ։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Փոքր միջակայքի դեպքում պարզապես թվարկիր բոլոր համարները և հաշվիր։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>Բնական թվերի շարքն սկսվում է $1$-ով և վերջ չունի։</li>
+      <li>$0$-ն բնական թիվ չէ։</li>
+      <li>Ծայրերը ներառելիս՝ «քայլեր $+1$»։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Դասագիրքն սկսում է աշակերտների առօրյա փորձից (հասցեներ, էջեր, դասացուցակ)։ Նախքան կանոնը բացատրելը՝ հավաքիր աշակերտների պատասխանները գրատախտակին. «ծայրերը ներառե՞լ, թե՞ ոչ» վեճը ինքնին բացում է թեման։
+  </div>
+</section>
+
+<section class="chapter" id="s2">
+  <div class="chapter-head"><span class="chapter-num">02</span><h2>Կարգեր և կարգային միավորներ</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">Ինչպե՞ս ամենաքիչ թղթադրամով ու մետաղադրամով վճարել $7254$ դրամ, եթե կան $1000$, $100$, $10$ և $1$ դրամանոցներ։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">$7$ հատ հազարանոց, $2$ հատ հարյուրանոց, $5$ հատ տասնանոց և $4$ հատ մեկդրամանոց։ Թվի ամեն թվանշանը ցույց է տալիս, թե <b>քանի հատ</b> տվյալ «դրամանոցից» է պետք։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p>$1, 10, 100, 1000, \dots$ թվերը կոչվում են <b class="term">կարգային միավորներ</b>։ Դրանք տվյալ քանակությամբ թվանշան ունեցող ամենափոքր թվերն են (ամենափոքր եռանիշը՝ $100$)։</p>
+    <p>Թվանշանի դիրքը թվում կոչվում է <b class="term">կարգ</b>. աջից՝ միավորների, տասնավորների, հարյուրավորների, հազարավորների և այլն։ Ամենաձախ թվանշանի կարգը <b class="term">ավագ կարգն</b> է։</p>
+    <p>$7254=7\cdot1000+2\cdot100+5\cdot10+4$ գրառումը կոչվում է թվի ներկայացում <b class="term">կարգային գումարելիների գումարով</b>։</p>
+  </div>
+
+  <div class="block-title">Վիզուալ պատկեր</div>
+  <div class="visual-container table-wrap">
+    <table>
+      <tr><th>Կարգ</th><td>հազարավորներ</td><td>հարյուրավորներ</td><td>տասնավորներ</td><td>միավորներ</td></tr>
+      <tr><th>Թվանշան</th><td>$7$</td><td>$2$</td><td>$5$</td><td>$4$</td></tr>
+      <tr><th>Ներկայացնում է</th><td>$7000$</td><td>$200$</td><td>$50$</td><td>$4$</td></tr>
+    </table>
+  </div>
+
+  <div class="block-title">Կանոն</div>
+  <div class="formula-box"><span class="label">Թվանշանի արժեքը</span>
+    Թվանշանի ներկայացրած քանակ $=$ թվանշան $\times$ իր կարգի կարգային միավոր։<br>
+    Կարգերը հաշվում ենք <b>աջից</b>՝ միավորներից։
+  </div>
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>Ո՞ր թիվն է $2\cdot10\,000+5\cdot100+2$։</p>
+    <div class="step">Կարգերը՝ տ.հազ. $2$, հազ. <b>չկա</b>, հար. $5$, տաս. <b>չկա</b>, միավ. $2$։</div>
+    <div class="step">Բացակա կարգերում գրում ենք $0$։</div>
+    <div class="answer">Պատասխան. $20\,502$։</div>
+  </div>
+
+  <div class="think">Ո՞ր թվանշանն է ավելի շատ ներկայացնում $7254$-ում՝ $7$-ը, թե $5$-ը։ Իսկ $5700$-ում՝ $5$-ը, թե $7$-ը։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> $2\cdot10\,000+5\cdot100+2$-ը գրել $252$՝ դատարկ կարգերը չլրացնելով։ Կամ ասել, որ $7254$-ում $5$-ը ներկայացնում է «$5$»։</p>
+    <p><span class="k">Ինչու՞</span> Աշակերտը թվանշանը նույնացնում է իր արժեքի հետ և մոռանում է, որ դիրքն է որոշում քանակը։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Գրիր կարգերի աղյուսակը և ամեն սյունակում թվանշան դիր. դատարկ սյունակ չպետք է մնա։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>Կարգային միավորները՝ $1, 10, 100, 1000, \dots$</li>
+      <li>Թվանշանի արժեքը կախված է իր կարգից։</li>
+      <li>Դատարկ կարգում գրվում է $0$։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Դասագիրքը թեման բացում է հայկական դրամի օրինակով (դրամը ներդրվել է 1993-ին)։ «Կարգային միավոր» (թիվը՝ $100$) և «կարգ» (անվանումը՝ հարյուրավորներ) տերմինները երեխաները հաճախ շփոթում են. պահանջիր, որ պատասխանեն երկու ձևով էլ։
+  </div>
+</section>
+
+<section class="chapter" id="s3">
+  <div class="chapter-head"><span class="chapter-num">03</span><h2>Դասեր. թվերի ընթերցում և գրառում</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">Ինչպե՞ս կարդալ $5024000009$ թիվը։ Իսկ ինչպե՞ս թվանշաններով գրել «$56$ միլիոն $6$ հազար $98$»։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">Երկար թիվը բաժանում ենք երեքական խմբերի՝ <b>աջից</b>. $5\,024\,000\,009$։ Հիմա կարդում ենք խումբ առ խումբ. «հինգ միլիարդ քսանչորս միլիոն ինը»։ Հազարների խումբը $000$ է, ուստի այն չենք կարդում։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p>Երեք կարգից բաղկացած խումբը կոչվում է <b class="term">դաս</b>։ Աջից՝ միավորների դաս, հազարավորների դաս, միլիոնավորների դաս, միլիարդավորների դաս։ Ամենաձախ դասը՝ <b class="term">ավագ դասը</b>, կարող է ունենալ $3$-ից պակաս թվանշան։</p>
+    <p>Կարդում ենք ավագ դասից՝ ամեն դասի թվից հետո ասելով դասի անունը (միավորների դասի անունը չի ասվում)։ Ամբողջովին $0$-ներից կազմված դասը չի կարդացվում։</p>
+  </div>
+
+  <div class="block-title">Կանոն</div>
+  <div class="formula-box"><span class="label">Բառերից թվանշաններ</span>
+    Ամեն դաս (բացի ավագից) գրվում է <b>ուղիղ 3 թվանշանով</b>. $6$ հազար → $006$, $98$ → $098$։<br>
+    Չնշված դասի տեղում գրվում է $000$։
+  </div>
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>Գրիր թվանշաններով. «$5$ միլիարդ $4$ հազար $127$»։</p>
+    <div class="step">Միլիարդներ՝ $5$, միլիոններ՝ չկան → $000$, հազարներ՝ $4$ → $004$, միավորներ՝ $127$։</div>
+    <div class="answer">Պատասխան. $5\,000\,004\,127$։</div>
+  </div>
+
+  <div class="think">Քանի՞ թվանշան ունի այն թիվը, որ կարդացվում է «երեք միլիոն»։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> «$56$ միլիոն $6$ հազար $98$»-ը գրել $56\,698$ կամ $5\,669\,098$։</p>
+    <p><span class="k">Ինչու՞</span> Աշակերտը դասի ներսում բացակա կարգերը չի լրացնում $0$-ներով կամ ամբողջովին բաց է թողնում զրոյական դասը։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Հաշվիր թվանշանները. «միլիոն» պարունակող թիվը պետք է ունենա $7$-ից $9$ թվանշան։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>Դասերը բաժանում ենք աջից՝ երեքական։</li>
+      <li>Ամեն դաս (բացի ավագից)՝ ուղիղ 3 թվանշան։</li>
+      <li>Զրոյական դասը չի կարդացվում, բայց գրվում է։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Ուղեցույցի հնարքը. խնդրիր աշակերտին գրատախտակին գրել հեռախոսահամար և փորձել այն կարդալ որպես մեկ թիվ։ Անհարմարությունը ցույց է տալիս, թե ինչու ենք թիվը դասերի բաժանում։
+  </div>
+</section>
+
+<section class="chapter" id="s4">
+  <div class="chapter-head"><span class="chapter-num">04</span><h2>Բնական թվերի համեմատում</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">Գրքում փնտրում ես $87$-րդ էջը, բայց բացվում է $109$-րդը։ Ինչպե՞ս անմիջապես գիտես, որ պետք է թերթել դեպի սկիզբ։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">$109$-ը եռանիշ է, $87$-ը՝ երկնիշ, ուստի $109$-ը մեծ է։ Երբ թվանշանների քանակը հավասար է, համեմատում ենք ձախից՝ մինչև առաջին տարբեր թվանշանը։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p><b class="term">Կանոն 1.</b> Ավելի շատ թվանշան ունեցող թիվը մեծ է։</p>
+    <p><b class="term">Կանոն 2.</b> Թվանշանների հավասար քանակի դեպքում գտնում ենք <b>ամենաբարձր կարգը, որտեղ թվանշանները տարբեր են</b>. մեծ է այն թիվը, որի այդ թվանշանն ավելի մեծ է։</p>
+    <p>Գրառում՝ $6\lt15$, $24\gt3$ (նշանի նեղ կողմը միշտ փոքր թվի կողմում է)։</p>
+  </div>
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>Դասավորիր աճման կարգով. $76\,532;\ 177\,880;\ 76\,166$։</p>
+    <div class="step">$177\,880$-ն ունի 6 թվանշան, մյուսները՝ 5 → այն ամենամեծն է։</div>
+    <div class="step">$76\,532$ և $76\,166$. առաջին տարբեր թվանշանը ձախից երրորդն է. $5\gt1$։</div>
+    <div class="answer">Պատասխան. $76\,166\lt76\,532\lt177\,880$։</div>
+  </div>
+
+  <div class="think">Ինչո՞ւ ցանկացած քառանիշ թիվ մեծ է ցանկացած եռանիշից։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> Համեմատել միայն առաջին թվանշանները ($76\,532\gt177\,880$, «քանի որ $7\gt1$») կամ վերջին թվանշանները։</p>
+    <p><span class="k">Ինչու՞</span> Աշակերտը թվերը կարդում է ինչպես բառեր՝ տառ առ տառ, առանց նախապես երկարությունը համեմատելու։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Միշտ նախ հաշվիր թվանշանները. միայն հավասարության դեպքում անցիր թվանշանների համեմատմանը։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>Նախ՝ թվանշանների քանակը։</li>
+      <li>Հետո՝ առաջին տարբեր կարգը ձախից։</li>
+      <li>Այդ կարգից աջ գտնվող թվանշանները այլևս նշանակություն չունեն։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Կապիր համեմատումը երեք պատկերի հետ. շարքում ավելի ուշ գրվածը մեծ է, ճառագայթի վրա ավելի աջ գտնվողը մեծ է, գրառման մեջ՝ Կանոն 1 և 2։ Երեքը նույն փաստի տարբեր դեմքերն են։
+  </div>
+</section>
+
+<section class="chapter" id="s5">
+  <div class="chapter-head"><span class="chapter-num">05</span><h2>Կոորդինատային ճառագայթ</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">Թռչկանը կանգնած է ճառագայթի $3$ կետում։ Նա ուզում է ցատկել $5$ միավոր։ Ո՞ր կետերում կարող է հայտնվել։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">Աջ՝ $3+5=8$։ Ձախ՝ պետք է անցներ $5$ միավոր, բայց մինչև $0$ ընդամենը $3$ միավոր կա, իսկ ճառագայթը $0$-ից ձախ չի շարունակվում։ Ուստի կա միայն մեկ կետ՝ $8$։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p>Ճառագայթ, որի սկզբում գրված է $0$, և հավասար հեռավորություններով նշված են $1, 2, 3, \dots$ կետերը, կոչվում է <b class="term">կոորդինատային ճառագայթ</b>։ Հարևան կետերի հեռավորությունը <b class="term">միավոր հատվածն</b> է։</p>
+    <p>$7$ թվին համապատասխանող կետը կոչվում է $7$ <b class="term">կոորդինատով</b> կետ. գրառում՝ $A(7)$։</p>
+    <p><b>Ճառագայթն ունի միայն մեկ ծայրակետ</b>՝ $0$-ն, իսկ հատվածն ունի երկու ծայրակետ։</p>
+  </div>
+
+  <div class="block-title">Կանոն</div>
+  <div class="formula-box"><span class="label">Կետեր $A(x)$-ից $d$ հեռավորության վրա</span>
+    Աջ՝ $x+d$ (միշտ կա)։ Ձախ՝ $x-d$, <b>միայն եթե</b> $x\ge d$։
+  </div>
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>Գտիր այն կետերը, որոնք $A(8)$-ից $6$ միավոր հեռու են։</p>
+    <div class="step">Աջ՝ $8+6=14$։ Ձախ՝ $8-6=2$ ($8\ge6$, ուստի կետը ճառագայթի վրա է)։</div>
+    <div class="answer">Պատասխան. $2$ և $14$։</div>
+  </div>
+
+  <div class="think">$AB=12$ սմ, $M$ կետը գտնվում է $AB$-ի վրա այնպես, որ $AM=MB$։ Որքա՞ն է $AM$-ը։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> $A(3)$-ից $5$ միավոր հեռու կետեր փնտրելիս գրել «$2$ և $8$»՝ հանումը շրջելով ($5-3=2$)։</p>
+    <p><span class="k">Ինչու՞</span> Աշակերտը մոռանում է, որ ճառագայթը սկսվում է $0$-ից, և «հարմարեցնում» է հանումը։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Հաշվիր ստացված կետի հեռավորությունը $A$-ից. $3$-ից $2$-ը ընդամենը $1$ միավոր է, ոչ թե $5$։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>$A(7)$. $A$-ն անունն է, $7$-ը՝ կոորդինատը։</li>
+      <li>Աջ շարժում՝ գումարում, ձախ շարժում՝ հանում։</li>
+      <li>$0$-ից ձախ ճառագայթ չկա։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Ճառագայթի մոդելը դասընթացի հենակետային պատկերն է. այն կօգտագործվի կոտորակների և 6-րդ դասարանում՝ բացասական թվերի համար։ Տուր վարժություններ տարբեր միավոր հատվածներով (1, 2, 3 վանդակ)։
+  </div>
+</section>
+
+<!-- ============ ՄԱՍ 2/2 ============ -->
+<section class="part-header">Մաս 2 / 2 — Գործողություններ</section>
+
+<section class="chapter" id="s6">
+  <div class="chapter-head"><span class="chapter-num">06</span><h2>Գումարում և հանում</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">Դուբին գիրքը կարդում է։ Գրքում $126$ էջ է, առաջին օրը կարդաց $24$ էջ, երկրորդ օրը՝ $35$։ Քանի՞ էջ մնաց։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">Կարելի է նախ գումարել կարդացածը ($24+35=59$) և հանել ամբողջից՝ $126-59=67$։ Կամ հաջորդաբար հանել՝ $126-24=102$, $102-35=67$։ Արդյունքը նույնն է։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p><b class="term">Տեղափոխական օրենք.</b> $a+b=b+a$։ <b class="term">Զուգորդական օրենք.</b> $(a+b)+c=a+(b+c)$։ Միասին թույլ են տալիս գումարելիները խմբավորել ամենահարմար ձևով։</p>
+    <p>$a-b=c$ արտահայտության մեջ $a$-ն <b class="term">նվազելին</b> է, $b$-ն՝ <b class="term">հանելին</b>, $c$-ն՝ <b class="term">տարբերությունը</b>։</p>
+    <p><b class="term">Երբ հանելին գումար է.</b> $a-(b+c)=a-b-c$։</p>
+    <p>Սյունակով հանելիս, երբ վերևի թվանշանը փոքր է, <b class="term">փոխառում ենք</b> 1 միավոր հարևան բարձր կարգից. այն տվյալ կարգում դառնում է $10$, իսկ հարևան կարգի թվանշանը փոքրանում է $1$-ով։</p>
+  </div>
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ 1</span>
+    <p>Հաշվիր հարմար եղանակով. $155+37+145+63$։</p>
+    <div class="step">$(155+145)+(37+63)=300+100$</div>
+    <div class="answer">Պատասխան. $400$։</div>
+  </div>
+  <div class="example-box"><span class="tag">Օրինակ 2</span>
+    <p>Հաշվիր. $462-259$։</p>
+    <div class="step">$462=400+50+12$. միավորներ՝ $12-9=3$։</div>
+    <div class="step">Տասնավորներ. $5$ տասնյակ մնաց (մեկը փոխառվեց), $5-5=0$։ Հարյուրավորներ՝ $4-2=2$։</div>
+    <div class="answer">Պատասխան. $203$ (ստուգում՝ $203+259=462$)։</div>
+  </div>
+
+  <div class="think">Ինչի՞ է հավասար տարբերությունը, եթե հանելին $0$ է։ Իսկ եթե հանելին հավասար է նվազելիին։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> (1) Սյունակով հանելիս փոխառությունից հետո հարևան կարգը չնվազեցնել։ (2) Յուրաքանչյուր սյունակում փոքրը հանել մեծից ($462-259$-ում $9-2=7$)։ (3) $a-(b+c)$-ն բացել $a-b+c$։</p>
+    <p><span class="k">Ինչու՞</span> Փոխառությունը ալգորիթմ է թվում, ոչ թե $462=400+50+12$ վերադասավորում։ Փակագծի դեպքում՝ նշանը փոխվում է միայն առաջին անդամի համար։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Հանման պատասխանին գումարիր հանելին. պետք է ստացվի նվազելին։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>Գումարելիները կարելի է տեղափոխել և խմբավորել։</li>
+      <li>Փոխառություն՝ «1 տասնյակ» դառնում է «10 միավոր»։</li>
+      <li>$a-(b+c)=a-b-c$. երկու գումարելին էլ հանվում են։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Դասագրքի Թռչկան կերպարը գումարումը ցույց է տալիս որպես աջ շարժում, հանումը՝ որպես ձախ։ Սյունակով գումարման ժամանակ պնդիր, որ «մտքում պահվող 1»-ը իրականում $10$ է (կամ $100$)՝ կախված կարգից. սա կանխում է մեխանիկական սխալները։
+  </div>
+</section>
+
+<section class="chapter" id="s7">
+  <div class="chapter-head"><span class="chapter-num">07</span><h2>Բազմապատկում և բաշխական օրենք</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">Խանութը ձուն վաճառում է $6$-հատանոց տուփերով։ Մի օրը վաճառվեց $8$ տուփ, մյուս օրը՝ $12$։ Քանի՞ ձու վաճառվեց երկու օրում։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">Առաջին եղանակ՝ $8\cdot6+12\cdot6=48+72=120$։ Երկրորդ՝ նախ տուփերը՝ $8+12=20$, հետո $20\cdot6=120$։ Երկրորդն ավելի արագ է. սա բաշխական օրենքն է։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p><b class="term">Տեղափոխական և զուգորդական օրենքներ.</b> $a\cdot b=b\cdot a$, $(a\cdot b)\cdot c=a\cdot(b\cdot c)$։ Նաև՝ $a\cdot1=a$, $a\cdot0=0$։</p>
+    <p><b class="term">Բաշխական օրենք.</b> $a\cdot(b+c)=a\cdot b+a\cdot c$, $a\cdot(b-c)=a\cdot b-a\cdot c$։ Հակառակ ուղղությամբ՝ <b>ընդհանուր արտադրիչի դուրսբերում</b>։</p>
+    <p>Սյունակով բազմապատկումը հենց բաշխական օրենքն է. $427\cdot32=427\cdot30+427\cdot2$։</p>
+  </div>
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ 1</span>
+    <p>Հաշվիր հարմար եղանակով. $34\cdot9$։</p>
+    <div class="step">$34\cdot9=34\cdot(10-1)=340-34$</div>
+    <div class="answer">Պատասխան. $306$։</div>
+  </div>
+  <div class="example-box"><span class="tag">Օրինակ 2</span>
+    <p>Հաշվիր. $139\cdot401$։</p>
+    <div class="step">$139\cdot401=139\cdot400+139\cdot1=55\,600+139$</div>
+    <div class="step">Սյունակում՝ երկրորդ տողը ($139\cdot4=556$) տեղաշարժվում է <b>երկու</b> կարգով, քանի որ տասնավորների կարգում $0$ է։</div>
+    <div class="answer">Պատասխան. $55\,739$։</div>
+  </div>
+
+  <div class="think">$16\cdot11$-ը ինչպե՞ս հաշվել մտքում՝ բաշխական օրենքով։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> (1) $a\cdot(b+c)=a\cdot b+c$՝ միայն մեկ գումարելին բազմապատկել։ (2) $139\cdot401$-ում $0$-ի կարգը բաց թողնել և հաշվել ինչպես $139\cdot41$։</p>
+    <p><span class="k">Ինչու՞</span> Փակագիծը «բացվում է» մեխանիկորեն, իսկ սյունակում $0$-ի տողը չի գրվում, և տեղաշարժը մոռացվում է։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Գնահատիր՝ $139\cdot401\approx140\cdot400=56\,000$։ Եթե ստացել ես մոտ $5700$, կարգ ես կորցրել։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>Բաշխական օրենքում փակագծի <b>յուրաքանչյուր</b> անդամը բազմապատկվում է։</li>
+      <li>Կարգային միավորով բազմապատկելիս աջից կցագրվում են զրոներ։</li>
+      <li>Սյունակում ամեն հաջորդ տողը տեղաշարժվում է իր կարգի չափով։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Թող աշակերտները ձվի խնդիրը նախ լուծեն երկու եղանակով, և միայն երբ երկու արտահայտությունն էլ գրատախտակին են, դրանք հավասարեցրու։ Հանման նկատմամբ բաշխական օրենքը թող իրենք ձևակերպեն։
+  </div>
+</section>
+
+<section class="chapter" id="s8">
+  <div class="chapter-head"><span class="chapter-num">08</span><h2>Բաժանում և մնացորդով բաժանում</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">Արտադրամասը պատրաստել է $4000$ տուփ անձեռոցիկ։ Մեկ արկղում տեղավորվում է $72$ տուփ։ Քանի՞ արկղ կլցվի լրիվ, և քանի՞ արկղ է պետք բոլոր տուփերի համար։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">$72\cdot55=3960$, իսկ $72\cdot56=4032$՝ արդեն շատ է։ Ուստի $55$ արկղ լրիվ է, և մնում է $40$ տուփ։ Դրանց համար պետք է ևս մեկ արկղ՝ ընդամենը $56$։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p>$a:b=c$ նշանակում է $b\cdot c=a$։ $a$-ն <b class="term">բաժանելին</b> է, $b$-ն՝ <b class="term">բաժանարարը</b>, $c$-ն՝ <b class="term">քանորդը</b>։</p>
+    <p><b class="term">Բաժանման հատկություններ.</b> $(a+b):c=a:c+b:c$, եթե <b>երկու</b> գումարելին էլ բաժանվում են $c$-ի; $(a\cdot b):c=(a:c)\cdot b$, եթե $a$-ն բաժանվում է $c$-ի (բաժանում ենք <b>միայն մեկ</b> արտադրիչը)։</p>
+    <p><b class="term">Մնացորդով բաժանում.</b> $a:b=q$ (մն. $r$), եթե $a=b\cdot q+r$ և $r\lt b$։ $q$-ն կոչվում է <b class="term">թերի քանորդ</b>, $r$-ը՝ <b class="term">մնացորդ</b>։</p>
+  </div>
+
+  <div class="block-title">Կանոն</div>
+  <div class="formula-box"><span class="label">Մնացորդով բաժանում</span>
+    $a=b\cdot q+r,\qquad 0\le r\lt b$
+  </div>
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ 1</span>
+    <p>Կատարիր մնացորդով բաժանում. $428:35$։</p>
+    <div class="step">$35\cdot12=420\le428$, $35\cdot13=455\gt428$ → $q=12$։</div>
+    <div class="step">$r=428-420=8$, և $8\lt35$ ✔</div>
+    <div class="answer">Պատասխան. $12$, մն. $8$։</div>
+  </div>
+  <div class="example-box"><span class="tag">Օրինակ 2</span>
+    <p>Հաշվիր հարմար եղանակով. $(36\cdot21):7$։</p>
+    <div class="step">$21$-ը բաժանվում է $7$-ի՝ $36\cdot(21:7)=36\cdot3$</div>
+    <div class="answer">Պատասխան. $108$։</div>
+  </div>
+
+  <div class="think">Կարո՞ղ է մնացորդը հավասար լինել բաժանարարին։ Ինչո՞ւ։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> (1) Մնացորդը թողնել բաժանարարից մեծ ($428:35=11$, մն. $43$)։ (2) Արկղերի խնդրում պատասխանել թերի քանորդով ($55$)՝ մոռանալով մնացած տուփերը։ (3) $(a\cdot b):c$-ում բաժանել երկու արտադրիչն էլ։</p>
+    <p><span class="k">Ինչու՞</span> Աշակերտը կանգ է առնում առաջին հարմար թվի վրա և չի մեկնաբանում մնացորդը խնդրի իմաստով։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Համոզվիր, որ $r\lt b$ և $b\cdot q+r=a$։ Խնդիրներում հարցրու. «Իսկ մնացածների հետ ի՞նչ ենք անում»։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>Մնացորդը միշտ փոքր է բաժանարարից։</li>
+      <li>Բաժանելի $=$ բաժանարար $\times$ թերի քանորդ $+$ մնացորդ։</li>
+      <li>«Քանի՞ արկղ է պետք»՝ մնացորդ կա → $+1$։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Ուղեցույցը խորհուրդ է տալիս օգտագործել նույն անձեռոցիկների խնդիրը, որ եղել է սովորական բաժանման դասին ($3600:72$), միայն թիվը փոխելով ($4000$)։ Այդպես աշակերտը տեսնում է, որ մնացորդը նոր գործողություն չէ, այլ նույն բաժանման շարունակությունը։
+  </div>
+</section>
+
+<section class="chapter" id="s9">
+  <div class="chapter-head"><span class="chapter-num">09</span><h2>Գործողությունների կարգը</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">Ունես $65$ դրամ։ Գնում ես $12$ կոնֆետ՝ $10$-ական դրամով, հետո քեզ $6$ դրամ զեղչ են անում։ Ինչպե՞ս գրել մեկ արտահայտությամբ, և ինչի՞ է այն հավասար։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">$65+12\cdot10-6$։ Եթե հաշվես ձախից աջ՝ $(65+12)\cdot10-6=764$, կստանաս անհեթեթ թիվ։ Կոնֆետների արժեքը ($12\cdot10$) պետք է հաշվել առաջինը։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p>Առանց փակագծերի արտահայտության մեջ <b>նախ կատարվում են բազմապատկումն ու բաժանումը</b> (ձախից աջ), հետո՝ գումարումն ու հանումը (ձախից աջ)։ Փակագծերում գրվածը կատարվում է ամենաառաջինը։</p>
+  </div>
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>Համեմատիր. $256+288:16-12$ և $(256+288):16-12$։</p>
+    <div class="step">Առաջին՝ $288:16=18$, $256+18-12=262$։</div>
+    <div class="step">Երկրորդ՝ $(256+288)=544$, $544:16=34$, $34-12=22$։</div>
+    <div class="answer">Պատասխան. $262$ և $22$ — փակագծերը փոխում են արդյունքը։</div>
+  </div>
+
+  <div class="think">Փակագծեր դիր $2+3\cdot4$ արտահայտության մեջ այնպես, որ արժեքը դառնա $20$։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> Բոլոր գործողությունները կատարել ձախից աջ, կամ գումարումն ու հանումը կատարել բազմապատկումից առաջ։</p>
+    <p><span class="k">Ինչու՞</span> Աշակերտը կարդում է արտահայտությունը ինչպես նախադասություն։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Հաշվելուց առաջ ընդգծիր բոլոր $\cdot$ և $:$ նշանները. դրանք կատարիր առաջինը։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>Փակագծեր → բազմապատկում/բաժանում → գումարում/հանում։</li>
+      <li>Նույն «աստիճանի» գործողությունները՝ ձախից աջ։</li>
+      <li>Հանման նշանը պատկանում է իրենից հետո եկող թվին։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Դասագրքի 231-րդ վարժության ոճով տուր նույն թվերը չորս տարբեր փակագծերով. աշակերտները ինքնուրույն կտեսնեն, որ փակագծերը «ուժեղ» գործիք են։ Հետո խնդրիր կազմել իրենց սեփական արտահայտությունը՝ տրված պատասխանով։
+  </div>
+</section>
+
+<hr class="sep">
+
+<!-- ============ ԱՌԱՋԱԴՐԱՆՔՆԵՐ ============ -->
+<section class="tasks-section" id="tasks">
+  <h2>Առաջադրանքներ</h2>
+
+  <h3>Հաշվարկային առաջադրանքներ</h3>
+  <ol class="tasks">
+    <li>Ո՞ր թիվն է նախորդում $1000$-ին։ Ո՞րն է հաջորդում $999$-ին։</li>
+    <li>Փողոցի աջ կողմում քանի՞ շենք կա $12$-ից $40$ համարներով (ներառյալ)։</li>
+    <li>Ի՞նչ թվանշան է գրված $970\,643$ թվի հազարավորների կարգում։</li>
+    <li>Քանի՞ միավոր է ներկայացնում $7$ թվանշանը $70\,501$ թվում։</li>
+    <li>Ներկայացրու կարգային գումարելիների գումարով. $4010$, $706\,004$։</li>
+    <li>Գրիր թվանշաններով. «$403$ հազար», «$56$ միլիոն $212$ հազար $98$», «$5$ միլիարդ $641$ միլիոն $4$ հազար $127$»։</li>
+    <li>Դասավորիր աճման կարգով. $427;\ 1024;\ 209;\ 451$։</li>
+    <li>Գտիր ճառագայթի այն կետերը, որոնք $A(8)$-ից $6$ միավոր հեռու են։ Իսկ $B(3)$-ից $5$ միավոր հեռու։</li>
+    <li>Հաշվիր հարմար եղանակով. $155+37+145+63$։</li>
+    <li>Հաշվիր սյունակով. $462-259$։</li>
+    <li>Հաշվիր հարմար եղանակով. $26\cdot4+26\cdot6$; $34\cdot9$։</li>
+    <li>Հաշվիր. $139\cdot401$։</li>
+    <li>Հաշվիր հարմար եղանակով. $(49+14+28):7$։</li>
+    <li>Հաշվիր հարմար եղանակով. $(36\cdot21):7$։</li>
+    <li>Կատարիր մնացորդով բաժանում. $428:35$։</li>
+    <li>Գտիր բաժանելին, եթե բաժանարարը $7$ է, թերի քանորդը՝ $9$, մնացորդը՝ $3$։</li>
+    <li>Ամառային արձակուրդը $96$ օր է։ Քանի՞ լրիվ շաբաթ և քանի՞ օր է դա։</li>
+    <li>Հաշվիր. $397-(97+50)$։</li>
+    <li>Գտիր արժեքները. $256+288:16-12$; $(256+288):(16-12)$; $256+288:(16-12)$։</li>
+    <li>Գնումը արժե $1450$ դրամ, վճարել են $2000$ դրամ։ Որքա՞ն մանր պետք է վերադարձնել։</li>
+  </ol>
+
+  <h3>Տրամաբանական և հայեցակարգային հարցեր</h3>
+  <ol class="tasks" start="21">
+    <li>Ինչո՞ւ բնական թվերի շարքում չկա ամենամեծ թիվ։</li>
+    <li>Ինչո՞ւ $0$-ն բնական թիվ չէ, թեև կարող է քանակ ցույց տալ։</li>
+    <li>Ինչո՞ւ ցանկացած քառանիշ թիվ մեծ է ցանկացած եռանիշից։</li>
+    <li>Ինչո՞ւ մնացորդը միշտ փոքր է բաժանարարից։</li>
+    <li>Օրինակով ցույց տուր, որ $a\cdot(b+c)$-ն, ընդհանուր առմամբ, հավասար չէ $a\cdot b+c$-ին։</li>
+  </ol>
+</section>
+
+<section class="tasks-section" id="answers">
+  <h2>Պատասխաններ</h2>
+  <h3>Հաշվարկային առաջադրանքների պատասխանները</h3>
+  <ol class="answers-list">
+    <li>$999$; $1000$</li>
+    <li>$(40-12):2+1=15$</li>
+    <li>$0$</li>
+    <li>$70\,000$</li>
+    <li>$4\cdot1000+1\cdot10$; $7\cdot100\,000+6\cdot1000+4$</li>
+    <li>$403\,000$; $56\,212\,098$; $5\,641\,004\,127$</li>
+    <li>$209\lt427\lt451\lt1024$</li>
+    <li>$2$ և $14$; միայն $8$</li>
+    <li>$400$</li>
+    <li>$203$</li>
+    <li>$260$; $306$</li>
+    <li>$55\,739$</li>
+    <li>$7+2+4=13$</li>
+    <li>$36\cdot3=108$</li>
+    <li>$12$, մն. $8$</li>
+    <li>$7\cdot9+3=66$</li>
+    <li>$13$ շաբաթ և $5$ օր ($13\cdot7=91$)</li>
+    <li>$397-97-50=250$</li>
+    <li>$262$; $136$; $328$</li>
+    <li>$550$ դրամ</li>
+  </ol>
+  <h3>Տրամաբանական և հայեցակարգային հարցերի պատասխանները</h3>
+  <ol class="answers-list answers-list-conceptual" start="21">
+    <li>Ցանկացած $n$ թվի համար $n+1$-ը նույնպես բնական է և ավելի մեծ</li>
+    <li>Բնական թվերով համարակալում ենք, իսկ համարակալումը սկսվում է $1$-ից. «զրոյական» առարկա չկա</li>
+    <li>Ամենափոքր քառանիշը $1000$ է, ամենամեծ եռանիշը՝ $999$</li>
+    <li>Եթե $r\ge b$, ապա մնացորդից կարելի էր ևս մեկ անգամ հանել $b$՝ քանորդը մեծացնելով</li>
+    <li>Օր. $2\cdot(3+4)=14$, իսկ $2\cdot3+4=10$</li>
+  </ol>
+</section>
+
+</main>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  renderMathInElement(document.body, {
+    delimiters: [
+      {left: "$$", right: "$$", display: true},
+      {left: "$", right: "$", display: false}
+    ],
+    strict: false
+  });
+});
+</script>
+</body>
+</html>

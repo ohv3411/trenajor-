@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="hy">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Մասերով և կշռումով խնդիրներ | Ուսումնական ուղեցույց</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<style>
+  :root{
+    --bg:#0f1f2e; --paper:#f6f8fb; --ink:#152233; --accent:#1e5f8c; --accent2:#c0562b;
+    --crust:#8fb3cc; --muted:#5b7188; --card:#ffffff; --line:#dde6ee;
+  }
+  *{box-sizing:border-box;}
+  html, body{overflow-x:hidden;}
+  body{margin:0; font-family:'Sylfaen','Arial',serif; background:var(--paper); color:var(--ink); font-size:18px; line-height:1.7;}
+  .hero{background:linear-gradient(135deg, var(--bg) 0%, #1c3b52 100%); color:#eaf2f8; padding:56px 24px 48px;}
+  .hero-inner{max-width:840px; margin:0 auto;}
+  h1.title{font-size:2.2rem; margin:0 0 10px; font-weight:bold; color:#fff;}
+  .hero p{color:#cfe0ec; max-width:620px; font-size:1.05rem;}
+  nav.toc{max-width:840px; margin:-26px auto 0; position:relative; z-index:3; background:var(--card); border-radius:10px; box-shadow:0 12px 30px rgba(15,31,46,.18); padding:22px 26px; border:1px solid var(--line);}
+  nav.toc h2{font-size:1.05rem; text-transform:uppercase; letter-spacing:.07em; color:var(--muted); margin:0 0 12px; font-weight:bold;}
+  nav.toc ol{margin:0; padding-left:20px; columns:2; column-gap:28px;}
+  nav.toc li{margin-bottom:8px; font-size:.98rem;}
+  nav.toc a{color:var(--accent); text-decoration:none; border-bottom:1px dotted var(--accent);}
+  main{max-width:840px; margin:40px auto 90px; padding:0 24px;}
+  section.part-header{margin:48px 0 20px; padding-bottom:8px; border-bottom:2px solid var(--crust); color:var(--muted); font-weight:bold; text-transform:uppercase; letter-spacing:.05em; font-size:.95rem;}
+  section.chapter{margin-bottom:56px;}
+  .chapter-head{display:flex; align-items:baseline; gap:14px; border-bottom:3px solid var(--accent2); padding-bottom:10px; margin-bottom:20px;}
+  .chapter-num{font-size:1.9rem; color:var(--accent); font-weight:bold;}
+  .chapter-head h2{margin:0; font-size:1.4rem; color:var(--ink); font-weight:bold;}
+
+  .block-title{font-weight:bold; color:var(--accent); font-size:1.02rem; margin:22px 0 8px; text-transform:uppercase; letter-spacing:.04em;}
+  .hook{background:#eef4f9; border-radius:10px; padding:16px 20px; margin:10px 0 18px; font-style:italic;}
+  .intuitive{padding:0 2px; margin-bottom:14px;}
+  .formal-def{background:#fff; border:1px solid var(--line); border-left:4px solid var(--accent); border-radius:0 10px 10px 0; padding:16px 20px; margin:14px 0;}
+  .formal-def b.term{color:var(--accent2);}
+
+  .visual-container.table-wrap{overflow-x:auto; width:100%; margin:18px 0; -webkit-overflow-scrolling:touch;}
+  table{border-collapse:collapse; width:100%;}
+  th,td{border:1px solid var(--line); padding:8px 12px; text-align:center; font-size:.98rem;}
+  th{background:#eaf1f7; font-weight:bold;}
+  svg{max-width:100%; height:auto; display:block; margin:0 auto;}
+
+  .formula-box{background:#fff8ee; border:1px solid #ecd9b6; border-radius:10px; padding:18px 22px; margin:16px 0;}
+  .formula-box .label{display:block; font-weight:bold; color:var(--accent2); margin-bottom:8px; text-transform:uppercase; font-size:.85rem; letter-spacing:.05em;}
+
+  .example-box{border-left:4px solid var(--accent); background:#fff; padding:16px 20px; margin:16px 0; border-radius:0 10px 10px 0; box-shadow:0 2px 8px rgba(15,31,46,.05);}
+  .example-box .tag{display:inline-block; font-size:.8rem; text-transform:uppercase; letter-spacing:.07em; color:#fff; background:var(--accent); padding:3px 10px; border-radius:20px; margin-bottom:8px; font-weight:bold;}
+  .example-box .step{margin:6px 0 6px 2px;}
+  .example-box .answer{margin-top:10px; padding:8px 14px; background:#eef4f9; border-radius:8px; border-left:3px solid var(--accent); font-weight:bold;}
+
+  .think{background:#f3ede0; border-left:4px solid var(--crust); border-radius:0 10px 10px 0; padding:12px 18px; margin:14px 0; font-style:italic; color:#4a3a1f;}
+
+  .error-box{background:#fdeeec; border:1px solid #f0c6bf; border-radius:10px; padding:16px 20px; margin:16px 0;}
+  .error-box h4{margin:0 0 8px; color:var(--accent2); font-size:1rem;}
+  .error-box .k{font-weight:bold; color:var(--accent2);}
+
+  .remember{background:#eef6ef; border:1px solid #cfe6d2; border-radius:10px; padding:14px 20px; margin:16px 0;}
+  .remember .label{font-weight:bold; color:#2f6b3a; text-transform:uppercase; font-size:.85rem; letter-spacing:.05em; display:block; margin-bottom:6px;}
+
+  .teacher-corner{background:#eaf1f7; border:1px dashed var(--crust); border-radius:10px; padding:16px 20px; margin:16px 0 28px;}
+  .teacher-corner .label{font-weight:bold; color:var(--accent); text-transform:uppercase; font-size:.85rem; letter-spacing:.05em; display:block; margin-bottom:6px;}
+
+  hr.sep{border:none; border-top:1px dashed var(--line); margin:36px 0;}
+
+  .tasks-section h2{color:var(--accent); border-bottom:3px solid var(--accent2); padding-bottom:8px;}
+  .tasks-section h3{color:var(--accent2); margin-top:26px;}
+  ol.tasks{padding-left:24px;}
+  ol.tasks li{margin-bottom:10px;}
+
+  .answers-section{background:#fff; padding:26px 28px; border-radius:10px; border:2px solid var(--accent); margin-top:44px;}
+  .answers-section h2{color:var(--accent); margin-top:0;}
+  .answers-section h3{color:var(--accent2); font-size:1rem; margin:22px 0 10px;}
+  .answers-list{columns:2; column-gap:36px; padding-left:20px; margin:0;}
+  .answers-list li{margin-bottom:9px; font-weight:bold;}
+  .answers-list-conceptual{columns:1; list-style-position:outside;}
+
+  @media (max-width:600px){
+    nav.toc ol{columns:1;}
+    .answers-list{columns:1;}
+    main{padding:0 14px;}
+  }
+
+  @media print {
+    body{background:#fff !important; color:#000 !important; font-size:12pt;}
+    .hero{padding:10px 0; background:none !important; color:#000 !important;}
+    h1.title{color:#000 !important;}
+    nav.toc{display:none !important;}
+    .formula-box, .example-box, .error-box, .visual-container, .table-wrap{page-break-inside:avoid !important; box-shadow:none !important; border:1px solid #ccc !important;}
+    .table-wrap, .visual-container{overflow-x:visible !important; white-space:pre-wrap !important; word-break:break-word !important;}
+    html, body{overflow-x:visible !important;}
+    .chapter{page-break-before:always;}
+    .chapter:first-of-type{page-break-before:auto;}
+    .answers-list{columns:3;}
+  }
+</style>
+
+<style id="tj-unified">
+  /* ԸՆԴՀԱՆՈՒՐ ՎԵՐԻՆ ՎԱՀԱՆԱԿ — նույնական բոլոր 19 ուղեցույցում։
+     Class-երը սկսվում են tj- նախածանցով, որ երբեք չբախվեն էջի
+     սեփական ոճերի հետ։ */
+  .tj-bar{background:#0f1f2e;color:#eaf2f8;font-family:'Sylfaen','Arial',serif;}
+  .tj-bar-in{max-width:840px;margin:0 auto;padding:10px 20px;display:flex;
+             align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+  .tj-back{color:#eaf2f8;text-decoration:none;font-weight:bold;font-size:.95rem;
+           border:1px solid rgba(234,242,248,.35);border-radius:8px;padding:5px 12px;}
+  .tj-back:hover{background:rgba(234,242,248,.12);}
+  .tj-grade{font-size:.85rem;color:#cfe0ec;letter-spacing:.03em;}
+  @media print{ .tj-bar{display:none;} }
+</style>
+</head>
+<body>
+<div class="tj-bar"><div class="tj-bar-in"><a class="tj-back" href="../index.html">← Տրենաժոր</a><span class="tj-grade">5 դասարան</span></div></div>
+
+
+<div class="hero">
+  <div class="hero-inner">
+    <h1 class="title">Մասերով և կշռումով խնդիրներ</h1>
+    <p>Հատվածներով համառոտագրից մինչև հավասարեցման և պատճենման սկզբունքները, շարժման խնդիրները և նժարավոր կշեռքը։</p>
+  </div>
+</div>
+
+<nav class="toc">
+  <h2>Բովանդակություն</h2>
+  <ol>
+    <li><a href="#s1">Հատվածներով համառոտագիր</a></li>
+    <li><a href="#s2">Հավասարեցման սկզբունքը</a></li>
+    <li><a href="#s3">Պատճենման սկզբունքը. «անգամ» և «-ով»</a></li>
+    <li><a href="#s4">Հատվածի կեսը</a></li>
+    <li><a href="#s5">Շարժման խնդիրներ, արագություն</a></li>
+    <li><a href="#s6">Նժարավոր կշեռք և զանգվածի միավորներ</a></li>
+    <li><a href="#tasks">Առաջադրանքներ</a></li>
+    <li><a href="#answers">Պատասխաններ</a></li>
+  </ol>
+</nav>
+
+<main>
+
+<section class="part-header">Մաս 1 / 2 — Մասեր և հատվածներ</section>
+
+<section class="chapter" id="s1">
+  <div class="chapter-head"><span class="chapter-num">01</span><h2>Հատվածներով համառոտագիր</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">Դուբին առավոտյան կատարեց $25$ կքանիստ, իսկ ցերեկը՝ $4$-ով ավելի։ Քանի՞ կքանիստ կատարեց ընդամենը։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">Առավոտվա քանակը պատկերում ենք հատվածով։ Ցերեկվա հատվածը նույնն է, գումարած մի փոքր կտոր՝ $4$։ Այժմ պատկերից երևում է՝ $25+(25+4)=54$։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p>Խնդրի տվյալները հատվածներով ներկայացնելը կոչվում է <b class="term">համառոտագրում</b>։ Մեծ թիվը պատկերվում է ավելի երկար հատվածով։</p>
+    <p>Նույն գծապատկերը կարող է նկարագրել բազմաթիվ տարբեր խնդիրներ (կքանիստ, կիլոգրամ, գիրք) — և դրանք բոլորն ունեն <b>նույն լուծումը</b>։</p>
+  </div>
+
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>Արմենը մաքրեց 2 նուռ։ Երկրորդում $15$ հատիկով ավելի կար, քան առաջինում, որն ուներ $320$ հատիկ։ Քանի՞ հատիկ կար ընդամենը։</p>
+    <div class="step">Առաջին՝ հատված $320$։ Երկրորդ՝ նույն հատվածը $+15$։</div>
+    <div class="step">$320+(320+15)=655$</div>
+    <div class="answer">Պատասխան. $655$ հատիկ</div>
+  </div>
+
+  <div class="think">Կազմիր քո խնդիրը, որի գծապատկերը նույնն է, ինչ կքանիստների խնդրինը։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> Ավելի մեծ թիվը պատկերել ավելի կարճ հատվածով կամ չնշել, թե որ հատվածն ինչ է ցույց տալիս։</p>
+    <p><span class="k">Ինչու՞</span> Աշակերտը գծում է «ինչ-որ բան», բայց չի կապում այն պայմանի բառերի հետ («-ով ավելի», «անգամ»)։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Ամեն հատվածի վրա գրիր, թե ում է պատկանում, և համոզվիր, որ երկարությունների կարգը համապատասխանում է պայմանին։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>Մեծ թիվ՝ երկար հատված։</li>
+      <li>Ամեն հատվածի վրա՝ անուն։</li>
+      <li>Նույն գծապատկեր → նույն լուծում։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Դասագիրքը խնդրում է աշակերտին <b>ինքը կազմել խնդիր</b> տրված գծապատկերով։ Սա ամենաարդյունավետ ստուգումն է, որ աշակերտը հասկանում է պատկերի և պայմանի կապը։
+  </div>
+</section>
+
+<section class="chapter" id="s2">
+  <div class="chapter-head"><span class="chapter-num">02</span><h2>Հավասարեցման սկզբունքը</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">$115$ սմ պարանը պետք է կտրել 2 մասի այնպես, որ մեկը մյուսից $5$ սմ-ով երկար լինի։ Որքա՞ն կլինի յուրաքանչյուր մասը։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">Եթե երկար մասից մտովի կտրենք ավելորդ $5$ սմ-ը, կմնա $110$ սմ՝ երկու <b>հավասար</b> մաս. $110:2=55$։ Հետո ավելորդը վերադարձնում ենք՝ $55+5=60$։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p>Երբ հատվածներն անհավասար են, բայց հայտնի է տարբերությունը, տարբերությունը մտովի <b class="term">հանում ենք</b> մեծից (կամ <b>ավելացնում</b> փոքրին), ստանում հավասար հատվածներ և միայն դրանից հետո <b>բաժանում</b>։</p>
+    <p>Հավասարեցումից ստացված հավասար հատվածը կոչվում է <b class="term">մաս</b>։</p>
+    <p><b>Բաժանումը կիրառելի է միայն հավասար մասերի դեպքում։</b> «Տիգրանն ու Քրիստինեն միասին ունեն 4 գրիչ»՝ առանց լրացուցիչ տվյալի հնարավոր չէ ասել, թե քանիսն ունի յուրաքանչյուրը։</p>
+  </div>
+
+  <div class="block-title">Կանոն</div>
+  <div class="formula-box"><span class="label">Գումար $S$, տարբերություն $d$</span>
+    Փոքր $=(S-d):2$, մեծ $=(S+d):2$ կամ փոքր $+\,d$
+  </div>
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>Երկու խանութում միասին $27$ կգ մանդարին է, երկրորդում $3$ կգ-ով ավելի։ Քանի՞ կգ կա յուրաքանչյուրում։</p>
+    <div class="step">Հավասարեցնում ենք՝ $27-3=24$</div>
+    <div class="step">Մեկ մաս՝ $24:2=12$ (առաջին խանութ)</div>
+    <div class="step">Երկրորդ՝ $12+3=15$</div>
+    <div class="answer">Պատասխան. $12$ կգ և $15$ կգ</div>
+  </div>
+  <div class="example-box"><span class="tag">Օրինակ 2</span>
+    <p>Երեք հաջորդական բնական թվերի գումարը $216$ է։ Գտիր թվերը։</p>
+    <div class="step">Թվերն են $a$, $a+1$, $a+2$։ Ավելցուկները՝ $1+2=3$</div>
+    <div class="step">$(216-3):3=71$</div>
+    <div class="answer">Պատասխան. $71,\ 72,\ 73$</div>
+  </div>
+
+  <div class="think">Կարո՞ղ ես լուծել մանդարինների խնդիրը՝ տարբերությունը ոչ թե հանելով, այլ ավելացնելով։ Ի՞նչ կփոխվի։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> Հավասարեցնելուց հետո պատասխանել միայն մեկ մասով (12) և մոռանալ տարբերությունը վերադարձնել երկրորդին։ Կամ ուղղակի բաժանել $27:2$։</p>
+    <p><span class="k">Ինչու՞</span> Աշակերտը կիրառում է «բաժանել 2-ի» սովորույթը՝ առանց մտածելու, որ մասերը հավասար չեն։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Գումարիր ստացված երկու թվերը (պետք է ստացվի $S$) և հանիր (պետք է ստացվի $d$)։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>Բաժանում ենք միայն հավասար մասերը։</li>
+      <li>Նախ հավասարեցնել, հետո բաժանել, հետո վերադարձնել։</li>
+      <li>Ստուգել և՛ գումարը, և՛ տարբերությունը։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Սկսիր գրիչների խնդրից (անլուծելի), հետո բազմոցների բարձերից (լուծելի)։ Թող աշակերտները իրենք ձևակերպեն, թե <b>երբ</b> կարելի է բաժանել։ Սա գլխի ամենակարևոր հայեցակարգային պահն է։
+  </div>
+</section>
+
+<section class="chapter" id="s3">
+  <div class="chapter-head"><span class="chapter-num">03</span><h2>Պատճենման սկզբունքը. «անգամ» և «-ով»</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">Աշոտը Հասմիկից $3$ անգամ ավելի խնձոր ունի, միասին ունեն $24$ խնձոր։ Քանի՞սն ունի Հասմիկը։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">Հասմիկի հատվածը մեկ մաս է։ Աշոտինը՝ <b>նույն հատվածի 3 պատճեն</b>։ Ընդամենը $1+3=4$ հավասար մաս. $24:4=6$։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p>«$k$ անգամ ավելի» նշանակում է <b class="term">$k$ հատ նույն մասից</b>։ Գծապատկերում մեծ հատվածը կազմվում է փոքր հատվածի $k$ պատճենից։</p>
+    <p>«$k$-ով ավելի» նշանակում է նույն հատվածը <b>գումարած</b> $k$ միավոր։ Այս երկուսը շփոթելը գլխի ամենավտանգավոր սխալն է։</p>
+  </div>
+
+  <div class="block-title">Վիզուալ պատկեր</div>
+  <div class="visual-container table-wrap">
+    <table>
+      <tr><th>«3 անգամ ավելի»</th><td>▭ ▭ ▭</td><td>3 մաս</td></tr>
+      <tr><th>«3-ով ավելի»</th><td>▭ + 3</td><td>1 մաս և 3 միավոր</td></tr>
+    </table>
+  </div>
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>Արհեստավորը $3$ օրում ներկեց $47$ մ խողովակ։ Երկրորդ օրը՝ $3$ մ-ով ավելի, քան առաջինը, երրորդ օրը՝ $2$ անգամ ավելի, քան առաջինը։</p>
+    <div class="step">Առաջին՝ 1 մաս, երկրորդ՝ 1 մաս $+3$, երրորդ՝ 2 մաս։ Ընդամենը 4 մաս $+3$</div>
+    <div class="step">$(47-3):4=11$</div>
+    <div class="answer">Պատասխան. $11$ մ, $14$ մ, $22$ մ</div>
+  </div>
+  <div class="example-box"><span class="tag">Օրինակ 2</span>
+    <p>Աշոտը $3$ անգամ ավելի խնձոր ունի, քան Հասմիկը, և $12$-ով ավելի։ Քանի՞սն ունի Հասմիկը։</p>
+    <div class="step">Տարբերությունը՝ $3-1=2$ մաս</div>
+    <div class="step">$12:2=6$</div>
+    <div class="answer">Պատասխան. Հասմիկ՝ $6$, Աշոտ՝ $18$</div>
+  </div>
+
+  <div class="think">Թվին գումարեցին իր եռապատիկը և ստացան $48$։ Քանի՞ մաս է $48$-ը։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> «2 անգամ ավելի»-ն կարդալ «2-ով ավելի» կամ մասերը հաշվել մեկով պակաս (մոռանալ փոքրի սեփական մասը)։</p>
+    <p><span class="k">Ինչու՞</span> Բառերը նման են, իսկ գծապատկեր չկազմելու դեպքում տարբերությունը չի երևում։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Գծիր հատվածները և հաշվիր <b>բոլոր</b> մասերը։ Պատասխանը տեղադրիր պայմանի մեջ։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>«Անգամ»՝ պատճեններ, «-ով»՝ ավելացում։</li>
+      <li>Հաշվիր բոլոր մասերը, ներառյալ փոքրինը։</li>
+      <li>Տարբերության մեջ $k-1$ մաս է։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Խնդրիր աշակերտներին միևնույն թվերով լուծել երկու խնդիր՝ «3 անգամ ավելի» և «3-ով ավելի»։ Պատասխանների տարբերությունը ամենալավ ապացույցն է, որ բառերը կարևոր են։
+  </div>
+</section>
+
+<section class="chapter" id="s4">
+  <div class="chapter-head"><span class="chapter-num">04</span><h2>Հատվածի կեսը</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">Դուբին և Եգին միասին կշռում են $49$ կգ։ Եգին Դուբիի կեսից $1$ կգ-ով ծանր է։ Որքա՞ն է կշռում յուրաքանչյուրը։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">Դուբիի հատվածը կիսում ենք. Դուբի՝ 2 կես, Եգի՝ 1 կես $+1$։ Հանում ենք $1$-ը՝ $48$, սա 3 հավասար կես է. $48:3=16$։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p>Մեկի <b class="term">կեսի</b> մասին պայմանում կիսում ենք <b>հենց այդ մեկի</b> հատվածը, ոչ թե ընդհանուրը։ Արդյունքում բոլոր անհայտ մասերը հավասարվում են, և կիրառվում է հավասարեցման սկզբունքը։</p>
+  </div>
+
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>Դուբի և Եգի՝ $49$ կգ, Եգին Դուբիի կեսից $1$ կգ-ով ավելի։</p>
+    <div class="step">$49-1=48$ — երեք հավասար մաս</div>
+    <div class="step">Մեկ մաս՝ $16$</div>
+    <div class="step">Դուբի՝ $2\cdot16=32$, Եգի՝ $16+1=17$</div>
+    <div class="answer">Պատասխան. Դուբի՝ $32$ կգ, Եգի՝ $17$ կգ</div>
+  </div>
+  <div class="example-box"><span class="tag">Օրինակ 2</span>
+    <p>Մտապահված թիվը $20$-ով մեծ է իր կեսից։ Գտիր թիվը։</p>
+    <div class="step">Թիվ՝ 2 կես։ Տարբերությունը թվի և կեսի միջև՝ 1 կես</div>
+    <div class="step">1 կես $=20$</div>
+    <div class="answer">Պատասխան. $40$</div>
+  </div>
+
+  <div class="think">Երկու խանութում $27$ կգ մանդարին է, երկրորդում՝ առաջինի կեսից $3$ կգ-ով ավելի։ Քանի՞ մաս է $27-3$-ը։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> Կեսը վերցնել ընդհանուրից ($49:2$), ոչ թե Դուբիի զանգվածից։</p>
+    <p><span class="k">Ինչու՞</span> «Կես» բառը ավտոմատ կապվում է «բաժանել 2-ի»-ի հետ, առանց հարցնելու՝ ինչի՞ կեսը։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Ստուգիր. Եգին իսկապե՞ս Դուբիի կեսից $1$-ով ավելի է ($16+1=17$ ✔)։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>Կեսը՝ միշտ կոնկրետ մեկի։</li>
+      <li>Կես + կես = մեկ ամբողջ՝ 2 մաս։</li>
+      <li>Հետո՝ սովորական հավասարեցում։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Այս դասը համադրում է նախորդ երկու սկզբունքները։ Եթե աշակերտը շփոթվում է, վերադարձիր պատճենմանը. «ամբողջը» 2 պատճեն է «կեսի»։
+  </div>
+</section>
+
+<section class="part-header">Մաս 2 / 2 — Շարժում և կշռում</section>
+
+<section class="chapter" id="s5">
+  <div class="chapter-head"><span class="chapter-num">05</span><h2>Շարժման խնդիրներ, արագություն</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">Հեծանվորդը շարժվում է $18$ կմ/ժ, հետիոտնը՝ $5$ կմ/ժ, իսկ վարորդը $15$ րոպեում անցնում է $18$ կմ։ Ո՞վ է ամենաարագը։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">Վարորդը $15$ րոպեում անցնում է $18$ կմ, ուստի ժամում (4 անգամ ավելի ժամանակ)՝ $72$ կմ։ Համեմատելու համար բոլոր արագությունները պետք է բերել <b>նույն միավորի</b>։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p>Միավոր ժամանակում անցած ճանապարհը կոչվում է <b class="term">արագություն</b>։ Եթե արագությունը չի փոխվում, շարժումը <b class="term">հավասարաչափ</b> է։</p>
+    <p>Միավորներ՝ կմ/ժ (մեքենա), կմ/վ (լույս, մոլորակներ), մ/ր կամ սմ/ր (դանդաղ շարժում)։</p>
+    <p>Հանդիպակաց շարժման դեպքում մարմինները մոտենում են իրար՝ ամեն ժամում անցնելով <b>արագությունների գումարի</b> չափ ճանապարհ։</p>
+  </div>
+
+  <div class="block-title">Կանոն</div>
+  <div class="formula-box"><span class="label">Ճանապարհ, արագություն, ժամանակ</span>
+    $s=v\cdot t,\qquad v=s:t,\qquad t=s:v$
+  </div>
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>Դավիթը $5$ ժամում պետք է անցնի $320$ կմ։ Առաջին $3$ ժամը գնաց $60$ կմ/ժ արագությամբ։ Ի՞նչ արագությամբ պետք է շարունակի։</p>
+    <div class="step">Անցել է $60\cdot3=180$ կմ</div>
+    <div class="step">Մնացել է $320-180=140$ կմ և $2$ ժամ</div>
+    <div class="step">$140:2=70$</div>
+    <div class="answer">Պատասխան. $70$ կմ/ժ</div>
+  </div>
+  <div class="example-box"><span class="tag">Օրինակ 2</span>
+    <p>$A$ և $B$ քաղաքների միջև $340$ կմ է։ Արմենը $10{:}00$-ին $60$ կմ/ժ-ով մեկնեց $A$-ից, Կարինեն $11{:}00$-ին $65$ կմ/ժ-ով մեկնեց $B$-ից։ Որքա՞ն կլինի նրանց միջև հեռավորությունը $12{:}00$-ին։</p>
+    <div class="step">Արմեն՝ $2$ ժամ, $120$ կմ</div>
+    <div class="step">Կարինե՝ $1$ ժամ, $65$ կմ</div>
+    <div class="step">$340-120-65=155$</div>
+    <div class="answer">Պատասխան. $155$ կմ</div>
+  </div>
+
+  <div class="think">Եթե $A$-ից $B$ գնալիս $60$ կմ/ժ, իսկ վերադառնալիս $40$ կմ/ժ, միջին արագությունը $50$ կմ/ժ կլինի՞։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> Րոպեներով տրված ժամանակը ուղղակի դնել կմ/ժ բանաձևի մեջ կամ, Դավիթի խնդրում, մոռանալ հանել արդեն անցած ճանապարհը։</p>
+    <p><span class="k">Ինչու՞</span> Աշակերտը հիշում է բանաձևը, բայց չի ստուգում միավորների համապատասխանությունը։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Պատասխանը գնահատիր. մեքենան $600$ կմ/ժ չի գնում, իսկ հետիոտնը՝ $50$ կմ/ժ։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>$s=v\cdot t$ — երեք բանաձև մեկից։</li>
+      <li>Միավորները պետք է համապատասխանեն։</li>
+      <li>Հանդիպակաց շարժում՝ արագությունները գումարվում են։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Դասագիրքը նշում է, որ իրական շարժումը հազվադեպ է հավասարաչափ։ Արժե քննարկել միջին արագության գաղափարը և ցույց տալ, որ արագություն կա ոչ միայն շարժման, այլև ցանկացած փոփոխության համար (մազերի աճ՝ սմ/ամիս)։
+  </div>
+</section>
+
+<section class="chapter" id="s6">
+  <div class="chapter-head"><span class="chapter-num">06</span><h2>Նժարավոր կշեռք և զանգվածի միավորներ</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">Հավասարակշռված կշեռքի մի նժարին $2$ միանման խաղալիք է, մյուսին՝ $3$ կշռաքար, յուրաքանչյուրը $200$ գ։ Որքա՞ն է մեկ խաղալիքի զանգվածը։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">Աջ կողմում $600$ գ է։ Կշեռքը հավասարակշռված է, ուստի ձախում էլ $600$ գ է, իսկ մեկ խաղալիքը՝ $300$ գ։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p><b class="term">Նժարավոր կշեռքի</b> ավելի ծանր կողմն իջնում է։ Հավասար զանգվածների դեպքում նժարները հավասարակշռված են։</p>
+    <p><b class="term">Հատկություն.</b> երկու նժարին <b>նույն</b> զանգվածն ավելացնելիս կամ հանելիս հավասարակշռությունը չի խախտվում։ Սա հետագայում հավասարումների լուծման հիմքն է։</p>
+    <p>Զանգվածի միավորներ՝ $1$ կգ $=1000$ գ, $1$ ց $=100$ կգ, $1$ տ $=1000$ կգ։</p>
+  </div>
+
+  <div class="block-title">Կանոն</div>
+  <div class="formula-box"><span class="label">Կեղծ մետաղադրամ</span>
+    Մեկ կշռումը տալիս է 3 ելք, ուստի $k$ կշռումով կարելի է ստուգել մինչև $3^k$ մետաղադրամ։
+  </div>
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>Ձախ նժարին $3$ խաղալիք և $2$ կշռաքար է, աջում՝ $8$ կշռաքար (ամեն մեկը $100$ գ)։ Գտիր խաղալիքի զանգվածը։</p>
+    <div class="step">Երկու կողմից հանում ենք $2$ կշռաքար</div>
+    <div class="step">Ձախ՝ $3$ խաղալիք, աջ՝ $6\cdot100=600$ գ</div>
+    <div class="step">$600:3=200$</div>
+    <div class="answer">Պատասխան. $200$ գ</div>
+  </div>
+  <div class="example-box"><span class="tag">Օրինակ 2</span>
+    <p>Երեք նույնատեսք մատանուց մեկը կեղծ է և ավելի թեթև։ Ինչպե՞ս մեկ կշռումով գտնել այն։</p>
+    <div class="step">Նժարներին դնում ենք մեկական մատանի, երրորդը՝ մի կողմ</div>
+    <div class="step">Եթե մի կողմը բարձրացավ, այնտեղ է կեղծը։ Եթե հավասար են՝ կեղծը դրվածը չէ</div>
+    <div class="answer">Պատասխան. Բավական է մեկ կշռում</div>
+  </div>
+
+  <div class="think">Ինչո՞ւ $9$ մետաղադրամի դեպքում բավական է $2$ կշռում, իսկ $10$-ի դեպքում՝ ոչ։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> $1$ տ-ն համարել $100$ կգ, կամ կշեռքի մի նժարից կշռաքար հանել, իսկ մյուսից՝ ոչ։</p>
+    <p><span class="k">Ինչու՞</span> Զանգվածի միավորները պակաս են հանդիպում առօրյայում, իսկ հավասարակշռության կանոնը թվում է ակնհայտ և չի ստուգվում։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Միավորները փոխարկելիս մտածիր. «$1$ տոննա ավտոմեքենան քանի՞ տոպրակ ալյուր է»։ Կշեռքի դեպքում կատարիր նույն քայլը <b>երկու</b> կողմում։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>Նույնը երկու կողմից՝ հավասարակշռությունը մնում է։</li>
+      <li>$1$ տ $=1000$ կգ, $1$ ց $=100$ կգ, $1$ կգ $=1000$ գ։</li>
+      <li>Մեկ կշռում՝ երեք ելք։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Կեղծ մատանու խնդիրը դասագրքի ամենաուժեղ տրամաբանական վարժությունն է։ Թող աշակերտները խմբերով փորձեն 9 մետաղադրամով 2 կշռումով լուծել, նախքան բանաձևը կասես։
+  </div>
+</section>
+
+<hr class="sep">
+
+<section class="tasks-section" id="tasks">
+  <h2>Առաջադրանքներ</h2>
+  <h3>Հաշվարկային առաջադրանքներ</h3>
+  <ol class="tasks">
+    <li>Դուբին առավոտյան կատարեց $25$ կքանիստ, ցերեկը՝ $4$-ով ավելի։ Քանի՞ կքանիստ ընդամենը։</li>
+    <li>$115$ սմ պարանը բաժանիր 2 մասի այնպես, որ մեկը $5$ սմ-ով երկար լինի։</li>
+    <li>Երկու խանութում $27$ կգ մանդարին է, երկրորդում $3$ կգ-ով ավելի։ Քանի՞ կգ յուրաքանչյուրում։</li>
+    <li>Երեք հաջորդական բնական թվերի գումարը $216$ է։ Գտիր թվերը։</li>
+    <li>Արհեստավորը $3$ օրում ներկեց $47$ մ խողովակ. 2-րդ օրը $3$ մ-ով ավելի, 3-րդ օրը $2$ անգամ ավելի, քան 1-ինը։ Քանի՞ մետր ամեն օր։</li>
+    <li>Երեքը $59$ սունկ հավաքեցին. Հրաչիկը $2$ անգամ ավելի, քան Գրիշան, Գրիշան $1$-ով ավելի, քան Անժելան։ Քանի՞ սունկ յուրաքանչյուրը։</li>
+    <li>Աշոտը $3$ անգամ ավելի խնձոր ունի, քան Հասմիկը, և $12$-ով ավելի։ Քանի՞ խնձոր յուրաքանչյուրը։</li>
+    <li>Երկու տուփ միասին $1350$ գ է, մեկը մյուսից $2$ անգամ ծանր։ Որքա՞ն է յուրաքանչյուրը։</li>
+    <li>Թվին գումարեցին իր եռապատիկը և ստացան $48$։ Գտիր թիվը։</li>
+    <li>Մեքենան $3$ ժամում անցավ $180$ կմ։ Գտիր արագությունը։</li>
+    <li>Դավիթը $5$ ժամում պետք է անցնի $320$ կմ, $3$ ժամ գնաց $60$ կմ/ժ-ով։ Ի՞նչ արագությամբ շարունակի։</li>
+    <li>Գտիր $36$-ի կեսից $5$-ով մեծ թիվը։</li>
+    <li>Դուբին և Եգին միասին $49$ կգ են, Եգին Դուբիի կեսից $1$ կգ-ով ավելի։ Քանի՞ կգ յուրաքանչյուրը։</li>
+    <li>Մտապահված թիվը $20$-ով մեծ է իր կեսից։ Գտիր թիվը։</li>
+    <li>Երկու խանութում $27$ կգ մանդարին է, երկրորդում առաջինի կեսից $3$ կգ-ով ավելի։ Քանի՞ կգ յուրաքանչյուրում։</li>
+    <li>Հավասարակշռված կշեռքին՝ $2$ խաղալիք ընդդեմ $3$ կշռաքարի ($200$ գ)։ Գտիր մեկ խաղալիքի զանգվածը։</li>
+    <li>Արտահայտիր կգ-ով. $5$ տ $30$ կգ; $7$ ց $5$ կգ։</li>
+    <li>$A$ և $B$ քաղաքների միջև $340$ կմ է։ Արմենը $10{:}00$-ին $60$ կմ/ժ-ով $A$-ից, Կարինեն $11{:}00$-ին $65$ կմ/ժ-ով $B$-ից։ Որքա՞ն կլինի նրանց միջև հեռավորությունը $12{:}00$-ին։</li>
+  </ol>
+  <h3>Տրամաբանական և հայեցակարգային հարցեր</h3>
+  <ol class="tasks" start="19">
+    <li>Տիգրանն ու Քրիստինեն միասին ունեն $4$ գրիչ։ Հնարավո՞ր է որոշել, թե քանիսն ունի Քրիստինեն։</li>
+    <li>Ինչո՞վ են տարբերվում «$2$ անգամ ավելի» և «$2$-ով ավելի» արտահայտությունները։</li>
+    <li>Ինչո՞ւ կշեռքի երկու նժարից նույն զանգվածը հանելիս հավասարակշռությունը չի խախտվում։</li>
+    <li>Երեք մատանուց մեկը կեղծ է և թեթև։ Ինչպե՞ս մեկ կշռումով գտնել այն։</li>
+  </ol>
+</section>
+
+<section class="tasks-section" id="answers">
+  <h2>Պատասխաններ</h2>
+  <h3>Հաշվարկային առաջադրանքների պատասխանները</h3>
+  <ol class="answers-list">
+    <li>$25+29=54$</li>
+    <li>$55$ սմ և $60$ սմ</li>
+    <li>$12$ կգ և $15$ կգ</li>
+    <li>$71,\ 72,\ 73$</li>
+    <li>$11$ մ, $14$ մ, $22$ մ</li>
+    <li>Անժելա՝ $14$, Գրիշա՝ $15$, Հրաչիկ՝ $30$</li>
+    <li>Հասմիկ՝ $6$, Աշոտ՝ $18$</li>
+    <li>$450$ գ և $900$ գ</li>
+    <li>$12$</li>
+    <li>$60$ կմ/ժ</li>
+    <li>$70$ կմ/ժ</li>
+    <li>$18+5=23$</li>
+    <li>Դուբի՝ $32$ կգ, Եգի՝ $17$ կգ</li>
+    <li>$40$</li>
+    <li>Առաջին՝ $16$ կգ, երկրորդ՝ $11$ կգ</li>
+    <li>$300$ գ</li>
+    <li>$5030$ կգ; $705$ կգ</li>
+    <li>$155$ կմ</li>
+  </ol>
+  <h3>Տրամաբանական և հայեցակարգային հարցերի պատասխանները</h3>
+  <ol class="answers-list answers-list-conceptual" start="19">
+    <li>Ոչ, բաժանումը կիրառելի է միայն հավասար մասերի դեպքում, իսկ այստեղ չգիտենք՝ հավասա՞ր են</li>
+    <li>«$2$ անգամ»՝ նույն քանակի 2 պատճեն, «$2$-ով»՝ նույն քանակը գումարած $2$ միավոր</li>
+    <li>Եթե սկզբում կողմերը հավասար էին, նույն թիվը երկուսից հանելիս նրանք հավասար են մնում</li>
+    <li>Երկու մատանի դնում ենք նժարներին։ Թեթև կողմում է կեղծը, իսկ եթե հավասար են՝ կեղծը երրորդն է</li>
+  </ol>
+</section>
+
+</main>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  renderMathInElement(document.body, {
+    delimiters: [
+      {left: "$$", right: "$$", display: true},
+      {left: "$", right: "$", display: false}
+    ],
+    strict: false
+  });
+});
+</script>
+</body>
+</html>

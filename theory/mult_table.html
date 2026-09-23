@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="hy">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Բազմապատկման աղյուսակ և բաժանում | Ուսումնական ուղեցույց</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<style>
+  :root{
+    --bg:#0f1f2e; --paper:#f6f8fb; --ink:#152233; --accent:#1e5f8c; --accent2:#c0562b;
+    --crust:#8fb3cc; --muted:#5b7188; --card:#ffffff; --line:#dde6ee;
+  }
+  *{box-sizing:border-box;}
+  html, body{overflow-x:hidden;}
+  body{margin:0; font-family:'Sylfaen','Arial',serif; background:var(--paper); color:var(--ink); font-size:18px; line-height:1.7;}
+  .hero{background:linear-gradient(135deg, var(--bg) 0%, #1c3b52 100%); color:#eaf2f8; padding:56px 24px 48px;}
+  .hero-inner{max-width:840px; margin:0 auto;}
+  h1.title{font-size:2.2rem; margin:0 0 10px; font-weight:bold; color:#fff;}
+  .hero p{color:#cfe0ec; max-width:620px; font-size:1.05rem;}
+  nav.toc{max-width:840px; margin:-26px auto 0; position:relative; z-index:3; background:var(--card); border-radius:10px; box-shadow:0 12px 30px rgba(15,31,46,.18); padding:22px 26px; border:1px solid var(--line);}
+  nav.toc h2{font-size:1.05rem; text-transform:uppercase; letter-spacing:.07em; color:var(--muted); margin:0 0 12px; font-weight:bold;}
+  nav.toc ol{margin:0; padding-left:20px; columns:2; column-gap:28px;}
+  nav.toc li{margin-bottom:8px; font-size:.98rem;}
+  nav.toc a{color:var(--accent); text-decoration:none; border-bottom:1px dotted var(--accent);}
+  main{max-width:840px; margin:40px auto 90px; padding:0 24px;}
+  section.part-header{margin:48px 0 20px; padding-bottom:8px; border-bottom:2px solid var(--crust); color:var(--muted); font-weight:bold; text-transform:uppercase; letter-spacing:.05em; font-size:.95rem;}
+  section.chapter{margin-bottom:56px;}
+  .chapter-head{display:flex; align-items:baseline; gap:14px; border-bottom:3px solid var(--accent2); padding-bottom:10px; margin-bottom:20px;}
+  .chapter-num{font-size:1.9rem; color:var(--accent); font-weight:bold;}
+  .chapter-head h2{margin:0; font-size:1.4rem; color:var(--ink); font-weight:bold;}
+
+  .block-title{font-weight:bold; color:var(--accent); font-size:1.02rem; margin:22px 0 8px; text-transform:uppercase; letter-spacing:.04em;}
+  .hook{background:#eef4f9; border-radius:10px; padding:16px 20px; margin:10px 0 18px; font-style:italic;}
+  .intuitive{padding:0 2px; margin-bottom:14px;}
+  .formal-def{background:#fff; border:1px solid var(--line); border-left:4px solid var(--accent); border-radius:0 10px 10px 0; padding:16px 20px; margin:14px 0;}
+  .formal-def b.term{color:var(--accent2);}
+
+  .visual-container.table-wrap{overflow-x:auto; width:100%; margin:18px 0; -webkit-overflow-scrolling:touch;}
+  table{border-collapse:collapse; width:100%;}
+  th,td{border:1px solid var(--line); padding:8px 12px; text-align:center; font-size:.98rem;}
+  th{background:#eaf1f7; font-weight:bold;}
+  svg{max-width:100%; height:auto; display:block; margin:0 auto;}
+
+  .formula-box{background:#fff8ee; border:1px solid #ecd9b6; border-radius:10px; padding:18px 22px; margin:16px 0;}
+  .formula-box .label{display:block; font-weight:bold; color:var(--accent2); margin-bottom:8px; text-transform:uppercase; font-size:.85rem; letter-spacing:.05em;}
+
+  .example-box{border-left:4px solid var(--accent); background:#fff; padding:16px 20px; margin:16px 0; border-radius:0 10px 10px 0; box-shadow:0 2px 8px rgba(15,31,46,.05);}
+  .example-box .tag{display:inline-block; font-size:.8rem; text-transform:uppercase; letter-spacing:.07em; color:#fff; background:var(--accent); padding:3px 10px; border-radius:20px; margin-bottom:8px; font-weight:bold;}
+  .example-box .step{margin:6px 0 6px 2px;}
+  .example-box .answer{margin-top:10px; padding:8px 14px; background:#eef4f9; border-radius:8px; border-left:3px solid var(--accent); font-weight:bold;}
+
+  .think{background:#f3ede0; border-left:4px solid var(--crust); border-radius:0 10px 10px 0; padding:12px 18px; margin:14px 0; font-style:italic; color:#4a3a1f;}
+
+  .error-box{background:#fdeeec; border:1px solid #f0c6bf; border-radius:10px; padding:16px 20px; margin:16px 0;}
+  .error-box h4{margin:0 0 8px; color:var(--accent2); font-size:1rem;}
+  .error-box .k{font-weight:bold; color:var(--accent2);}
+
+  .remember{background:#eef6ef; border:1px solid #cfe6d2; border-radius:10px; padding:14px 20px; margin:16px 0;}
+  .remember .label{font-weight:bold; color:#2f6b3a; text-transform:uppercase; font-size:.85rem; letter-spacing:.05em; display:block; margin-bottom:6px;}
+
+  .teacher-corner{background:#eaf1f7; border:1px dashed var(--crust); border-radius:10px; padding:16px 20px; margin:16px 0 28px;}
+  .teacher-corner .label{font-weight:bold; color:var(--accent); text-transform:uppercase; font-size:.85rem; letter-spacing:.05em; display:block; margin-bottom:6px;}
+
+  hr.sep{border:none; border-top:1px dashed var(--line); margin:36px 0;}
+
+  .tasks-section h2{color:var(--accent); border-bottom:3px solid var(--accent2); padding-bottom:8px;}
+  .tasks-section h3{color:var(--accent2); margin-top:26px;}
+  ol.tasks{padding-left:24px;}
+  ol.tasks li{margin-bottom:10px;}
+
+  .answers-section{background:#fff; padding:26px 28px; border-radius:10px; border:2px solid var(--accent); margin-top:44px;}
+  .answers-section h2{color:var(--accent); margin-top:0;}
+  .answers-section h3{color:var(--accent2); font-size:1rem; margin:22px 0 10px;}
+  .answers-list{columns:2; column-gap:36px; padding-left:20px; margin:0;}
+  .answers-list li{margin-bottom:9px; font-weight:bold;}
+  .answers-list-conceptual{columns:1; list-style-position:outside;}
+
+  @media (max-width:600px){
+    nav.toc ol{columns:1;}
+    .answers-list{columns:1;}
+    main{padding:0 14px;}
+  }
+
+  @media print {
+    body{background:#fff !important; color:#000 !important; font-size:12pt;}
+    .hero{padding:10px 0; background:none !important; color:#000 !important;}
+    h1.title{color:#000 !important;}
+    nav.toc{display:none !important;}
+    .formula-box, .example-box, .error-box, .visual-container, .table-wrap{page-break-inside:avoid !important; box-shadow:none !important; border:1px solid #ccc !important;}
+    .table-wrap, .visual-container{overflow-x:visible !important; white-space:pre-wrap !important; word-break:break-word !important;}
+    html, body{overflow-x:visible !important;}
+    .chapter{page-break-before:always;}
+    .chapter:first-of-type{page-break-before:auto;}
+    .answers-list{columns:3;}
+  }
+</style>
+
+<style id="tj-unified">
+  /* ԸՆԴՀԱՆՈՒՐ ՎԵՐԻՆ ՎԱՀԱՆԱԿ — նույնական բոլոր 19 ուղեցույցում։
+     Class-երը սկսվում են tj- նախածանցով, որ երբեք չբախվեն էջի
+     սեփական ոճերի հետ։ */
+  .tj-bar{background:#0f1f2e;color:#eaf2f8;font-family:'Sylfaen','Arial',serif;}
+  .tj-bar-in{max-width:840px;margin:0 auto;padding:10px 20px;display:flex;
+             align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+  .tj-back{color:#eaf2f8;text-decoration:none;font-weight:bold;font-size:.95rem;
+           border:1px solid rgba(234,242,248,.35);border-radius:8px;padding:5px 12px;}
+  .tj-back:hover{background:rgba(234,242,248,.12);}
+  .tj-grade{font-size:.85rem;color:#cfe0ec;letter-spacing:.03em;}
+  @media print{ .tj-bar{display:none;} }
+</style>
+</head>
+<body>
+<div class="tj-bar"><div class="tj-bar-in"><a class="tj-back" href="../index.html">← Տրենաժոր</a><span class="tj-grade">2–3 դասարան</span></div></div>
+
+
+<div class="hero">
+  <div class="hero-inner">
+    <h1 class="title">Բազմապատկման աղյուսակ և բաժանում</h1>
+    <p>Բազմապատկման և բաժանման իմաստից մինչև աղյուսակ, անհայտ բաղադրիչ, մնացորդով բաժանում և գին-քանակ-արժեք խնդիրներ։</p>
+  </div>
+</div>
+
+<nav class="toc">
+  <h2>Բովանդակություն</h2>
+  <ol>
+    <li><a href="#s1">Բազմապատկման իմաստը</a></li>
+    <li><a href="#s2">Բաժանման իմաստը</a></li>
+    <li><a href="#s3">Բազմապատկման աղյուսակ, 0, 1, 10</a></li>
+    <li><a href="#s4">Անհայտ բաղադրիչ և մնացորդով բաժանում</a></li>
+    <li><a href="#s5">Գործողությունների կարգ և տեքստային խնդիրներ</a></li>
+    <li><a href="#tasks">Առաջադրանքներ</a></li>
+    <li><a href="#answers">Պատասխաններ</a></li>
+  </ol>
+</nav>
+
+<main>
+
+<section class="part-header">Մաս 1 / 3 — Իմաստը</section>
+
+<section class="chapter" id="s1">
+  <div class="chapter-head"><span class="chapter-num">01</span><h2>Բազմապատկման իմաստը</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">Չորս տուփում կա 6-ական մատիտ։ Ինչպե՞ս արագ հաշվել բոլորը։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">$6+6+6+6=24$։ Նույն գումարելին $4$ անգամ կրկնվում է, ուստի կարճ գրում ենք՝ $6\cdot4=24$։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p>Նույն գումարելիների գումարը գրվում է <b class="term">բազմապատկումով</b>. $\underbrace{6+6+6+6}_{4}=6\cdot4$։</p>
+    <p>$a\cdot b=c$-ում $a$-ն և $b$-ն <b class="term">արտադրիչներ</b> են, $c$-ն՝ <b class="term">արտադրյալ</b>։</p>
+    <p><b>Տեղափոխական հատկություն.</b> $a\cdot b=b\cdot a$։</p>
+  </div>
+
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>Փոխարինիր գումարը բազմապատկումով. $6+6+6+6$։ Իսկ $7\cdot3$-ը գրիր գումարով։</p>
+    <div class="step">$6$-ը՝ $4$ անգամ → $6\cdot4=24$</div>
+    <div class="step">$7\cdot3=7+7+7=21$</div>
+    <div class="answer">Պատասխան. $24$ և $21$</div>
+  </div>
+
+  <div class="think">Կարելի՞ է $5+4$-ը գրել բազմապատկումով։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> $5+5+5$-ը գրել $5\cdot5$ կամ $15$՝ առանց բազմապատկման գրառման։</p>
+    <p><span class="k">Ինչու՞</span> Երեխան շփոթում է գումարելին և գումարելիների քանակը։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Հաշվիր գումարելիները մատով. քանի՞ անգամ է կրկնվում։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>Բազմապատկում՝ նույն գումարելիների կրկնություն։</li>
+      <li>Արտադրիչներ → արտադրյալ։</li>
+      <li>$a\cdot b=b\cdot a$։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Շարքերով դասավորված առարկաները (աթոռներ, կոճակներ) ցույց են տալիս, որ $3$ շարք $4$-ական $=4$ սյուն $3$-ական. սա տեղափոխական հատկության լավագույն ապացույցն է։
+  </div>
+</section>
+
+<section class="chapter" id="s2">
+  <div class="chapter-head"><span class="chapter-num">02</span><h2>Բաժանման իմաստը</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">12 կոնֆետը պետք է հավասար բաժանել 3 երեխայի։ Քանի՞սը կստանա յուրաքանչյուրը։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">Բաժանում ենք մեկ-մեկ՝ յուրաքանչյուրին մեկական, մինչև վերջանան։ Յուրաքանչյուրը ստանում է $4$. $12:3=4$։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p><b class="term">Բաժանումը</b> հավասար մասերի բաժանելն է։ $a:b=c$-ում $a$-ն <b class="term">բաժանելին</b> է, $b$-ն՝ <b class="term">բաժանարարը</b>, $c$-ն՝ <b class="term">քանորդը</b>։</p>
+    <p>Բաժանումը բազմապատկման հակադարձն է. $12:3=4$, քանի որ $4\cdot3=12$։</p>
+    <p>$0$-ի վրա բաժանել <b>չի կարելի</b>։</p>
+  </div>
+
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>$12$ կոնֆետը հավասար բաժանեցին $3$ երեխայի։ Քանի՞ կոնֆետ ստացավ յուրաքանչյուրը։</p>
+    <div class="step">$12:3$</div>
+    <div class="step">Ստուգում՝ $4\cdot3=12$</div>
+    <div class="answer">Պատասխան. $4$</div>
+  </div>
+
+  <div class="think">$12$ կոնֆետը դրեցին տուփերում՝ $3$-ական։ Քանի՞ տուփ ստացվեց։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> $12:3$-ի փոխարեն հաշվել $12-3=9$։</p>
+    <p><span class="k">Ինչու՞</span> Երեխան «բաժանել» բառը կապում է «պակասեցնելու» հետ։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Ստուգիր բազմապատկումով. $9\cdot3\neq12$։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>Բաժանում՝ հավասար մասեր։</li>
+      <li>Ստուգում՝ բազմապատկումով։</li>
+      <li>$0$-ի վրա բաժանել չի կարելի։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Բաժանման երկու իմաստն էլ ցույց տվեք. «քանի՞սը կստանա յուրաքանչյուրը» և «քանի՞ խումբ կստացվի»։ Թվերը նույնն են, իսկ իրավիճակները՝ տարբեր։
+  </div>
+</section>
+
+<section class="part-header">Մաս 2 / 3 — Աղյուսակ և հատկություններ</section>
+
+<section class="chapter" id="s3">
+  <div class="chapter-head"><span class="chapter-num">03</span><h2>Բազմապատկման աղյուսակ, 0, 1, 10</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">Ինչպե՞ս հիշել $7\cdot8$-ը, եթե մոռացել ես։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">$7\cdot8=7\cdot7+7=49+7=56$։ Հարևան արժեքից կարելի է «քայլել» աղյուսակով։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p>Աղյուսակի յուրաքանչյուր հաջորդ արժեքը նախորդից մեծ է արտադրիչի չափով. $a\cdot(b+1)=a\cdot b+a$։</p>
+    <p>$a\cdot0=0$, $a\cdot1=a$, $a\cdot10$-ը ստանում ենք $a$-ին $0$ կցագրելով։</p>
+    <p>$a:1=a$, $0:a=0$ ($a\neq0$), $a:a=1$։</p>
+  </div>
+
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>Հաշվիր. $7\cdot8$, $6\cdot9$, $5\cdot0$, $9\cdot1$, $6\cdot10$։</p>
+    <div class="step">$56$, $54$</div>
+    <div class="step">$0$, $9$, $60$</div>
+    <div class="answer">Պատասխան. $56$; $54$; $0$; $9$; $60$</div>
+  </div>
+
+  <div class="think">Ինչո՞ւ $5\cdot0=0$, իսկ $5+0=5$։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> $6\cdot10=16$ կամ $5\cdot0=5$։</p>
+    <p><span class="k">Ինչու՞</span> Երեխան բազմապատկումը շփոթում է գումարման հետ։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Հիշիր իմաստը. $5\cdot0$՝ $0$ անգամ $5$, այսինքն՝ ոչինչ։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>$a\cdot0=0$, $a\cdot1=a$։</li>
+      <li>$\cdot10$՝ կցագրել $0$։</li>
+      <li>Հարևան արժեք $\pm$ արտադրիչ։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Աղյուսակը սովորելիս ընդգծեք օրինաչափությունները ($9$-ի աղյուսակում թվանշանների գումարը $9$ է, $5$-ինը վերջանում է $0$-ով կամ $5$-ով)։
+  </div>
+</section>
+
+<section class="chapter" id="s4">
+  <div class="chapter-head"><span class="chapter-num">04</span><h2>Անհայտ բաղադրիչ և մնացորդով բաժանում</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">Ո՞ր թիվը բազմապատկած 4-ով կտա 36։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">$36$-ը բաժանում ենք $4$-ի՝ $9$։ Ստուգում՝ $9\cdot4=36$։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p>Անհայտ արտադրիչ $=$ արտադրյալ $:$ հայտնի արտադրիչ։ Անհայտ բաժանելի $=$ քանորդ $\cdot$ բաժանարար։ Անհայտ բաժանարար $=$ բաժանելի $:$ քանորդ։</p>
+    <p><b class="term">Մնացորդով բաժանում.</b> $17:5=3$ (մն. $2$), քանի որ $5\cdot3+2=17$։ <b>Մնացորդը միշտ փոքր է բաժանարարից</b>։</p>
+  </div>
+
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>Լուծիր. $x\cdot4=36$, $x:3=8$, $45:x=5$։</p>
+    <div class="step">$x=36:4=9$</div>
+    <div class="step">$x=8\cdot3=24$</div>
+    <div class="step">$x=45:5=9$</div>
+    <div class="answer">Պատասխան. $9$; $24$; $9$</div>
+  </div>
+
+  <div class="think">Կարո՞ղ է $17:5$-ի մնացորդը լինել $7$։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> $x:3=8$-ում բաժանել ($x=8:3$), կամ մնացորդը թողնել բաժանարարից մեծ։</p>
+    <p><span class="k">Ինչու՞</span> Երեխան բաղադրիչի անվան փոխարեն նայում է գործողության նշանին։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Տեղադրիր պատասխանը և համոզվիր, որ մնացորդը $\lt$ բաժանարարից։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>Անհայտ բաղադրիչ՝ հակադարձ գործողությամբ։</li>
+      <li>Մնացորդ $\lt$ բաժանարար։</li>
+      <li>Ստուգում՝ բաժանարար $\cdot$ քանորդ $+$ մնացորդ։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Մնացորդով բաժանումը ցույց տվեք իրերով. $17$ կոնֆետ $5$ երեխայի՝ ամեն մեկին $3$, և $2$-ը «մնացին»։
+  </div>
+</section>
+
+<section class="part-header">Մաս 3 / 3 — Խնդիրներ</section>
+
+<section class="chapter" id="s5">
+  <div class="chapter-head"><span class="chapter-num">05</span><h2>Գործողությունների կարգ և տեքստային խնդիրներ</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">1 տետրն արժե 50 դրամ։ Որքա՞ն արժեն 4 տետրը։ Իսկ եթե 300 դրամով 3 գրիչ գնեցիր, որքա՞ն արժե մեկը։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">Արժեք $=$ գին $\cdot$ քանակ. $50\cdot4=200$։ Մեկ գրչի գին $=$ արժեք $:$ քանակ. $300:3=100$։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p>Առանց փակագծերի <b>նախ կատարվում է բազմապատկումը և բաժանումը</b>, հետո գումարումն ու հանումը. $3+4\cdot5=23$, իսկ $(3+4)\cdot5=35$։</p>
+    <p><b>Արժեք $=$ գին $\cdot$ քանակ</b>; գին $=$ արժեք $:$ քանակ; քանակ $=$ արժեք $:$ գին։</p>
+    <p>«$k$ անգամ ավելի»՝ բազմապատկում, «$k$ անգամ պակաս»՝ բաժանում (իսկ «$k$-ով»՝ գումարում/հանում)։</p>
+  </div>
+
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>Դահլիճում $4$ շարք է, ամեն մեկում $7$ աթոռ։ $3$ աթոռ զբաղված է։ Քանի՞սն են ազատ։</p>
+    <div class="step">$4\cdot7=28$</div>
+    <div class="step">$28-3=25$</div>
+    <div class="answer">Պատասխան. $25$ աթոռ</div>
+  </div>
+
+  <div class="think">Արմենն ունի $6$ մատիտ, Կարինեն՝ $3$ անգամ ավելի։ Քանի՞սն ունի Կարինեն։ Իսկ եթե՝ «$3$-ով ավելի»։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> «$3$ անգամ ավելի»-ն կարդալ «$3$-ով ավելի», կամ $3+4\cdot5$-ը հաշվել $35$։</p>
+    <p><span class="k">Ինչու՞</span> Երեխան կատարում է գործողությունները ձախից աջ կամ չի տարբերում «անգամ»-ը և «-ով»-ը։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Ընդգծիր $\cdot$ և $:$ նշանները՝ դրանք առաջինն են։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>$\cdot$ և $:$՝ նախ։</li>
+      <li>Արժեք $=$ գին $\cdot$ քանակ։</li>
+      <li>«Անգամ»՝ $\cdot$ կամ $:$, «-ով»՝ $+$ կամ $-$։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Գին-քանակ-արժեք խնդիրները կազմեք դպրոցական խանութի խաղով. երեխաները «գնում» են և հաշվում, իսկ դուք փոխում եք, թե որ մեծությունն է անհայտ։
+  </div>
+</section>
+
+<hr class="sep">
+
+<section class="tasks-section" id="tasks">
+  <h2>Առաջադրանքներ</h2>
+  <h3>Հաշվարկային առաջադրանքներ</h3>
+  <ol class="tasks">
+    <li>Փոխարինիր բազմապատկումով. $6+6+6+6$։</li>
+    <li>Գրիր գումարով. $7\cdot3$։</li>
+    <li>$12$ կոնֆետը հավասար բաժանեցին $3$ երեխայի։ Քանի՞ կոնֆետ ստացավ յուրաքանչյուրը։</li>
+    <li>Հաշվիր. $7\cdot8$; $6\cdot9$։</li>
+    <li>Հաշվիր. $5\cdot0$; $9\cdot1$; $6\cdot10$։</li>
+    <li>Հաշվիր. $42:6$; $63:9$։</li>
+    <li>Լուծիր. $x\cdot4=36$; $x:3=8$; $45:x=5$։</li>
+    <li>Կատարիր մնացորդով բաժանում. $17:5$։</li>
+    <li>Հաշվիր. $3+4\cdot5$; $(3+4)\cdot5$։</li>
+    <li>$1$ տետրն արժե $50$ դրամ։ Որքա՞ն արժեն $4$ տետրը։</li>
+    <li>$3$ գրչի համար վճարեցին $300$ դրամ։ Որքա՞ն արժե մեկ գրիչը։</li>
+    <li>Արմենն ունի $6$ մատիտ, Կարինեն՝ $3$ անգամ ավելի։ Քանի՞ մատիտ ունի Կարինեն։</li>
+    <li>Դահլիճում $4$ շարք է՝ $7$-ական աթոռով, $3$ աթոռ զբաղված է։ Քանի՞ աթոռ է ազատ։</li>
+  </ol>
+  <h3>Տրամաբանական և հայեցակարգային հարցեր</h3>
+  <ol class="tasks" start="14">
+    <li>Ինչո՞ւ ցանկացած թիվ $0$-ով բազմապատկելիս ստացվում է $0$։</li>
+    <li>Ինչո՞ւ մնացորդը միշտ փոքր է բաժանարարից։</li>
+    <li>Ինչո՞ւ $0$-ի վրա բաժանել չի կարելի։</li>
+  </ol>
+</section>
+
+<section class="tasks-section" id="answers">
+  <h2>Պատասխաններ</h2>
+  <h3>Հաշվարկային առաջադրանքների պատասխանները</h3>
+  <ol class="answers-list">
+    <li>$6\cdot4=24$</li>
+    <li>$7+7+7=21$</li>
+    <li>$4$</li>
+    <li>$56$; $54$</li>
+    <li>$0$; $9$; $60$</li>
+    <li>$7$; $7$</li>
+    <li>$9$; $24$; $9$</li>
+    <li>$3$ (մն. $2$)</li>
+    <li>$23$; $35$</li>
+    <li>$200$ դրամ</li>
+    <li>$100$ դրամ</li>
+    <li>$18$</li>
+    <li>$25$</li>
+  </ol>
+  <h3>Տրամաբանական և հայեցակարգային հարցերի պատասխանները</h3>
+  <ol class="answers-list answers-list-conceptual" start="14">
+    <li>$a\cdot0$ նշանակում է $a$-ն վերցնել $0$ անգամ, այսինքն՝ ոչինչ չվերցնել</li>
+    <li>Եթե մնացորդը հավասար կամ մեծ լիներ բաժանարարից, կարելի էր ևս մեկ անգամ բաժանել՝ քանորդը մեծացնելով</li>
+    <li>Ոչ մի թիվ $0$-ով բազմապատկելիս չի տալիս ոչ զրոյական բաժանելի, ուստի այդպիսի քանորդ գոյություն չունի</li>
+  </ol>
+</section>
+
+</main>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  renderMathInElement(document.body, {
+    delimiters: [
+      {left: "$$", right: "$$", display: true},
+      {left: "$", right: "$", display: false}
+    ],
+    strict: false
+  });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="hy">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Թվեր և գործողություններ 20-ի սահմաններում | Ուսումնական ուղեցույց</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<style>
+  :root{
+    --bg:#0f1f2e; --paper:#f6f8fb; --ink:#152233; --accent:#1e5f8c; --accent2:#c0562b;
+    --crust:#8fb3cc; --muted:#5b7188; --card:#ffffff; --line:#dde6ee;
+  }
+  *{box-sizing:border-box;}
+  html, body{overflow-x:hidden;}
+  body{margin:0; font-family:'Sylfaen','Arial',serif; background:var(--paper); color:var(--ink); font-size:18px; line-height:1.7;}
+  .hero{background:linear-gradient(135deg, var(--bg) 0%, #1c3b52 100%); color:#eaf2f8; padding:56px 24px 48px;}
+  .hero-inner{max-width:840px; margin:0 auto;}
+  h1.title{font-size:2.2rem; margin:0 0 10px; font-weight:bold; color:#fff;}
+  .hero p{color:#cfe0ec; max-width:620px; font-size:1.05rem;}
+  nav.toc{max-width:840px; margin:-26px auto 0; position:relative; z-index:3; background:var(--card); border-radius:10px; box-shadow:0 12px 30px rgba(15,31,46,.18); padding:22px 26px; border:1px solid var(--line);}
+  nav.toc h2{font-size:1.05rem; text-transform:uppercase; letter-spacing:.07em; color:var(--muted); margin:0 0 12px; font-weight:bold;}
+  nav.toc ol{margin:0; padding-left:20px; columns:2; column-gap:28px;}
+  nav.toc li{margin-bottom:8px; font-size:.98rem;}
+  nav.toc a{color:var(--accent); text-decoration:none; border-bottom:1px dotted var(--accent);}
+  main{max-width:840px; margin:40px auto 90px; padding:0 24px;}
+  section.part-header{margin:48px 0 20px; padding-bottom:8px; border-bottom:2px solid var(--crust); color:var(--muted); font-weight:bold; text-transform:uppercase; letter-spacing:.05em; font-size:.95rem;}
+  section.chapter{margin-bottom:56px;}
+  .chapter-head{display:flex; align-items:baseline; gap:14px; border-bottom:3px solid var(--accent2); padding-bottom:10px; margin-bottom:20px;}
+  .chapter-num{font-size:1.9rem; color:var(--accent); font-weight:bold;}
+  .chapter-head h2{margin:0; font-size:1.4rem; color:var(--ink); font-weight:bold;}
+
+  .block-title{font-weight:bold; color:var(--accent); font-size:1.02rem; margin:22px 0 8px; text-transform:uppercase; letter-spacing:.04em;}
+  .hook{background:#eef4f9; border-radius:10px; padding:16px 20px; margin:10px 0 18px; font-style:italic;}
+  .intuitive{padding:0 2px; margin-bottom:14px;}
+  .formal-def{background:#fff; border:1px solid var(--line); border-left:4px solid var(--accent); border-radius:0 10px 10px 0; padding:16px 20px; margin:14px 0;}
+  .formal-def b.term{color:var(--accent2);}
+
+  .visual-container.table-wrap{overflow-x:auto; width:100%; margin:18px 0; -webkit-overflow-scrolling:touch;}
+  table{border-collapse:collapse; width:100%;}
+  th,td{border:1px solid var(--line); padding:8px 12px; text-align:center; font-size:.98rem;}
+  th{background:#eaf1f7; font-weight:bold;}
+  svg{max-width:100%; height:auto; display:block; margin:0 auto;}
+
+  .formula-box{background:#fff8ee; border:1px solid #ecd9b6; border-radius:10px; padding:18px 22px; margin:16px 0;}
+  .formula-box .label{display:block; font-weight:bold; color:var(--accent2); margin-bottom:8px; text-transform:uppercase; font-size:.85rem; letter-spacing:.05em;}
+
+  .example-box{border-left:4px solid var(--accent); background:#fff; padding:16px 20px; margin:16px 0; border-radius:0 10px 10px 0; box-shadow:0 2px 8px rgba(15,31,46,.05);}
+  .example-box .tag{display:inline-block; font-size:.8rem; text-transform:uppercase; letter-spacing:.07em; color:#fff; background:var(--accent); padding:3px 10px; border-radius:20px; margin-bottom:8px; font-weight:bold;}
+  .example-box .step{margin:6px 0 6px 2px;}
+  .example-box .answer{margin-top:10px; padding:8px 14px; background:#eef4f9; border-radius:8px; border-left:3px solid var(--accent); font-weight:bold;}
+
+  .think{background:#f3ede0; border-left:4px solid var(--crust); border-radius:0 10px 10px 0; padding:12px 18px; margin:14px 0; font-style:italic; color:#4a3a1f;}
+
+  .error-box{background:#fdeeec; border:1px solid #f0c6bf; border-radius:10px; padding:16px 20px; margin:16px 0;}
+  .error-box h4{margin:0 0 8px; color:var(--accent2); font-size:1rem;}
+  .error-box .k{font-weight:bold; color:var(--accent2);}
+
+  .remember{background:#eef6ef; border:1px solid #cfe6d2; border-radius:10px; padding:14px 20px; margin:16px 0;}
+  .remember .label{font-weight:bold; color:#2f6b3a; text-transform:uppercase; font-size:.85rem; letter-spacing:.05em; display:block; margin-bottom:6px;}
+
+  .teacher-corner{background:#eaf1f7; border:1px dashed var(--crust); border-radius:10px; padding:16px 20px; margin:16px 0 28px;}
+  .teacher-corner .label{font-weight:bold; color:var(--accent); text-transform:uppercase; font-size:.85rem; letter-spacing:.05em; display:block; margin-bottom:6px;}
+
+  hr.sep{border:none; border-top:1px dashed var(--line); margin:36px 0;}
+
+  .tasks-section h2{color:var(--accent); border-bottom:3px solid var(--accent2); padding-bottom:8px;}
+  .tasks-section h3{color:var(--accent2); margin-top:26px;}
+  ol.tasks{padding-left:24px;}
+  ol.tasks li{margin-bottom:10px;}
+
+  .answers-section{background:#fff; padding:26px 28px; border-radius:10px; border:2px solid var(--accent); margin-top:44px;}
+  .answers-section h2{color:var(--accent); margin-top:0;}
+  .answers-section h3{color:var(--accent2); font-size:1rem; margin:22px 0 10px;}
+  .answers-list{columns:2; column-gap:36px; padding-left:20px; margin:0;}
+  .answers-list li{margin-bottom:9px; font-weight:bold;}
+  .answers-list-conceptual{columns:1; list-style-position:outside;}
+
+  @media (max-width:600px){
+    nav.toc ol{columns:1;}
+    .answers-list{columns:1;}
+    main{padding:0 14px;}
+  }
+
+  @media print {
+    body{background:#fff !important; color:#000 !important; font-size:12pt;}
+    .hero{padding:10px 0; background:none !important; color:#000 !important;}
+    h1.title{color:#000 !important;}
+    nav.toc{display:none !important;}
+    .formula-box, .example-box, .error-box, .visual-container, .table-wrap{page-break-inside:avoid !important; box-shadow:none !important; border:1px solid #ccc !important;}
+    .table-wrap, .visual-container{overflow-x:visible !important; white-space:pre-wrap !important; word-break:break-word !important;}
+    html, body{overflow-x:visible !important;}
+    .chapter{page-break-before:always;}
+    .chapter:first-of-type{page-break-before:auto;}
+    .answers-list{columns:3;}
+  }
+</style>
+
+<style id="tj-unified">
+  /* ԸՆԴՀԱՆՈՒՐ ՎԵՐԻՆ ՎԱՀԱՆԱԿ — նույնական բոլոր 19 ուղեցույցում։
+     Class-երը սկսվում են tj- նախածանցով, որ երբեք չբախվեն էջի
+     սեփական ոճերի հետ։ */
+  .tj-bar{background:#0f1f2e;color:#eaf2f8;font-family:'Sylfaen','Arial',serif;}
+  .tj-bar-in{max-width:840px;margin:0 auto;padding:10px 20px;display:flex;
+             align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+  .tj-back{color:#eaf2f8;text-decoration:none;font-weight:bold;font-size:.95rem;
+           border:1px solid rgba(234,242,248,.35);border-radius:8px;padding:5px 12px;}
+  .tj-back:hover{background:rgba(234,242,248,.12);}
+  .tj-grade{font-size:.85rem;color:#cfe0ec;letter-spacing:.03em;}
+  @media print{ .tj-bar{display:none;} }
+</style>
+</head>
+<body>
+<div class="tj-bar"><div class="tj-bar-in"><a class="tj-back" href="../index.html">← Տրենաժոր</a><span class="tj-grade">1 դասարան</span></div></div>
+
+
+<div class="hero">
+  <div class="hero-inner">
+    <h1 class="title">Թվեր և գործողություններ 20-ի սահմաններում</h1>
+    <p>Թվերի շարքից և համեմատումից մինչև 10-ի անցումով գումարում, անհայտ բաղադրիչ և առաջին տեքստային խնդիրները։</p>
+  </div>
+</div>
+
+<nav class="toc">
+  <h2>Բովանդակություն</h2>
+  <ol>
+    <li><a href="#s1">Թվերի շարքը 0–20</a></li>
+    <li><a href="#s2">Տասնյակ և միավորներ. թվեր 11–20</a></li>
+    <li><a href="#s3">Գումարում և հանում 10-ի սահմաններում</a></li>
+    <li><a href="#s4">Գումարում և հանում 10-ի անցումով</a></li>
+    <li><a href="#s5">Տեքստային խնդիրներ և չափում</a></li>
+    <li><a href="#tasks">Առաջադրանքներ</a></li>
+    <li><a href="#answers">Պատասխաններ</a></li>
+  </ol>
+</nav>
+
+<main>
+
+<section class="part-header">Մաս 1 / 3 — Թվեր</section>
+
+<section class="chapter" id="s1">
+  <div class="chapter-head"><span class="chapter-num">01</span><h2>Թվերի շարքը 0–20</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">Աստիճանահարթակին մրցանակակիրները կանգնում են 1, 2, 3 տեղերում։ Ո՞վ է կանգնած 2-րդից անմիջապես հետո։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">Թվերը գնում են իրար հետևից՝ ամեն հաջորդը մեկով ավելի է։ 2-ից հետո 3-ն է, իսկ 2-ից առաջ՝ 1-ը։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p>Թվին $1$ գումարելիս ստացվում է <b class="term">հաջորդ</b> թիվը, $1$ հանելիս՝ <b class="term">նախորդ</b> թիվը։</p>
+    <p>Թվերի շարքում ավելի ուշ գրված թիվը <b>մեծ</b> է։ Նշաններ՝ $\gt$ (մեծ է), $\lt$ (փոքր է), $=$ (հավասար է)։</p>
+    <p>Երկնիշ թիվը (ունի տասնյակ) մեծ է ցանկացած միանիշ թվից. $12\gt9$։</p>
+  </div>
+
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>Ո՞ր թիվն է հաջորդում $9$-ին, իսկ ո՞րն է նախորդում $15$-ին։</p>
+    <div class="step">$9+1=10$</div>
+    <div class="step">$15-1=14$</div>
+    <div class="answer">Պատասխան. $10$ և $14$</div>
+  </div>
+
+  <div class="think">Ո՞ր թիվն է գրվում $7$-ի և $9$-ի միջև։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> Ասել, որ $9\gt12$, որովհետև $9\gt2$։</p>
+    <p><span class="k">Ինչու՞</span> Երեխան համեմատում է միայն վերջին թվանշանները։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Նայիր թվանշանների քանակին. երկնիշ թիվը միշտ մեծ է միանիշից։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>Հաջորդ՝ $+1$, նախորդ՝ $-1$։</li>
+      <li>Շարքում ավելի ուշ գրվածը մեծ է։</li>
+      <li>Երկնիշը մեծ է միանիշից։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Աշխատեք թվային ճառագայթի կամ թվերի ժապավենի վրա. մատով «քայլելը» օգնում է տեսնել հաջորդ և նախորդ թվերը։
+  </div>
+</section>
+
+<section class="chapter" id="s2">
+  <div class="chapter-head"><span class="chapter-num">02</span><h2>Տասնյակ և միավորներ. թվեր 11–20</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">Դու ունես 10 մատիտ տուփի մեջ և ևս 4 մատիտ առանձին։ Քանի՞ մատիտ ունես։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">Տուփը մեկ տասնյակ է, կողքին՝ 4 միավոր. $10+4=14$։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p>$10$ միավորը կազմում է <b class="term">1 տասնյակ</b>։ $20=2$ տասնյակ։</p>
+    <p>$11$–$19$ թվերը կազմված են 1 տասնյակից և մի քանի միավորից. $17=10+7$։</p>
+    <p>Առանց կարգային անցման գումարելիս և հանելիս տասնյակը չի փոխվում, գործողությունը կատարվում է միավորների հետ. $13+4=10+(3+4)=17$։</p>
+  </div>
+
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>Հաշվիր. $13+4$ և $18-5$։</p>
+    <div class="step">$13=10+3$, $3+4=7$ → $17$</div>
+    <div class="step">$18=10+8$, $8-5=3$ → $13$</div>
+    <div class="answer">Պատասխան. $17$ և $13$</div>
+  </div>
+
+  <div class="think">Քանի՞ տասնյակ և քանի՞ միավոր կա $20$-ում։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> $13+4$-ը հաշվել որպես $7$ (մոռանալ տասնյակը)։</p>
+    <p><span class="k">Ինչու՞</span> Երեխան գործողությունը կատարում է միայն միավորների հետ և տասնյակը «կորցնում»։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Հարցրու. պատասխանը պե՞տք է մեծ լինի 10-ից։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>$10$ միավոր $=1$ տասնյակ։</li>
+      <li>$11$–$19$՝ տասնյակ $+$ միավորներ։</li>
+      <li>Առանց անցման՝ տասնյակը մնում է նույնը։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Օգտագործեք փայտիկներ կամ խորանարդիկներ՝ տասը հատը կապելով մեկ «տասնյակի» մեջ։ Այդպես երեխան տեսնում է, որ 14-ը «մեկ կապոց և չորս հատ» է։
+  </div>
+</section>
+
+<section class="part-header">Մաս 2 / 3 — Գործողություններ</section>
+
+<section class="chapter" id="s3">
+  <div class="chapter-head"><span class="chapter-num">03</span><h2>Գումարում և հանում 10-ի սահմաններում</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">Զամբյուղում 6 խնձոր կար, ավելացրին ևս 3։ Քանի՞ խնձոր դարձավ։ Իսկ եթե 4-ը կերան։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">Ավելացնելիս քայլում ենք առաջ՝ $6, 7, 8, 9$։ Հանելիս քայլում ենք հետ։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p>$a+b=c$ արտահայտության մեջ $a$-ն և $b$-ն <b class="term">գումարելիներ</b> են, $c$-ն՝ <b class="term">գումար</b>։</p>
+    <p>$a-b=c$ արտահայտության մեջ $a$-ն <b class="term">նվազելին</b> է, $b$-ն՝ <b class="term">հանելին</b>, $c$-ն՝ <b class="term">տարբերությունը</b>։</p>
+    <p><b>Տեղափոխական հատկություն.</b> $a+b=b+a$։</p>
+    <p>Փակագծերով արտահայտության մեջ <b>նախ կատարվում է փակագծի գործողությունը</b>։</p>
+  </div>
+
+  <div class="block-title">Կանոն</div>
+  <div class="formula-box"><span class="label">Անհայտ բաղադրիչ</span>
+    Անհայտ գումարելի $=$ գումար $-$ գումարելի. Անհայտ նվազելի $=$ տարբերություն $+$ հանելի. Անհայտ հանելի $=$ նվազելի $-$ տարբերություն
+  </div>
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>Ո՞ր թիվը պետք է գրել $\square$-ի փոխարեն. $\square+4=7$։</p>
+    <div class="step">Անհայտ գումարելի՝ $7-4$</div>
+    <div class="answer">Պատասխան. $3$</div>
+  </div>
+  <div class="example-box"><span class="tag">Օրինակ 2</span>
+    <p>Հաշվիր. $10-(3+2)$։</p>
+    <div class="step">Նախ փակագիծը՝ $3+2=5$</div>
+    <div class="step">$10-5=5$</div>
+    <div class="answer">Պատասխան. $5$</div>
+  </div>
+
+  <div class="think">Ինչո՞ւ $3+5$-ը և $5+3$-ը հավասար են։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> $\square+4=7$-ում գրել $11$ (գումարել)։</p>
+    <p><span class="k">Ինչու՞</span> Երեխան տեսնում է «$+$» նշանը և ավտոմատ գումարում։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Տեղադրիր պատասխանը. $11+4=15$, ոչ թե $7$։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>Գումարելիները կարելի է տեղափոխել։</li>
+      <li>Նախ՝ փակագիծը։</li>
+      <li>Պատասխանը միշտ ստուգիր տեղադրելով։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Անհայտ բաղադրիչի խնդիրները լավ է ներկայացնել կշեռքի կամ «թաքցված մատների» խաղով. երեխան նախ գուշակում է, հետո ստուգում։
+  </div>
+</section>
+
+<section class="chapter" id="s4">
+  <div class="chapter-head"><span class="chapter-num">04</span><h2>Գումարում և հանում 10-ի անցումով</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">$8+5$-ը դժվար է հաշվել մատներով։ Կա՞ ավելի հեշտ ճանապարհ։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">$8$-ին պակասում է $2$, որ դառնա $10$։ $5=2+3$, ուստի $8+2=10$, և $10+3=13$։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p><b class="term">Գումարում անցումով.</b> առաջին գումարելին լրացնում ենք մինչև $10$, հետո ավելացնում երկրորդի մնացած մասը։</p>
+    <p><b class="term">Հանում անցումով.</b> հանելին տրոհում ենք. նախ հանում ենք մինչև $10$, հետո $10$-ից հանում մնացածը. $14-6=14-4-2=8$։</p>
+  </div>
+
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>Հաշվիր. $8+5$ և $14-6$։</p>
+    <div class="step">$8+2+3=10+3=13$</div>
+    <div class="step">$14-4-2=10-2=8$</div>
+    <div class="answer">Պատասխան. $13$ և $8$</div>
+  </div>
+
+  <div class="think">Ինչպե՞ս կհաշվես $9+6$-ը 10-ի լրացումով։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> $8+5$-ի պատասխանը գրել $3$ (միայն միավորները)։</p>
+    <p><span class="k">Ինչու՞</span> Երեխան լրացնում է մինչև 10, բայց հետո մոռանում տասնյակը։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Հարցրու. $8+5$-ը $8$-ից մե՞ծ պետք է լինի, թե՞ փոքր։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>Նախ՝ մինչև $10$։</li>
+      <li>Հետո՝ մնացածը։</li>
+      <li>$10+$ միավորներ։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Տասը վանդակով «տասնյակի քարտը» (ten frame) օգնում է տեսնել լրացումը. երեխան լցնում է վանդակները, հետո ավելորդը դնում կողքին։
+  </div>
+</section>
+
+<section class="part-header">Մաս 3 / 3 — Խնդիրներ</section>
+
+<section class="chapter" id="s5">
+  <div class="chapter-head"><span class="chapter-num">05</span><h2>Տեքստային խնդիրներ և չափում</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">Աննան ունի 7 խնձոր, Դավիթը՝ 5-ով ավելի։ Ո՞վ ունի ավելի շատ, և քանի՞ խնձոր ունի Դավիթը։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">«5-ով ավելի» նշանակում է՝ նույնքան և ևս 5. $7+5=12$։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p>«-ով ավելի» → <b>գումարում</b>, «-ով պակաս» → <b>հանում</b>, «քանիո՞վ ավելի» → <b>տարբերություն</b>։</p>
+    <p>Երկքայլ խնդրում նախ գտնում ենք միջանկյալ պատասխանը, հետո՝ վերջնականը։</p>
+    <p>Քանոնով չափելիս հատվածի երկարությունը <b>վերջի և սկզբի նշագծերի տարբերությունն</b> է։</p>
+  </div>
+
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>Գրքում $15$ էջ է։ Առաջին օրը կարդացին $4$ էջ, երկրորդ օրը՝ $6$։ Քանի՞ էջ մնաց։</p>
+    <div class="step">Կարդացին՝ $4+6=10$</div>
+    <div class="step">Մնաց՝ $15-10=5$</div>
+    <div class="answer">Պատասխան. $5$ էջ</div>
+  </div>
+  <div class="example-box"><span class="tag">Օրինակ 2</span>
+    <p>Հատվածը սկսվում է քանոնի $3$ սմ-ից և վերջանում $11$ սմ-ում։ Որքա՞ն է երկարությունը։</p>
+    <div class="step">$11-3=8$</div>
+    <div class="answer">Պատասխան. $8$ սմ</div>
+  </div>
+
+  <div class="think">Շարունակիր շարքը. $2, 5, 8, 11, \square$։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> «$5$-ով ավելի»-ի դեպքում հանել, կամ երկքայլ խնդրում կանգ առնել առաջին քայլից։</p>
+    <p><span class="k">Ինչու՞</span> Երեխան ընտրում է գործողությունը բառով, ոչ թե իմաստով։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Նկարիր խնդիրը (շրջանակներ, գծեր) և ստուգիր՝ պատասխանը տրամաբանակա՞ն է։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>«-ով ավելի»՝ $+$, «-ով պակաս»՝ $-$։</li>
+      <li>Երկքայլ խնդիր՝ երկու գործողություն։</li>
+      <li>Քանոն՝ վերջ $-$ սկիզբ։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Խրախուսեք երեխային խնդիրը վերապատմել իր բառերով. եթե կարողանում է պատմել, կարողանում է նաև ընտրել գործողությունը։
+  </div>
+</section>
+
+<hr class="sep">
+
+<section class="tasks-section" id="tasks">
+  <h2>Առաջադրանքներ</h2>
+  <h3>Հաշվարկային առաջադրանքներ</h3>
+  <ol class="tasks">
+    <li>Ո՞ր թիվն է հաջորդում $9$-ին։ Ո՞րն է նախորդում $15$-ին։</li>
+    <li>Համեմատիր. $12$ և $9$։</li>
+    <li>Հաշվիր. $6+3$; $9-4$։</li>
+    <li>Ո՞ր թիվը պետք է գրել $\square$-ի փոխարեն. $\square+4=7$։</li>
+    <li>Հաշվիր. $10-(3+2)$։</li>
+    <li>Հաշվիր. $13+4$; $18-5$։</li>
+    <li>Հաշվիր 10-ի լրացումով. $8+5$։</li>
+    <li>Հաշվիր. $14-6$։</li>
+    <li>Աննան ունի $7$ խնձոր, Դավիթը՝ $5$-ով ավելի։ Քանի՞ խնձոր ունի Դավիթը։</li>
+    <li>Հատվածը սկսվում է քանոնի $3$ սմ-ից և վերջանում $11$ սմ-ում։ Որքա՞ն է նրա երկարությունը։</li>
+    <li>Գրքում $15$ էջ է։ Կարդացին $4$ և $6$ էջ։ Քանի՞ էջ մնաց։</li>
+    <li>Շարունակիր շարքը. $2, 5, 8, 11, \square$։</li>
+  </ol>
+  <h3>Տրամաբանական և հայեցակարգային հարցեր</h3>
+  <ol class="tasks" start="13">
+    <li>Ինչո՞ւ $3+5=5+3$։</li>
+    <li>Ինչո՞ւ $12\gt9$, թեև $2\lt9$։</li>
+    <li>Ինչո՞ւ քանոնով չափելիս պետք է հանել սկզբի նշագիծը։</li>
+  </ol>
+</section>
+
+<section class="tasks-section" id="answers">
+  <h2>Պատասխաններ</h2>
+  <h3>Հաշվարկային առաջադրանքների պատասխանները</h3>
+  <ol class="answers-list">
+    <li>$10$; $14$</li>
+    <li>$12\gt9$</li>
+    <li>$9$; $5$</li>
+    <li>$3$</li>
+    <li>$5$</li>
+    <li>$17$; $13$</li>
+    <li>$8+2+3=13$</li>
+    <li>$14-4-2=8$</li>
+    <li>$12$</li>
+    <li>$8$ սմ</li>
+    <li>$15-4-6=5$</li>
+    <li>$14$</li>
+  </ol>
+  <h3>Տրամաբանական և հայեցակարգային հարցերի պատասխանները</h3>
+  <ol class="answers-list answers-list-conceptual" start="13">
+    <li>Գումարելիների տեղերը փոխելիս գումարը չի փոխվում (տեղափոխական հատկություն)</li>
+    <li>$12$-ը ունի տասնյակ, իսկ $9$-ը՝ միայն միավորներ. երկնիշը մեծ է միանիշից</li>
+    <li>Երկարությունը նշագծերի միջև եղած սանտիմետրերն են, ոչ թե վերջի նշագիծը</li>
+  </ol>
+</section>
+
+</main>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  renderMathInElement(document.body, {
+    delimiters: [
+      {left: "$$", right: "$$", display: true},
+      {left: "$", right: "$", display: false}
+    ],
+    strict: false
+  });
+});
+</script>
+</body>
+</html>
