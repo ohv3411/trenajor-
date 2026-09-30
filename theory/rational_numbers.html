@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="hy">
+<head>
+<script src="../trenajor-config.js"></script>
+<script src="assets/guard.js"></script>
+
+<script src="../trenajor-config.js"></script>
+<script src="assets/guard.js"></script>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ռացիոնալ թվեր | Ուսումնական ուղեցույց</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<style>
+  :root{
+    --bg:#0f1f2e; --paper:#f6f8fb; --ink:#152233; --accent:#1e5f8c; --accent2:#c0562b;
+    --crust:#8fb3cc; --muted:#5b7188; --card:#ffffff; --line:#dde6ee;
+  }
+  *{box-sizing:border-box;}
+  html, body{overflow-x:hidden;}
+  body{margin:0; font-family:'Sylfaen','Arial',serif; background:var(--paper); color:var(--ink); font-size:18px; line-height:1.7;}
+  .hero{background:linear-gradient(135deg, var(--bg) 0%, #1c3b52 100%); color:#eaf2f8; padding:56px 24px 48px;}
+  .hero-inner{max-width:840px; margin:0 auto;}
+  h1.title{font-size:2.2rem; margin:0 0 10px; font-weight:bold; color:#fff;}
+  .hero p{color:#cfe0ec; max-width:620px; font-size:1.05rem;}
+  nav.toc{max-width:840px; margin:-26px auto 0; position:relative; z-index:3; background:var(--card); border-radius:10px; box-shadow:0 12px 30px rgba(15,31,46,.18); padding:22px 26px; border:1px solid var(--line);}
+  nav.toc h2{font-size:1.05rem; text-transform:uppercase; letter-spacing:.07em; color:var(--muted); margin:0 0 12px; font-weight:bold;}
+  nav.toc ol{margin:0; padding-left:20px; columns:2; column-gap:28px;}
+  nav.toc li{margin-bottom:8px; font-size:.98rem;}
+  nav.toc a{color:var(--accent); text-decoration:none; border-bottom:1px dotted var(--accent);}
+  main{max-width:840px; margin:40px auto 90px; padding:0 24px;}
+  section.part-header{margin:48px 0 20px; padding-bottom:8px; border-bottom:2px solid var(--crust); color:var(--muted); font-weight:bold; text-transform:uppercase; letter-spacing:.05em; font-size:.95rem;}
+  section.chapter{margin-bottom:56px;}
+  .chapter-head{display:flex; align-items:baseline; gap:14px; border-bottom:3px solid var(--accent2); padding-bottom:10px; margin-bottom:20px;}
+  .chapter-num{font-size:1.9rem; color:var(--accent); font-weight:bold;}
+  .chapter-head h2{margin:0; font-size:1.4rem; color:var(--ink); font-weight:bold;}
+
+  .block-title{font-weight:bold; color:var(--accent); font-size:1.02rem; margin:22px 0 8px; text-transform:uppercase; letter-spacing:.04em;}
+  .hook{background:#eef4f9; border-radius:10px; padding:16px 20px; margin:10px 0 18px; font-style:italic;}
+  .intuitive{padding:0 2px; margin-bottom:14px;}
+  .formal-def{background:#fff; border:1px solid var(--line); border-left:4px solid var(--accent); border-radius:0 10px 10px 0; padding:16px 20px; margin:14px 0;}
+  .formal-def b.term{color:var(--accent2);}
+
+  .visual-container.table-wrap{overflow-x:auto; width:100%; margin:18px 0; -webkit-overflow-scrolling:touch;}
+  table{border-collapse:collapse; width:100%;}
+  th,td{border:1px solid var(--line); padding:8px 12px; text-align:center; font-size:.98rem;}
+  th{background:#eaf1f7; font-weight:bold;}
+  svg{max-width:100%; height:auto; display:block; margin:0 auto;}
+
+  .formula-box{background:#fff8ee; border:1px solid #ecd9b6; border-radius:10px; padding:18px 22px; margin:16px 0;}
+  .formula-box .label{display:block; font-weight:bold; color:var(--accent2); margin-bottom:8px; text-transform:uppercase; font-size:.85rem; letter-spacing:.05em;}
+
+  .example-box{border-left:4px solid var(--accent); background:#fff; padding:16px 20px; margin:16px 0; border-radius:0 10px 10px 0; box-shadow:0 2px 8px rgba(15,31,46,.05);}
+  .example-box .tag{display:inline-block; font-size:.8rem; text-transform:uppercase; letter-spacing:.07em; color:#fff; background:var(--accent); padding:3px 10px; border-radius:20px; margin-bottom:8px; font-weight:bold;}
+  .example-box .step{margin:6px 0 6px 2px;}
+  .example-box .answer{margin-top:10px; padding:8px 14px; background:#eef4f9; border-radius:8px; border-left:3px solid var(--accent); font-weight:bold;}
+
+  .think{background:#f3ede0; border-left:4px solid var(--crust); border-radius:0 10px 10px 0; padding:12px 18px; margin:14px 0; font-style:italic; color:#4a3a1f;}
+
+  .error-box{background:#fdeeec; border:1px solid #f0c6bf; border-radius:10px; padding:16px 20px; margin:16px 0;}
+  .error-box h4{margin:0 0 8px; color:var(--accent2); font-size:1rem;}
+  .error-box .k{font-weight:bold; color:var(--accent2);}
+
+  .remember{background:#eef6ef; border:1px solid #cfe6d2; border-radius:10px; padding:14px 20px; margin:16px 0;}
+  .remember .label{font-weight:bold; color:#2f6b3a; text-transform:uppercase; font-size:.85rem; letter-spacing:.05em; display:block; margin-bottom:6px;}
+
+  .teacher-corner{background:#eaf1f7; border:1px dashed var(--crust); border-radius:10px; padding:16px 20px; margin:16px 0 28px;}
+  .teacher-corner .label{font-weight:bold; color:var(--accent); text-transform:uppercase; font-size:.85rem; letter-spacing:.05em; display:block; margin-bottom:6px;}
+
+  hr.sep{border:none; border-top:1px dashed var(--line); margin:36px 0;}
+
+  .tasks-section h2{color:var(--accent); border-bottom:3px solid var(--accent2); padding-bottom:8px;}
+  .tasks-section h3{color:var(--accent2); margin-top:26px;}
+  ol.tasks{padding-left:24px;}
+  ol.tasks li{margin-bottom:10px;}
+
+  .answers-section{background:#fff; padding:26px 28px; border-radius:10px; border:2px solid var(--accent); margin-top:44px;}
+  .answers-section h2{color:var(--accent); margin-top:0;}
+  .answers-section h3{color:var(--accent2); font-size:1rem; margin:22px 0 10px;}
+  .answers-list{columns:2; column-gap:36px; padding-left:20px; margin:0;}
+  .answers-list li{margin-bottom:9px; font-weight:bold;}
+  .answers-list-conceptual{columns:1; list-style-position:outside;}
+
+  @media (max-width:600px){
+    nav.toc ol{columns:1;}
+    .answers-list{columns:1;}
+    main{padding:0 14px;}
+  }
+
+  @media print {
+    body{background:#fff !important; color:#000 !important; font-size:12pt;}
+    .hero{padding:10px 0; background:none !important; color:#000 !important;}
+    h1.title{color:#000 !important;}
+    nav.toc{display:none !important;}
+    .formula-box, .example-box, .error-box, .visual-container, .table-wrap{page-break-inside:avoid !important; box-shadow:none !important; border:1px solid #ccc !important;}
+    .table-wrap, .visual-container{overflow-x:visible !important; white-space:pre-wrap !important; word-break:break-word !important;}
+    html, body{overflow-x:visible !important;}
+    .chapter{page-break-before:always;}
+    .chapter:first-of-type{page-break-before:auto;}
+    .answers-list{columns:3;}
+  }
+</style>
+
+<style id="tj-unified">
+  /* ԸՆԴՀԱՆՈՒՐ ՎԵՐԻՆ ՎԱՀԱՆԱԿ — նույնական բոլոր 19 ուղեցույցում։
+     Class-երը սկսվում են tj- նախածանցով, որ երբեք չբախվեն էջի
+     սեփական ոճերի հետ։ */
+  .tj-bar{background:#0f1f2e;color:#eaf2f8;font-family:'Sylfaen','Arial',serif;}
+  .tj-bar-in{max-width:840px;margin:0 auto;padding:10px 20px;display:flex;
+             align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+  .tj-back{color:#eaf2f8;text-decoration:none;font-weight:bold;font-size:.95rem;
+           border:1px solid rgba(234,242,248,.35);border-radius:8px;padding:5px 12px;}
+  .tj-back:hover{background:rgba(234,242,248,.12);}
+  .tj-grade{font-size:.85rem;color:#cfe0ec;letter-spacing:.03em;}
+  @media print{ .tj-bar{display:none;} }
+</style>
+<style id="teacher-mode-css">html:not(.teacher-mode) .teacher-corner, html:not(.teacher-mode) .tc-title{display:none}.tj-teacher{margin-left:auto;background:transparent;border:1px solid currentColor;border-radius:14px;padding:2px 10px;font:inherit;font-size:.8rem;cursor:pointer;color:inherit;opacity:.85}</style>
+<script id="teacher-mode-js">(function(){var K="trenajor_teacher_mode",H=document.documentElement;try{if(localStorage.getItem(K)==="1")H.classList.add("teacher-mode")}catch(e){}document.addEventListener("DOMContentLoaded",function(){document.querySelectorAll(".teacher-corner").forEach(function(t){var p=t.previousElementSibling;if(p&&p.classList.contains("block-title"))p.classList.add("tc-title")});var b=document.getElementById("tj-teacher");if(!b)return;function lab(){b.textContent=H.classList.contains("teacher-mode")?"👩‍🏫 Ուսուցչի նշումները՝ միացված":"👩‍🏫 Ուսուցչի նշումներ"}lab();b.addEventListener("click",function(){H.classList.toggle("teacher-mode");try{localStorage.setItem(K,H.classList.contains("teacher-mode")?"1":"0")}catch(e){}lab()})})})();</script>
+<style id="teacher-mode-css">html:not(.teacher-mode) .teacher-corner, html:not(.teacher-mode) .tc-title{display:none}.tj-teacher{margin-left:auto;background:transparent;border:1px solid currentColor;border-radius:14px;padding:2px 10px;font:inherit;font-size:.8rem;cursor:pointer;color:inherit;opacity:.85}</style>
+<script id="teacher-mode-js">(function(){var K="trenajor_teacher_mode",H=document.documentElement;try{if(localStorage.getItem(K)==="1")H.classList.add("teacher-mode")}catch(e){}document.addEventListener("DOMContentLoaded",function(){document.querySelectorAll(".teacher-corner").forEach(function(t){var p=t.previousElementSibling;if(p&&p.classList.contains("block-title"))p.classList.add("tc-title")});var b=document.getElementById("tj-teacher");if(!b)return;function lab(){b.textContent=H.classList.contains("teacher-mode")?"👩‍🏫 Ուսուցչի նշումները՝ միացված":"👩‍🏫 Ուսուցչի նշումներ"}lab();b.addEventListener("click",function(){H.classList.toggle("teacher-mode");try{localStorage.setItem(K,H.classList.contains("teacher-mode")?"1":"0")}catch(e){}lab()})})})();</script>
+</head>
+<body>
+<div class="tj-bar"><div class="tj-bar-in"><a class="tj-back" href="../index.html">← Տրենաժոր</a><span class="tj-grade">6 դասարան</span><button type="button" class="tj-teacher" id="tj-teacher">👩‍🏫 Ուսուցչի նշումներ</button><button type="button" class="tj-teacher" id="tj-teacher">👩‍🏫 Ուսուցչի նշումներ</button></div></div>
+
+
+<div class="hero">
+  <div class="hero-inner">
+    <h1 class="title">Ռացիոնալ թվեր</h1>
+    <p>Ռացիոնալ թվերի բազմությունից և թվային ուղղից մինչև չորս գործողություն նշաններով և կիրառական խնդիրներ։</p>
+  </div>
+</div>
+
+<nav class="toc">
+  <h2>Բովանդակություն</h2>
+  <ol>
+    <li><a href="#s1">Ի՞նչ է ռացիոնալ թիվը</a></li>
+    <li><a href="#s2">Հակադիր, հակադարձ, մոդուլ</a></li>
+    <li><a href="#s3">Գումարում և հանում</a></li>
+    <li><a href="#s4">Բազմապատկում և բաժանում</a></li>
+    <li><a href="#s5">Գործողությունների կարգ, հավասարումներ, խնդիրներ</a></li>
+    <li><a href="#tasks">Առաջադրանքներ</a></li>
+    <li><a href="#answers">Պատասխաններ</a></li>
+  </ol>
+</nav>
+
+<main>
+
+<section class="part-header">Մաս 1 / 3 — Ռացիոնալ թիվ</section>
+
+<section class="chapter" id="s1">
+  <div class="chapter-head"><span class="chapter-num">01</span><h2>Ի՞նչ է ռացիոնալ թիվը</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">Ջերմաչափը ցույց է տալիս $-2{,}5^\circ$, իսկ բանկային հաշվի մնացորդը՝ $-\frac{1}{2}$ հազար դրամ։ Սրանք ո՛չ բնական են, ո՛չ ամբողջ։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">Թվային ուղղի վրա ամբողջ թվերի միջև կան բազմաթիվ այլ կետեր՝ դրական և բացասական կոտորակներ։ Բոլորը միասին ռացիոնալ թվերն են։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p><b class="term">Ռացիոնալ</b> է այն թիվը, որը կարելի է գրել $\frac{m}{n}$ տեսքով, որտեղ $m$-ը ամբողջ թիվ է, $n$-ը՝ բնական։</p>
+    <p>Բնական թվերը ամբողջ թվերի մաս են, ամբողջ թվերը՝ ռացիոնալ թվերի. $0$-ն նույնպես ռացիոնալ է ($0=\frac{0}{1}$)։</p>
+    <p>Ռացիոնալ թվերից մեծ է այն, որը թվային ուղղի վրա ավելի աջ է. $-\frac{1}{4}\gt-\frac{1}{2}$։</p>
+  </div>
+
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>Դասավորիր աճման կարգով. $0$; $\frac{2}{3}$; $-\frac{4}{3}$; $-\frac{5}{3}$։</p>
+    <div class="step">Բացասականները՝ ձախում. ավելի մեծ մոդուլով թիվն ավելի փոքր է. $-\frac{5}{3}\lt-\frac{4}{3}$</div>
+    <div class="step">Հետո $0$, հետո $\frac{2}{3}$</div>
+    <div class="answer">Պատասխան. $-\frac{5}{3}\lt-\frac{4}{3}\lt0\lt\frac{2}{3}$</div>
+  </div>
+
+  <div class="think">Ո՞րն է մեծ՝ $-\frac{1}{2}$-ը, թե $-\frac{1}{3}$-ը։ Պատկերիր թվային ուղղի վրա։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> $-\frac{1}{2}\gt-\frac{1}{3}$ («քանի որ $\frac{1}{2}\gt\frac{1}{3}$»), կամ $0$-ն չհամարել ռացիոնալ։</p>
+    <p><span class="k">Ինչու՞</span> Աշակերտը բացասական թվերը համեմատում է մոդուլով։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Պատկերիր երկու թիվը թվային ուղղի վրա. աջ գտնվողն է մեծ։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>Բնական ⊂ ամբողջ ⊂ ռացիոնալ։</li>
+      <li>$0$-ն ռացիոնալ է։</li>
+      <li>Բացասականներից մեծ է փոքր մոդուլով թիվը։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Թվային ուղիղը դարձրեք դասի կենտրոնական գործիքը. համեմատումը, հեռավորությունը և հակադիր թիվը բոլորը տեսանելի են նրա վրա։
+  </div>
+</section>
+
+<section class="chapter" id="s2">
+  <div class="chapter-head"><span class="chapter-num">02</span><h2>Հակադիր, հակադարձ, մոդուլ</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">$-\frac{1}{4}$-ի հակադիրը և հակադարձը նույն թի՞վն են։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">Հակադիրը «հայելային» թիվն է $0$-ի նկատմամբ՝ $\frac{1}{4}$։ Հակադարձը այն թիվն է, որով բազմապատկելիս ստացվում է $1$՝ $-4$։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p>$a$-ի <b class="term">հակադիրը</b>՝ $-a$ (գումարը՝ $0$)։</p>
+    <p>$a\ne0$-ի <b class="term">հակադարձը</b>՝ $\frac{1}{a}$ (արտադրյալը՝ $1$)։ Հակադարձը <b>պահպանում է նշանը</b>. $-\frac{2}{3}$-ի հակադարձը $-\frac{3}{2}$ է։</p>
+    <p><b class="term">Մոդուլը</b>՝ հեռավորությունը $0$-ից, միշտ ոչ բացասական. $\left|-\frac{3}{4}\right|=\frac{3}{4}$։ $a$ և $b$ թվերի հեռավորությունը՝ $|a-b|$։</p>
+  </div>
+
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>Գտիր $-\frac{2}{3}$-ի հակադիրը, հակադարձը և մոդուլը։</p>
+    <div class="step">Հակադիր. $\frac{2}{3}$</div>
+    <div class="step">Հակադարձ. $-\frac{3}{2}$</div>
+    <div class="step">Մոդուլ. $\frac{2}{3}$</div>
+    <div class="answer">Պատասխան. $\frac{2}{3}$; $-\frac{3}{2}$; $\frac{2}{3}$</div>
+  </div>
+
+  <div class="think">Ո՞ր թիվն է իր իսկ հակադարձը։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> $-\frac{1}{4}$-ի հակադարձը գրել $4$ (նշանը կորցնել) կամ շփոթել հակադիրի հետ։</p>
+    <p><span class="k">Ինչու՞</span> Աշակերտը երկու հասկացությունը շփոթում է նման անունների պատճառով։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Ստուգիր. հակադիր՝ գումարը $0$, հակադարձ՝ արտադրյալը $1$։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>Հակադիր՝ գումարը $0$։</li>
+      <li>Հակադարձ՝ արտադրյալը $1$, նշանը նույնն է։</li>
+      <li>Մոդուլ՝ միշտ $\ge0$։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Տվեք երկու հարց միաժամանակ («հակադիրը և հակադարձը»), որ աշակերտները ստիպված լինեն տարբերել դրանք։
+  </div>
+</section>
+
+<section class="part-header">Մաս 2 / 3 — Գործողություններ</section>
+
+<section class="chapter" id="s3">
+  <div class="chapter-head"><span class="chapter-num">03</span><h2>Գումարում և հանում</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">Առավոտյան $-3{,}5^\circ$ էր, ցերեկը բարձրացավ $5^\circ$-ով։ Քանի՞ աստիճան դարձավ։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">Թվային ուղղի վրա $-3{,}5$-ից $5$ քայլ աջ. $1{,}5^\circ$։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p>Նույն նշաններով թվերի գումարը. մոդուլները գումարում ենք, նշանը՝ ընդհանուրը։ Տարբեր նշաններով՝ մեծ մոդուլից հանում ենք փոքրը, նշանը՝ մեծ մոդուլով թվինը։</p>
+    <p>Հանումը՝ հակադիրի գումարում. $a-b=a+(-b)$։</p>
+    <p>Կոտորակների դեպքում նախ բերում ենք ընդհանուր հայտարարի. $-\frac{17}{12}+\frac{1}{3}=-\frac{17}{12}+\frac{4}{12}=-\frac{13}{12}$։</p>
+  </div>
+
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>Հաշվիր. $-\frac{3}{4}-\left(-\frac{1}{6}\right)$։</p>
+    <div class="step">$=-\frac{3}{4}+\frac{1}{6}$</div>
+    <div class="step">$=-\frac{9}{12}+\frac{2}{12}=-\frac{7}{12}$</div>
+    <div class="answer">Պատասխան. $-\frac{7}{12}$</div>
+  </div>
+
+  <div class="think">Ինչո՞ւ $a-(-b)=a+b$։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> Գումարել նաև հայտարարները կամ կորցնել «−»-ը բացասական թիվը հանելիս։</p>
+    <p><span class="k">Ինչու՞</span> Աշակերտը նշանի կանոնները կիրառում է ոչ տեղին։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Գնահատիր թվային ուղղով. պատասխանը մոտավորապես որտե՞ղ պետք է լինի։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>Նախ ընդհանուր հայտարար։</li>
+      <li>Հանում = հակադիրի գումարում։</li>
+      <li>Նշանը՝ մեծ մոդուլով թվինը։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Օգտագործեք ջերմաստիճանի և բարձրության օրինակներ. դրանք նշաններով գործողություններին տալիս են իմաստ։
+  </div>
+</section>
+
+<section class="chapter" id="s4">
+  <div class="chapter-head"><span class="chapter-num">04</span><h2>Բազմապատկում և բաժանում</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">$\left(-\frac{2}{9}\right)\cdot\frac{9}{4}$. դրակա՞ն կլինի արդյունքը, թե՞ բացասական։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">Տարբեր նշաններ → բացասական։ Մնացածը՝ ինչպես սովորական կոտորակներում. $\frac{2\cdot9}{9\cdot4}=\frac{1}{2}$, ուստի $-\frac{1}{2}$։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p>Նշանի կանոն. <b>նույն նշաններ → «+», տարբեր → «−»</b>։</p>
+    <p>Բաժանել՝ բազմապատկել <b>բաժանարարի</b> հակադարձով. $\frac{a}{b}:\frac{c}{d}=\frac{a}{b}\cdot\frac{d}{c}$ ($c\ne0$)։</p>
+    <p>Խառը թիվը նախ վերածում ենք անկանոն կոտորակի, «−»-ը վերաբերում է ամբողջ թվին. $-2\tfrac{1}{2}=-\frac{5}{2}$։</p>
+  </div>
+
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>Հաշվիր. $-2\tfrac{1}{2}\cdot(-6)$ և $\frac{2}{3}:\left(-\frac{1}{3}\right)$։</p>
+    <div class="step">$-\frac{5}{2}\cdot(-6)=15$</div>
+    <div class="step">$\frac{2}{3}\cdot(-3)=-2$</div>
+    <div class="answer">Պատասխան. $15$; $-2$</div>
+  </div>
+
+  <div class="think">Ինչո՞ւ $-2\tfrac{1}{2}$-ը հավասար չէ $-2+\frac{1}{2}$-ի։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> Խառը թվի մասերը բազմապատկել առանձին կամ հակադարձել առաջին կոտորակը։</p>
+    <p><span class="k">Ինչու՞</span> Աշակերտը մեխանիկորեն է կիրառում «հակադարձիր» կանոնը։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Հիշիր. հակադարձվում է միայն այն, ինչի ՎՐԱ բաժանում ենք։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>Նույն նշաններ՝ «+», տարբեր՝ «−»։</li>
+      <li>Հակադարձվում է բաժանարարը։</li>
+      <li>Խառը թիվ → անկանոն կոտորակ։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Նշանի կանոնը լավ է բացատրել օրինաչափությամբ. $3\cdot(-2)=-6$, $2\cdot(-2)=-4$, … , $-1\cdot(-2)=2$ (արդյունքը ամեն անգամ աճում է $2$-ով)։
+  </div>
+</section>
+
+<section class="part-header">Մաս 3 / 3 — Կիրառություններ</section>
+
+<section class="chapter" id="s5">
+  <div class="chapter-head"><span class="chapter-num">05</span><h2>Գործողությունների կարգ, հավասարումներ, խնդիրներ</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">Չորս օրվա ջերմաստիճաններն էին $2^\circ$, $9^\circ$, $10^\circ$, $-9^\circ$։ Որքա՞ն է միջինը։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">Գումարում ենք նշաններով. $2+9+10-9=12$, և բաժանում $4$-ի. $3^\circ$։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p>Գործողությունների կարգը նույնն է. փակագծեր → բազմապատկում/բաժանում → գումարում/հանում։</p>
+    <p>Հարմար հաշվարկ. $a\cdot b+a\cdot c=a(b+c)$. $\left(-\frac{3}{5}\right)\cdot9+\left(-\frac{3}{5}\right)\cdot1=-\frac{3}{5}\cdot10=-6$։</p>
+    <p>$\frac{m}{n}x=c$ հավասարումը լուծում ենք՝ երկու մասը բազմապատկելով $\frac{n}{m}$-ով։</p>
+  </div>
+
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>Լուծիր. $-\frac{2}{7}x=2$։</p>
+    <div class="step">$x=2:\left(-\frac{2}{7}\right)=2\cdot\left(-\frac{7}{2}\right)$</div>
+    <div class="step">$x=-7$. ստուգում՝ $-\frac{2}{7}\cdot(-7)=2$ ✓</div>
+    <div class="answer">Պատասխան. $x=-7$</div>
+  </div>
+
+  <div class="think">Ինչո՞ւ միջին ջերմաստիճանը կարող է լինել բացասական, նույնիսկ եթե օրերի մեծ մասը տաք էր։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> Միջինը հաշվելիս գումարել մոդուլները, կամ հավասարման մեջ բաժանել գործակցի միայն համարիչի վրա։</p>
+    <p><span class="k">Ինչու՞</span> Աշակերտը անտեսում է նշանները երկար հաշվարկում։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Ստուգիր պատասխանը տեղադրմամբ կամ իմաստով։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>Կարգը՝ ինչպես միշտ։</li>
+      <li>Ընդհանուր արտադրիչը՝ դուրս։</li>
+      <li>$\frac{m}{n}x=c$ ⇒ $x=c\cdot\frac{n}{m}$։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Կիրառական խնդիրները (ջերմաստիճան, բարձրություն ծովի մակարդակից, հաշվեկշիռ) օգնում են աշակերտներին զգալ, թե ինչու են բացասական թվերը անհրաժեշտ։
+  </div>
+</section>
+
+<hr class="sep">
+
+<section class="tasks-section" id="tasks">
+  <h2>Առաջադրանքներ</h2>
+  <h3>Հաշվարկային առաջադրանքներ</h3>
+  <ol class="tasks">
+    <li>Ո՞ր թիվն է ռացիոնալ, բայց ամբողջ չէ. $0$; $\frac{3}{3}$; $-9$; $-\frac{1}{3}$։</li>
+    <li>Ո՞րն է մեծ՝ $-\frac{1}{2}$, թե $-\frac{1}{3}$։</li>
+    <li>Գտիր $-\frac{1}{4}$-ի հակադիրը և հակադարձը։</li>
+    <li>Հաշվիր. $-\frac{17}{12}+\frac{1}{3}$։</li>
+    <li>Հաշվիր. $-\frac{3}{4}-\left(-\frac{1}{6}\right)$։</li>
+    <li>Հաշվիր. $\left(-\frac{2}{9}\right)\cdot\frac{9}{4}$։</li>
+    <li>Հաշվիր. $\frac{2}{3}:\left(-\frac{1}{3}\right)$։</li>
+    <li>Հաշվիր. $-2\tfrac{1}{2}\cdot(-6)$։</li>
+    <li>Գրիր սովորական կոտորակով. $-0{,}875$։</li>
+    <li>Որքա՞ն է $-2$ և $3$ թվերի հեռավորությունը։</li>
+    <li>Լուծիր. $-\frac{2}{7}x=2$։</li>
+    <li>Գտիր $2$; $9$; $10$; $-9$ թվերի միջինը։</li>
+  </ol>
+  <h3>Տրամաբանական և հայեցակարգային հարցեր</h3>
+  <ol class="tasks" start="13">
+    <li>Ինչո՞ւ հակադարձ թիվը պահպանում է նշանը։</li>
+    <li>Ինչո՞ւ $-\frac{1}{3}\gt-\frac{1}{2}$։</li>
+  </ol>
+</section>
+
+<section class="answers-section" id="answers">
+  <h2>Պատասխաններ</h2>
+  <h3>Հաշվարկային առաջադրանքների պատասխանները</h3>
+  <ol class="answers-list">
+    <li>$-\frac{1}{3}$</li>
+    <li>$-\frac{1}{3}$</li>
+    <li>$\frac{1}{4}$ և $-4$</li>
+    <li>$-\frac{13}{12}$</li>
+    <li>$-\frac{7}{12}$</li>
+    <li>$-\frac{1}{2}$</li>
+    <li>$-2$</li>
+    <li>$15$</li>
+    <li>$-\frac{7}{8}$</li>
+    <li>$5$</li>
+    <li>$x=-7$</li>
+    <li>$3$</li>
+  </ol>
+  <h3>Տրամաբանական և հայեցակարգային հարցերի պատասխանները</h3>
+  <ol class="answers-list answers-list-conceptual" start="13">
+    <li>Հակադարձ թվերի արտադրյալը $1$ է (դրական), իսկ դա հնարավոր է միայն, եթե երկու թվերը նույն նշանն ունեն</li>
+    <li>$-\frac{1}{3}$-ը թվային ուղղի վրա ավելի մոտ է $0$-ին, այսինքն՝ ավելի աջ է ($\frac{1}{3}\lt\frac{1}{2}$ մոդուլով)</li>
+  </ol>
+</section>
+
+</main>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  renderMathInElement(document.body, {
+    delimiters: [
+      {left: "$$", right: "$$", display: true},
+      {left: "$", right: "$", display: false}
+    ],
+    strict: false
+  });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="hy">
+<head>
+<script src="../trenajor-config.js"></script>
+<script src="assets/guard.js"></script>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Բազմություններ և հաշվարկման սկզբունքներ | Ուսումնական ուղեցույց</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<style>
+  :root{
+    --bg:#0f1f2e; --paper:#f6f8fb; --ink:#152233; --accent:#1e5f8c; --accent2:#c0562b;
+    --crust:#8fb3cc; --muted:#5b7188; --card:#ffffff; --line:#dde6ee;
+  }
+  *{box-sizing:border-box;}
+  html, body{overflow-x:hidden;}
+  body{margin:0; font-family:'Sylfaen','Arial',serif; background:var(--paper); color:var(--ink); font-size:18px; line-height:1.7;}
+  .hero{background:linear-gradient(135deg, var(--bg) 0%, #1c3b52 100%); color:#eaf2f8; padding:56px 24px 48px;}
+  .hero-inner{max-width:840px; margin:0 auto;}
+  h1.title{font-size:2.2rem; margin:0 0 10px; font-weight:bold; color:#fff;}
+  .hero p{color:#cfe0ec; max-width:620px; font-size:1.05rem;}
+  nav.toc{max-width:840px; margin:-26px auto 0; position:relative; z-index:3; background:var(--card); border-radius:10px; box-shadow:0 12px 30px rgba(15,31,46,.18); padding:22px 26px; border:1px solid var(--line);}
+  nav.toc h2{font-size:1.05rem; text-transform:uppercase; letter-spacing:.07em; color:var(--muted); margin:0 0 12px; font-weight:bold;}
+  nav.toc ol{margin:0; padding-left:20px; columns:2; column-gap:28px;}
+  nav.toc li{margin-bottom:8px; font-size:.98rem;}
+  nav.toc a{color:var(--accent); text-decoration:none; border-bottom:1px dotted var(--accent);}
+  main{max-width:840px; margin:40px auto 90px; padding:0 24px;}
+  section.part-header{margin:48px 0 20px; padding-bottom:8px; border-bottom:2px solid var(--crust); color:var(--muted); font-weight:bold; text-transform:uppercase; letter-spacing:.05em; font-size:.95rem;}
+  section.chapter{margin-bottom:56px;}
+  .chapter-head{display:flex; align-items:baseline; gap:14px; border-bottom:3px solid var(--accent2); padding-bottom:10px; margin-bottom:20px;}
+  .chapter-num{font-size:1.9rem; color:var(--accent); font-weight:bold;}
+  .chapter-head h2{margin:0; font-size:1.4rem; color:var(--ink); font-weight:bold;}
+
+  .block-title{font-weight:bold; color:var(--accent); font-size:1.02rem; margin:22px 0 8px; text-transform:uppercase; letter-spacing:.04em;}
+  .hook{background:#eef4f9; border-radius:10px; padding:16px 20px; margin:10px 0 18px; font-style:italic;}
+  .intuitive{padding:0 2px; margin-bottom:14px;}
+  .formal-def{background:#fff; border:1px solid var(--line); border-left:4px solid var(--accent); border-radius:0 10px 10px 0; padding:16px 20px; margin:14px 0;}
+  .formal-def b.term{color:var(--accent2);}
+
+  .visual-container.table-wrap{overflow-x:auto; width:100%; margin:18px 0; -webkit-overflow-scrolling:touch;}
+  table{border-collapse:collapse; width:100%;}
+  th,td{border:1px solid var(--line); padding:8px 12px; text-align:center; font-size:.98rem;}
+  th{background:#eaf1f7; font-weight:bold;}
+  svg{max-width:100%; height:auto; display:block; margin:0 auto;}
+
+  .formula-box{background:#fff8ee; border:1px solid #ecd9b6; border-radius:10px; padding:18px 22px; margin:16px 0;}
+  .formula-box .label{display:block; font-weight:bold; color:var(--accent2); margin-bottom:8px; text-transform:uppercase; font-size:.85rem; letter-spacing:.05em;}
+
+  .example-box{border-left:4px solid var(--accent); background:#fff; padding:16px 20px; margin:16px 0; border-radius:0 10px 10px 0; box-shadow:0 2px 8px rgba(15,31,46,.05);}
+  .example-box .tag{display:inline-block; font-size:.8rem; text-transform:uppercase; letter-spacing:.07em; color:#fff; background:var(--accent); padding:3px 10px; border-radius:20px; margin-bottom:8px; font-weight:bold;}
+  .example-box .step{margin:6px 0 6px 2px;}
+  .example-box .answer{margin-top:10px; padding:8px 14px; background:#eef4f9; border-radius:8px; border-left:3px solid var(--accent); font-weight:bold;}
+
+  .think{background:#f3ede0; border-left:4px solid var(--crust); border-radius:0 10px 10px 0; padding:12px 18px; margin:14px 0; font-style:italic; color:#4a3a1f;}
+
+  .error-box{background:#fdeeec; border:1px solid #f0c6bf; border-radius:10px; padding:16px 20px; margin:16px 0;}
+  .error-box h4{margin:0 0 8px; color:var(--accent2); font-size:1rem;}
+  .error-box .k{font-weight:bold; color:var(--accent2);}
+
+  .remember{background:#eef6ef; border:1px solid #cfe6d2; border-radius:10px; padding:14px 20px; margin:16px 0;}
+  .remember .label{font-weight:bold; color:#2f6b3a; text-transform:uppercase; font-size:.85rem; letter-spacing:.05em; display:block; margin-bottom:6px;}
+
+  .teacher-corner{background:#eaf1f7; border:1px dashed var(--crust); border-radius:10px; padding:16px 20px; margin:16px 0 28px;}
+  .teacher-corner .label{font-weight:bold; color:var(--accent); text-transform:uppercase; font-size:.85rem; letter-spacing:.05em; display:block; margin-bottom:6px;}
+
+  hr.sep{border:none; border-top:1px dashed var(--line); margin:36px 0;}
+
+  .tasks-section h2{color:var(--accent); border-bottom:3px solid var(--accent2); padding-bottom:8px;}
+  .tasks-section h3{color:var(--accent2); margin-top:26px;}
+  ol.tasks{padding-left:24px;}
+  ol.tasks li{margin-bottom:10px;}
+
+  .answers-section{background:#fff; padding:26px 28px; border-radius:10px; border:2px solid var(--accent); margin-top:44px;}
+  .answers-section h2{color:var(--accent); margin-top:0;}
+  .answers-section h3{color:var(--accent2); font-size:1rem; margin:22px 0 10px;}
+  .answers-list{columns:2; column-gap:36px; padding-left:20px; margin:0;}
+  .answers-list li{margin-bottom:9px; font-weight:bold;}
+  .answers-list-conceptual{columns:1; list-style-position:outside;}
+
+  @media (max-width:600px){
+    nav.toc ol{columns:1;}
+    .answers-list{columns:1;}
+    main{padding:0 14px;}
+  }
+
+  @media print {
+    body{background:#fff !important; color:#000 !important; font-size:12pt;}
+    .hero{padding:10px 0; background:none !important; color:#000 !important;}
+    h1.title{color:#000 !important;}
+    nav.toc{display:none !important;}
+    .formula-box, .example-box, .error-box, .visual-container, .table-wrap{page-break-inside:avoid !important; box-shadow:none !important; border:1px solid #ccc !important;}
+    .table-wrap, .visual-container{overflow-x:visible !important; white-space:pre-wrap !important; word-break:break-word !important;}
+    html, body{overflow-x:visible !important;}
+    .chapter{page-break-before:always;}
+    .chapter:first-of-type{page-break-before:auto;}
+    .answers-list{columns:3;}
+  }
+</style>
+
+<style id="tj-unified">
+  /* ԸՆԴՀԱՆՈՒՐ ՎԵՐԻՆ ՎԱՀԱՆԱԿ — նույնական բոլոր 19 ուղեցույցում։
+     Class-երը սկսվում են tj- նախածանցով, որ երբեք չբախվեն էջի
+     սեփական ոճերի հետ։ */
+  .tj-bar{background:#0f1f2e;color:#eaf2f8;font-family:'Sylfaen','Arial',serif;}
+  .tj-bar-in{max-width:840px;margin:0 auto;padding:10px 20px;display:flex;
+             align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+  .tj-back{color:#eaf2f8;text-decoration:none;font-weight:bold;font-size:.95rem;
+           border:1px solid rgba(234,242,248,.35);border-radius:8px;padding:5px 12px;}
+  .tj-back:hover{background:rgba(234,242,248,.12);}
+  .tj-grade{font-size:.85rem;color:#cfe0ec;letter-spacing:.03em;}
+  @media print{ .tj-bar{display:none;} }
+</style>
+<style id="teacher-mode-css">html:not(.teacher-mode) .teacher-corner, html:not(.teacher-mode) .tc-title{display:none}.tj-teacher{margin-left:auto;background:transparent;border:1px solid currentColor;border-radius:14px;padding:2px 10px;font:inherit;font-size:.8rem;cursor:pointer;color:inherit;opacity:.85}</style>
+<script id="teacher-mode-js">(function(){var K="trenajor_teacher_mode",H=document.documentElement;try{if(localStorage.getItem(K)==="1")H.classList.add("teacher-mode")}catch(e){}document.addEventListener("DOMContentLoaded",function(){document.querySelectorAll(".teacher-corner").forEach(function(t){var p=t.previousElementSibling;if(p&&p.classList.contains("block-title"))p.classList.add("tc-title")});var b=document.getElementById("tj-teacher");if(!b)return;function lab(){b.textContent=H.classList.contains("teacher-mode")?"👩‍🏫 Ուսուցչի նշումները՝ միացված":"👩‍🏫 Ուսուցչի նշումներ"}lab();b.addEventListener("click",function(){H.classList.toggle("teacher-mode");try{localStorage.setItem(K,H.classList.contains("teacher-mode")?"1":"0")}catch(e){}lab()})})})();</script>
+</head>
+<body>
+<div class="tj-bar"><div class="tj-bar-in"><a class="tj-back" href="../index.html">← Տրենաժոր</a><span class="tj-grade">7 դասարան</span><button type="button" class="tj-teacher" id="tj-teacher">👩‍🏫 Ուսուցչի նշումներ</button></div></div>
+
+
+<div class="hero">
+  <div class="hero-inner">
+    <h1 class="title">Բազմություններ և հաշվարկման սկզբունքներ</h1>
+    <p>Բազմություններից, հատումից և միավորումից մինչև արտադրյալի սկզբունք և դասավորություններ։</p>
+  </div>
+</div>
+
+<nav class="toc">
+  <h2>Բովանդակություն</h2>
+  <ol>
+    <li><a href="#s1">Բազմություն, տարր, ենթաբազմություն</a></li>
+    <li><a href="#s2">Հատում, միավորում, Վենի դիագրամ</a></li>
+    <li><a href="#s3">Արտադրյալի սկզբունք և դասավորություններ</a></li>
+    <li><a href="#tasks">Առաջադրանքներ</a></li>
+    <li><a href="#answers">Պատասխաններ</a></li>
+  </ol>
+</nav>
+
+<main>
+
+<section class="part-header">Մաս 1 / 2 — Բազմություններ</section>
+
+<section class="chapter" id="s1">
+  <div class="chapter-head"><span class="chapter-num">01</span><h2>Բազմություն, տարր, ենթաբազմություն</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">Քո դասարանի աշակերտները, 10-ից փոքր զույգ թվերը, «ՄԱՄԱ» բառի տառերը. սրանք բոլորը բազմություններ են։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">Բազմությունը «հավաքածու» է, որտեղ ամեն տարր մեկ անգամ է. «ՄԱՄԱ» բառի տառերի բազմությունը $\{\text{Մ};\ \text{Ա}\}$ է՝ 2 տարր։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p>$x\in A$՝ «$x$-ը պատկանում է $A$-ին» (<b>տարրի</b> համար)։ $B\subset A$՝ «$B$-ն $A$-ի ենթաբազմություն է» (<b>բազմության</b> համար. $B$-ի բոլոր տարրերը $A$-ում են)։</p>
+    <p><b class="term">Դատարկ բազմություն</b>՝ $\varnothing$, տարր չունի և ցանկացած բազմության ենթաբազմություն է։ Ամեն բազմություն իր իսկ ենթաբազմությունն է։</p>
+    <p>$n$ տարր ունեցող բազմությունն ունի $2^n$ ենթաբազմություն (ամեն տարր՝ «կա» կամ «չկա»)։</p>
+  </div>
+
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>$A=\{1;\ 3;\ 5\}$։ Ճի՞շտ են. $3\in A$, $\{1;\ 5\}\subset A$, $3\subset A$։ Քանի՞ ենթաբազմություն ունի $A$-ն։</p>
+    <div class="step">$3\in A$՝ ճիշտ</div>
+    <div class="step">$\{1;\ 5\}\subset A$՝ ճիշտ</div>
+    <div class="step">$3\subset A$՝ սխալ գրառում ($3$-ը տարր է, ոչ բազմություն)</div>
+    <div class="step">$2^3=8$</div>
+    <div class="answer">Պատասխան. ճիշտ, ճիշտ, սխալ; $8$</div>
+  </div>
+
+  <div class="think">Արդյո՞ք $\{2;\ 2;\ 5\}$ և $\{2;\ 5\}$ բազմությունները տարբեր են։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> Տարրերը կրկնել ($\{1;\ 2;\ 2\}$) կամ գրել $3\subset A$։</p>
+    <p><span class="k">Ինչու՞</span> Աշակերտը շփոթում է տարրը և մեկ տարրանոց բազմությունը։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Հարցրու. ձախում տա՞րր է, թե՞ բազմություն։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>Տարր՝ մեկ անգամ։</li>
+      <li>$\in$՝ տարր, $\subset$՝ բազմություն։</li>
+      <li>$2^n$ ենթաբազմություն։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Օգտագործեք իրական հավաքածուներ (դասարանի աշակերտներ, խմբակներ). վերացական նշանագրումը ներմուծեք միայն դրանից հետո։
+  </div>
+</section>
+
+<section class="chapter" id="s2">
+  <div class="chapter-head"><span class="chapter-num">02</span><h2>Հատում, միավորում, Վենի դիագրամ</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">30 աշակերտից 18-ը հաճախում են շախմատի, 15-ը՝ լողի, 7-ը՝ երկուսին։ Քանի՞սն են հաճախում գոնե մեկին։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">$18+15=33$-ը ավելի է, քան 30-ը. երկուսին հաճախողները հաշվվել են երկու անգամ։ Ճիշտը՝ $18+15-7=26$։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p>$A\cap B$ (<b class="term">հատում</b>)՝ երկուսում էլ եղած տարրերը։ $A\cup B$ (<b class="term">միավորում</b>)՝ գոնե մեկում եղածները (ամեն մեկը մեկ անգամ)։</p>
+    <p>$|A\cup B|=|A|+|B|-|A\cap B|$։</p>
+    <p>«Միայն $A$-ում»՝ $|A|-|A\cap B|$; «ոչ մեկում»՝ ընդհանուրից հանել $|A\cup B|$-ը։</p>
+  </div>
+
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>$A=\{1;\ 2;\ 3;\ 4\}$, $B=\{3;\ 4;\ 5\}$։ Գտիր $A\cap B$ և $A\cup B$։</p>
+    <div class="step">Ընդհանուրները. $3$, $4$</div>
+    <div class="step">Բոլորը մեկական անգամ. $1$, $2$, $3$, $4$, $5$</div>
+    <div class="answer">Պատասխան. $\{3;\ 4\}$; $\{1;\ 2;\ 3;\ 4;\ 5\}$</div>
+  </div>
+
+  <div class="think">Ե՞րբ է $|A\cup B|=|A|+|B|$։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> $|A\cup B|=|A|+|B|$ կամ ընդհանուր տարրերը գրել երկու անգամ։</p>
+    <p><span class="k">Ինչու՞</span> Աշակերտը չի նկատում, որ ընդհանուր մասը հաշվվել է երկու անգամ։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Նկարիր Վենի դիագրամը և լրացրու նախ կենտրոնական մասը։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>$\cap$՝ երկուսում, $\cup$՝ գոնե մեկում։</li>
+      <li>Ընդհանուրը հանում ենք մեկ անգամ։</li>
+      <li>Վենի դիագրամ՝ սկսիր կենտրոնից։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Վենի դիագրամը լրացնելու կարգը (կենտրոն → «միայն» մասեր → դուրս) կանխում է կրկնակի հաշվարկի սխալը։
+  </div>
+</section>
+
+<section class="part-header">Մաս 2 / 2 — Հաշվարկման սկզբունքներ</section>
+
+<section class="chapter" id="s3">
+  <div class="chapter-head"><span class="chapter-num">03</span><h2>Արտադրյալի սկզբունք և դասավորություններ</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">3 վերնաշապիկ և 4 տաբատ. քանի՞ տարբեր հագուստ կարելի է կազմել։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">Ամեն վերնաշապիկ կարելի է հագնել 4 տաբատից որևէ մեկի հետ. $3\cdot4=12$ (ոչ թե $3+4$)։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p><b class="term">Արտադրյալի սկզբունք.</b> եթե առաջին ընտրությունը կարելի է կատարել $m$ եղանակով, երկրորդը՝ $n$, ապա զույգը՝ $m\cdot n$ եղանակով։</p>
+    <p>$n$ տարբեր առարկաների դասավորությունների քանակը՝ $n!=1\cdot2\cdot\ldots\cdot n$։ $n$-ից $k$-ի կարգավորված ընտրությունը՝ $n(n-1)\ldots(n-k+1)$։</p>
+    <p>Եթե կարգը կարևոր չէ (զույգեր, ձեռքսեղմումներ), կրկնակի հաշվվածները բաժանում ենք. $\dfrac{n(n-1)}{2}$։</p>
+  </div>
+
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>$0$, $1$, $2$, $3$ թվանշաններից քանի՞ երկնիշ թիվ կա՝ առանց կրկնության։</p>
+    <div class="step">Տասնավորներ՝ 0 չի կարող լինել. $3$ տարբերակ</div>
+    <div class="step">Միավորներ՝ մնացածներից $3$ (0-ն հիմա թույլատրված է)</div>
+    <div class="step">$3\cdot3=9$</div>
+    <div class="answer">Պատասխան. $9$</div>
+  </div>
+
+  <div class="think">10 հոգուց ավագ և տեղակալ ընտրելը ($90$) ինչո՞ւ տարբերվում է 10 հոգու ձեռքսեղմումներից ($45$)։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> $3$ վերնաշապիկ + $4$ տաբատ $=7$, կամ երկնիշ թվի համար թույլ տալ առաջին թվանշանը $0$։</p>
+    <p><span class="k">Ինչու՞</span> Աշակերտը շփոթում է «և» (արտադրյալ) և «կամ» (գումար) դեպքերը։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Թվարկիր մի քանի տարբերակ ծառի տեսքով։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>«Եվ»՝ բազմապատկում։</li>
+      <li>Առաջին թվանշանը $0$ չէ։</li>
+      <li>Կարգը կարևո՞ր է՝ ստուգիր։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Ընտրության ծառը (ճյուղավորվող սխեմա) ամենապարզ վիզուալ ապացույցն է արտադրյալի սկզբունքի համար։
+  </div>
+</section>
+
+<hr class="sep">
+
+<section class="tasks-section" id="tasks">
+  <h2>Առաջադրանքներ</h2>
+  <h3>Հաշվարկային առաջադրանքներ</h3>
+  <ol class="tasks">
+    <li>Քանի՞ տարր ունի $1\,223\,331$ թվի թվանշանների բազմությունը։</li>
+    <li>$A=\{1;\ 3;\ 5\}$։ Ճի՞շտ է $3\subset A$ գրառումը։</li>
+    <li>Քանի՞ ենթաբազմություն ունի $\{2;\ 4;\ 6;\ 8\}$-ը։</li>
+    <li>$A=\{1;\ 2;\ 3;\ 4\}$, $B=\{3;\ 4;\ 5\}$։ Գտիր $A\cap B$ և $A\cup B$։</li>
+    <li>$18$ աշակերտ՝ շախմատ, $15$՝ լող, $7$՝ երկուսն էլ։ Քանի՞սն են հաճախում գոնե մեկին։</li>
+    <li>Նույն պայմանով, քանի՞սն են հաճախում միայն շախմատի։</li>
+    <li>Քանի՞ եղանակով կարելի է $5$ գիրք դասավորել դարակում։</li>
+    <li>$3$ վերնաշապիկ, $4$ տաբատ, $2$ զույգ կոշիկ. քանի՞ հագուստ։</li>
+    <li>$0$, $1$, $2$, $3$-ից քանի՞ երկնիշ թիվ՝ առանց կրկնության։</li>
+    <li>$10$ մարդ, յուրաքանչյուրը մեկ անգամ սեղմեց մյուսի ձեռքը։ Քանի՞ ձեռքսեղմում։</li>
+  </ol>
+  <h3>Տրամաբանական և հայեցակարգային հարցեր</h3>
+  <ol class="tasks" start="11">
+    <li>Ինչո՞ւ $|A\cup B|$-ը հաշվելիս հանում ենք $|A\cap B|$-ը։</li>
+    <li>Ինչո՞ւ $n$ տարրանոց բազմությունն ունի $2^n$ ենթաբազմություն։</li>
+  </ol>
+</section>
+
+<section class="answers-section" id="answers">
+  <h2>Պատասխաններ</h2>
+  <h3>Հաշվարկային առաջադրանքների պատասխանները</h3>
+  <ol class="answers-list">
+    <li>$3$ ($\{1;\ 2;\ 3\}$)</li>
+    <li>Ոչ. ճիշտ է $3\in A$ կամ $\{3\}\subset A$</li>
+    <li>$2^4=16$</li>
+    <li>$\{3;\ 4\}$; $\{1;\ 2;\ 3;\ 4;\ 5\}$</li>
+    <li>$18+15-7=26$</li>
+    <li>$18-7=11$</li>
+    <li>$5!=120$</li>
+    <li>$3\cdot4\cdot2=24$</li>
+    <li>$3\cdot3=9$</li>
+    <li>$\dfrac{10\cdot9}{2}=45$</li>
+  </ol>
+  <h3>Տրամաբանական և հայեցակարգային հարցերի պատասխանները</h3>
+  <ol class="answers-list answers-list-conceptual" start="11">
+    <li>Ընդհանուր տարրերը մտնում են և՛ $|A|$-ի, և՛ $|B|$-ի մեջ, այսինքն՝ հաշվվել են երկու անգամ</li>
+    <li>Ամեն տարրի համար 2 հնարավորություն կա (մտնում է կամ ոչ), և արտադրյալի սկզբունքով՝ $2\cdot2\cdot\ldots\cdot2=2^n$</li>
+  </ol>
+</section>
+
+</main>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  renderMathInElement(document.body, {
+    delimiters: [
+      {left: "$$", right: "$$", display: true},
+      {left: "$", right: "$", display: false}
+    ],
+    strict: false
+  });
+});
+</script>
+</body>
+</html>

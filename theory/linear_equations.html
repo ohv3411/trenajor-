@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="hy">
+<head>
+<script src="../trenajor-config.js"></script>
+<script src="assets/guard.js"></script>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Գծային հավասարումներ | Ուսումնական ուղեցույց</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<style>
+  :root{
+    --bg:#0f1f2e; --paper:#f6f8fb; --ink:#152233; --accent:#1e5f8c; --accent2:#c0562b;
+    --crust:#8fb3cc; --muted:#5b7188; --card:#ffffff; --line:#dde6ee;
+  }
+  *{box-sizing:border-box;}
+  html, body{overflow-x:hidden;}
+  body{margin:0; font-family:'Sylfaen','Arial',serif; background:var(--paper); color:var(--ink); font-size:18px; line-height:1.7;}
+  .hero{background:linear-gradient(135deg, var(--bg) 0%, #1c3b52 100%); color:#eaf2f8; padding:56px 24px 48px;}
+  .hero-inner{max-width:840px; margin:0 auto;}
+  h1.title{font-size:2.2rem; margin:0 0 10px; font-weight:bold; color:#fff;}
+  .hero p{color:#cfe0ec; max-width:620px; font-size:1.05rem;}
+  nav.toc{max-width:840px; margin:-26px auto 0; position:relative; z-index:3; background:var(--card); border-radius:10px; box-shadow:0 12px 30px rgba(15,31,46,.18); padding:22px 26px; border:1px solid var(--line);}
+  nav.toc h2{font-size:1.05rem; text-transform:uppercase; letter-spacing:.07em; color:var(--muted); margin:0 0 12px; font-weight:bold;}
+  nav.toc ol{margin:0; padding-left:20px; columns:2; column-gap:28px;}
+  nav.toc li{margin-bottom:8px; font-size:.98rem;}
+  nav.toc a{color:var(--accent); text-decoration:none; border-bottom:1px dotted var(--accent);}
+  main{max-width:840px; margin:40px auto 90px; padding:0 24px;}
+  section.part-header{margin:48px 0 20px; padding-bottom:8px; border-bottom:2px solid var(--crust); color:var(--muted); font-weight:bold; text-transform:uppercase; letter-spacing:.05em; font-size:.95rem;}
+  section.chapter{margin-bottom:56px;}
+  .chapter-head{display:flex; align-items:baseline; gap:14px; border-bottom:3px solid var(--accent2); padding-bottom:10px; margin-bottom:20px;}
+  .chapter-num{font-size:1.9rem; color:var(--accent); font-weight:bold;}
+  .chapter-head h2{margin:0; font-size:1.4rem; color:var(--ink); font-weight:bold;}
+
+  .block-title{font-weight:bold; color:var(--accent); font-size:1.02rem; margin:22px 0 8px; text-transform:uppercase; letter-spacing:.04em;}
+  .hook{background:#eef4f9; border-radius:10px; padding:16px 20px; margin:10px 0 18px; font-style:italic;}
+  .intuitive{padding:0 2px; margin-bottom:14px;}
+  .formal-def{background:#fff; border:1px solid var(--line); border-left:4px solid var(--accent); border-radius:0 10px 10px 0; padding:16px 20px; margin:14px 0;}
+  .formal-def b.term{color:var(--accent2);}
+
+  .visual-container.table-wrap{overflow-x:auto; width:100%; margin:18px 0; -webkit-overflow-scrolling:touch;}
+  table{border-collapse:collapse; width:100%;}
+  th,td{border:1px solid var(--line); padding:8px 12px; text-align:center; font-size:.98rem;}
+  th{background:#eaf1f7; font-weight:bold;}
+  svg{max-width:100%; height:auto; display:block; margin:0 auto;}
+
+  .formula-box{background:#fff8ee; border:1px solid #ecd9b6; border-radius:10px; padding:18px 22px; margin:16px 0;}
+  .formula-box .label{display:block; font-weight:bold; color:var(--accent2); margin-bottom:8px; text-transform:uppercase; font-size:.85rem; letter-spacing:.05em;}
+
+  .example-box{border-left:4px solid var(--accent); background:#fff; padding:16px 20px; margin:16px 0; border-radius:0 10px 10px 0; box-shadow:0 2px 8px rgba(15,31,46,.05);}
+  .example-box .tag{display:inline-block; font-size:.8rem; text-transform:uppercase; letter-spacing:.07em; color:#fff; background:var(--accent); padding:3px 10px; border-radius:20px; margin-bottom:8px; font-weight:bold;}
+  .example-box .step{margin:6px 0 6px 2px;}
+  .example-box .answer{margin-top:10px; padding:8px 14px; background:#eef4f9; border-radius:8px; border-left:3px solid var(--accent); font-weight:bold;}
+
+  .think{background:#f3ede0; border-left:4px solid var(--crust); border-radius:0 10px 10px 0; padding:12px 18px; margin:14px 0; font-style:italic; color:#4a3a1f;}
+
+  .error-box{background:#fdeeec; border:1px solid #f0c6bf; border-radius:10px; padding:16px 20px; margin:16px 0;}
+  .error-box h4{margin:0 0 8px; color:var(--accent2); font-size:1rem;}
+  .error-box .k{font-weight:bold; color:var(--accent2);}
+
+  .remember{background:#eef6ef; border:1px solid #cfe6d2; border-radius:10px; padding:14px 20px; margin:16px 0;}
+  .remember .label{font-weight:bold; color:#2f6b3a; text-transform:uppercase; font-size:.85rem; letter-spacing:.05em; display:block; margin-bottom:6px;}
+
+  .teacher-corner{background:#eaf1f7; border:1px dashed var(--crust); border-radius:10px; padding:16px 20px; margin:16px 0 28px;}
+  .teacher-corner .label{font-weight:bold; color:var(--accent); text-transform:uppercase; font-size:.85rem; letter-spacing:.05em; display:block; margin-bottom:6px;}
+
+  hr.sep{border:none; border-top:1px dashed var(--line); margin:36px 0;}
+
+  .tasks-section h2{color:var(--accent); border-bottom:3px solid var(--accent2); padding-bottom:8px;}
+  .tasks-section h3{color:var(--accent2); margin-top:26px;}
+  ol.tasks{padding-left:24px;}
+  ol.tasks li{margin-bottom:10px;}
+
+  .answers-section{background:#fff; padding:26px 28px; border-radius:10px; border:2px solid var(--accent); margin-top:44px;}
+  .answers-section h2{color:var(--accent); margin-top:0;}
+  .answers-section h3{color:var(--accent2); font-size:1rem; margin:22px 0 10px;}
+  .answers-list{columns:2; column-gap:36px; padding-left:20px; margin:0;}
+  .answers-list li{margin-bottom:9px; font-weight:bold;}
+  .answers-list-conceptual{columns:1; list-style-position:outside;}
+
+  @media (max-width:600px){
+    nav.toc ol{columns:1;}
+    .answers-list{columns:1;}
+    main{padding:0 14px;}
+  }
+
+  @media print {
+    body{background:#fff !important; color:#000 !important; font-size:12pt;}
+    .hero{padding:10px 0; background:none !important; color:#000 !important;}
+    h1.title{color:#000 !important;}
+    nav.toc{display:none !important;}
+    .formula-box, .example-box, .error-box, .visual-container, .table-wrap{page-break-inside:avoid !important; box-shadow:none !important; border:1px solid #ccc !important;}
+    .table-wrap, .visual-container{overflow-x:visible !important; white-space:pre-wrap !important; word-break:break-word !important;}
+    html, body{overflow-x:visible !important;}
+    .chapter{page-break-before:always;}
+    .chapter:first-of-type{page-break-before:auto;}
+    .answers-list{columns:3;}
+  }
+</style>
+
+<style id="tj-unified">
+  /* ԸՆԴՀԱՆՈՒՐ ՎԵՐԻՆ ՎԱՀԱՆԱԿ — նույնական բոլոր 19 ուղեցույցում։
+     Class-երը սկսվում են tj- նախածանցով, որ երբեք չբախվեն էջի
+     սեփական ոճերի հետ։ */
+  .tj-bar{background:#0f1f2e;color:#eaf2f8;font-family:'Sylfaen','Arial',serif;}
+  .tj-bar-in{max-width:840px;margin:0 auto;padding:10px 20px;display:flex;
+             align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+  .tj-back{color:#eaf2f8;text-decoration:none;font-weight:bold;font-size:.95rem;
+           border:1px solid rgba(234,242,248,.35);border-radius:8px;padding:5px 12px;}
+  .tj-back:hover{background:rgba(234,242,248,.12);}
+  .tj-grade{font-size:.85rem;color:#cfe0ec;letter-spacing:.03em;}
+  @media print{ .tj-bar{display:none;} }
+</style>
+<style id="teacher-mode-css">html:not(.teacher-mode) .teacher-corner, html:not(.teacher-mode) .tc-title{display:none}.tj-teacher{margin-left:auto;background:transparent;border:1px solid currentColor;border-radius:14px;padding:2px 10px;font:inherit;font-size:.8rem;cursor:pointer;color:inherit;opacity:.85}</style>
+<script id="teacher-mode-js">(function(){var K="trenajor_teacher_mode",H=document.documentElement;try{if(localStorage.getItem(K)==="1")H.classList.add("teacher-mode")}catch(e){}document.addEventListener("DOMContentLoaded",function(){document.querySelectorAll(".teacher-corner").forEach(function(t){var p=t.previousElementSibling;if(p&&p.classList.contains("block-title"))p.classList.add("tc-title")});var b=document.getElementById("tj-teacher");if(!b)return;function lab(){b.textContent=H.classList.contains("teacher-mode")?"👩‍🏫 Ուսուցչի նշումները՝ միացված":"👩‍🏫 Ուսուցչի նշումներ"}lab();b.addEventListener("click",function(){H.classList.toggle("teacher-mode");try{localStorage.setItem(K,H.classList.contains("teacher-mode")?"1":"0")}catch(e){}lab()})})})();</script>
+</head>
+<body>
+<div class="tj-bar"><div class="tj-bar-in"><a class="tj-back" href="../index.html">← Տրենաժոր</a><span class="tj-grade">6–7 դասարան</span><button type="button" class="tj-teacher" id="tj-teacher">👩‍🏫 Ուսուցչի նշումներ</button></div></div>
+
+
+<div class="hero">
+  <div class="hero-inner">
+    <h1 class="title">Գծային հավասարումներ</h1>
+    <p>Կշեռքի մոդելից մինչև փակագծեր, լուծումների քանակ և խնդիրներ հավասարմամբ։</p>
+  </div>
+</div>
+
+<nav class="toc">
+  <h2>Բովանդակություն</h2>
+  <ol>
+    <li><a href="#s1">Ի՞նչ է հավասարումը</a></li>
+    <li><a href="#s2">Նման անդամներ և ax+b=c</a></li>
+    <li><a href="#s3">Անհայտը երկու մասում, փակագծեր, կոտորակներ</a></li>
+    <li><a href="#s4">Լուծումների քանակը</a></li>
+    <li><a href="#s5">Խնդիրներ հավասարմամբ</a></li>
+    <li><a href="#tasks">Առաջադրանքներ</a></li>
+    <li><a href="#answers">Պատասխաններ</a></li>
+  </ol>
+</nav>
+
+<main>
+
+<section class="part-header">Մաս 1 / 2 — Հավասարում</section>
+
+<section class="chapter" id="s1">
+  <div class="chapter-head"><span class="chapter-num">01</span><h2>Ի՞նչ է հավասարումը</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">Կշեռքի մի նժարին փակ տուփ է և 4 կգ կշռաքար, մյուսին՝ 11 կգ։ Կշեռքը հավասարակշռված է։ Որքա՞ն է կշռում տուփը։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">Տուփը նշանակենք $x$. $x+4=11$։ Եթե երկու նժարից էլ հանենք 4 կգ, հավասարակշռությունը կպահպանվի. $x=7$։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p><b class="term">Հավասարում</b> է կոչվում անհայտ պարունակող հավասարությունը. $x+4=11$։</p>
+    <p>$2\cdot5+3=13$-ը <b>թվային հավասարություն</b> է (անհայտ չկա), $2x+3$-ը՝ <b>արտահայտություն</b> («=» չկա)։</p>
+    <p>Հավասարման <b class="term">արմատ (լուծում)</b> է անհայտի այն արժեքը, որի դեպքում հավասարությունը ճիշտ է։</p>
+  </div>
+
+  <div class="block-title">Կանոն</div>
+  <div class="formula-box"><span class="label">Կշեռքի կանոն</span>
+    Հավասարման երկու մասին կարելի է գումարել կամ հանել նույն թիվը, երկու մասը բազմապատկել կամ բաժանել նույն ոչ զրոյական թվի վրա. արմատները չեն փոխվում
+  </div>
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>Լուծիր. $x-7=-3$ և $-4x=20$։</p>
+    <div class="step">Երկու մասին գումարում ենք $7$. $x=4$</div>
+    <div class="step">Երկու մասը բաժանում ենք $-4$-ի. $x=-5$</div>
+    <div class="answer">Պատասխան. $4$ և $-5$</div>
+  </div>
+
+  <div class="think">Ինչո՞ւ չի կարելի հավասարման երկու մասը բաժանել $0$-ի։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> Հանել կամ գումարել միայն մի կողմում, կամ $-4x=20$-ից ստանալ $x=5$։</p>
+    <p><span class="k">Ինչու՞</span> Աշակերտը մոռանում է, որ գործողությունը պետք է կատարել երկու մասում և նշանի կանոնը՝ բաժանելիս։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Տեղադրիր պատասխանը. $-4\cdot5=-20\ne20$։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>Հավասարում՝ անհայտով հավասարություն։</li>
+      <li>Ինչ անում ես ձախում, արա և աջում։</li>
+      <li>Պատասխանը միշտ ստուգիր տեղադրմամբ։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Կշեռքի մոդելը (նկար կամ իրական կշեռք) լավագույնս է բացատրում, թե ինչու ենք գործողությունը կատարում երկու մասում։ Այն հետո կօգնի հասկանալ «տեղափոխման» կանոնը։
+  </div>
+</section>
+
+<section class="chapter" id="s2">
+  <div class="chapter-head"><span class="chapter-num">02</span><h2>Նման անդամներ և ax+b=c</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">$5x-2x+x$. քանի՞ $x$ է ընդամենը։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">$x$-երը հաշվում ենք ինչպես առարկաներ. $5-2+1=4$, ուստի $4x$ (հիշիր՝ $x$-ի գործակիցը $1$ է)։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p><b class="term">Նման անդամները</b> ունեն նույն տառային մասը. $5x$, $-2x$, $x$։ Դրանց միացնելիս գումարում ենք գործակիցները։</p>
+    <p><b class="term">Տեղափոխում.</b> անդամը հավասարման մի մասից մյուսը տեղափոխելիս նրա նշանը փոխվում է (սա նույնն է, ինչ երկու մասից հանելը)։</p>
+    <p>$ax+b=c$ ($a\ne0$) հավասարման լուծումը. $ax=c-b$, $x=\dfrac{c-b}{a}$։</p>
+  </div>
+
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>Լուծիր. $3x+7=-8$։</p>
+    <div class="step">$7$-ը տեղափոխում ենք. $3x=-8-7=-15$</div>
+    <div class="step">$x=-15:3=-5$</div>
+    <div class="step">Ստուգում. $3\cdot(-5)+7=-8$ ✓</div>
+    <div class="answer">Պատասխան. $x=-5$</div>
+  </div>
+
+  <div class="think">Ինչո՞ւ $3x+4$-ը չի կարելի գրել $7x$։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> $3x+7=-8$-ից ստանալ $3x=-1$ (տեղափոխելիս նշանը չփոխել)։</p>
+    <p><span class="k">Ինչու՞</span> Աշակերտը «տեղափոխում» է անգիր, առանց իմաստի։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Հիշիր կշեռքը. $7$-ը հանում ենք երկու մասից։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>Միացնում ենք միայն նման անդամները։</li>
+      <li>Տեղափոխելիս նշանը փոխվում է։</li>
+      <li>Վերջում բաժանում ենք $x$-ի գործակցի վրա։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Նախ լուծեք մի քանի հավասարում «երկու մասից հանելով», և միայն հետո ներմուծեք «տեղափոխման» կարճ կանոնը։
+  </div>
+</section>
+
+<section class="part-header">Մաս 2 / 2 — Լուծման եղանակներ</section>
+
+<section class="chapter" id="s3">
+  <div class="chapter-head"><span class="chapter-num">03</span><h2>Անհայտը երկու մասում, փակագծեր, կոտորակներ</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">$5x-3=2x+9$. անհայտն այստեղ երկու մասում է։ Ինչպե՞ս վարվել։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">$x$-երը հավաքում ենք ձախում, թվերը՝ աջում. $5x-2x=9+3$, $3x=12$, $x=4$։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p>$x$-ով անդամները տեղափոխում ենք մի մաս, թվերը՝ մյուսը (նշանը փոխելով), ապա միացնում նման անդամները։</p>
+    <p>Փակագծերը բացում ենք բաշխական օրենքով. $3(x-2)=3x-6$ (բազմապատկում ենք <b>բոլոր</b> անդամները)։</p>
+    <p>Կոտորակային գործակիցների դեպքում երկու մասը բազմապատկում ենք հայտարարով. $\dfrac{x}{4}+1=3$ ⇒ $x+4=12$։</p>
+  </div>
+
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>Լուծիր. $3(x-2)=x+8$։</p>
+    <div class="step">$3x-6=x+8$</div>
+    <div class="step">$3x-x=8+6$, $2x=14$</div>
+    <div class="step">$x=7$. ստուգում՝ $3\cdot5=15$, $7+8=15$ ✓</div>
+    <div class="answer">Պատասխան. $x=7$</div>
+  </div>
+
+  <div class="think">Ինչո՞ւ $3(x-2)$-ը չի հավասար $3x-2$-ի։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> $3(x-2)$-ը բացել որպես $3x-2$, կամ $\dfrac{x}{4}+1=3$-ում $4$-ով բազմապատկել միայն $\dfrac{x}{4}$-ը։</p>
+    <p><span class="k">Ինչու՞</span> Աշակերտը բազմապատկում է միայն առաջին անդամը։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Ստուգիր տեղադրմամբ սկզբնական հավասարման մեջ։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>$x$-երը՝ մի մաս, թվերը՝ մյուսը։</li>
+      <li>Փակագծի դիմացի թիվը բազմապատկվում է բոլոր անդամներով։</li>
+      <li>Հայտարարով բազմապատկում ենք երկու մասի բոլոր անդամները։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Խրախուսեք ամեն քայլը գրել առանձին տողում. սխալների մեծ մասը առաջանում է, երբ աշակերտը մի քանի քայլ «մտքում» է անում։
+  </div>
+</section>
+
+<section class="chapter" id="s4">
+  <div class="chapter-head"><span class="chapter-num">04</span><h2>Լուծումների քանակը</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">$2(x+3)=2x+6$ և $2(x+3)=2x+5$. քանի՞ լուծում ունի յուրաքանչյուրը։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">Առաջինում փակագիծը բացելիս ստացվում է $6=6$՝ ճիշտ ցանկացած $x$-ի դեպքում։ Երկրորդում՝ $6=5$՝ երբեք ճիշտ չէ։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p>Ձևափոխելուց հետո ստացվում է $kx=m$ տեսք. <b>$k\ne0$</b>՝ ճիշտ մեկ լուծում $x=\frac{m}{k}$; <b>$k=0$, $m\ne0$</b>՝ լուծում չունի; <b>$k=0$, $m=0$</b>՝ անվերջ շատ լուծում։</p>
+    <p>$x=0$-ն էլ լուծում է. «լուծումը $0$ է» և «լուծում չկա» տարբեր բաներ են։</p>
+  </div>
+
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>Քանի՞ լուծում ունի $4x+5=5$ հավասարումը։</p>
+    <div class="step">$4x=0$</div>
+    <div class="step">$x=0$</div>
+    <div class="answer">Պատասխան. Մեկ լուծում՝ $x=0$</div>
+  </div>
+
+  <div class="think">$k$-ի ո՞ր արժեքի դեպքում $(k-3)x=5$ հավասարումը լուծում չունի։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> $4x=0$-ից եզրակացնել, որ «լուծում չկա»։</p>
+    <p><span class="k">Ինչու՞</span> Աշակերտը $0$ պատասխանը շփոթում է լուծման բացակայության հետ։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Տեղադրիր $x=0$. $4\cdot0+5=5$ ✓ — ուրեմն լուծում է։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>$k\ne0$ → մեկ լուծում։</li>
+      <li>$0=$ ոչ զրոյական թիվ → լուծում չկա։</li>
+      <li>$0=0$ → անվերջ շատ լուծում։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Այս դասը լավ նախապատրաստում է 8-րդ դասարանի գծային համակարգերի լուծումների քանակին. օգտագործեք նույն լեզուն։
+  </div>
+</section>
+
+<section class="chapter" id="s5">
+  <div class="chapter-head"><span class="chapter-num">05</span><h2>Խնդիրներ հավասարմամբ</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">Երկու թվերի գումարը 50 է, մեծը 8-ով մեծ է փոքրից։ Ինչպե՞ս գտնել թվերը։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">Փոքրը՝ $x$, մեծը՝ $x+8$։ Պայմանը՝ $x+(x+8)=50$։ Լուծելով՝ $x=21$, մեծը՝ $29$։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p><b>Քայլեր.</b> 1) ընտրիր անհայտը ($x$ — ի՞նչ է նշանակում); 2) մյուս մեծությունները արտահայտիր $x$-ով; 3) կազմիր հավասարում պայմանից; 4) լուծիր; 5) ստուգիր պայմանով և պատասխանիր հարցին։</p>
+    <p>«$k$ անգամ մեծ»՝ $kx$, «$k$-ով մեծ»՝ $x+k$։</p>
+  </div>
+
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>Հայրը 40 տարեկան է, որդին՝ 12։ Քանի՞ տարի հետո հայրը 2 անգամ մեծ կլինի որդուց։</p>
+    <div class="step">$x$ տարի հետո. $40+x=2(12+x)$</div>
+    <div class="step">$40+x=24+2x$, $x=16$</div>
+    <div class="step">Ստուգում. $56=2\cdot28$ ✓</div>
+    <div class="answer">Պատասխան. $16$ տարի հետո</div>
+  </div>
+
+  <div class="think">Եթե «Թիվը 3 անգամ մեծացրին և ավելացրին 5», ինչո՞ւ է հավասարումը $3x+5$, ոչ թե $3(x+5)$։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> «3 անգամ»-ը գրել $x+3$, կամ տարիքի խնդրում $x$-ը ավելացնել միայն մեկի տարիքին։</p>
+    <p><span class="k">Ինչու՞</span> Աշակերտը բառերը թարգմանում է առանց կարգի և իմաստի։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Ստուգիր՝ պատասխանը բավարարու՞մ է պայմանի բոլոր նախադասություններին։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>Նախ՝ ինչ է $x$-ը։</li>
+      <li>«Անգամ»՝ բազմապատկում, «-ով»՝ գումարում/հանում։</li>
+      <li>Ստուգում՝ պայմանով, ոչ միայն հավասարումով։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Սկզբում տվեք պատրաստի հավասարումներ և խնդրեք ընտրել համապատասխան պայմանը (հակառակ ուղղություն). սա զարգացնում է պայմանը մաթեմատիկական լեզվով կարդալու հմտությունը։
+  </div>
+</section>
+
+<hr class="sep">
+
+<section class="tasks-section" id="tasks">
+  <h2>Առաջադրանքներ</h2>
+  <h3>Հաշվարկային առաջադրանքներ</h3>
+  <ol class="tasks">
+    <li>Ո՞րն է հավասարում. $3\cdot4+1=13$; $3x+1$; $3x+1=13$; $3x+1\gt13$։</li>
+    <li>Լուծիր. $x-7=-3$; $-4x=20$։</li>
+    <li>Պարզեցրու. $5x-2x+x$։</li>
+    <li>Լուծիր. $3x+7=-8$։</li>
+    <li>Լուծիր. $5x-3=2x+9$։</li>
+    <li>Լուծիր. $3(x-2)=x+8$։</li>
+    <li>Լուծիր. $\dfrac{x}{4}+1=3$։</li>
+    <li>Քանի՞ լուծում ունի $2(x+3)=2x+5$։</li>
+    <li>Քանի՞ լուծում ունի $4x+5=5$։</li>
+    <li>Երկու թվերի գումարը $50$ է, մեծը $8$-ով մեծ է փոքրից։ Գտիր փոքրը։</li>
+    <li>Հայրը $40$ տարեկան է, որդին՝ $12$։ Քանի՞ տարի հետո հայրը $2$ անգամ մեծ կլինի որդուց։</li>
+  </ol>
+  <h3>Տրամաբանական և հայեցակարգային հարցեր</h3>
+  <ol class="tasks" start="12">
+    <li>Ինչո՞ւ տեղափոխելիս անդամի նշանը փոխվում է։</li>
+    <li>$k$-ի ո՞ր արժեքի դեպքում $(k-3)x=5$ հավասարումը լուծում չունի։</li>
+  </ol>
+</section>
+
+<section class="answers-section" id="answers">
+  <h2>Պատասխաններ</h2>
+  <h3>Հաշվարկային առաջադրանքների պատասխանները</h3>
+  <ol class="answers-list">
+    <li>$3x+1=13$</li>
+    <li>$x=4$; $x=-5$</li>
+    <li>$4x$</li>
+    <li>$x=-5$</li>
+    <li>$x=4$</li>
+    <li>$x=7$</li>
+    <li>$x=8$</li>
+    <li>Լուծում չունի ($6=5$)</li>
+    <li>Մեկ լուծում՝ $x=0$</li>
+    <li>$21$</li>
+    <li>$16$ տարի հետո</li>
+  </ol>
+  <h3>Տրամաբանական և հայեցակարգային հարցերի պատասխանները</h3>
+  <ol class="answers-list answers-list-conceptual" start="12">
+    <li>Տեղափոխումը նույնն է, ինչ այդ անդամը երկու մասից հանելը (կամ գումարելը). մի մասում այն անհետանում է, մյուսում հայտնվում է հակառակ նշանով</li>
+    <li>$k=3$. այդ դեպքում $0\cdot x=5$, ինչը ճիշտ չէ ոչ մի $x$-ի համար</li>
+  </ol>
+</section>
+
+</main>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  renderMathInElement(document.body, {
+    delimiters: [
+      {left: "$$", right: "$$", display: true},
+      {left: "$", right: "$", display: false}
+    ],
+    strict: false
+  });
+});
+</script>
+</body>
+</html>

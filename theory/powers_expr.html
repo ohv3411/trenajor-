@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="hy">
+<head>
+<script src="../trenajor-config.js"></script>
+<script src="assets/guard.js"></script>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Աստիճաններ և տառային արտահայտություններ | Ուսումնական ուղեցույց</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<style>
+  :root{
+    --bg:#0f1f2e; --paper:#f6f8fb; --ink:#152233; --accent:#1e5f8c; --accent2:#c0562b;
+    --crust:#8fb3cc; --muted:#5b7188; --card:#ffffff; --line:#dde6ee;
+  }
+  *{box-sizing:border-box;}
+  html, body{overflow-x:hidden;}
+  body{margin:0; font-family:'Sylfaen','Arial',serif; background:var(--paper); color:var(--ink); font-size:18px; line-height:1.7;}
+  .hero{background:linear-gradient(135deg, var(--bg) 0%, #1c3b52 100%); color:#eaf2f8; padding:56px 24px 48px;}
+  .hero-inner{max-width:840px; margin:0 auto;}
+  h1.title{font-size:2.2rem; margin:0 0 10px; font-weight:bold; color:#fff;}
+  .hero p{color:#cfe0ec; max-width:620px; font-size:1.05rem;}
+  nav.toc{max-width:840px; margin:-26px auto 0; position:relative; z-index:3; background:var(--card); border-radius:10px; box-shadow:0 12px 30px rgba(15,31,46,.18); padding:22px 26px; border:1px solid var(--line);}
+  nav.toc h2{font-size:1.05rem; text-transform:uppercase; letter-spacing:.07em; color:var(--muted); margin:0 0 12px; font-weight:bold;}
+  nav.toc ol{margin:0; padding-left:20px; columns:2; column-gap:28px;}
+  nav.toc li{margin-bottom:8px; font-size:.98rem;}
+  nav.toc a{color:var(--accent); text-decoration:none; border-bottom:1px dotted var(--accent);}
+  main{max-width:840px; margin:40px auto 90px; padding:0 24px;}
+  section.part-header{margin:48px 0 20px; padding-bottom:8px; border-bottom:2px solid var(--crust); color:var(--muted); font-weight:bold; text-transform:uppercase; letter-spacing:.05em; font-size:.95rem;}
+  section.chapter{margin-bottom:56px;}
+  .chapter-head{display:flex; align-items:baseline; gap:14px; border-bottom:3px solid var(--accent2); padding-bottom:10px; margin-bottom:20px;}
+  .chapter-num{font-size:1.9rem; color:var(--accent); font-weight:bold;}
+  .chapter-head h2{margin:0; font-size:1.4rem; color:var(--ink); font-weight:bold;}
+
+  .block-title{font-weight:bold; color:var(--accent); font-size:1.02rem; margin:22px 0 8px; text-transform:uppercase; letter-spacing:.04em;}
+  .hook{background:#eef4f9; border-radius:10px; padding:16px 20px; margin:10px 0 18px; font-style:italic;}
+  .intuitive{padding:0 2px; margin-bottom:14px;}
+  .formal-def{background:#fff; border:1px solid var(--line); border-left:4px solid var(--accent); border-radius:0 10px 10px 0; padding:16px 20px; margin:14px 0;}
+  .formal-def b.term{color:var(--accent2);}
+
+  .visual-container.table-wrap{overflow-x:auto; width:100%; margin:18px 0; -webkit-overflow-scrolling:touch;}
+  table{border-collapse:collapse; width:100%;}
+  th,td{border:1px solid var(--line); padding:8px 12px; text-align:center; font-size:.98rem;}
+  th{background:#eaf1f7; font-weight:bold;}
+  svg{max-width:100%; height:auto; display:block; margin:0 auto;}
+
+  .formula-box{background:#fff8ee; border:1px solid #ecd9b6; border-radius:10px; padding:18px 22px; margin:16px 0;}
+  .formula-box .label{display:block; font-weight:bold; color:var(--accent2); margin-bottom:8px; text-transform:uppercase; font-size:.85rem; letter-spacing:.05em;}
+
+  .example-box{border-left:4px solid var(--accent); background:#fff; padding:16px 20px; margin:16px 0; border-radius:0 10px 10px 0; box-shadow:0 2px 8px rgba(15,31,46,.05);}
+  .example-box .tag{display:inline-block; font-size:.8rem; text-transform:uppercase; letter-spacing:.07em; color:#fff; background:var(--accent); padding:3px 10px; border-radius:20px; margin-bottom:8px; font-weight:bold;}
+  .example-box .step{margin:6px 0 6px 2px;}
+  .example-box .answer{margin-top:10px; padding:8px 14px; background:#eef4f9; border-radius:8px; border-left:3px solid var(--accent); font-weight:bold;}
+
+  .think{background:#f3ede0; border-left:4px solid var(--crust); border-radius:0 10px 10px 0; padding:12px 18px; margin:14px 0; font-style:italic; color:#4a3a1f;}
+
+  .error-box{background:#fdeeec; border:1px solid #f0c6bf; border-radius:10px; padding:16px 20px; margin:16px 0;}
+  .error-box h4{margin:0 0 8px; color:var(--accent2); font-size:1rem;}
+  .error-box .k{font-weight:bold; color:var(--accent2);}
+
+  .remember{background:#eef6ef; border:1px solid #cfe6d2; border-radius:10px; padding:14px 20px; margin:16px 0;}
+  .remember .label{font-weight:bold; color:#2f6b3a; text-transform:uppercase; font-size:.85rem; letter-spacing:.05em; display:block; margin-bottom:6px;}
+
+  .teacher-corner{background:#eaf1f7; border:1px dashed var(--crust); border-radius:10px; padding:16px 20px; margin:16px 0 28px;}
+  .teacher-corner .label{font-weight:bold; color:var(--accent); text-transform:uppercase; font-size:.85rem; letter-spacing:.05em; display:block; margin-bottom:6px;}
+
+  hr.sep{border:none; border-top:1px dashed var(--line); margin:36px 0;}
+
+  .tasks-section h2{color:var(--accent); border-bottom:3px solid var(--accent2); padding-bottom:8px;}
+  .tasks-section h3{color:var(--accent2); margin-top:26px;}
+  ol.tasks{padding-left:24px;}
+  ol.tasks li{margin-bottom:10px;}
+
+  .answers-section{background:#fff; padding:26px 28px; border-radius:10px; border:2px solid var(--accent); margin-top:44px;}
+  .answers-section h2{color:var(--accent); margin-top:0;}
+  .answers-section h3{color:var(--accent2); font-size:1rem; margin:22px 0 10px;}
+  .answers-list{columns:2; column-gap:36px; padding-left:20px; margin:0;}
+  .answers-list li{margin-bottom:9px; font-weight:bold;}
+  .answers-list-conceptual{columns:1; list-style-position:outside;}
+
+  @media (max-width:600px){
+    nav.toc ol{columns:1;}
+    .answers-list{columns:1;}
+    main{padding:0 14px;}
+  }
+
+  @media print {
+    body{background:#fff !important; color:#000 !important; font-size:12pt;}
+    .hero{padding:10px 0; background:none !important; color:#000 !important;}
+    h1.title{color:#000 !important;}
+    nav.toc{display:none !important;}
+    .formula-box, .example-box, .error-box, .visual-container, .table-wrap{page-break-inside:avoid !important; box-shadow:none !important; border:1px solid #ccc !important;}
+    .table-wrap, .visual-container{overflow-x:visible !important; white-space:pre-wrap !important; word-break:break-word !important;}
+    html, body{overflow-x:visible !important;}
+    .chapter{page-break-before:always;}
+    .chapter:first-of-type{page-break-before:auto;}
+    .answers-list{columns:3;}
+  }
+</style>
+
+<style id="tj-unified">
+  /* ԸՆԴՀԱՆՈՒՐ ՎԵՐԻՆ ՎԱՀԱՆԱԿ — նույնական բոլոր 19 ուղեցույցում։
+     Class-երը սկսվում են tj- նախածանցով, որ երբեք չբախվեն էջի
+     սեփական ոճերի հետ։ */
+  .tj-bar{background:#0f1f2e;color:#eaf2f8;font-family:'Sylfaen','Arial',serif;}
+  .tj-bar-in{max-width:840px;margin:0 auto;padding:10px 20px;display:flex;
+             align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+  .tj-back{color:#eaf2f8;text-decoration:none;font-weight:bold;font-size:.95rem;
+           border:1px solid rgba(234,242,248,.35);border-radius:8px;padding:5px 12px;}
+  .tj-back:hover{background:rgba(234,242,248,.12);}
+  .tj-grade{font-size:.85rem;color:#cfe0ec;letter-spacing:.03em;}
+  @media print{ .tj-bar{display:none;} }
+</style>
+<style id="teacher-mode-css">html:not(.teacher-mode) .teacher-corner, html:not(.teacher-mode) .tc-title{display:none}.tj-teacher{margin-left:auto;background:transparent;border:1px solid currentColor;border-radius:14px;padding:2px 10px;font:inherit;font-size:.8rem;cursor:pointer;color:inherit;opacity:.85}</style>
+<script id="teacher-mode-js">(function(){var K="trenajor_teacher_mode",H=document.documentElement;try{if(localStorage.getItem(K)==="1")H.classList.add("teacher-mode")}catch(e){}document.addEventListener("DOMContentLoaded",function(){document.querySelectorAll(".teacher-corner").forEach(function(t){var p=t.previousElementSibling;if(p&&p.classList.contains("block-title"))p.classList.add("tc-title")});var b=document.getElementById("tj-teacher");if(!b)return;function lab(){b.textContent=H.classList.contains("teacher-mode")?"👩‍🏫 Ուսուցչի նշումները՝ միացված":"👩‍🏫 Ուսուցչի նշումներ"}lab();b.addEventListener("click",function(){H.classList.toggle("teacher-mode");try{localStorage.setItem(K,H.classList.contains("teacher-mode")?"1":"0")}catch(e){}lab()})})})();</script>
+</head>
+<body>
+<div class="tj-bar"><div class="tj-bar-in"><a class="tj-back" href="../index.html">← Տրենաժոր</a><span class="tj-grade">7 դասարան</span><button type="button" class="tj-teacher" id="tj-teacher">👩‍🏫 Ուսուցչի նշումներ</button></div></div>
+
+
+<div class="hero">
+  <div class="hero-inner">
+    <h1 class="title">Աստիճաններ և տառային արտահայտություններ</h1>
+    <p>Աստիճանի իմաստից և գործողությունների կարգից մինչև աստիճանների հատկություններ և նույնական ձևափոխություններ։</p>
+  </div>
+</div>
+
+<nav class="toc">
+  <h2>Բովանդակություն</h2>
+  <ol>
+    <li><a href="#s1">Բնական ցուցիչով աստիճան</a></li>
+    <li><a href="#s2">10-ի աստիճաններ և կանոնական վերլուծում</a></li>
+    <li><a href="#s3">Աստիճանների հատկությունները</a></li>
+    <li><a href="#s4">Տառային արտահայտություններ և նույնական ձևափոխություններ</a></li>
+    <li><a href="#tasks">Առաջադրանքներ</a></li>
+    <li><a href="#answers">Պատասխաններ</a></li>
+  </ol>
+</nav>
+
+<main>
+
+<section class="part-header">Մաս 1 / 2 — Աստիճան</section>
+
+<section class="chapter" id="s1">
+  <div class="chapter-head"><span class="chapter-num">01</span><h2>Բնական ցուցիչով աստիճան</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">Բակտերիան ամեն ժամ կիսվում է երկուսի։ Քանի՞ բակտերիա կլինի 5 ժամ հետո։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">Ամեն ժամ բազմապատկում ենք $2$-ով. $2\cdot2\cdot2\cdot2\cdot2=32$։ Կարճ՝ $2^5=32$։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p>$a^n=\underbrace{a\cdot a\cdot\ldots\cdot a}_{n}$, $a$-ն <b class="term">հիմքն</b> է, $n$-ը՝ <b class="term">ցուցիչը</b>։ $a^1=a$։</p>
+    <p><b>Գործողությունների կարգ.</b> նախ աստիճան, հետո բազմապատկում/բաժանում, հետո գումարում/հանում. $3\cdot5^2=3\cdot25=75$։</p>
+    <p>$(-2)^4=16$, իսկ $-2^4=-16$. աստիճանը վերաբերում է միայն այն թվին, որին անմիջապես կցված է։</p>
+  </div>
+
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>Հաշվիր. $2^5$, $3\cdot5^2$, $(-2)^3$։</p>
+    <div class="step">$2^5=32$</div>
+    <div class="step">$3\cdot25=75$</div>
+    <div class="step">$(-2)(-2)(-2)=-8$</div>
+    <div class="answer">Պատասխան. $32$; $75$; $-8$</div>
+  </div>
+
+  <div class="think">Ինչո՞ւ $2^5\ne2\cdot5$։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> $2^5=10$ կամ $3\cdot5^2=15^2=225$։</p>
+    <p><span class="k">Ինչու՞</span> Աշակերտը աստիճանը շփոթում է բազմապատկման հետ կամ սխալ կարգով է հաշվում։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Գրիր աստիճանը արտադրյալի տեսքով և հաշվիր։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>$a^n$՝ $n$ հավասար արտադրիչ։</li>
+      <li>Նախ՝ աստիճան։</li>
+      <li>$(-a)^n$ և $-a^n$ տարբեր են։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Սկսեք արտադրյալից դեպի աստիճան (կարճ գրառում), ոչ հակառակը. այսպես «$a\cdot n$» սխալը ավելի հազվադեպ է լինում։
+  </div>
+</section>
+
+<section class="chapter" id="s2">
+  <div class="chapter-head"><span class="chapter-num">02</span><h2>10-ի աստիճաններ և կանոնական վերլուծում</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">Երկրի զանգվածը մոտ 5 970 000 000 000 000 000 000 000 կգ է։ Ինչպե՞ս գրել այն կարճ։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">$10^n$-ը $1$ է և $n$ զրո։ Ուստի մեծ թիվը գրում ենք $a\cdot10^n$ տեսքով, որտեղ $1\le a\lt10$. $5{,}97\cdot10^{24}$։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p>$10^n=1\underbrace{0\ldots0}_{n}$. $10^3=1000$ (երեք զրո, չորս թվանշան)։</p>
+    <p><b class="term">Ստանդարտ տեսք.</b> $a\cdot10^n$, $1\le a\lt10$. $45\,000=4{,}5\cdot10^4$։</p>
+    <p><b class="term">Կանոնական վերլուծում.</b> կրկնվող պարզ արտադրիչները գրում ենք աստիճանով. $360=2^3\cdot3^2\cdot5$։</p>
+  </div>
+
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>Գրիր $4{,}5\cdot10^4$-ը թվով և $360$-ը կանոնական տեսքով։</p>
+    <div class="step">$4{,}5\cdot10\,000=45\,000$</div>
+    <div class="step">$360=2\cdot2\cdot2\cdot3\cdot3\cdot5=2^3\cdot3^2\cdot5$</div>
+    <div class="answer">Պատասխան. $45\,000$; $2^3\cdot3^2\cdot5$</div>
+  </div>
+
+  <div class="think">Ինչո՞ւ $45\cdot10^3$-ը ստանդարտ տեսք չէ, թեև ճիշտ արժեք ունի։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> $10^3=100$ («երեք թվանշան»), կամ $2^3\cdot3^2$-ը գրել $6^5$։</p>
+    <p><span class="k">Ինչու՞</span> Աշակերտը զրոները հաշվում է թվանշանների քանակով կամ բազմապատկում է հիմքերը։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Հաշվիր զրոները. $10^n$-ում դրանք ճիշտ $n$ են։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>$10^n$՝ $n$ զրո։</li>
+      <li>$1\le a\lt10$։</li>
+      <li>Կանոնական՝ պարզ հիմքեր, աստիճաններով։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Կապեք ֆիզիկայի հետ (մոլեկուլների չափեր, աստղային հեռավորություններ). ստանդարտ տեսքը այնտեղ պարտադիր է։
+  </div>
+</section>
+
+<section class="part-header">Մաս 2 / 2 — Հատկություններ և ձևափոխություններ</section>
+
+<section class="chapter" id="s3">
+  <div class="chapter-head"><span class="chapter-num">03</span><h2>Աստիճանների հատկությունները</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">$2^3\cdot2^4$. պետք է հաշվե՞լ երկուսը առանձին, թե՞ կա կարճ ճանապարհ։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">$2^3\cdot2^4=(2\cdot2\cdot2)\cdot(2\cdot2\cdot2\cdot2)=2^7$. արտադրիչները պարզապես հաշվում ենք։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p>$a^m\cdot a^n=a^{m+n}$ (ցուցիչները <b>գումարվում</b> են)։</p>
+    <p>$a^m:a^n=a^{m-n}$, $a\ne0$, $m\gt n$ (ցուցիչները <b>հանվում</b> են)։</p>
+    <p>$(a^m)^n=a^{mn}$ (ցուցիչները <b>բազմապատկվում</b> են), $(ab)^n=a^nb^n$։</p>
+  </div>
+
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>Գրիր մեկ աստիճանով. $x^5\cdot x^3$, $y^9:y^4$ ($y\ne0$), $(a^2)^4$։</p>
+    <div class="step">$x^{5+3}=x^8$</div>
+    <div class="step">$y^{9-4}=y^5$</div>
+    <div class="step">$a^{2\cdot4}=a^8$</div>
+    <div class="answer">Պատասխան. $x^8$; $y^5$; $a^8$</div>
+  </div>
+
+  <div class="think">Ինչո՞ւ $2^3\cdot3^4$-ի համար ցուցիչները գումարելու կանոնը չի գործում։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> $x^5\cdot x^3=x^{15}$ կամ $2^3\cdot2^4=4^7$։</p>
+    <p><span class="k">Ինչու՞</span> Աշակերտը շփոթում է երեք կանոնները կամ բազմապատկում է հիմքերը։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Գրիր արտադրյալով և հաշվիր արտադրիչները։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>Արտադրյալ՝ ցուցիչների գումար։</li>
+      <li>Քանորդ՝ տարբերություն (հիմքը $\ne0$)։</li>
+      <li>Աստիճանի աստիճան՝ արտադրյալ։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Կանոնները ոչ թե տվեք, այլ թույլ տվեք աշակերտներին «հայտնաբերել» 2–3 թվային օրինակից. այսպես դրանք չեն շփոթվում։
+  </div>
+</section>
+
+<section class="chapter" id="s4">
+  <div class="chapter-head"><span class="chapter-num">04</span><h2>Տառային արտահայտություններ և նույնական ձևափոխություններ</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">$3(x+2)-x$ արտահայտությունը ամեն $x$-ի դեպքում հավասա՞ր է $2x+6$-ի։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">Բացում ենք փակագիծը և միացնում նման անդամները. $3x+6-x=2x+6$։ Այո, ցանկացած $x$-ի համար։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p><b class="term">Նույնական ձևափոխություն</b>՝ արտահայտության փոխարինում մեկ այլով, որը հավասար է նրան փոփոխականի բոլոր (թույլատրելի) արժեքների դեպքում։</p>
+    <p>Միացնում ենք միայն <b>նման</b> անդամները. $3x^2$ և $5x$ նման չեն։</p>
+    <p>Արժեք հաշվելիս բացասական թիվը տեղադրում ենք փակագծերով. $x=-2$ ⇒ $3x^2=3\cdot(-2)^2=12$։</p>
+  </div>
+
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>Պարզեցրու $3x^2+5x-x^2+2x$ և հաշվիր $x=-2$ դեպքում։</p>
+    <div class="step">$(3-1)x^2+(5+2)x=2x^2+7x$</div>
+    <div class="step">$2\cdot4+7\cdot(-2)=8-14=-6$</div>
+    <div class="answer">Պատասխան. $2x^2+7x$; $-6$</div>
+  </div>
+
+  <div class="think">Ինչո՞ւ $3x+4$-ը չի կարելի պարզեցնել։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> $3x^2+5x=8x^3$ կամ $x=-2$ դեպքում $3x^2=-12$։</p>
+    <p><span class="k">Ինչու՞</span> Աշակերտը միացնում է ոչ նման անդամները կամ կորցնում է նշանը տեղադրելիս։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Տեղադրիր 2 տարբեր $x$. նույնաբար հավասար արտահայտությունները պետք է տան նույն արժեքները։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>Նման՝ նույն տառային մաս։</li>
+      <li>Բացասական թիվը՝ փակագծերով։</li>
+      <li>Նույնություն՝ ճիշտ բոլոր $x$-երի համար։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    «Ստուգիր երկու թվով» հնարքը (օր. $x=0$ և $x=1$) արագ բռնում է ձևափոխությունների սխալների մեծ մասը։
+  </div>
+</section>
+
+<hr class="sep">
+
+<section class="tasks-section" id="tasks">
+  <h2>Առաջադրանքներ</h2>
+  <h3>Հաշվարկային առաջադրանքներ</h3>
+  <ol class="tasks">
+    <li>Հաշվիր. $2^5$; $3\cdot5^2$; $(-2)^3$; $-2^4$։</li>
+    <li>Գրիր թվով. $10^5$; $4{,}5\cdot10^4$։</li>
+    <li>Գրիր $360$-ը կանոնական տեսքով։</li>
+    <li>Գրիր մեկ աստիճանով. $x^5\cdot x^3$; $y^9:y^4$ ($y\ne0$); $(a^2)^4$։</li>
+    <li>Հաշվիր. $(2\cdot3)^2$։</li>
+    <li>Պարզեցրու. $3x^2+5x-x^2+2x$։</li>
+    <li>Հաշվիր $2x^2+7x$-ը, երբ $x=-2$։</li>
+    <li>Պարզեցրու. $3(x+2)-x$։</li>
+    <li>Գրիր ստանդարտ տեսքով. $58\,000\,000$։</li>
+  </ol>
+  <h3>Տրամաբանական և հայեցակարգային հարցեր</h3>
+  <ol class="tasks" start="10">
+    <li>Ինչո՞ւ $(-2)^4\ne-2^4$։</li>
+    <li>Ինչո՞ւ $a^m\cdot a^n=a^{m+n}$։</li>
+  </ol>
+</section>
+
+<section class="answers-section" id="answers">
+  <h2>Պատասխաններ</h2>
+  <h3>Հաշվարկային առաջադրանքների պատասխանները</h3>
+  <ol class="answers-list">
+    <li>$32$; $75$; $-8$; $-16$</li>
+    <li>$100\,000$; $45\,000$</li>
+    <li>$2^3\cdot3^2\cdot5$</li>
+    <li>$x^8$; $y^5$; $a^8$</li>
+    <li>$36$</li>
+    <li>$2x^2+7x$</li>
+    <li>$-6$</li>
+    <li>$2x+6$</li>
+    <li>$5{,}8\cdot10^7$</li>
+  </ol>
+  <h3>Տրամաբանական և հայեցակարգային հարցերի պատասխանները</h3>
+  <ol class="answers-list answers-list-conceptual" start="10">
+    <li>$(-2)^4=16$ (չորս բացասական արտադրիչ), իսկ $-2^4=-(2^4)=-16$. աստիճանը վերաբերում է միայն $2$-ին</li>
+    <li>$a^m$-ը $m$ արտադրիչ է, $a^n$-ը՝ $n$. միասին՝ $m+n$ հավասար արտադրիչ</li>
+  </ol>
+</section>
+
+</main>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  renderMathInElement(document.body, {
+    delimiters: [
+      {left: "$$", right: "$$", display: true},
+      {left: "$", right: "$", display: false}
+    ],
+    strict: false
+  });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="hy">
+<head>
+<script src="../trenajor-config.js"></script>
+<script src="assets/guard.js"></script>
+
+<script src="../trenajor-config.js"></script>
+<script src="assets/guard.js"></script>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Միավորների փոխարկում | Ուսումնական ուղեցույց</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<style>
+  :root{
+    --bg:#0f1f2e; --paper:#f6f8fb; --ink:#152233; --accent:#1e5f8c; --accent2:#c0562b;
+    --crust:#8fb3cc; --muted:#5b7188; --card:#ffffff; --line:#dde6ee;
+  }
+  *{box-sizing:border-box;}
+  html, body{overflow-x:hidden;}
+  body{margin:0; font-family:'Sylfaen','Arial',serif; background:var(--paper); color:var(--ink); font-size:18px; line-height:1.7;}
+  .hero{background:linear-gradient(135deg, var(--bg) 0%, #1c3b52 100%); color:#eaf2f8; padding:56px 24px 48px;}
+  .hero-inner{max-width:840px; margin:0 auto;}
+  h1.title{font-size:2.2rem; margin:0 0 10px; font-weight:bold; color:#fff;}
+  .hero p{color:#cfe0ec; max-width:620px; font-size:1.05rem;}
+  nav.toc{max-width:840px; margin:-26px auto 0; position:relative; z-index:3; background:var(--card); border-radius:10px; box-shadow:0 12px 30px rgba(15,31,46,.18); padding:22px 26px; border:1px solid var(--line);}
+  nav.toc h2{font-size:1.05rem; text-transform:uppercase; letter-spacing:.07em; color:var(--muted); margin:0 0 12px; font-weight:bold;}
+  nav.toc ol{margin:0; padding-left:20px; columns:2; column-gap:28px;}
+  nav.toc li{margin-bottom:8px; font-size:.98rem;}
+  nav.toc a{color:var(--accent); text-decoration:none; border-bottom:1px dotted var(--accent);}
+  main{max-width:840px; margin:40px auto 90px; padding:0 24px;}
+  section.part-header{margin:48px 0 20px; padding-bottom:8px; border-bottom:2px solid var(--crust); color:var(--muted); font-weight:bold; text-transform:uppercase; letter-spacing:.05em; font-size:.95rem;}
+  section.chapter{margin-bottom:56px;}
+  .chapter-head{display:flex; align-items:baseline; gap:14px; border-bottom:3px solid var(--accent2); padding-bottom:10px; margin-bottom:20px;}
+  .chapter-num{font-size:1.9rem; color:var(--accent); font-weight:bold;}
+  .chapter-head h2{margin:0; font-size:1.4rem; color:var(--ink); font-weight:bold;}
+
+  .block-title{font-weight:bold; color:var(--accent); font-size:1.02rem; margin:22px 0 8px; text-transform:uppercase; letter-spacing:.04em;}
+  .hook{background:#eef4f9; border-radius:10px; padding:16px 20px; margin:10px 0 18px; font-style:italic;}
+  .intuitive{padding:0 2px; margin-bottom:14px;}
+  .formal-def{background:#fff; border:1px solid var(--line); border-left:4px solid var(--accent); border-radius:0 10px 10px 0; padding:16px 20px; margin:14px 0;}
+  .formal-def b.term{color:var(--accent2);}
+
+  .visual-container.table-wrap{overflow-x:auto; width:100%; margin:18px 0; -webkit-overflow-scrolling:touch;}
+  table{border-collapse:collapse; width:100%;}
+  th,td{border:1px solid var(--line); padding:8px 12px; text-align:center; font-size:.98rem;}
+  th{background:#eaf1f7; font-weight:bold;}
+  svg{max-width:100%; height:auto; display:block; margin:0 auto;}
+
+  .formula-box{background:#fff8ee; border:1px solid #ecd9b6; border-radius:10px; padding:18px 22px; margin:16px 0;}
+  .formula-box .label{display:block; font-weight:bold; color:var(--accent2); margin-bottom:8px; text-transform:uppercase; font-size:.85rem; letter-spacing:.05em;}
+
+  .example-box{border-left:4px solid var(--accent); background:#fff; padding:16px 20px; margin:16px 0; border-radius:0 10px 10px 0; box-shadow:0 2px 8px rgba(15,31,46,.05);}
+  .example-box .tag{display:inline-block; font-size:.8rem; text-transform:uppercase; letter-spacing:.07em; color:#fff; background:var(--accent); padding:3px 10px; border-radius:20px; margin-bottom:8px; font-weight:bold;}
+  .example-box .step{margin:6px 0 6px 2px;}
+  .example-box .answer{margin-top:10px; padding:8px 14px; background:#eef4f9; border-radius:8px; border-left:3px solid var(--accent); font-weight:bold;}
+
+  .think{background:#f3ede0; border-left:4px solid var(--crust); border-radius:0 10px 10px 0; padding:12px 18px; margin:14px 0; font-style:italic; color:#4a3a1f;}
+
+  .error-box{background:#fdeeec; border:1px solid #f0c6bf; border-radius:10px; padding:16px 20px; margin:16px 0;}
+  .error-box h4{margin:0 0 8px; color:var(--accent2); font-size:1rem;}
+  .error-box .k{font-weight:bold; color:var(--accent2);}
+
+  .remember{background:#eef6ef; border:1px solid #cfe6d2; border-radius:10px; padding:14px 20px; margin:16px 0;}
+  .remember .label{font-weight:bold; color:#2f6b3a; text-transform:uppercase; font-size:.85rem; letter-spacing:.05em; display:block; margin-bottom:6px;}
+
+  .teacher-corner{background:#eaf1f7; border:1px dashed var(--crust); border-radius:10px; padding:16px 20px; margin:16px 0 28px;}
+  .teacher-corner .label{font-weight:bold; color:var(--accent); text-transform:uppercase; font-size:.85rem; letter-spacing:.05em; display:block; margin-bottom:6px;}
+
+  hr.sep{border:none; border-top:1px dashed var(--line); margin:36px 0;}
+
+  .tasks-section h2{color:var(--accent); border-bottom:3px solid var(--accent2); padding-bottom:8px;}
+  .tasks-section h3{color:var(--accent2); margin-top:26px;}
+  ol.tasks{padding-left:24px;}
+  ol.tasks li{margin-bottom:10px;}
+
+  .answers-section{background:#fff; padding:26px 28px; border-radius:10px; border:2px solid var(--accent); margin-top:44px;}
+  .answers-section h2{color:var(--accent); margin-top:0;}
+  .answers-section h3{color:var(--accent2); font-size:1rem; margin:22px 0 10px;}
+  .answers-list{columns:2; column-gap:36px; padding-left:20px; margin:0;}
+  .answers-list li{margin-bottom:9px; font-weight:bold;}
+  .answers-list-conceptual{columns:1; list-style-position:outside;}
+
+  @media (max-width:600px){
+    nav.toc ol{columns:1;}
+    .answers-list{columns:1;}
+    main{padding:0 14px;}
+  }
+
+  @media print {
+    body{background:#fff !important; color:#000 !important; font-size:12pt;}
+    .hero{padding:10px 0; background:none !important; color:#000 !important;}
+    h1.title{color:#000 !important;}
+    nav.toc{display:none !important;}
+    .formula-box, .example-box, .error-box, .visual-container, .table-wrap{page-break-inside:avoid !important; box-shadow:none !important; border:1px solid #ccc !important;}
+    .table-wrap, .visual-container{overflow-x:visible !important; white-space:pre-wrap !important; word-break:break-word !important;}
+    html, body{overflow-x:visible !important;}
+    .chapter{page-break-before:always;}
+    .chapter:first-of-type{page-break-before:auto;}
+    .answers-list{columns:3;}
+  }
+</style>
+
+<style id="tj-unified">
+  /* ԸՆԴՀԱՆՈՒՐ ՎԵՐԻՆ ՎԱՀԱՆԱԿ — նույնական բոլոր 19 ուղեցույցում։
+     Class-երը սկսվում են tj- նախածանցով, որ երբեք չբախվեն էջի
+     սեփական ոճերի հետ։ */
+  .tj-bar{background:#0f1f2e;color:#eaf2f8;font-family:'Sylfaen','Arial',serif;}
+  .tj-bar-in{max-width:840px;margin:0 auto;padding:10px 20px;display:flex;
+             align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+  .tj-back{color:#eaf2f8;text-decoration:none;font-weight:bold;font-size:.95rem;
+           border:1px solid rgba(234,242,248,.35);border-radius:8px;padding:5px 12px;}
+  .tj-back:hover{background:rgba(234,242,248,.12);}
+  .tj-grade{font-size:.85rem;color:#cfe0ec;letter-spacing:.03em;}
+  @media print{ .tj-bar{display:none;} }
+</style>
+<style id="teacher-mode-css">html:not(.teacher-mode) .teacher-corner, html:not(.teacher-mode) .tc-title{display:none}.tj-teacher{margin-left:auto;background:transparent;border:1px solid currentColor;border-radius:14px;padding:2px 10px;font:inherit;font-size:.8rem;cursor:pointer;color:inherit;opacity:.85}</style>
+<script id="teacher-mode-js">(function(){var K="trenajor_teacher_mode",H=document.documentElement;try{if(localStorage.getItem(K)==="1")H.classList.add("teacher-mode")}catch(e){}document.addEventListener("DOMContentLoaded",function(){document.querySelectorAll(".teacher-corner").forEach(function(t){var p=t.previousElementSibling;if(p&&p.classList.contains("block-title"))p.classList.add("tc-title")});var b=document.getElementById("tj-teacher");if(!b)return;function lab(){b.textContent=H.classList.contains("teacher-mode")?"👩‍🏫 Ուսուցչի նշումները՝ միացված":"👩‍🏫 Ուսուցչի նշումներ"}lab();b.addEventListener("click",function(){H.classList.toggle("teacher-mode");try{localStorage.setItem(K,H.classList.contains("teacher-mode")?"1":"0")}catch(e){}lab()})})})();</script>
+<style id="teacher-mode-css">html:not(.teacher-mode) .teacher-corner, html:not(.teacher-mode) .tc-title{display:none}.tj-teacher{margin-left:auto;background:transparent;border:1px solid currentColor;border-radius:14px;padding:2px 10px;font:inherit;font-size:.8rem;cursor:pointer;color:inherit;opacity:.85}</style>
+<script id="teacher-mode-js">(function(){var K="trenajor_teacher_mode",H=document.documentElement;try{if(localStorage.getItem(K)==="1")H.classList.add("teacher-mode")}catch(e){}document.addEventListener("DOMContentLoaded",function(){document.querySelectorAll(".teacher-corner").forEach(function(t){var p=t.previousElementSibling;if(p&&p.classList.contains("block-title"))p.classList.add("tc-title")});var b=document.getElementById("tj-teacher");if(!b)return;function lab(){b.textContent=H.classList.contains("teacher-mode")?"👩‍🏫 Ուսուցչի նշումները՝ միացված":"👩‍🏫 Ուսուցչի նշումներ"}lab();b.addEventListener("click",function(){H.classList.toggle("teacher-mode");try{localStorage.setItem(K,H.classList.contains("teacher-mode")?"1":"0")}catch(e){}lab()})})})();</script>
+</head>
+<body>
+<div class="tj-bar"><div class="tj-bar-in"><a class="tj-back" href="../index.html">← Տրենաժոր</a><span class="tj-grade">5–7 դասարան</span><button type="button" class="tj-teacher" id="tj-teacher">👩‍🏫 Ուսուցչի նշումներ</button><button type="button" class="tj-teacher" id="tj-teacher">👩‍🏫 Ուսուցչի նշումներ</button></div></div>
+
+
+<div class="hero">
+  <div class="hero-inner">
+    <h1 class="title">Միավորների փոխարկում</h1>
+    <p>Երկարությունից և ժամանակից մինչև մակերես, ծավալ, արագություն և խտություն. մաթեմատիկայի և ֆիզիկայի կամուրջ։</p>
+  </div>
+</div>
+
+<nav class="toc">
+  <h2>Բովանդակություն</h2>
+  <ol>
+    <li><a href="#s1">Երկարություն, զանգված, ժամանակ</a></li>
+    <li><a href="#s2">Մակերես և ծավալ</a></li>
+    <li><a href="#s3">Արագություն և խտություն</a></li>
+    <li><a href="#s4">Խնդիրներ տարբեր միավորներով</a></li>
+    <li><a href="#tasks">Առաջադրանքներ</a></li>
+    <li><a href="#answers">Պատասխաններ</a></li>
+  </ol>
+</nav>
+
+<main>
+
+<section class="part-header">Մաս 1 / 2 — Պարզ միավորներ</section>
+
+<section class="chapter" id="s1">
+  <div class="chapter-head"><span class="chapter-num">01</span><h2>Երկարություն, զանգված, ժամանակ</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">Մարզադաշտի շրջանը 400 մ է։ Քանի՞ կիլոմետր ես վազել 5 շրջանում։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">$5\cdot400=2000$ մ, իսկ $1$ կմ $=1000$ մ, ուստի $2$ կմ։ Մեծ միավորից փոքրին՝ բազմապատկում ենք, փոքրից մեծին՝ բաժանում։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p>$1$ կմ $=1000$ մ, $1$ մ $=10$ դմ $=100$ սմ $=1000$ մմ։</p>
+    <p>$1$ տ $=1000$ կգ, $1$ կգ $=1000$ գ։</p>
+    <p>$1$ ժ $=60$ ր, $1$ ր $=60$ վ, ուստի $1$ ժ $=3600$ վ (ժամանակը՝ 60-ական, ոչ 100-ական)։</p>
+  </div>
+
+  <div class="block-title">Կանոն</div>
+  <div class="formula-box"><span class="label">Ուղղության կանոն</span>
+    Մեծ միավոր → փոքր՝ բազմապատկում (թիվը մեծանում է), փոքր → մեծ՝ բաժանում (թիվը փոքրանում է)
+  </div>
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>$8$ ժ $35$ ր $=$ ? րոպե; $33\,000$ կգ $=$ ? տ։</p>
+    <div class="step">$8\cdot60+35=515$ ր</div>
+    <div class="step">$33\,000:1000=33$ տ</div>
+    <div class="answer">Պատասխան. $515$ ր; $33$ տ</div>
+  </div>
+
+  <div class="think">Ինչո՞ւ $1{,}5$ ժ-ը $1$ ժ $50$ ր չէ։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> $1{,}5$ ժ-ը գրել $150$ ր կամ $1$ ժ $50$ ր, կամ կգ → տ փոխարկելիս բազմապատկել։</p>
+    <p><span class="k">Ինչու՞</span> Աշակերտը ժամանակը հաշվում է 100-ական կամ շփոթում է ուղղությունը։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Ստուգիր իմաստով. մեծ միավորով թիվը պետք է ավելի փոքր լինի։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>Մեծ → փոքր՝ ×, փոքր → մեծ՝ :։</li>
+      <li>Ժամանակ՝ 60-ական։</li>
+      <li>$1$ կմ $=1000$ մ, $1$ կգ $=1000$ գ։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Պահանջեք միավորը գրել ամեն թվի կողքին ամբողջ լուծման ընթացքում. միավորները «կրճատվում» են ինչպես թվերը, և դա կանխում է ուղղության սխալները։
+  </div>
+</section>
+
+<section class="chapter" id="s2">
+  <div class="chapter-head"><span class="chapter-num">02</span><h2>Մակերես և ծավալ</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">$1$ մ²-ը $100$ դմ² է, բայց $1$ մ-ը միայն $10$ դմ է։ Ինչո՞ւ։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">$1$ մ կողմով քառակուսին կողմերով $10$ դմ է, ուստի նրա մակերեսը $10\cdot10=100$ դմ² է։ Խորանարդում՝ $10\cdot10\cdot10=1000$ դմ³։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p>$1$ մ² $=100$ դմ² $=10\,000$ սմ²; $1$ հա $=10\,000$ մ² (երկարության գործակիցը՝ քառակուսի)։</p>
+    <p>$1$ մ³ $=1000$ դմ³ $=1\,000\,000$ սմ³ (երկարության գործակիցը՝ խորանարդ)։</p>
+    <p>$1$ դմ³ $=1$ լ, $1$ սմ³ $=1$ մլ, $1$ մ³ $=1000$ լ։</p>
+  </div>
+
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>Ակվարիումի չափերն են $80$ սմ × $30$ սմ × $20$ սմ։ Քանի՞ լիտր է։</p>
+    <div class="step">$8$ դմ × $3$ դմ × $2$ դմ</div>
+    <div class="step">$48$ դմ³ $=48$ լ</div>
+    <div class="answer">Պատասխան. $48$ լ</div>
+  </div>
+
+  <div class="think">Քանի՞ սմ² է $1$ դմ²-ը։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> $1$ մ² $=100$ սմ² կամ $1$ մ³ $=1000$ սմ³ (երկարության գործակիցը չբարձրացնել աստիճան)։</p>
+    <p><span class="k">Ինչու՞</span> Աշակերտը մակերեսի/ծավալի համար օգտագործում է երկարության գործակիցը։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Նկարիր քառակուսին և բաժանիր փոքր քառակուսիների։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>Մակերես՝ գործակից²։</li>
+      <li>Ծավալ՝ գործակից³։</li>
+      <li>$1$ դմ³ $=1$ լ։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Թղթից քառակուսի մետր և դեցիմետրանոց քառակուսիներ. աշակերտը ինքը կհամոզվի, որ մետրի մեջ տեղավորվում է $100$, ոչ թե $10$ դեցիմետրանոց քառակուսի։
+  </div>
+</section>
+
+<section class="part-header">Մաս 2 / 2 — Բաղադրյալ միավորներ</section>
+
+<section class="chapter" id="s3">
+  <div class="chapter-head"><span class="chapter-num">03</span><h2>Արագություն և խտություն</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">Մեքենան շարժվում է $72$ կմ/ժ արագությամբ, իսկ թռչունը՝ $25$ մ/վ։ Ո՞վ է ավելի արագ։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">$72$ կմ/ժ $=\frac{72\,000\text{ մ}}{3600\text{ վ}}=20$ մ/վ։ Թռչունը՝ $25$ մ/վ, ավելի արագ է։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p>$1$ կմ/ժ $=\frac{1000\text{ մ}}{3600\text{ վ}}=\frac{1}{3{,}6}$ մ/վ, ուստի <b>կմ/ժ → մ/վ՝ բաժանել $3{,}6$-ի</b>, <b>մ/վ → կմ/ժ՝ բազմապատկել $3{,}6$-ով</b>։</p>
+    <p>$1$ գ/սմ³ $=\frac{0{,}001\text{ կգ}}{0{,}000001\text{ մ}^3}=1000$ կգ/մ³։</p>
+    <p>Բաղադրյալ միավորը փոխարկում ենք համարիչն ու հայտարարը առանձին փոխարկելով։</p>
+  </div>
+
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>$64{,}8$ կմ/ժ $=$ ? մ/վ; $4{,}4$ գ/սմ³ $=$ ? կգ/մ³։</p>
+    <div class="step">$64{,}8:3{,}6=18$ մ/վ</div>
+    <div class="step">$4{,}4\cdot1000=4400$ կգ/մ³</div>
+    <div class="answer">Պատասխան. $18$ մ/վ; $4400$ կգ/մ³</div>
+  </div>
+
+  <div class="think">Ինչո՞ւ է $3{,}6$ գործակիցը, և ոչ թե $1000$ կամ $60$։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> կմ/ժ-ը մ/վ-ի դարձնել բազմապատկելով $3{,}6$-ով կամ բաժանելով $1000$-ի։</p>
+    <p><span class="k">Ինչու՞</span> Աշակերտը փոխարկում է միայն երկարությունը կամ միայն ժամանակը։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Ստուգիր իմաստով. մ/վ-ով թիվը պետք է ավելի փոքր լինի, քան կմ/ժ-ով։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>կմ/ժ → մ/վ՝ $:3{,}6$։</li>
+      <li>մ/վ → կմ/ժ՝ $\cdot3{,}6$։</li>
+      <li>գ/սմ³ → կգ/մ³՝ $\cdot1000$։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Սա ֆիզիկայի կամուրջն է. առաջարկում եմ այս գլուխը անցնել ֆիզիկայի առաջին դասերից առաջ կամ զուգահեռ։
+  </div>
+</section>
+
+<section class="chapter" id="s4">
+  <div class="chapter-head"><span class="chapter-num">04</span><h2>Խնդիրներ տարբեր միավորներով</h2></div>
+
+  <div class="block-title">Իրական կյանքի օրինակ</div>
+  <div class="hook">Մեքենան $50{,}4$ կմ/ժ արագությամբ քանի՞ մետր կանցնի $20$ վայրկյանում։</div>
+
+  <div class="block-title">Ինտուիտիվ բացատրություն</div>
+  <div class="intuitive">Նախ բերում ենք նույն միավորների. $50{,}4$ կմ/ժ $=14$ մ/վ։ Հետո՝ $14\cdot20=280$ մ։</div>
+
+  <div class="block-title">Ֆորմալ սահմանում</div>
+  <div class="formal-def">
+    <p>Բանաձևի մեջ տեղադրելուց առաջ <b>բոլոր մեծությունները բերում ենք համաձայնեցված միավորների</b> (օր. մ, վ, մ/վ)։</p>
+    <p>Պատասխանը գրում ենք հարցում պահանջված միավորով։</p>
+    <p>Համեմատելիս բոլոր մեծությունները բերում ենք մեկ միավորի։</p>
+  </div>
+
+
+  <div class="block-title">Լուծված օրինակ(ներ)</div>
+  <div class="example-box"><span class="tag">Օրինակ</span>
+    <p>Ավտոբուսը $72$ կմ/ժ արագությամբ անցավ $120$ կմ։ Քանի՞ րոպե տևեց։</p>
+    <div class="step">$t=120:72=\frac{5}{3}$ ժ</div>
+    <div class="step">$\frac{5}{3}\cdot60=100$ ր</div>
+    <div class="answer">Պատասխան. $100$ րոպե</div>
+  </div>
+
+  <div class="think">Ո՞րն է ավելի երկար՝ $2{,}252$ կմ, թե $22\,720$ դմ։</div>
+
+  <div class="block-title">Տիպիկ սխալ</div>
+  <div class="error-box"><h4>⚠ Հաճախակի սխալ</h4>
+    <p><span class="k">Ինչ է սխալ.</span> Խնդրի մեջ խառնել կմ/ժ և վայրկյաններ առանց փոխարկելու։</p>
+    <p><span class="k">Ինչու՞</span> Աշակերտը բանաձևի մեջ տեղադրում է թվերը՝ առանց միավորներին նայելու։</p>
+    <p><span class="k">Ինչպես ստուգել.</span> Գրիր միավորները բանաձևում. դրանք պետք է «կրճատվեն»։</p>
+  </div>
+
+  <div class="block-title">Ինչ հիշել</div>
+  <div class="remember"><span class="label">3 կետ</span>
+    <ul>
+      <li>Նախ՝ նույն միավորներ։</li>
+      <li>Պատասխան՝ պահանջված միավորով։</li>
+      <li>Համեմատում՝ մեկ միավորով։</li>
+    </ul>
+  </div>
+
+  <div class="block-title">Ուսուցչի անկյուն</div>
+  <div class="teacher-corner"><span class="label">Քեզ համար</span>
+    Միավորների «կրճատման» մեթոդը (dimensional analysis) ամենահուսալի պաշտպանությունն է. $\frac{\text{կմ}}{\text{ժ}}\cdot\text{ժ}=\text{կմ}$։
+  </div>
+</section>
+
+<hr class="sep">
+
+<section class="tasks-section" id="tasks">
+  <h2>Առաջադրանքներ</h2>
+  <h3>Հաշվարկային առաջադրանքներ</h3>
+  <ol class="tasks">
+    <li>$84$ սմ $=$ ? մմ; $2{,}5$ կմ $=$ ? մ։</li>
+    <li>$8$ ժ $35$ ր $=$ ? րոպե։</li>
+    <li>$2\,700$ դմ² $=$ ? մ²; $3$ հա $=$ ? մ²։</li>
+    <li>$34$ լ $=$ ? սմ³։</li>
+    <li>$64{,}8$ կմ/ժ $=$ ? մ/վ։</li>
+    <li>$55$ մ/վ $=$ ? կմ/ժ։</li>
+    <li>$4{,}4$ գ/սմ³ $=$ ? կգ/մ³։</li>
+    <li>$3$ մ $66$ սմ $+$ $4$ մ $74$ սմ $=$ ? սմ։</li>
+    <li>Ակվարիումը $80$ սմ × $30$ սմ × $20$ սմ է։ Քանի՞ լիտր։</li>
+    <li>$50{,}4$ կմ/ժ արագությամբ քանի՞ մետր՝ $20$ վ-ում։</li>
+    <li>$72$ կմ/ժ արագությամբ $120$ կմ՝ քանի՞ րոպե։</li>
+    <li>Ո՞րն է ամենաերկարը. $217\,200$ սմ; $22\,720$ դմ; $2\,302$ մ; $2{,}252$ կմ։</li>
+  </ol>
+  <h3>Տրամաբանական և հայեցակարգային հարցեր</h3>
+  <ol class="tasks" start="13">
+    <li>Ինչո՞ւ $1$ մ² $=100$ դմ², թեև $1$ մ $=10$ դմ։</li>
+    <li>Ինչո՞ւ կմ/ժ-ը մ/վ-ի դարձնելիս բաժանում ենք $3{,}6$-ի։</li>
+  </ol>
+</section>
+
+<section class="answers-section" id="answers">
+  <h2>Պատասխաններ</h2>
+  <h3>Հաշվարկային առաջադրանքների պատասխանները</h3>
+  <ol class="answers-list">
+    <li>$840$ մմ; $2500$ մ</li>
+    <li>$515$ ր</li>
+    <li>$27$ մ²; $30\,000$ մ²</li>
+    <li>$34\,000$ սմ³</li>
+    <li>$18$ մ/վ</li>
+    <li>$198$ կմ/ժ</li>
+    <li>$4400$ կգ/մ³</li>
+    <li>$840$ սմ</li>
+    <li>$48$ լ</li>
+    <li>$280$ մ</li>
+    <li>$100$ ր</li>
+    <li>$2\,302$ մ</li>
+  </ol>
+  <h3>Տրամաբանական և հայեցակարգային հարցերի պատասխանները</h3>
+  <ol class="answers-list answers-list-conceptual" start="13">
+    <li>$1$ մ կողմով քառակուսին կողմերով $10$ դմ է, և նրա մակերեսը $10\cdot10=100$ դմ²</li>
+    <li>$1$ կմ/ժ $=1000$ մ $:3600$ վ $=\frac{1}{3{,}6}$ մ/վ</li>
+  </ol>
+</section>
+
+</main>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  renderMathInElement(document.body, {
+    delimiters: [
+      {left: "$$", right: "$$", display: true},
+      {left: "$", right: "$", display: false}
+    ],
+    strict: false
+  });
+});
+</script>
+</body>
+</html>
