@@ -4,6 +4,33 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Տրենաժոր · 2.0</title>
+<script>
+/* Անցանց ծանուցում. եթե արտաքին սկրիպտը (ձևավորում, բանաձևեր) չի բեռնվում կամ ինտերնետը կտրվում է,
+   ցույց ենք տալիս հստակ հաղորդագրություն։ Ոճերը՝ ներկառուցված (Tailwind-ը կարող է բեռնված չլինել)։ */
+(function () { try {
+  if (typeof window === 'undefined' || typeof window.addEventListener !== 'function') return;   // թեստային միջավայր
+  var shown = false;
+  function show() {
+    if (shown) return; shown = true;
+    function put() {
+      if (document.getElementById('offline-note')) return;
+      var d = document.createElement('div'); d.id = 'offline-note'; d.setAttribute('role', 'alert');
+      d.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:9999;background:#b45309;color:#fff;padding:10px 14px;font:15px/1.4 system-ui,Arial,sans-serif;text-align:center;box-shadow:0 2px 6px rgba(0,0,0,.25)';
+      d.innerHTML = '⚠️ Ինտերնետ կապ չկա կամ թույլ է. բանաձևերը և ձևավորումը կարող են ճիշտ չցուցադրվել։ Միացիր ինտերնետին և թարմացրու էջը։ ' +
+        '<button type="button" style="margin-left:8px;background:#fff;color:#b45309;border:0;border-radius:6px;padding:3px 10px;font:inherit;cursor:pointer" onclick="location.reload()">Թարմացնել</button>';
+      document.body.appendChild(d);
+    }
+    if (document.body) put(); else document.addEventListener('DOMContentLoaded', put);
+  }
+  window.__offline = show;
+  window.addEventListener('error', function (e) {          // չբեռնված արտաքին սկրիպտ/ոճ
+    var t = e && e.target; if (t && (t.tagName === 'SCRIPT' || t.tagName === 'LINK') && /^https?:/.test(t.src || t.href || '')) show();
+  }, true);
+  window.addEventListener('offline', show);
+  window.addEventListener('online', function () { var d = document.getElementById('offline-note'); if (d) d.remove(); shown = false; });
+  if (navigator.onLine === false) show();
+} catch (e) {} })();
+</script>
 <script src="https://cdn.tailwindcss.com"></script>
 <script>
   window.MathJax = {
@@ -24,6 +51,12 @@
   @keyframes fade { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:none} }
   .fade { animation:fade .25s ease-out; }
   @media (prefers-reduced-motion: reduce) { .fade { animation:none } }
+  /* հեռախոսում ամրացված «Հաջորդը» կոճակ */
+  #next-bar { position:fixed; left:0; right:0; bottom:0; z-index:45; padding:10px 14px calc(10px + env(safe-area-inset-bottom,0px));
+              background:rgba(255,255,255,.96); border-top:1px solid #e2e8f0; box-shadow:0 -2px 8px rgba(15,23,42,.08); }
+  body.has-next-bar main { padding-bottom:84px; }
+  body.has-next-bar #user-badge { bottom:76px; }
+  @media (min-width:768px) { #next-bar { display:none !important; } body.has-next-bar main { padding-bottom:0; } body.has-next-bar #user-badge { bottom:12px; } }
 </style>
 </head>
 <body class="min-h-screen flex flex-col">
@@ -89,7 +122,7 @@
 
     <button id="speed-btn" onclick="Speed.open()" class="w-full mb-6 p-4 rounded-2xl bg-gradient-to-r from-amber-400 to-orange-500 text-white text-left shadow-sm hover:shadow-md transition">
       <div class="text-lg font-bold">⚡ Արագ հաշվարկ</div>
-      <div class="text-sm opacity-90">Բազմապատկման աղյուսակ, բաժանում, գումարում և հանում մինչև 100 և 1000 — ժամանակով, 3 մակարդակ</div>
+      <div class="text-sm opacity-90">Գումարում, հանում, բազմապատկում և բաժանում մինչև 100, 1000 և 10 000 — ժամանակով, 5 աստիճան</div>
     </button>
 
     <div id="topics-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
@@ -108,6 +141,9 @@
       <div id="fb-body" class="text-slate-700 math"></div>
       <button id="next-btn" onclick="Engine.continue()" class="mt-5 px-5 py-2.5 bg-slate-900 text-white font-semibold rounded-lg hover:bg-slate-700">Հաջորդը ➔</button>
     </div>
+    <div class="mt-6 text-center">
+      <button id="report-btn" type="button" onclick="Report.openFeedback('trainer')" class="hidden text-xs text-slate-400 hover:text-slate-700 underline">⚑ Սխալ կամ անհասկանալի հարց — հայտնել ուսուցչին</button>
+    </div>
   </section>
 
   <section id="view-result" class="bg-white rounded-2xl shadow-sm border border-slate-200 p-10 text-center hidden fade">
@@ -122,6 +158,7 @@
 
 </div>
 </main>
+<div id="next-bar" class="hidden"><button id="next-bar-btn" type="button" onclick="Engine.continue()" class="w-full py-3 bg-slate-900 text-white font-bold rounded-xl text-base">Հաջորդը ➔</button></div>
 
 <!-- Ընտրովի կարգավորում (լոգին/հաշվետվություն). ֆայլի բացակայության դեպքում ամեն ինչ աշխատում է առանց դրա -->
 <script src="trenajor-config.js"></script>
@@ -286,6 +323,11 @@ const toNumeric = (v) => {
   const n = Number(cleaned);
   return Number.isFinite(n) ? n : NaN;
 };
+
+// Բացասական թիվը աստիճանի հիմքում կամ արտադրիչ՝ միշտ փակագծերում.
+// pw(-6,2) = "(-6)^2" (ոչ թե "-6^2", որ մաթեմատիկորեն -36 է), par(-3) = "(-3)"
+const par = (v) => (String(v).trim().startsWith('-') ? `(${v})` : `${v}`);
+const pw = (v, n) => `${par(v)}^${String(n).length > 1 ? `{${n}}` : n}`;
 
 
 /* ===== 20_validator.js ===== */
@@ -678,9 +720,11 @@ const fmtVal = (v) => (typeof v === 'number' ? String(v).replace('.', ',') : fmt
    Բանաձևում ($…$)՝ {,} (KaTeX-ում առանց ավելորդ բացատի), տեքստում՝ «,»։ HTML թեգերին չի դիպչում։ */
 function fmtText(s) {
   if (s == null) return '';
-  const NUM = /(?<![\d.§])(\d+)\.(\d+)(?![\d.])/g;
+  // ⚠ Առանց lookbehind-ի «(?<!…)». այն չի աջակցվում iOS 16.3 և ավելի հին Safari-ում, և ամբողջ
+  // էջը սպիտակ էր մնում (SyntaxError)։ Նախորդող նշանը բռնում ենք խմբով և վերադարձնում ($1)։
+  const NUM = /(^|[^\d.§])(\d+)\.(\d+)(?![\d.])/g;
   return String(s).split(/(<[^>]+>)/).map(part => part.startsWith('<') ? part :
-    part.split(/(\$[^$]*\$)/).map(seg => seg.startsWith('$') ? seg.replace(NUM, '$1{,}$2') : seg.replace(NUM, '$1,$2')).join('')
+    part.split(/(\$[^$]*\$)/).map(seg => seg.startsWith('$') ? seg.replace(NUM, '$1$2{,}$3') : seg.replace(NUM, '$1$2,$3')).join('')
   ).join('');
 }
 
@@ -768,7 +812,33 @@ const UI = {
     this.showMenu();
   },
 
+  /* Արագ հաշվարկը փակում ենք ամեն անցման ժամանակ. առաջ «Մենյու» կոճակից հետո
+     այն մնում էր էջի տակ (և ժամաչափը շարունակում էր աշխատել) */
+  leaveSpeed() {
+    try { if (typeof Speed !== 'undefined' && Speed.halt) Speed.halt(); } catch (e) {}
+    this.nextBar(false);
+  },
+
+  /* Հեռախոսում «Հաջորդը» կոճակը էկրանի ներքևում ամրացված է, որ սքրոլ պետք չլինի */
+  nextBar(show, label) {
+    try {
+      const bar = document.getElementById('next-bar'); if (!bar || !bar.classList) return;
+      bar.classList.toggle('hidden', !show);
+      if (document.body && document.body.classList) document.body.classList.toggle('has-next-bar', !!show);
+      if (label) { const b = document.getElementById('next-bar-btn'); if (b) b.innerText = label; }
+    } catch (e) {}
+  },
+
+  /* Էջի բեռնման պահին (onload-ից)։ եթե աշակերտը արդեն բացել է Արագ հաշվարկը (դանդաղ
+     ինտերնետում onload-ը ուշ է գալիս), այն չենք ընդհատում. մենյուն կկառուցվի փակելիս */
+  boot() {
+    const sv = document.getElementById('view-speed');
+    if (sv && sv.classList && !sv.classList.contains('hidden')) return;
+    this.initMenu();
+  },
+
   showMenu() {
+    this.leaveSpeed();
     $('view-game').classList.add('hidden');
     $('view-result').classList.add('hidden');
     $('stats-bar').classList.add('hidden');
@@ -778,6 +848,7 @@ const UI = {
   initMenuRefresh() { /* քարտերի աստղերը թարմացնելու համար */ },
 
   showGame() {
+    this.leaveSpeed();
     $('view-menu').classList.add('hidden');
     $('view-result').classList.add('hidden');
     $('stats-bar').classList.remove('hidden');
@@ -863,11 +934,15 @@ const UI = {
       b.innerHTML =
         `<span class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-sm font-bold text-slate-500 shrink-0">${String.fromCharCode(65 + i)}</span>
          <span class="math">${fmtVal(opt.text)}</span>`;
+      b._correct = !!opt.correct;   // կանաչ նշման համար (MathJax-ը փոխում է innerHTML-ը)
       b.onclick = () => Engine.answer(opt, b);
       grid.appendChild(b);
     });
 
     $('feedback').classList.add('hidden');
+    this.nextBar(false);
+    const rb = document.getElementById('report-btn');    // «Հայտնել ուսուցչին»՝ միայն մուտք գործածների համար
+    if (rb) rb.classList.toggle('hidden', !(typeof Report !== 'undefined' && Report.canFeedback()));
     this.typeset();
   },
 
@@ -880,9 +955,10 @@ const UI = {
     btn.classList.add(ok ? 'bg-green-100' : 'bg-red-50', ok ? 'border-green-500' : 'border-red-400');
 
     if (!ok) {
+      // Նախկինում համեմատվում էր innerHTML-ը, որը MathJax-ից հետո այլևս LaTeX չէ →
+      // բանաձևային պատասխաններում ճիշտ տարբերակը կանաչ չէր նշվում
       document.querySelectorAll('.opt').forEach(b => {
-        if (b.querySelector('.math').innerHTML === fmtVal(task.ans))
-          b.classList.add('border-green-500', 'bg-green-50');
+        if (b._correct === true) b.classList.add('border-green-500', 'bg-green-50');
       });
     }
 
@@ -902,20 +978,24 @@ const UI = {
     $('fb-body').innerHTML = html;
 
     const nb = $('next-btn');
-    if (Engine.mode === 'exam' && Engine.health <= 0) nb.classList.add('hidden');
+    if (Engine.mode === 'exam' && Engine.health <= 0) { nb.classList.add('hidden'); this.nextBar(false); }
     else {
       nb.classList.remove('hidden');
       nb.innerText = (!ok && Engine.mode === 'practice' && CONFIG.practiceRetrySameSubtopic)
         ? 'Փորձել նույն տեսակից ➔' : 'Հաջորդը ➔';
+      this.nextBar(true, nb.innerText);
     }
     box.classList.remove('hidden');
     this.typeset();
+    // պատասխանից հետո բացատրությունը բերում ենք տեսանելի մաս (հատկապես հեռախոսում)
+    try { if (box.scrollIntoView && window.innerWidth < 768) box.scrollIntoView({ behavior: 'smooth', block: 'start' }); } catch (e) {}
   },
 
   /* ---------- Ավարտ ---------- */
 
   showResult(win) {
     try { if (typeof Report !== 'undefined') Report.result({ topic: Engine.topic && Engine.topic.key, level: Engine.level, correct: win ? 1 : 0, mode: Engine.mode }); } catch (e) {}
+    this.leaveSpeed();
     $('view-game').classList.add('hidden');
     $('stats-bar').classList.add('hidden');
     $('view-result').classList.remove('hidden');
@@ -1044,11 +1124,16 @@ const Speed = {
     const sb = this.el('stats-bar'); if (sb) sb.classList.add('hidden');
     const v = this.el('view-speed'); v.innerHTML = html; v.classList.remove('hidden');
   },
-  close() {
+  /* Լուռ փակում (կանչվում է UI-ից ցանկացած անցման ժամանակ). ժամաչափը կանգնում է,
+     կիսատ սեսիան (≥5 պատասխան) գրանցվում է, բլոկը թաքցվում է։ Մենյու չի բացում։ */
+  halt() {
     clearInterval(this.tick);
     if (this.running && this.results && this.results.length >= 5) this.record(true);   // կիսատ սեսիա
     this.running = false;
-    const v = this.el('view-speed'); if (v) v.classList.add('hidden');
+    const v = this.el('view-speed'); if (v) { v.classList.add('hidden'); v.innerHTML = ''; }
+  },
+  close() {
+    this.halt();
     UI.initMenu();
   },
   scale(stage, lvl) {                                                        // 1–5 սանդղակ
@@ -1224,10 +1309,15 @@ const Report = {
   cfg() { return (typeof window !== 'undefined' && window.TRENAJOR_CONFIG) || {}; },
   enabled() { return !!this.cfg().reportUrl; },
   KEY: 'trenajor_user_v1',
+  KEY_PENDING: 'trenajor_pending_v1',     // սերվերի կողմից դեռ չհաստատված իրադարձություններ
+  MAX_PENDING: 400,
   queue: [],
 
   user() { try { return JSON.parse(localStorage.getItem(this.KEY)); } catch (e) { return null; } },
   setUser(u) { try { u ? localStorage.setItem(this.KEY, JSON.stringify(u)) : localStorage.removeItem(this.KEY); } catch (e) {} },
+  isAdmin() { const u = this.user(); return !!(u && u.role === 'admin'); },
+  loadPending() { try { const a = JSON.parse(localStorage.getItem(this.KEY_PENDING)); return Array.isArray(a) ? a : []; } catch (e) { return []; } },
+  savePending(a) { try { a && a.length ? localStorage.setItem(this.KEY_PENDING, JSON.stringify(a.slice(-this.MAX_PENDING))) : localStorage.removeItem(this.KEY_PENDING); } catch (e) {} },
 
   async call(payload) {
     const r = await fetch(this.cfg().reportUrl, {
@@ -1237,22 +1327,26 @@ const Report = {
     return r.json();
   },
 
-  /* ---------- Լոգին ---------- */
-  gate(onReady) {
-    if (!this.enabled() || !this.cfg().loginRequired || this.user()) { this.badge(); onReady(); return; }
+  /* ---------- Լոգին ----------
+     force=true՝ նորից մուտք (օր. token-ը հնացել է), note՝ բացատրություն պատուհանում */
+  gate(onReady, force, note) {
+    if (!force && (!this.enabled() || !this.cfg().loginRequired || this.user())) { this.badge(); onReady(); return; }
+    if (document.getElementById('login-overlay')) return;
+    const prev = this.user() || {};
     const ov = document.createElement('div');
     ov.id = 'login-overlay';
     ov.className = 'fixed inset-0 bg-slate-900/70 flex items-center justify-center z-50 p-4';
     ov.innerHTML = `
       <div class="bg-white rounded-2xl p-6 w-full max-w-sm shadow-xl">
         <h2 class="text-xl font-bold mb-1">Մուտք</h2>
-        <p class="text-sm text-slate-500 mb-4">Մուտքանունն ու գաղտնաբառը տվել է ուսուցիչը։</p>
-        <input id="lg-user" placeholder="Մուտքանուն" autocomplete="username" class="w-full border rounded-lg px-3 py-2 mb-2" />
-        <input id="lg-pass" type="password" placeholder="Գաղտնաբառ" autocomplete="current-password" class="w-full border rounded-lg px-3 py-2 mb-3" />
-        <div id="lg-msg" class="text-sm text-red-600 h-5 mb-2"></div>
+        <p class="text-sm text-slate-500 mb-4">${note || 'Մուտքանունն ու գաղտնաբառը տվել է ուսուցիչը։'}</p>
+        <input id="lg-user" placeholder="Մուտքանուն" autocomplete="username" maxlength="40" class="w-full border rounded-lg px-3 py-2 mb-2" />
+        <input id="lg-pass" type="password" placeholder="Գաղտնաբառ" autocomplete="current-password" maxlength="64" class="w-full border rounded-lg px-3 py-2 mb-3" />
+        <div id="lg-msg" class="text-sm text-red-600 min-h-5 mb-2"></div>
         <button id="lg-go" class="w-full py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl">Մուտք գործել</button>
       </div>`;
     document.body.appendChild(ov);
+    if (prev.login) document.getElementById('lg-user').value = prev.login;
     const go = async () => {
       const login = document.getElementById('lg-user').value.trim(), pass = document.getElementById('lg-pass').value;
       const msg = document.getElementById('lg-msg');
@@ -1260,12 +1354,25 @@ const Report = {
       msg.textContent = 'Ստուգում…';
       try {
         const r = await this.call({ action: 'login', login, pass, ua: navigator.userAgent });
-        if (r && r.ok) { this.setUser({ login, name: r.name, cls: r.cls, token: r.token, allow: r.allow || '' }); ov.remove(); this.badge(); onReady(); }
-        else msg.textContent = 'Սխալ մուտքանուն կամ գաղտնաբառ';
-      } catch (e) { msg.textContent = 'Կապ չկա սերվերի հետ. փորձիր նորից'; }
+        if (r && r.ok) {
+          this.setUser({ login, name: r.name, cls: r.cls, token: r.token, allow: r.allow || '', role: r.role || '' });
+          this._needAuth = false;
+          ov.remove(); this.badge(); onReady(); this.flush();
+        }
+        else msg.textContent = r && r.locked ? 'Շատ սխալ փորձեր. փորձիր 10 րոպեից'
+                             : r && r.dup ? 'Այս մուտքանունը կրկնվում է. դիմիր ուսուցչին'
+                             : 'Սխալ մուտքանուն կամ գաղտնաբառ';
+      } catch (e) { msg.textContent = 'Կապ չկա սերվերի հետ. ստուգիր ինտերնետը և փորձիր նորից'; }
     };
     document.getElementById('lg-go').onclick = go;
     document.getElementById('lg-pass').addEventListener('keydown', e => { if (e.key === 'Enter') go(); });
+  },
+
+  /* Սերվերն ասում է, որ token-ը հնացել է. պատասխանները պահված են սարքում, խնդրում ենք նորից մտնել */
+  reauth() {
+    this._needAuth = true;
+    if (!this.cfg().loginRequired) return;
+    this.gate(() => {}, true, 'Քո մուտքը հնացել է (հավանաբար մտել ես այլ սարքից)։ Մտիր նորից. քո պատասխանները պահված են և կուղարկվեն։');
   },
 
   badge() {
@@ -1274,9 +1381,10 @@ const Report = {
     const b = document.createElement('div');
     b.id = 'user-badge';
     b.className = 'fixed bottom-3 right-3 bg-white border border-slate-200 shadow rounded-full px-3 py-1 text-xs text-slate-600 z-40';
-    b.innerHTML = `👤 ${u.name || u.login} · <a href="#" id="user-out" class="text-blue-600">ելք</a>`;
+    b.innerHTML = `👤 <span id="user-name"></span> · <a href="#" id="user-out" class="text-blue-600">ելք</a>`;
     document.body.appendChild(b);
-    document.getElementById('user-out').onclick = (e) => { e.preventDefault(); this.flush(); this.setUser(null); location.reload(); };
+    document.getElementById('user-name').textContent = u.name || u.login;     // անունը՝ որպես տեքստ, ոչ HTML
+    document.getElementById('user-out').onclick = (e) => { e.preventDefault(); this.flush(true); this.setUser(null); location.reload(); };
     // «Ակտիվ հիմա»-ի համար՝ 3 րոպեն մեկ ազդանշան
     if (!this._hb) this._hb = setInterval(() => { this.push({ type: 'ping' }); this.flush(); }, 180000);
   },
@@ -1299,22 +1407,49 @@ const Report = {
     return keys.filter(k => { const g = REGISTRY[k].grades; return !g || g.some(x => a.grades.includes(x)); });
   },
 
-  /* ---------- Իրադարձություններ ---------- */
+  /* ---------- Իրադարձություններ ----------
+     Ուղարկում ենք միայն մուտք գործած աշակերտի անունից (անանուն իրադարձությունները սերվերը միևնույն է մերժում է)։
+     Սովորական ուղարկում՝ fetch-ով, սերվերի պատասխանը ստուգվում է. մինչև հաստատումը իրադարձությունները պահվում են
+     սարքում (trenajor_pending_v1), այնպես որ ինտերնետի կտրվելը կամ հնացած token-ը տվյալներ չի կորցնում։
+     Էջը փակելիս (urgent)՝ sendBeacon (պատասխանը հնարավոր չէ կարդալ)։ */
   push(ev) {
     if (!this.enabled()) return;
-    const u = this.user(); if (this.cfg().loginRequired && !u) return;
+    const u = this.user(); if (!u || !u.token) return;
     this.queue.push(Object.assign({ ts: new Date().toISOString() }, ev));
     if (this.queue.length >= 5) this.flush();
   },
-  flush() {
-    if (!this.enabled() || !this.queue.length) return;
-    const u = this.user() || {};
-    const events = this.queue.splice(0);
-    const body = JSON.stringify({ action: 'log', login: u.login || 'anonymous', token: u.token || '', events });
-    try {
-      if (navigator.sendBeacon) navigator.sendBeacon(this.cfg().reportUrl, body);
-      else fetch(this.cfg().reportUrl, { method: 'POST', body, keepalive: true });
-    } catch (e) {}
+  flush(urgent) {
+    if (!this.enabled()) return;
+    const u = this.user(); if (!u || !u.token) { this.queue = []; return; }
+    const url = this.cfg().reportUrl;
+    const canFetch = typeof fetch === 'function' && !urgent;
+    if (this._needAuth || (typeof navigator !== 'undefined' && navigator.onLine === false)) {
+      // հնացած մուտք կամ կապ չկա. ոչինչ չենք ուղարկում, պահում ենք սարքում
+      if (this.queue.length) this.savePending(this.loadPending().concat(this.queue.splice(0)));
+      return;
+    }
+    if (!canFetch) {
+      const events = (this._inflight ? [] : this.loadPending()).concat(this.queue.splice(0)).slice(-this.MAX_PENDING);
+      if (!events.length) return;
+      if (!this._inflight) this.savePending([]);
+      const body = JSON.stringify({ action: 'log', login: u.login, token: u.token, events });
+      try { if (navigator.sendBeacon) navigator.sendBeacon(url, body); else if (typeof fetch === 'function') fetch(url, { method: 'POST', body, keepalive: true }); } catch (e) {}
+      return;
+    }
+    if (this._inflight) return;                       // նախորդը դեռ ընթացքում է. հերթը կսպասի
+    const events = this.loadPending().concat(this.queue.splice(0)).slice(-this.MAX_PENDING);
+    if (!events.length) return;
+    this.savePending(events);
+    this._inflight = true;
+    const body = JSON.stringify({ action: 'log', login: u.login, token: u.token, events });
+    fetch(url, { method: 'POST', body, keepalive: body.length < 60000 })
+      .then(r => r.json())
+      .then(r => {
+        if (r && r.ok) this.savePending([]);
+        else if (r && r.reauth) this.reauth();       // պահված են, կուղարկվեն նոր մուտքից հետո
+      })
+      .catch(() => {})                                 // կապ չկա. պահված են, կուղարկվեն հաջորդ անգամ
+      .then(() => { this._inflight = false; if (this.queue.length >= 5) this.flush(); });
   },
 
   answer(d) { this.push(Object.assign({ type: 'answer' }, d)); },
@@ -1322,13 +1457,52 @@ const Report = {
                           level: 'Աստիճան ' + d.stage + (d.passed ? ' ✅ անցավ' : d.partial ? ' ⏸ կիսատ' : ' — չանցավ'),
                           correct: Math.round(d.acc * 100), timeMs: Math.round(d.med * 1000),
                           extra: JSON.stringify({ n: d.n, speedLvl: d.speedLvl, bestStreak: d.bestStreak, weak: d.weak }) }); this.flush(); },
-  result(d) { this.push(Object.assign({ type: 'result' }, d)); this.flush(); }
+  result(d) { this.push(Object.assign({ type: 'result' }, d)); this.flush(); },
+
+  /* ---------- Հետադարձ կապ (սխալի հաղորդում) ---------- */
+  canFeedback() { const u = this.user(); return this.enabled() && !!(u && u.token); },
+  openFeedback(where) {
+    if (!this.canFeedback() || document.getElementById('fb-overlay')) return;
+    const t = (typeof Engine !== 'undefined' && where === 'trainer' && Engine.current) ? Engine : null;
+    const ctx = { where: where || 'other',
+                  topic: t && t.topic ? t.topic.key : '', subtopic: t ? t.current.subtopic : '',
+                  question: t ? String(t.current.q || '').slice(0, 600) : '' };
+    const ov = document.createElement('div');
+    ov.id = 'fb-overlay';
+    ov.className = 'fixed inset-0 bg-slate-900/60 flex items-center justify-center z-50 p-4';
+    ov.innerHTML = `
+      <div class="bg-white rounded-2xl p-6 w-full max-w-md shadow-xl">
+        <h2 class="text-lg font-bold mb-1">⚑ Հայտնել ուսուցչին</h2>
+        <p class="text-sm text-slate-500 mb-3">Ի՞նչն է սխալ կամ անհասկանալի այս հարցում։ Հաղորդումը կգնա ուսուցչին՝ հարցի հետ միասին։</p>
+        <textarea id="fb-text" rows="4" maxlength="1000" class="w-full border rounded-lg px-3 py-2 mb-2 text-sm" placeholder="Օրինակ՝ «Իմ հաշվարկով պատասխանը 12 է, ոչ թե 15» կամ «Չեմ հասկանում, թե ինչ է նշանակում…»"></textarea>
+        <div id="fb-msg" class="text-sm min-h-5 mb-2"></div>
+        <div class="flex gap-2 justify-end">
+          <button id="fb-cancel" type="button" class="px-4 py-2 rounded-lg bg-slate-100 hover:bg-slate-200">Չեղարկել</button>
+          <button id="fb-send" type="button" class="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-bold">Ուղարկել</button>
+        </div>
+      </div>`;
+    document.body.appendChild(ov);
+    const close = () => ov.remove();
+    document.getElementById('fb-cancel').onclick = close;
+    document.getElementById('fb-send').onclick = async () => {
+      const comment = document.getElementById('fb-text').value.trim(), msg = document.getElementById('fb-msg');
+      if (comment.length < 3) { msg.className = 'text-sm text-red-600 min-h-5 mb-2'; msg.textContent = 'Գրիր մի քանի բառ'; return; }
+      msg.className = 'text-sm text-slate-500 min-h-5 mb-2'; msg.textContent = 'Ուղարկում…';
+      const u = this.user() || {};
+      try {
+        const r = await this.call(Object.assign({ action: 'feedback', login: u.login, token: u.token, comment }, ctx));
+        if (r && r.ok) { msg.className = 'text-sm text-green-700 min-h-5 mb-2'; msg.textContent = 'Շնորհակալություն, ուղարկված է ✅'; setTimeout(close, 1200); }
+        else { msg.className = 'text-sm text-red-600 min-h-5 mb-2';
+               msg.textContent = r && r.reauth ? 'Մուտքը հնացել է. մտիր նորից և կրկին փորձիր' : r && r.error === 'limit' ? 'Շատ հաղորդումներ. փորձիր ավելի ուշ' : 'Չհաջողվեց ուղարկել'; }
+      } catch (e) { msg.className = 'text-sm text-red-600 min-h-5 mb-2'; msg.textContent = 'Կապ չկա. ստուգիր ինտերնետը'; }
+    };
+  }
 };
 
 try {   // բեռնման պահին՝ միայն իրական բրաուզերում (թեստային միջավայրերում անվնաս բաց է թողնվում)
-  if (typeof window !== 'undefined' && typeof window.addEventListener === 'function') window.addEventListener('pagehide', () => Report.flush());
+  if (typeof window !== 'undefined' && typeof window.addEventListener === 'function') window.addEventListener('pagehide', () => Report.flush(true));
   if (typeof document !== 'undefined' && typeof document.addEventListener === 'function')
-    document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') Report.flush(); });
+    document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') Report.flush(true); });
 } catch (e) {}
 
 
@@ -2256,7 +2430,7 @@ subject: "math",
 id: "divisibility",
 theory:"divisibility.html",
 grades:[5],
-title: "Բաժանելիություն, ամենամեծ ընդհանուր բաժանարար և ԱԸՊ",
+title: "Բաժանելիություն, ընդհանուր բաժանարար և բազմապատիկ",
 icon: "🔢",
 desc: "Պարզ/բաղադրյալ թվեր, բաժանելիության հայտանիշներ, ամենամեծ ընդհանուր բաժանարար և ամենափոքր ընդհանուր պատիկ",
 tasks: [
@@ -2339,19 +2513,19 @@ tasks: [
   return { q:`Գտիր $${n1}$ և $${n2}$ թվերի ամենամեծ ընդհանուր բաժանարարը:`, ans:g,
     bad:[{v:n1*n2,why:"բաժանարարի փոխարեն հաշվում է թվերի արտադրյալը"},
          {v:1,why:"կարծում է, թե թվերը փոխադարձաբար պարզ են"},
-         {v:g*a*b,why:"հաշվում է ԱԸՊ-ն ամենամեծ ընդհանուր բաժանարարի փոխարեն"}],
+         {v:g*a*b,why:"հաշվում է ամենափոքր ընդհանուր բազմապատիկը՝ ամենամեծ ընդհանուր բաժանարարի փոխարեն"}],
     rationale:`$${n1}=${g}\\cdot${a}$, $${n2}=${g}\\cdot${b}$: Քանի որ $${a}$-ն և $${b}$-ն փոխադարձաբար պարզ են, ընդհանուր մասը միայն $${g}$-ն է:`,
     vars:{n1,n2} }; },
   verify(v){ return gcd(v.n1,v.n2); } },
 
-{ level:2, subtopic:"Ամենափոքր ընդհանուր պատիկ (ԱԸՊ)", bloom:"Կիրառում", badgeClass:"lvl-2", gen(){
+{ level:2, subtopic:"Ամենափոքր ընդհանուր բազմապատիկ", bloom:"Կիրառում", badgeClass:"lvl-2", gen(){
   const g=rand(2,7); let a,b; do { a=rand(2,6); b=rand(2,7); } while (gcd(a,b)!==1 || a===b);
   const n1=g*a, n2=g*b, ans=g*a*b;
-  return { q:`Գտիր $${n1}$ և $${n2}$ թվերի ամենափոքր ընդհանուր պատիկը (ԱԸՊ):`, ans,
-    bad:[{v:g,why:"հաշվում է ամենամեծ ընդհանուր բաժանարարը ԱԸՊ-ի փոխարեն"},
+  return { q:`Գտիր $${n1}$ և $${n2}$ թվերի ամենափոքր ընդհանուր բազմապատիկը:`, ans,
+    bad:[{v:g,why:"հաշվում է ամենամեծ ընդհանուր բաժանարարը՝ ամենափոքր ընդհանուր բազմապատիկի փոխարեն"},
          {v:n1*n2,why:"ուղղակի բազմապատկում է թվերը՝ առանց ընդհանուր արտադրիչը մեկ անգամ կրճատելու"},
          {v:a*b,why:`բազմապատկում է միայն մասնավոր մասերը՝ մոռանալով ընդհանուր ${g} արտադրիչը`}],
-    rationale:`$${n1}=${g}\\cdot${a}$, $${n2}=${g}\\cdot${b}$: Քանի որ $${a}$-ն և $${b}$-ն փոխադարձաբար պարզ են, $ԱԸՊ=${g}\\cdot${a}\\cdot${b}=${ans}$:`,
+    rationale:`$${n1}=${g}\\cdot${a}$, $${n2}=${g}\\cdot${b}$: Քանի որ $${a}$-ն և $${b}$-ն փոխադարձաբար պարզ են, ամենափոքր ընդհանուր բազմապատիկը՝ $${g}\\cdot${a}\\cdot${b}=${ans}$:`,
     vars:{g,a,b} }; },
   verify(v){ return v.g*v.a*v.b; } },
 
@@ -2372,7 +2546,7 @@ tasks: [
     bad:[{v:low,why:"ընտրում է ստորին սահմանը՝ «մեծ է» խիստ պայմանը մոռանալով"},
          {v:high,why:"ընտրում է վերին սահմանը՝ «փոքր է» պայմանը մոռանալով"},
          {v:low+a,why:"ընտրում է սահմանների միջև ընկած թիվ, որը չի բաժանվում երկուսի վրա էլ"}],
-    rationale:`Թիվը պետք է բաժանվի $ԱԸՊ(${a},${b})=${m}$-ի վրա: $${m}$-ի պատիկներից $low$ և $high$ միջև միակն է $${ans}$ ($${ans}:${m}=${k}$):`,
+    rationale:`Թիվը պետք է բաժանվի $${a}$-ի և $${b}$-ի ամենափոքր ընդհանուր բազմապատիկի՝ $${m}$-ի վրա: $${m}$-ի բազմապատիկներից $${low}$-ի և $${high}$-ի միջև միակն է $${ans}$ ($${ans}:${m}=${k}$):`,
     vars:{a,b,low,high} }; },
   verify(v){ const m=lcm(v.a,v.b); return v.low+m; } },
 
@@ -2398,14 +2572,14 @@ tasks: [
     vars:{apples,oranges} }; },
   verify(v){ return gcd(v.apples,v.oranges); } },
 
-{ level:3, subtopic:"ԱԸՊ-ի կիրառական խնդիր", bloom:"Համադրում", badgeClass:"lvl-4", gen(){
+{ level:3, subtopic:"Ամենափոքր ընդհանուր բազմապատիկի կիրառական խնդիր", bloom:"Համադրում", badgeClass:"lvl-4", gen(){
   const g=rand(2,6); let a,b; do { a=rand(3,7); b=rand(2,7); } while (gcd(a,b)!==1 || a===b);
   const t1=g*a, t2=g*b, ans=g*a*b;
   return { q:`Երկու ավտոբուս մեկնարկում են կայարանից միաժամանակ: Առաջինը վերադառնում է ամեն $${t1}$ րոպեն մեկ, երկրորդը՝ ամեն $${t2}$ րոպեն մեկ: Քանի՞ րոպե հետո նրանք առաջին անգամ նորից կհանդիպեն կայարանում:`, ans,
-    bad:[{v:t1+t2,why:"գումարում է ժամանակային միջակայքերը ԱԸՊ-ի փոխարեն"},
+    bad:[{v:t1+t2,why:"գումարում է ժամանակային միջակայքերը՝ ամենափոքր ընդհանուր բազմապատիկը գտնելու փոխարեն"},
          {v:g,why:"հաշվում է ամենամեծ ընդհանուր բաժանարարը՝ շփոթելով հանդիպման խնդիրը բաշխման հետ"},
          {v:t1*t2,why:`ուղղակի բազմապատկում է թվերը՝ առանց ընդհանուր ${g} արտադրիչը կրճատելու`}],
-    rationale:`$ԱԸՊ(${t1},${t2})=${g}\\cdot${a}\\cdot${b}=${ans}$ րոպե:`,
+    rationale:`$${t1}$-ի և $${t2}$-ի ամենափոքր ընդհանուր բազմապատիկը՝ $${g}\\cdot${a}\\cdot${b}=${ans}$ րոպե:`,
     vars:{g,a,b} }; },
   verify(v){ return v.g*v.a*v.b; } },
 
@@ -3064,7 +3238,7 @@ tasks:[
          {v:b,why:"պատասխանում է $b$ գործակցով"},
          {v:a,why:"պատասխանում է առաջատար գործակցով"},
          {v:c,why:"պատասխանում է ազատ անդամով"}],
-    rationale:`$x_0=-\\frac{b}{2a}=-\\frac{${b}}{2\\cdot${a}}=${x0}$: Մինուս նշանը բանաձևի պարտադիր մասն է:`,
+    rationale:`$x_0=-\\frac{b}{2a}=-\\frac{${b}}{2\\cdot${par(a)}}=${x0}$: Մինուս նշանը բանաձևի պարտադիր մասն է:`,
     vars:{a,b} }; },
   verify(v){ return -v.b/(2*v.a); } },
 
@@ -4404,7 +4578,7 @@ tasks:[
          {v:Number.isInteger((c+a*x0)/b)?(c+a*x0)/b:null,why:`$${a}x$-ը մյուս կողմ տեղափոխելիս նշանը չի փոխում`},
          {v:Number.isInteger((c-x0)/b)?(c-x0)/b:null,why:"տեղադրելիս մոռանում է $x$-ի գործակիցը"},
          {v:x0,why:"$y$-ի փոխարեն կրկնում է $x$-ի արժեքը"}],
-    rationale:`$${cx(b,'y')}=${c}-${a}\\cdot${x0}=${c-a*x0}\\Rightarrow y=${y0}$:`,
+    rationale:`$${cx(b,'y')}=${c}-${a}\\cdot${par(x0)}=${c-a*x0}\\Rightarrow y=${y0}$:`,
     vars:{a,b,c,x0} }; },
   verify(v){ return (v.c-v.a*v.x0)/v.b; } },
 
@@ -6839,7 +7013,7 @@ tasks: [
     bad:[{v:a,why:"կարծում է, թե մնացորդը հավասար է հենց արմատին"},
          {v:c,why:"կարծում է, թե մնացորդը միշտ ազատ անդամն է"},
          {v:a+b+c,why:"հաշվարկում մոռանում է $a$-ն քառակուսի բարձրացնել"}],
-    rationale:`Բեզուի թեորեմով՝ մնացորդը հավասար է $P(${a})$-ին. $${a}^2${sgnT(a*b)}${sgnT(c)}=${ans}$:`,
+    rationale:`Բեզուի թեորեմով՝ մնացորդը հավասար է $P(${a})$-ին. $${pw(a,2)}${sgnT(a*b)}${sgnT(c)}=${ans}$:`,
     vars:{a,b,c} }; },
   verify(v){ return v.a*v.a+v.a*v.b+v.c; } },
 
@@ -6854,7 +7028,7 @@ tasks: [
   return { q:`$P(x)=x^2${sgnCx(b)}${sgnT(c)}$: Արդյո՞ք $x=${candidate}$ արմատ է (ստուգիր $P(${candidate})$-ը):`, ans,
     bad:["Այո, արմատ է","Ոչ, արմատ չէ","Անհնար է որոշել առանց ամբողջական բաժանելու","Միշտ արմատ է"].filter(v=>v!==ans)
       .map(v=>({v, why:"P(x)-ի հաշվարկը սխալ է կատարում կամ ընդհանրապես չի կատարում"})),
-    rationale: mode ? `$P(${candidate})=${candidate}^2${sgnT(b*candidate)}${sgnT(c)}=0$, ուստի արմատ է:` : `$P(${candidate})=${candidate*candidate+b*candidate+c}\\neq0$, ուստի արմատ չէ:`,
+    rationale: mode ? `$P(${candidate})=${pw(candidate,2)}${sgnT(b*candidate)}${sgnT(c)}=0$, ուստի արմատ է:` : `$P(${candidate})=${candidate*candidate+b*candidate+c}\\neq0$, ուստի արմատ չէ:`,
     vars:{b,c,candidate} }; },
   verify(v){ const val=v.candidate*v.candidate+v.b*v.candidate+v.c; return val===0 ? "Այո, արմատ է" : "Ոչ, արմատ չէ"; } },
 
@@ -6885,7 +7059,7 @@ tasks: [
     bad:[{v:-c,why:"վերջում նշանը սխալ է վերցնում"},
          {v:a*b,why:"մոռանում է հաշվի բերել $a^2$ անդամը"},
          {v:a+b,why:"ուղղակի գումարում է գործակիցները՝ Բեզուի բանաձևը կիրառելու փոխարեն"}],
-    rationale:`Ըստ Բեզուի թեորեմի՝ $P(${a})=0$. $${a}^2${sgnT(a*b)}+c=0\\Rightarrow c=${c}$:`,
+    rationale:`Ըստ Բեզուի թեորեմի՝ $P(${a})=0$. $${pw(a,2)}${sgnT(a*b)}+c=0\\Rightarrow c=${c}$:`,
     vars:{a,b} }; },
   verify(v){ return -(v.a*v.a+v.a*v.b); } },
 
@@ -6895,7 +7069,7 @@ tasks: [
     bad:[{v:-r,why:"մնացորդի նշանն է սխալ վերցնում"},
          {v:c,why:"շփոթում է մնացորդը դիվիդենտի ազատ անդամի հետ"},
          {v:0,why:"կարծում է, թե բաժանումը միշտ ամբողջական է"}],
-    rationale:`Ըստ Բեզուի թեորեմի՝ մնացորդը $P(${a})$-ն է. $${a}^2${sgnT(a*b)}${sgnT(c)}=${r}$:`,
+    rationale:`Ըստ Բեզուի թեորեմի՝ մնացորդը $P(${a})$-ն է. $${pw(a,2)}${sgnT(a*b)}${sgnT(c)}=${r}$:`,
     vars:{a,b,c} }; },
   verify(v){ return v.a*v.a+v.a*v.b+v.c; } },
 
@@ -6937,7 +7111,7 @@ tasks: [
     bad:[{v:-p,why:"վերջում նշանը սխալ է վերցնում"},
          {v:a+b+c,why:"ուղղակի գումարում է գործակիցները՝ Բեզուի բանաձևը կիրառելու փոխարեն"},
          {v:Math.pow(a,3)+b*a*a,why:"մոռանում է հաշվի բերել $c\\cdot a$ անդամը"}],
-    rationale:`Ըստ Բեզուի թեորեմի՝ $P(${a})=0$. $${a}^3${sgnT(b*a*a)}${sgnT(c*a)}+p=0\\Rightarrow p=${p}$:`,
+    rationale:`Ըստ Բեզուի թեորեմի՝ $P(${a})=0$. $${pw(a,3)}${sgnT(b*a*a)}${sgnT(c*a)}+p=0\\Rightarrow p=${p}$:`,
     vars:{a,b,c} }; },
   verify(v){ return -(Math.pow(v.a,3)+v.b*v.a*v.a+v.c*v.a); } },
 
@@ -6971,7 +7145,7 @@ tasks: [
   return { q:`$P(x)=x^2${sgnCx(b)}${sgnT(c)}$-ը բաժանելիս $(x${sgnT(-a)})$-ի վրա, մեկը պնդում է, որ մնացորդը $${claimed}$ է: Ճի՞շտ է սա (ստուգիր Բեզուի թեորեմով):`, ans,
     bad:["Այո, ճիշտ է","Ոչ, սխալ է","Հնարավոր չէ ստուգել առանց ամբողջական բաժանելու","Միշտ ճիշտ է"].filter(v=>v!==ans)
       .map(v=>({v, why:"Բեզուի թեորեմով $P(a)$-ի հաշվարկը սխալ է կատարում"})),
-    rationale:`Ըստ Բեզուի թեորեմի՝ իրական մնացորդը $P(${a})=${a}^2${sgnT(a*b)}${sgnT(c)}=${trueR}$: Պնդված $${claimed}$-ը ${trueR===claimed?"համընկնում է, ուստի ճիշտ է:":"չի համընկնում, ուստի սխալ է:"}`,
+    rationale:`Ըստ Բեզուի թեորեմի՝ իրական մնացորդը $P(${a})=${pw(a,2)}${sgnT(a*b)}${sgnT(c)}=${trueR}$: Պնդված $${claimed}$-ը ${trueR===claimed?"համընկնում է, ուստի ճիշտ է:":"չի համընկնում, ուստի սխալ է:"}`,
     vars:{a,b,c,claimed} }; },
   verify(v){ const trueR=v.a*v.a+v.a*v.b+v.c; return trueR===v.claimed ? "Այո, ճիշտ է" : "Ոչ, սխալ է"; } }
 ]});
@@ -7068,7 +7242,7 @@ tasks: [
     bad:[{v:`$${a*b}x^{${p*q}}${sgnCx(a*c,`x^{${p}}`)}$`,why:"ցուցիչները սխալմամբ բազմապատկում է գումարելու փոխարեն"},
          {v:`$${cx(a+b,`x^{${p+q}}`)}${sgnCx(a+c,`x^{${p}}`)}$`,why:"գումարում է գործակիցները բազմապատկելու փոխարեն"},
          {v:`$${a*b}x^{${p+q}}${sgnT(c)}$`,why:"միանդամով բազմապատկում է միայն բազմանդամի առաջին անդամը"}],
-    rationale:`Բաշխական օրենքով. $${a}x^{${p}}\\cdot${b}x^{${q}}+${a}x^{${p}}\\cdot(${c})=${a*b}x^{${p+q}}${sgnCx(a*c,`x^{${p}}`)}$:`,
+    rationale:`Բաշխական օրենքով. $${a}x^{${p}}\\cdot${par(`${b}x^{${q}}`)}+${a}x^{${p}}\\cdot(${c})=${a*b}x^{${p+q}}${sgnCx(a*c,`x^{${p}}`)}$:`,
     vars:{a,b,c,p,q} }; },
   verify(v){ return `$${v.a*v.b}x^{${v.p+v.q}}${sgnCx(v.a*v.c,`x^{${v.p}}`)}$`; } },
 
@@ -7800,7 +7974,7 @@ tasks: [
     bad:[{v:`$${p}:${r}$`,why:"ուղղակի վերցնում է սկզբնական թվերը՝ առանց տղաների ընդհանուր անդամը հավասարեցնելու"},
          {v:`$${girls}:${r}$`,why:"հավասարեցնում է միայն աղջիկների կողմը, ուսուցիչներինը՝ ոչ"},
          {v:`$${p}:${teach}$`,why:"հավասարեցնում է միայն ուսուցիչների կողմը, աղջիկներինը՝ ոչ"}],
-    rationale:`Տղաների ընդհանուր անդամը հավասարեցնելու համար՝ $ԱԸՊ(${q},${q2})=${L}$: Առաջին հարաբերությունը դառնում է $${girls}:${L}$, երկրորդը՝ $${L}:${teach}$: Ուստի աղջիկներ:ուսուցիչներ $=${girls}:${teach}=${ansP}:${ansT}$ (կրճատված):`,
+    rationale:`Տղաների ընդհանուր անդամը հավասարեցնելու համար վերցնում ենք $${q}$-ի և $${q2}$-ի ամենափոքր ընդհանուր բազմապատիկը՝ $${L}$: Առաջին հարաբերությունը դառնում է $${girls}:${L}$, երկրորդը՝ $${L}:${teach}$: Ուստի աղջիկներ:ուսուցիչներ $=${girls}:${teach}=${ansP}:${ansT}$ (կրճատված):`,
     vars:{p,q,q2,r} }; },
   verify(v){
     const L=lcm(v.q,v.q2), girls=v.p*(L/v.q), teach=v.r*(L/v.q2), g=gcd(girls,teach);
@@ -7952,7 +8126,7 @@ tasks:[
          {v:s,why:"պատասխանում է արմատների գումարով"},
          {v:x1+ans,why:"գումարում է արմատն ու արտադրյալը"},
          {v:-ans,why:"արտադրյալի նշանը շրջում է"}],
-    rationale:`Գումարով՝ $${x1}+x_2=${s}\\Rightarrow x_2=${x2}$: Ապա $c=x_1x_2=${x1}\\cdot${x2}=${ans}$:`,
+    rationale:`Գումարով՝ $${x1}+x_2=${s}\\Rightarrow x_2=${x2}$: Ապա $c=x_1x_2=${x1}\\cdot${par(x2)}=${ans}$:`,
     vars:{x1,x2} }; },
   verify(v){ return v.x1*v.x2; } },
 
@@ -8159,7 +8333,7 @@ tasks: [
     bad:[{v:b*b-a,why:"մոռանում է վերջում բաժանել 2-ի"},
          {v:fix(Math.round((b-a)/2*10)/10),why:"հավասարման ձախ կողմը քառակուսի չի բարձրացնում"},
          {v:(b*b+a)/2,why:"$a$-ի նշանը սխալ է տեղափոխում հավասարման մյուս կողմ"}],
-    rationale:`Երկու կողմերն էլ քառակուսի բարձրացնելով. $2x${sgnT(a)}=${b}^2=${b*b}\\Rightarrow 2x=${b*b}${sgnT(-a)}\\Rightarrow x=${x}$: (Ստուգում. $\\sqrt{2\\cdot${x}${sgnT(a)}}=\\sqrt{${b*b}}=${b}$ ✓)`,
+    rationale:`Երկու կողմերն էլ քառակուսի բարձրացնելով. $2x${sgnT(a)}=${b}^2=${b*b}\\Rightarrow 2x=${b*b}${sgnT(-a)}\\Rightarrow x=${x}$: (Ստուգում. $\\sqrt{2\\cdot${par(x)}${sgnT(a)}}=\\sqrt{${b*b}}=${b}$ ✓)`,
     vars:{a,b} }; },
   verify(v){ return (v.b*v.b-v.a)/2; } },
 
@@ -8288,7 +8462,7 @@ tasks: [
     bad:[{v:a+b+c,why:"արտադրյալի փոխարեն հաշվում է լուծումների գումարը"},
          {v:a*b,why:"հաշվի է առնում միայն երկու արտադրիչի լուծումները"},
          {v:-(a*b*c),why:"նշանը սխալ է հաշվում արտադրյալի համար"}],
-    rationale:`Արտադրյալը 0 է, երբ գոնե մեկ արտադրիչը 0 է. $x=${a}$, $x=${b}$, $x=${c}$: Արտադրյալը՝ $${a}\\cdot${b}\\cdot${c}=${a*b*c}$:`,
+    rationale:`Արտադրյալը 0 է, երբ գոնե մեկ արտադրիչը 0 է. $x=${a}$, $x=${b}$, $x=${c}$: Արտադրյալը՝ $${a}\\cdot${par(b)}\\cdot${par(c)}=${a*b*c}$:`,
     vars:{a,b,c} }; },
   verify(v){ return v.a*v.b*v.c; } },
 
@@ -9195,7 +9369,7 @@ tasks: [
       v==="Փոփոխական է (կախված է $x$-ից)" ? "մոռանում է, որ $D<0$ դեպքում արմատ չկա, ուստի նշանը երբեք չի փոխվում" :
       v==="Հավասար է 0 որոշ $x$-երի համար" ? "կարծում է, թե եռանդամը 0 է դառնում, թեև $D<0$-ի դեպքում իրական արմատ չկա" :
       "$D<0$-ից ճիշտ եզրակացնում է, բայց մոռանում է ստուգել ավագ գործակցի ($a$) նշանը"})),
-    rationale:`$D=${b}^2-4\\cdot${a}\\cdot${c}=${b*b-4*a*c}<0$՝ իրական արմատ չկա: Քանի որ $a=${a}$ ${a>0?'դրական է':'բացասական է'}, եռանդամն ամբողջովին $Ox$-ից ${a>0?'վեր':'վար'} է:`,
+    rationale:`$D=${pw(b,2)}-4\\cdot${par(a)}\\cdot${par(c)}=${b*b-4*a*c}<0$՝ իրական արմատ չկա: Քանի որ $a=${a}$ ${a>0?'դրական է':'բացասական է'}, եռանդամն ամբողջովին $Ox$-ից ${a>0?'վեր':'վար'} է:`,
     vars:{a,b,c} }; },
   verify(v){ const D=v.b*v.b-4*v.a*v.c; if(D>=0) return "ՍԽԱԼ (D≥0)"; return v.a>0 ? "Դրական է բոլոր $x$-երի համար" : "Բացասական է բոլոր $x$-երի համար"; } },
 
@@ -9681,7 +9855,7 @@ tasks: [
 
 ]});
 
-window.onload = () => Report.gate(() => UI.initMenu());
+window.onload = () => Report.gate(() => UI.boot());
 </script>
 </body>
 </html>
