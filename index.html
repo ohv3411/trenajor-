@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Տրենաժոր · 2.0</title>
+<title>Տրենաժոր · 3.0.2</title>
 <script>
 /* Անցանց ծանուցում. եթե արտաքին սկրիպտը (ձևավորում, բանաձևեր) չի բեռնվում կամ ինտերնետը կտրվում է,
    ցույց ենք տալիս հստակ հաղորդագրություն։ Ոճերը՝ ներկառուցված (Tailwind-ը կարող է բեռնված չլինել)։ */
@@ -64,7 +64,10 @@
 <nav class="bg-slate-900 text-white">
   <div class="max-w-4xl mx-auto px-4 py-3 flex justify-between items-center">
     <button onclick="UI.initMenu()" class="font-bold flex items-center gap-2">🎓 Տրենաժոր</button>
-    <button onclick="UI.initMenu()" class="text-sm bg-slate-700 hover:bg-slate-600 px-3 py-1.5 rounded">Մենյու</button>
+    <span class="flex items-center gap-2">
+      <a href="theory/formulas.html" target="_blank" rel="noopener" class="text-sm bg-slate-700 hover:bg-slate-600 px-3 py-1.5 rounded">📐 Բանաձևեր</a>
+      <button onclick="UI.initMenu()" class="text-sm bg-slate-700 hover:bg-slate-600 px-3 py-1.5 rounded">Մենյու</button>
+    </span>
   </div>
 </nav>
 
@@ -314,15 +317,39 @@ const pick2 = (arr) => { const s = shuffle(arr); return [s[0], s[1]]; };
    Սա թույլ է տալիս համեմատել generator-ի ans-ը մեկ այլ, առանձին
    հաշվարկված արժեքի հետ՝ առանց ձևաչափին կապվելու։ Վերադարձնում է
    NaN, եթե չի հաջողվում վերլուծել (այդ դեպքում ստուգումը բաց է թողնվում)։ */
-const toNumeric = (v) => {
-  if (typeof v === 'number') return v;
+/* Միասնական թվի ընթերցիչ (2.2). ամբողջական տողը պետք է լինի ՄԵԿ թիվ, այլապես NaN։
+   Ընդունում է. 5 · -5 · −5 · 5,5 · 5.5 · 11/2 · -11/2 · \frac{11}{2} · \dfrac{11}{2} · -\frac{5}{6} · \frac{-5}{6}
+   · 5\frac{1}{2} · -2\frac{1}{3} · 5 1/2 · $…$ · բացատներ, «{,}» ստորակետ։
+   Նախկին տարբերակը կորցնում էր նշանը (-\frac{5}{6} → +0,83) և խառը թվի ամբողջ մասը (2\frac{1}{3} → 0,33),
+   ինչպես նաև «\frac{7}{2}x»-ը կարդում էր որպես 3,5 (ChatGPT-ի աուդիտ, 2026-10-02)։ */
+const parseNum = (v) => {
+  if (typeof v === 'number') return Number.isFinite(v) ? v : NaN;
   if (typeof v !== 'string') return NaN;
-  const fm = v.match(/\\frac\{(-?\d+(?:\.\d+)?)\}\{(-?\d+(?:\.\d+)?)\}/);
-  if (fm) return Number(fm[1]) / Number(fm[2]);
-  const cleaned = v.replace(/\$/g, '').trim().replace(',', '.');
-  const n = Number(cleaned);
-  return Number.isFinite(n) ? n : NaN;
+  let s = v.replace(/\$/g, '').replace(/\\[,;!: ]/g, '').replace(/\{,\}/g, ',').replace(/\\left|\\right/g, '')
+    .replace(/[−–]/g, '-').replace(/\\dfrac|\\tfrac/g, '\\frac').trim();
+  while (/^\((.*)\)$/.test(s)) s = s.slice(1, -1).trim();          // (−3) → −3
+  let sign = 1;
+  if (/^[-+]/.test(s)) { if (s[0] === '-') sign = -1; s = s.slice(1).trim(); }
+  const num = (t) => /^-?\d+(?:[.,]\d+)?$/.test(t) ? Number(t.replace(',', '.')) : NaN;
+  let m;
+  if ((m = s.match(/^(\d+)?\s*\\frac\{\s*(-?\d+(?:[.,]\d+)?)\s*\}\{\s*(-?\d+(?:[.,]\d+)?)\s*\}$/))) {
+    const n = num(m[2]), d = num(m[3]); if (!d) return NaN;
+    const f = n / d;
+    if (m[1] !== undefined) { if (f < 0) return NaN; return sign * (Number(m[1]) + f); }
+    return sign * f;
+  }
+  if ((m = s.match(/^(?:(\d+)\s+)?(-?\d+)\s*\/\s*(-?\d+)$/))) {
+    const n = Number(m[2]), d = Number(m[3]); if (!d) return NaN;
+    if (m[1] !== undefined) { if (n < 0 || d < 0) return NaN; return sign * (Number(m[1]) + n / d); }
+    return sign * n / d;
+  }
+  const n = num(s.replace(/\s+/g, ''));
+  return Number.isFinite(n) ? sign * n : NaN;
 };
+// Համատեղելիության համար (verify-ի համեմատում, թեստեր)
+const toNumeric = parseNum;
+// Երկու արժեք մաթեմատիկորեն նույնն են (երկուսն էլ թիվ են և հավասար են)
+const sameNum = (a, b) => { const x = parseNum(a), y = parseNum(b); return Number.isFinite(x) && Number.isFinite(y) && Math.abs(x - y) < 1e-9; };
 
 // Բացասական թիվը աստիճանի հիմքում կամ արտադրիչ՝ միշտ փակագծերում.
 // pw(-6,2) = "(-6)^2" (ոչ թե "-6^2", որ մաթեմատիկորեն -36 է), par(-3) = "(-3)"
@@ -358,6 +385,28 @@ const Validator = {
   // Նորմալացնում ենք արժեքը՝ float-ի աղբը մաքրելով
   norm(v) { return typeof v === 'number' ? fix(v) : v; },
 
+  /* Ցուցադրման մաքրում (2.2). միայն $…$-ի ներսում և միայն ՏԱՌԻ հետ կապված դեպքերում.
+     x^2+0x-4 → x^2-4, 0x^{2}+3x → 3x, (x+0) → x, y=2x+0 → y=2x, x^{1} → x։
+     Թվաբանությանը (5+0, 2^{1}, 0{,}5) չի դիպչում։ Կիրառվում է ստուգումից ՀԵՏՈ ցուցադրվող տեքստի վրա,
+     ուստի verify()-ի համեմատությունը (հում ans) չի փոխվում։ */
+  tidy(s) {
+    if (typeof s !== 'string' || s.indexOf('$') < 0) return s;
+    return s.replace(/\$[^$]*\$/g, (m) => {
+      let t = m.slice(1, -1), prev;
+      do {
+        prev = t;
+        t = t.replace(/[+-]0(?![\d.,{])(?:\\cdot\s*)?[a-z](?:\^\{?\d+\}?)?(?![a-z\d])/g, '');           // +0x, -0x^{2}
+        t = t.replace(/(^|[=(\s;])0(?:\\cdot\s*)?[a-z](?:\^\{?\d+\}?)?\s*\+/g, '$1');               // 0x^2+… սկզբում
+        t = t.replace(/(^|[=(\s;])0(?:\\cdot\s*)?[a-z](?:\^\{?\d+\}?)?\s*(?=-)/g, '$1');            // 0x^2-… սկզբում
+        t = t.replace(/\(([a-z])[+-]0\)/g, '$1');                                                     // (x+0) → x
+        t = t.replace(/([a-z}])[+-]0(?![\d.,{a-z]|\\cdot|\\times)/g, '$1');                         // 2x+0 → 2x, 3x+0\Rightarrow
+        t = t.replace(/([a-zA-Z])\^\{1\}(?!\d)/g, '$1').replace(/([a-zA-Z])\^1(?![\d{])/g, '$1');   // x^{1} → x
+        t = t.replace(/\)\^\{1\}(?!\d)/g, ')').replace(/^0(?:\\cdot\s*)?[a-z](?:\^\{?\d+\}?)?$/, '0');    // (x-1)^{1} → (x-1), «0x^{4}» → 0
+      } while (t !== prev);
+      return '$' + (t.trim() ? t : '0') + '$';
+    });
+  },
+
   /* Ստուգում է մեկ գեներացված խնդիր։
      Վերադարձնում է { ok:true, task } կամ { ok:false, reason } */
   check(raw, rules) {
@@ -377,6 +426,7 @@ const Validator = {
     if (!Array.isArray(raw.bad)) return { ok: false, reason: 'bad զանգված չկա' };
 
     const seen = new Set([String(ans)]);
+    const vals = [parseNum(ans)];                       // արժեքով համեմատում (2.2)
     const bad = [];
     for (const item of raw.bad) {
       if (!item || item.v === undefined || item.v === null) continue;
@@ -385,8 +435,12 @@ const Validator = {
       if (typeof v === 'string' && !v.trim()) continue;
       if (!this.isCleanNumber(v, rules)) continue;      // տգեղ distractor՝ դուրս
       if (seen.has(String(v))) continue;                // կրկնություն կամ = ans
-      seen.add(String(v));
-      bad.push({ v, why: item.why || '' });
+      // Նույն ԱՐԺԵՔԸ այլ գրառմամբ (1 և 4/4, -1 և -1/1)՝ դուրս, բացի դիտավորյալ «ձևի» թակարդից
+      // (format:true, օր. «գրիր կրճատված կոտորակով» → 12/100 = 3/25, բայց կրճատված չէ)
+      const nv = parseNum(v);
+      if (!item.format && Number.isFinite(nv) && vals.some(x => Number.isFinite(x) && Math.abs(x - nv) < 1e-9)) continue;
+      seen.add(String(v)); vals.push(nv);
+      bad.push({ v, why: item.why || '', format: !!item.format });
       if (bad.length === 3) break;
     }
     if (bad.length < 3) return { ok: false, reason: `միայն ${bad.length} վավեր տարբերակ` };
@@ -399,7 +453,10 @@ const Validator = {
     if (raw.fig != null && (typeof raw.fig !== 'string' || !/^<svg[\s>]/.test(raw.fig) || !/<\/svg>\s*$/.test(raw.fig) || /<script|\son\w+=/i.test(raw.fig) || raw.fig.length > 30000))
       return { ok: false, reason: 'fig-ը վավեր SVG չէ' };
 
-    return { ok: true, task: { q: raw.q, ans, bad, rationale: raw.rationale, unit: raw.unit || '', fig: raw.fig || '' } };
+    const T = (x) => this.tidy(x);
+    const shown = bad.map(b => ({ v: T(b.v), why: T(b.why), format: b.format }));
+    if (new Set([String(T(ans)), ...shown.map(b => String(b.v))]).size !== 4) return { ok: false, reason: 'մաքրումից հետո կրկնվող տարբերակներ' };
+    return { ok: true, task: { q: T(raw.q), ans: T(ans), bad: shown, rationale: T(raw.rationale), unit: raw.unit || '', fig: raw.fig || '' } };
   },
 
   /* ԱՆԿԱԽ ՍՏՈՒԳՈՒՄ — ամենակարևոր շերտը։
@@ -490,14 +547,46 @@ const Progress = {
   data: {},
   mistakes: [],
 
+  /* ---------- Պրոֆիլներ (3.0.1+, պահման ձևաչափ՝ STORAGE 3) ----------
+     Առաջընթացը, սխալները և արագ հաշվարկը պահվում են ԸՍՏ ԱՇԱԿԵՐՏԻ.
+       մուտք գործած՝  «trenajor_progress_v2@login»
+       առանց մուտքի՝  «trenajor_progress_v2» (տեղային պրոֆիլ, նույն բանալին, ինչ 3.0-ում)
+     Հին (3.0) տվյալներ (3.0.2, պահպանողական). մուտք գործած լինելը չի ապացուցում, որ սարքի ընդհանուր հին
+     առաջընթացը կամ հերթը տվյալ աշակերտինն է։ Ուստի.
+       - ոչ մեկին ինքնաբերաբար ՉԵՆ վերագրվում և ՉԵՆ ուղարկվում;
+       - մեկ անգամ պատճենվում են առանձին պահուստում՝ «trenajor_legacy_backup_v1» ({at, data:{բանալի: արժեք}});
+       - հին բանալիները մնում են անփոփոխ (առանց մուտքի պրոֆիլը շարունակում է դրանք տեսնել, ինչպես 3.0-ում);
+       - եթե 3.0.1-ն արդեն պատճենել էր դրանք որևէ աշակերտի պրոֆիլում (trenajor_profiles_v1), այդ պրոֆիլին
+         չենք դիպչում (այնտեղ կարող է լինել նաև հետագա իրական առաջընթաց, որը տարանջատել հնարավոր չէ)։ */
+  KEY_MIG: 'trenajor_profiles_v2',
+  KEY_BACKUP: 'trenajor_legacy_backup_v1',
+  LEGACY: ['trenajor_progress_v2', 'trenajor_mistakes_v2', 'trenajor_speed_v2', 'trenajor_pending_v1'],
+  profile() {
+    try { const u = JSON.parse(localStorage.getItem('trenajor_user_v1')); return u && u.login ? String(u.login).trim().toLowerCase() : ''; }
+    catch (e) { return ''; }
+  },
+  key(base) { const p = this.profile(); return p ? base + '@' + p : base; },
+  migrate() {
+    try {
+      if (localStorage.getItem(this.KEY_MIG)) return;
+      const data = {};
+      this.LEGACY.forEach(k => { const v = localStorage.getItem(k); if (v !== null) data[k] = v; });
+      if (Object.keys(data).length && localStorage.getItem(this.KEY_BACKUP) === null)
+        localStorage.setItem(this.KEY_BACKUP, JSON.stringify({ at: new Date().toISOString(), data }));
+      localStorage.setItem(this.KEY_MIG, JSON.stringify({ at: new Date().toISOString(), mode: 'backup-only',
+        earlier301: localStorage.getItem('trenajor_profiles_v1') }));
+    } catch (e) {}
+  },
+
   load() {
-    try { this.data = JSON.parse(localStorage.getItem(this.KEY_P)) || {}; } catch (e) { this.data = {}; }
-    try { this.mistakes = JSON.parse(localStorage.getItem(this.KEY_M)) || []; } catch (e) { this.mistakes = []; }
+    this.migrate();
+    try { this.data = JSON.parse(localStorage.getItem(this.key(this.KEY_P))) || {}; } catch (e) { this.data = {}; }
+    try { this.mistakes = JSON.parse(localStorage.getItem(this.key(this.KEY_M))) || []; } catch (e) { this.mistakes = []; }
   },
   save() {
     try {
-      localStorage.setItem(this.KEY_P, JSON.stringify(this.data));
-      localStorage.setItem(this.KEY_M, JSON.stringify(this.mistakes));
+      localStorage.setItem(this.key(this.KEY_P), JSON.stringify(this.data));
+      localStorage.setItem(this.key(this.KEY_M), JSON.stringify(this.mistakes));
     } catch (e) { /* private mode — լուռ անտեսում ենք */ }
   },
 
@@ -534,9 +623,10 @@ const Progress = {
     this.mistakes = this.mistakes.filter(m => !(m.key === key && m.subtopic === subtopic));
     this.save();
   },
+  // 3.0.2. մաքրում է ՄԻԱՅՆ ընթացիկ պրոֆիլը (մուտք գործած աշակերտի կամ տեղային), մյուսներին չի դիպչում
   resetAll() {
     this.data = {}; this.mistakes = [];
-    try { localStorage.removeItem(this.KEY_P); localStorage.removeItem(this.KEY_M); } catch (e) {}
+    try { localStorage.removeItem(this.key(this.KEY_P)); localStorage.removeItem(this.key(this.KEY_M)); } catch (e) {}
   }
 };
 
@@ -568,7 +658,7 @@ const Engine = {
     this.mode = mode || CONFIG.defaultMode;
     this.level = 1;
     this.health = CONFIG.startingHealth;
-    this.correct = 0;
+    this.newLevelState();
     this.reviewQueue = null;
     this.refillPool();
     UI.showGame();
@@ -595,10 +685,19 @@ const Engine = {
      տվյալ մակարդակի տարբեր տեսակների քանակին, այսինքն՝ մակարդակն
      անցնելը նշանակում է՝ բոլոր ենթաթեմաներից գոնե մեկական հարց
      ճիշտ է պատասխանվել (ոչ թե պատահական 3-ը 3-ից 5-ի կամ ավելիի)։ */
+  /* 3.0.1. մակարդակն անցնելու համար պետք է ԱՄԵՆ ենթաթեմայից գոնե մեկ ճիշտ պատասխան։
+     Նախկինում հաշվվում էր ճիշտ պատասխանների ընդհանուր քանակը, և հերթը նորից լցվելուց հետո
+     արդեն լուծված տեսակի կրկնությունը կարող էր «փոխարինել» սխալվածին։
+     this.solved — տվյալ մակարդակում ճիշտ լուծված ենթաթեմաները; this.correct = solved.size (UI-ի համար)։
+     Հերթը մակարդակի ընթացքում նորից լցնելիս՝ միայն ՉԼՈՒԾՎԱԾ ենթաթեմաներով։ */
   refillPool() {
-    this.pool = shuffle(tasksOf(this.topic, this.level));
-    this.requiredForLevel = this.pool.length;
+    const all = tasksOf(this.topic, this.level);
+    if (!this.solved) this.solved = new Set();
+    const left = all.filter(d => !this.solved.has(d.subtopic));
+    this.pool = shuffle(left.length ? left : all);
+    this.requiredForLevel = all.length;
   },
+  newLevelState() { this.solved = new Set(); this.correct = 0; },
 
   pickTaskDef() {
     if (this.reviewQueue) {
@@ -656,7 +755,8 @@ const Engine = {
     this._lastCorrect = !!opt.correct;
 
     if (opt.correct) {
-      this.correct++;
+      if (this.reviewQueue) this.correct++;
+      else { if (!this.solved) this.solved = new Set(); this.solved.add(this.current.subtopic); this.correct = this.solved.size; }
       if (this.reviewQueue) {
         Progress.clearMistake(this.topic.key, this.current.subtopic);
         this.reviewQueue.shift();
@@ -690,9 +790,9 @@ const Engine = {
       this.retrySame(); return;      // նույն տիպից նոր խնդիր՝ մինչև սովորի
     }
 
-    if (this.correct >= this.requiredForLevel) {
+    if (this.solved && this.solved.size >= this.requiredForLevel) {
       this.level++;
-      this.correct = 0;
+      this.newLevelState();
       if (this.level > CONFIG.levels) {
         Progress.complete(this.topic.key);
         UI.showResult(true); return;
@@ -1101,8 +1201,10 @@ const Speed = {
   },
 
   /* ---------- Պահպանում ---------- */
-  load() { try { return JSON.parse(localStorage.getItem(this.STORE)) || { modes:{}, history:[] }; } catch (e) { return { modes:{}, history:[] }; } },
-  save(d) { try { localStorage.setItem(this.STORE, JSON.stringify(d)); } catch (e) {} },
+  // 3.0.1. ըստ աշակերտի (Progress.key). առանց մուտքի՝ նույն բանալին, ինչ առաջ
+  skey() { try { Progress.migrate(); return Progress.key(this.STORE); } catch (e) { return this.STORE; } },
+  load() { try { return JSON.parse(localStorage.getItem(this.skey())) || { modes:{}, history:[] }; } catch (e) { return { modes:{}, history:[] }; } },
+  save(d) { try { localStorage.setItem(this.skey(), JSON.stringify(d)); } catch (e) {} },
   key() { return this.op + '_' + this.range; },
   stageOf(d) { return ((d.modes[this.key()] || {}).stage) || 1; },
   targetSec(stage) {                                                         // մեկ գործողությամբ ռեժիմի շեմը վայրկյաններով
@@ -1309,15 +1411,47 @@ const Report = {
   cfg() { return (typeof window !== 'undefined' && window.TRENAJOR_CONFIG) || {}; },
   enabled() { return !!this.cfg().reportUrl; },
   KEY: 'trenajor_user_v1',
-  KEY_PENDING: 'trenajor_pending_v1',     // սերվերի կողմից դեռ չհաստատված իրադարձություններ
-  MAX_PENDING: 400,
-  queue: [],
+  /* 3.0.1. հերթը (պահման ձևաչափ՝ pending v2). ամեն իրադարձություն ունի եզակի id և սեփականատեր (u = login).
+     Ուղարկվում է միայն իր սեփականատիրոջ token-ով, ≤150-անոց փաթեթներով (սերվերի սահմանը 200 է),
+     և ջնջվում է ՄԻԱՅՆ սերվերի հաստատումից հետո (ids)։ Սերվերը կրկնված id-ները երկրորդ անգամ չի գրանցում։ */
+  KEY_PENDING: 'trenajor_pending_v2',
+  KEY_PENDING_OLD: 'trenajor_pending_v1',
+  KEY_DROPPED: 'trenajor_dropped_v1',
+  MAX_PENDING: 3000,
+  BATCH: 150,
+  queue: [],               // համատեղելիության համար (այլևս չի օգտագործվում)
 
   user() { try { return JSON.parse(localStorage.getItem(this.KEY)); } catch (e) { return null; } },
   setUser(u) { try { u ? localStorage.setItem(this.KEY, JSON.stringify(u)) : localStorage.removeItem(this.KEY); } catch (e) {} },
   isAdmin() { const u = this.user(); return !!(u && u.role === 'admin'); },
-  loadPending() { try { const a = JSON.parse(localStorage.getItem(this.KEY_PENDING)); return Array.isArray(a) ? a : []; } catch (e) { return []; } },
-  savePending(a) { try { a && a.length ? localStorage.setItem(this.KEY_PENDING, JSON.stringify(a.slice(-this.MAX_PENDING))) : localStorage.removeItem(this.KEY_PENDING); } catch (e) {} },
+  me() { const u = this.user(); return u && u.login ? String(u.login).trim().toLowerCase() : ''; },
+  newId() { return Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 10) + Math.random().toString(36).slice(2, 6); },
+  loadPending() {
+    let a; try { a = JSON.parse(localStorage.getItem(this.KEY_PENDING)); } catch (e) { a = null; }
+    a = Array.isArray(a) ? a : [];
+    // 3.0.2. 3.0-ի հերթը (trenajor_pending_v1, առանց սեփականատիրոջ) ոչ մեկին չի վերագրվում և չի ուղարկվում.
+    // այն մնում է իր բանալիով և պատճենված է trenajor_legacy_backup_v1-ում (Progress.migrate)
+    return a;
+  },
+  savePending(a) {
+    if (a.length > this.MAX_PENDING) {           // սահման. նախ հանում ենք ping-երը, հետո՝ ամենահները (կորուստը հաշվում ենք)
+      let over = a.length - this.MAX_PENDING;
+      const keep = [];
+      for (const e of a) { if (over > 0 && e.type === 'ping') { over--; continue; } keep.push(e); }
+      while (keep.length > this.MAX_PENDING) { const e = keep.shift(); this.noteDropped(e.u); }
+      a = keep;
+    }
+    try { a.length ? localStorage.setItem(this.KEY_PENDING, JSON.stringify(a)) : localStorage.removeItem(this.KEY_PENDING); }
+    catch (e) {                                  // սարքի հիշողությունը լի է. պահում ենք նոր կեսը, կորուստը հաշվում ենք
+      const cut = Math.floor(a.length / 2);
+      a.slice(0, cut).forEach(x => this.noteDropped(x.u));
+      try { localStorage.setItem(this.KEY_PENDING, JSON.stringify(a.slice(cut))); } catch (e2) {}
+    }
+  },
+  noteDropped(u, n) { try { const d = JSON.parse(localStorage.getItem(this.KEY_DROPPED)) || {}; d[u] = (d[u] || 0) + (n || 1); localStorage.setItem(this.KEY_DROPPED, JSON.stringify(d)); } catch (e) {} },
+  takeDropped(u) { try { const d = JSON.parse(localStorage.getItem(this.KEY_DROPPED)) || {}; const n = d[u] || 0; if (n) { delete d[u]; localStorage.setItem(this.KEY_DROPPED, JSON.stringify(d)); } return n; } catch (e) { return 0; } },
+  ack(ids) { const set = new Set(ids); this.savePending(this.loadPending().filter(e => !set.has(e.id))); },
+  ownPending() { const me = this.me(); return me ? this.loadPending().filter(e => e.u === me) : []; },
 
   async call(payload) {
     const r = await fetch(this.cfg().reportUrl, {
@@ -1357,6 +1491,7 @@ const Report = {
         if (r && r.ok) {
           this.setUser({ login, name: r.name, cls: r.cls, token: r.token, allow: r.allow || '', role: r.role || '' });
           this._needAuth = false;
+          try { if (typeof Progress !== 'undefined') Progress.load(); } catch (e) {}   // 3.0.1. նոր աշակերտի առաջընթացը
           ov.remove(); this.badge(); onReady(); this.flush();
         }
         else msg.textContent = r && r.locked ? 'Շատ սխալ փորձեր. փորձիր 10 րոպեից'
@@ -1414,42 +1549,42 @@ const Report = {
      Էջը փակելիս (urgent)՝ sendBeacon (պատասխանը հնարավոր չէ կարդալ)։ */
   push(ev) {
     if (!this.enabled()) return;
-    const u = this.user(); if (!u || !u.token) return;
-    this.queue.push(Object.assign({ ts: new Date().toISOString() }, ev));
-    if (this.queue.length >= 5) this.flush();
+    const u = this.user(), me = this.me(); if (!u || !u.token || !me) return;
+    const a = this.loadPending();
+    a.push(Object.assign({ id: this.newId(), u: me, ts: new Date().toISOString() }, ev));
+    this.savePending(a);
+    if (a.filter(e => e.u === me).length >= 5) this.flush();
   },
+  /* urgent (էջը փակվում/թաքնվում է). sendBeacon, բայց հերթից ՉԵՆՔ ջնջում (հաստատում չկա).
+     հաջորդ բացման ժամանակ նույն id-ները կուղարկվեն կրկին, իսկ սերվերը կրկնությունները կանտեսի։ */
   flush(urgent) {
     if (!this.enabled()) return;
-    const u = this.user(); if (!u || !u.token) { this.queue = []; return; }
+    const u = this.user(), me = this.me(); if (!u || !u.token || !me) return;
+    if (this._needAuth || (typeof navigator !== 'undefined' && navigator.onLine === false)) return;   // պահված են
     const url = this.cfg().reportUrl;
+    const own = this.ownPending(); if (!own.length) return;
     const canFetch = typeof fetch === 'function' && !urgent;
-    if (this._needAuth || (typeof navigator !== 'undefined' && navigator.onLine === false)) {
-      // հնացած մուտք կամ կապ չկա. ոչինչ չենք ուղարկում, պահում ենք սարքում
-      if (this.queue.length) this.savePending(this.loadPending().concat(this.queue.splice(0)));
-      return;
-    }
     if (!canFetch) {
-      const events = (this._inflight ? [] : this.loadPending()).concat(this.queue.splice(0)).slice(-this.MAX_PENDING);
-      if (!events.length) return;
-      if (!this._inflight) this.savePending([]);
-      const body = JSON.stringify({ action: 'log', login: u.login, token: u.token, events });
-      try { if (navigator.sendBeacon) navigator.sendBeacon(url, body); else if (typeof fetch === 'function') fetch(url, { method: 'POST', body, keepalive: true }); } catch (e) {}
+      const batch = own.slice(0, this.BATCH);
+      const body = JSON.stringify({ action: 'log', login: u.login, token: u.token, events: batch });
+      // 3.0.2. sendBeacon-ի true-ն նշանակում է միայն «հերթագրվեց բրաուզերում», ոչ թե «սերվերը ընդունեց».
+      // ուստի հերթից ՈՉԻՆՉ չենք հեռացնում. հաջորդ fetch-ով ուղարկումը կհաստատի, իսկ սերվերը կրկնությունները կանտեսի
+      try { if (navigator.sendBeacon) navigator.sendBeacon(url, body); } catch (e) {}
       return;
     }
-    if (this._inflight) return;                       // նախորդը դեռ ընթացքում է. հերթը կսպասի
-    const events = this.loadPending().concat(this.queue.splice(0)).slice(-this.MAX_PENDING);
-    if (!events.length) return;
-    this.savePending(events);
-    this._inflight = true;
-    const body = JSON.stringify({ action: 'log', login: u.login, token: u.token, events });
+    if (this._inflight) { this._again = true; return; }
+    this._inflight = true; this._again = false;
+    const batch = own.slice(0, this.BATCH);
+    const dropped = this.takeDropped(me);
+    const body = JSON.stringify(Object.assign({ action: 'log', login: u.login, token: u.token, events: batch }, dropped ? { dropped } : {}));
     fetch(url, { method: 'POST', body, keepalive: body.length < 60000 })
       .then(r => r.json())
       .then(r => {
-        if (r && r.ok) this.savePending([]);
-        else if (r && r.reauth) this.reauth();       // պահված են, կուղարկվեն նոր մուտքից հետո
+        if (r && r.ok) { const before = this.ownPending().length; this.ack(Array.isArray(r.ids) ? r.ids : batch.map(e => e.id)); const after = this.ownPending().length; if (after && after < before) this._again = true; }
+        else { if (dropped) this.noteDropped(me, dropped); if (r && r.reauth) this.reauth(); }
       })
-      .catch(() => {})                                 // կապ չկա. պահված են, կուղարկվեն հաջորդ անգամ
-      .then(() => { this._inflight = false; if (this.queue.length >= 5) this.flush(); });
+      .catch(() => { if (dropped) this.noteDropped(me, dropped); })           // կապ չկա. հերթը մնում է
+      .then(() => { this._inflight = false; if (this._again && !this._needAuth) { this._again = false; this.flush(); } });
   },
 
   answer(d) { this.push(Object.assign({ type: 'answer' }, d)); },
@@ -1500,6 +1635,8 @@ const Report = {
 };
 
 try {   // բեռնման պահին՝ միայն իրական բրաուզերում (թեստային միջավայրերում անվնաս բաց է թողնվում)
+  // 3.0.2. հին տվյալների պահուստը՝ էջի բացման պահին
+  if (typeof Progress !== 'undefined') Progress.migrate();
   if (typeof window !== 'undefined' && typeof window.addEventListener === 'function') window.addEventListener('pagehide', () => Report.flush(true));
   if (typeof document !== 'undefined' && typeof document.addEventListener === 'function')
     document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') Report.flush(true); });
@@ -2176,7 +2313,8 @@ tasks: [
       { v: up ? DC_raw(q0, t) : DC_raw(q0 + 1, t), why: up ? "պարզապես կտրում է պոչը՝ անտեսելով, որ հաջորդ թվանշանը 5–9 է" : "մեծացնում է, թեև հաջորդ թվանշանը 5-ից փոքր է" },
       { v: DC(alt(t+1), t+1),  why:"կլորացնում է մեկ կարգ ավելի ճշգրիտ, քան պահանջվում է" },
       { v: t>0 ? DC_raw(alt(t-1), t-1) : DC_raw(Math.round(n/10000)*10, 0), why: t>0 ? "կլորացնում է մեկ կարգ ավելի կոպիտ" : "կլորացնում է մինչև տասնավորները" },
-      { v: DC(n, k),           why:"թիվը թողնում է անփոփոխ՝ «կլորացված» համարելով" }
+      { v: DC(n, k),           why:"թիվը թողնում է անփոփոխ՝ «կլորացված» համարելով" },
+      { v: DC_raw(R, t + 1),   why:"ճիշտ է կլորացնում, բայց ստորակետը դնում է մեկ նիշ ձախ" }
     ],
     rationale:`Նայում ենք ${names[t]} կարգից աջ առաջին թվանշանին։ ${up ? "Այն 5–9 միջակայքում է, ուստի կարգի թվանշանը <b>մեծացնում ենք 1-ով</b>" : "Այն 5-ից փոքր է, ուստի կարգի թվանշանը <b>չի փոխվում</b>"}, իսկ աջի թվանշանները հեռացվում են. $${DC_s(n,k)}\\approx ${DC_raw(R,t).slice(1,-1)}$։`,
     vars:{ n, t }
@@ -2679,7 +2817,7 @@ tasks:[
          {v:`$\\frac{${a}}{${d}}$`,why:"կրճատում է միայն համարիչը"},
          {v:`$\\frac{${n-g}}{${d-g}}$`,why:"հանում է ընդհանուր արտադրիչը՝ բաժանելու փոխարեն"},
          {v:`$\\frac{${b}}{${a}}$`,why:"կրճատում է ճիշտ, բայց համարիչն ու հայտարարը տեղերով է գրում"}],
-    rationale:`Ամենամեծ ընդհանուր բաժանարար$(${n},${d})=${g}$: Բաժանում ենք երկուսն էլ $${g}$-ի. $\\frac{${n}}{${d}}=\\frac{${a}}{${b}}$:`,
+    rationale:`$${n}$-ի և $${d}$-ի ամենամեծ ընդհանուր բաժանարարը՝ $${g}$: Բաժանում ենք երկուսն էլ $${g}$-ի. $\\frac{${n}}{${d}}=\\frac{${a}}{${b}}$:`,
     vars:{n,d} }; },
   verify(v){ const g=gcd(v.n,v.d); return `$\\frac{${v.n/g}}{${v.d/g}}$`; } },
 
@@ -2710,21 +2848,24 @@ tasks:[
 { level:2, subtopic:"Կոտորակների բազմապատկում", bloom:"Կիրառում", badgeClass:"lvl-2", gen(){
   const d=randEl([3,4,5,6,7]), a=rand(1,d-1), c=rand(1,d-1);
   return { q:`Հաշվիր. $$\\frac{${a}}{${d}}\\cdot\\frac{${c}}{${d}}$$`, ans:`$${frac(a*c,d*d)}$`,
-    bad:[{v:`$\\frac{${a*c}}{${d}}$`,why:"կիրառում է գումարման կանոնը՝ հայտարարը թողնում է անփոփոխ"},
-         {v:`$\\frac{${a+c}}{${d*d}}$`,why:"գումարում է համարիչները՝ բազմապատկելու փոխարեն"},
-         {v:`$\\frac{${a+c}}{${d+d}}$`,why:"գումարում է և՛ համարիչները, և՛ հայտարարները"},
-         {v:`$\\frac{${a*d}}{${c*d}}$`,why:"խաչաձև է բազմապատկում, ինչպես բաժանման ժամանակ"}],
+    bad:[{v:`$${frac(a*c,d)}$`,why:"կիրառում է գումարման կանոնը՝ հայտարարը թողնում է անփոփոխ"},
+         {v:`$${frac(a+c,d*d)}$`,why:"գումարում է համարիչները՝ բազմապատկելու փոխարեն"},
+         {v:`$${frac(a+c,d+d)}$`,why:"գումարում է և՛ համարիչները, և՛ հայտարարները"},
+         {v:`$${frac(a*d,c*d)}$`,why:"խաչաձև է բազմապատկում, ինչպես բաժանման ժամանակ"},
+         {v:`$${frac(a*c,d+d)}$`,why:"համարիչները բազմապատկում է, իսկ հայտարարները՝ գումարում"}],
     rationale:`Բազմապատկելիս ընդհանուր հայտարար պետք չէ. $\\frac{${a}\\cdot${c}}{${d}\\cdot${d}}=\\frac{${a*c}}{${d*d}}$:`,
     vars:{a,c,d} }; },
   verify(v){ return (v.a/v.d) * (v.c/v.d); } },
 
 { level:2, subtopic:"Կոտորակների բաժանում", bloom:"Կիրառում", badgeClass:"lvl-2", gen(){
-  const b=rand(2,7), d=rand(2,7), a=rand(1,b-1), c=rand(1,d-1);
+  // բոլոր 5 արժեքները (պատասխան + 4 սխալ) տարբեր են. նույն արժեքով տարբերակ աշակերտը չի տեսնի
+  let a,b,c,d; do { b=rand(2,9); d=rand(2,9); a=rand(1,b-1); c=rand(1,d-1); }
+  while (new Set([a*d/(b*c), b*c/(a*d), a*c/(b*d), a/(b*c*d), a*d/b].map(x=>x.toFixed(9))).size < 5);
   return { q:`Հաշվիր. $$\\frac{${a}}{${b}}:\\frac{${c}}{${d}}$$`, ans:`$${frac(a*d,b*c)}$`,
-    bad:[{v:`$\\frac{${b*c}}{${a*d}}$`,why:"շրջում է առաջին կոտորակը՝ երկրորդի փոխարեն"},
-         {v:`$\\frac{${a*c}}{${b*d}}$`,why:"բազմապատկում է՝ առանց երկրորդ կոտորակը շրջելու"},
-         {v:`$\\frac{${a}}{${b*c*d}}$`,why:"շփոթում է բաժանման կարգը"},
-         {v:`$\\frac{${a*d+1}}{${b*c}}$`,why:"հաշվարկային սխալ է անում համարիչում"}],
+    bad:[{v:`$${frac(b*c,a*d)}$`,why:"շրջում է առաջին կոտորակը՝ երկրորդի փոխարեն"},
+         {v:`$${frac(a*c,b*d)}$`,why:"բազմապատկում է՝ առանց երկրորդ կոտորակը շրջելու"},
+         {v:`$${frac(a,b*c*d)}$`,why:"շփոթում է բաժանման կարգը"},
+         {v:`$${frac(a*d,b)}$`,why:"շրջում է բաժանարարը, բայց հայտարարը բազմապատկել մոռանում է"}],
     rationale:`Բաժանարարը շրջում ենք. $\\frac{${a}}{${b}}\\cdot\\frac{${d}}{${c}}=\\frac{${a*d}}{${b*c}}$:`,
     vars:{a,b,c,d} }; },
   verify(v){ return (v.a/v.b) / (v.c/v.d); } },
@@ -2814,11 +2955,11 @@ tasks:[
   const rb=num/g, rd=d/g;
   const s=v=>String(fix(v)).replace('.',',');
   return { q:`Ներկայացրու տասնորդական կոտորակը որպես կրճատված սովորական կոտորակ. $${s(num/d)}$`, ans:`$\\frac{${rb}}{${rd}}$`,
-    bad:[{v:`$\\frac{${num}}{${d}}$`,why:"գրում է կոտորակը՝ առանց կրճատելու"},
+    bad:[{v:`$\\frac{${num}}{${d}}$`,format:true,why:"գրում է կոտորակը՝ առանց կրճատելու (արժեքը նույնն է, բայց պահանջված է կրճատված տեսքը)"},
          {v:`$\\frac{${rb}}{${d}}$`,why:"կրճատում է միայն համարիչը"},
          {v:`$\\frac{${num}}{${rd}}$`,why:"կրճատում է միայն հայտարարը"},
          {v:`$\\frac{${rd}}{${rb}}$`,why:"կրճատում է ճիշտ, բայց համարիչն ու հայտարարը տեղերով է գրում"}],
-    rationale:`$${s(num/d)}=\\frac{${num}}{${d}}$: Ամենամեծ ընդհանուր բաժանարար$(${num},${d})=${g}$, ուստի կրճատած տեսքը՝ $\\frac{${rb}}{${rd}}$:`,
+    rationale:`$${s(num/d)}=\\frac{${num}}{${d}}$: $${num}$-ի և $${d}$-ի ամենամեծ ընդհանուր բաժանարարը՝ $${g}$, ուստի կրճատած տեսքը՝ $\\frac{${rb}}{${rd}}$:`,
     vars:{num,d} }; },
   verify(v){ const g=gcd(v.num,v.d); return `$\\frac{${v.num/g}}{${v.d/g}}$`; } },
 
@@ -3856,7 +3997,7 @@ tasks:[
          {v:Math.abs(x), why:"հակադիրի փոխարեն մոդուլն է հաշվում"},
          {v:0, why:"կարծում է, որ հակադիրը միշտ զրո է"},
          {v:-Math.abs(x), why:"հակադիրի փոխարեն վերցնում է բացասական մոդուլը"},
-         {v:`$${x<0?'-':''}\\frac{1}{${Math.abs(x)}}$`, why:"հակադիր թիվը շփոթում է հակադարձ թվի հետ"}],
+         {v:Math.abs(x)===1 ? null : `$${x<0?'-':''}\\frac{1}{${Math.abs(x)}}$`, why:"հակադիր թիվը շփոթում է հակադարձ թվի հետ"}],
     rationale:`Հակադիր թիվը նույն մոդուլով, հակառակ նշանով թիվն է. $-(${x})=${ans}$:`,
     vars:{x,mode} }; },
   verify(v){ return v.mode==="abs" ? Math.abs(v.x) : -v.x; } },
@@ -4738,6 +4879,229 @@ tasks:[
     if (v.mode==="coincident") return v.c2===v.k*v.c1 ? "Անվերջ շատ լուծումներ" : "??";
     return v.c2!==v.k*v.c1 ? "Լուծում չունի" : "??";
   } }
+]});
+
+
+/* ===== math/lit_expressions.js ===== */
+/* Տառային արտահայտություններ. արժեք, նման անդամներ, փակագծերի բացում, ընդհանուր արտադրիչ (6–7)։
+   Թվային արտահայտություններից (num_expressions) տառայինին անցման շղթա։
+   Աղբյուր՝ Գլխավոր բազա (MATH-06 հավասարումներ, ALG-07-T01 տառային արտահայտություններ, նույնական ձևափոխություններ)։
+   Պատասխանները՝ կանոնական տեսքով (LE_p). x²-ով անդամ → x-ով → ազատ անդամ, 0 գործակիցները բաց են թողնվում։ */
+
+// բազմանդամ. terms = [[k,'x^{2}'],[k,'x'],[k,'']] → «3x^{2}-x+5» (0 անդամներ՝ բաց, 1 գործակից՝ առանց 1-ի)
+const LE_p = (terms) => {
+  let s = '';
+  for (const [k, v] of terms) {
+    if (k === 0) continue;
+    if (!s) s = v ? cx(k, v) : `${k}`;
+    else s += v ? sgnCx(k, v) : sgnT(k);
+  }
+  return s || '0';
+};
+const LE_m = (terms) => `$${LE_p(terms)}$`;
+const LE_ok = (xs) => { const v = xs.filter(x => x !== null && x !== undefined).map(String); return new Set(v).size === v.length; };
+// կոտորակային գործակցով x. 5/6 → \frac{5}{6}x, 2 → 2x
+const LE_fx = (n, d) => { const g = gcd(Math.abs(n), d) || 1; n /= g; d /= g; return d === 1 ? cx(n) : `${n < 0 ? '-' : ''}\\frac{${Math.abs(n)}}{${d}}x`; };
+
+TOPIC({
+subject: "math",
+id: "lit_expressions",
+theory: "expressions.html",
+grades: [6, 7],
+title: "Տառային արտահայտություններ. արժեք և պարզեցում",
+icon: "🔤",
+desc: "Տառային արտահայտության արժեք, նման անդամներ, փակագծերի բացում, ընդհանուր արտադրիչ, արտահայտության կազմում պայմանից",
+tasks: [
+
+/* ============================ LEVEL 1 ============================ */
+
+{ level:1, subtopic:"Տառային արտահայտության արժեք", bloom:"Կիրառում", badgeClass:"lvl-1", gen(){
+  let p, q, a, b, ans, bads;
+  do { p = rand(2, 9); q = rand(2, 9); a = randNZ(-6, 6); b = randNZ(-6, 6); ans = p*a - q*b;
+       bads = [b < 0 ? p*a - q*Math.abs(b) : null, p*a + q*b, (p + a) - (q + b), a !== b ? p*b - q*a : null]; }
+  while (b > 0 && a > 0 || !LE_ok([ans, ...bads]) || bads.filter(x => x !== null).length < 3);
+  return { q:`Հաշվիր $${p}a-${q}b$ արտահայտության արժեքը, եթե $a=${a}$, $b=${b}$:`, ans,
+    bad:[ { v:bads[0], why:"բացասական թիվը տեղադրում է առանց փակագծի և կորցնում նշանը" },
+          { v:bads[1], why:"արտահայտության մինուսը փոխում է պլյուսի" },
+          { v:bads[2], why:"գործակիցը գումարում է փոփոխականին՝ բազմապատկելու փոխարեն" },
+          { v:bads[3], why:"$a$-ի և $b$-ի արժեքները տեղերով է տեղադրում" } ],
+    rationale:`Տեղադրում ենք՝ բացասական թվերը փակագծերում. $${p}\\cdot ${par(a)}-${q}\\cdot ${par(b)}=${p*a}${sgnT(-q*b)}=${ans}$:`,
+    vars:{ p, q, a, b } };
+}, verify(v){ return v.a * v.p + (-v.q) * v.b; }},
+
+{ level:1, subtopic:"Նման անդամների միացում", bloom:"Կիրառում", badgeClass:"lvl-1", gen(){
+  let a, b, c, d; do { a = rand(2, 9); c = rand(1, 9); b = randNZ(-9, 9); d = randNZ(-9, 9); } while (a === c || b + d === 0 || a - c + b + d === 0);
+  const ans = LE_m([[a - c, 'x'], [b + d, '']]);
+  return { q:`Պարզեցրու. $${a}x${sgnT(b)}${sgnCx(-c)}${sgnT(d)}$`, ans,
+    bad:[ { v:LE_m([[a + c, 'x'], [b + d, '']]), why:`$-${c === 1 ? '' : c}x$ անդամի նշանը կորցնում է` },
+          { v:LE_m([[a - c + b + d, 'x']]), why:"ազատ անդամները (թվերը) էլ միացնում է $x$-երի հետ" },
+          { v:LE_m([[a - c, 'x'], [b - d, '']]), why:"երկրորդ ազատ անդամի նշանը փոխում է" } ],
+    rationale:`Նման են $x$-ով անդամները. $${a}x${sgnCx(-c)}=${cx(a - c)}$, և ազատ անդամները. $${b}${sgnT(d)}=${b + d}$: Արդյունքը՝ ${ans}:`,
+    vars:{ a, b, c, d } };
+}, verify(v){ return `$${LE_p([[v.a - v.c, 'x'], [v.d + v.b, '']])}$`; }},
+
+{ level:1, subtopic:"Արտահայտության կազմում պայմանից", bloom:"Հասկացում", badgeClass:"lvl-1", gen(){
+  const t = rand(0, 3), n = rand(2, 20);
+  const T = [
+    [`$x$-ից $${n}$-ով մեծ թվի կրկնապատիկը`, `2(x+${n})`, [[`2x+${n}`, "կրկնապատկում է միայն $x$-ը (փակագիծ չի դնում)"], [`(x+${n})^{2}`, "կրկնապատիկը շփոթում է քառակուսու հետ"], [`x+${2*n}`, "կրկնապատկում է միայն թիվը"]]],
+    [`$x$-ի և $${n}$-ի տարբերության եռապատիկը`, `3(x-${n})`, [[`3x-${n}`, "եռապատկում է միայն $x$-ը (փակագիծ չի դնում)"], [`3(${n}-x)`, "տարբերության մեջ թվերի կարգը շրջում է"], [`x-${3*n}`, "եռապատկում է միայն թիվը"]]],
+    [`$x$-ի կրկնապատիկից $${n}$-ով փոքր թիվը`, `2x-${n}`, [[`2(x-${n})`, "նախ հանում է, հետո կրկնապատկում"], [`${n}-2x`, "«-ով փոքր» կարդում է հակառակ կարգով"], [`2x+${n}`, "«փոքր»-ը շփոթում է «մեծ»-ի հետ"]]],
+    [`$x$-ի կեսի և $${n}$-ի գումարը`, `\\frac{x}{2}+${n}`, [[`\\frac{x+${n}}{2}`, "կեսը վերցնում է ամբողջ գումարից"], [`2x+${n}`, "«կեսը» շփոթում է կրկնապատիկի հետ"], [`\\frac{x}{2}-${n}`, "«գումարը» շփոթում է «տարբերության» հետ"]]]
+  ][t];
+  return { q:`Գրիր արտահայտությամբ. ${T[0]}:`, ans:`$${T[1]}$`,
+    bad: T[2].map(([v, why]) => ({ v:`$${v}$`, why })),
+    rationale:`«${T[0].replace(/\$/g, '')}» → $${T[1]}$: Ուշադրություն դարձրու, թե ինչին է վերաբերում վերջին գործողությունը (կրկնապատիկը, կեսը, եռապատիկը)։`,
+    vars:{ t, n } };
+}, verify(v){ const n = v.n; return ['$2(x+' + n + ')$', '$3(x-' + n + ')$', '$2x-' + n + '$', '$\\frac{x}{2}+' + n + '$'][v.t]; }},
+
+{ level:1, subtopic:"Փակագծի բացում (թիվը փակագծի առջև)", bloom:"Կիրառում", badgeClass:"lvl-1", gen(){
+  let k, a, b; do { k = randNZ(-5, 5); a = rand(1, 6); b = randNZ(-9, 9); } while (Math.abs(k) === 1 || k + a === 0 || k + b === 0);
+  const ans = LE_m([[k*a, 'x'], [k*b, '']]);
+  const bads = [LE_m([[k*a, 'x'], [b, '']]), LE_m([[k + a, 'x'], [k + b, '']]), LE_m([[k*a, 'x'], [-k*b, '']])];
+  return { q:`Բացիր փակագծերը. $${k}(${cx(a)}${sgnT(b)})$`, ans,
+    bad:[ { v:bads[0], why:"բազմապատկում է միայն փակագծի առաջին անդամը" },
+          { v:bads[1], why:"բազմապատկելու փոխարեն գումարում է" },
+          { v:bads[2], why:k < 0 ? "բացասական արտադրիչի նշանը չի տարածում երկրորդ անդամի վրա" : "երկրորդ անդամի նշանը փոխում է" } ],
+    rationale:`Փակագծի առջևի թվով բազմապատկում ենք ԱՄԵՆ անդամը. $${k}\\cdot ${cx(a)}${sgnT(k)}\\cdot ${par(b)}$ → ${ans}:`,
+    vars:{ k, a, b } };
+}, verify(v){ return `$${LE_p([[v.a * v.k, 'x'], [v.b * v.k, '']])}$`; }},
+
+{ level:1, subtopic:"Մինուսը փակագծի առջև", bloom:"Կիրառում", badgeClass:"lvl-1", gen(){
+  let c, a, b; do { c = randNZ(-9, 12); a = rand(2, 9); b = rand(1, 9); } while (c + b === 0 || c - b === 0);
+  const ans = LE_m([[-a, 'x'], [c + b, '']]);
+  return { q:`Բացիր փակագծերը և պարզեցրու. $${c}-(${a}x-${b})$`, ans,
+    bad:[ { v:LE_m([[-a, 'x'], [c - b, '']]), why:"նշանը փոխում է միայն փակագծի առաջին անդամի համար" },
+          { v:LE_m([[a, 'x'], [c - b, '']]), why:"փակագծի առջևի մինուսը անտեսում է" },
+          { v:LE_m([[a, 'x'], [c + b, '']]), why:"նշանը փոխում է միայն երկրորդ անդամի համար" } ],
+    rationale:`Մինուսով փակագիծը բացելիս փոխում ենք ԲՈԼՈՐ անդամների նշանները. $-(${a}x-${b})=-${a}x+${b}$: Ուրեմն $${c}-${a}x+${b}=${LE_p([[-a, 'x'], [c + b, '']])}$:`,
+    vars:{ c, a, b } };
+}, verify(v){ return `$${LE_p([[0 - v.a, 'x'], [v.b + v.c, '']])}$`; }},
+
+/* ============================ LEVEL 2 ============================ */
+
+{ level:2, subtopic:"Փակագծերի բացում և պարզեցում", bloom:"Կիրառում", badgeClass:"lvl-2", gen(){
+  let k, m, a, b, c, d;
+  do { k = rand(2, 5); m = rand(2, 5); a = rand(1, 5); c = rand(1, 5); b = randNZ(-6, 6); d = randNZ(-6, 6); }
+  while (k*a - m*c === 0 || k*b - m*d === 0 || k*b + m*d === 0 || k*b - d === 0);
+  const ans = LE_m([[k*a - m*c, 'x'], [k*b - m*d, '']]);
+  return { q:`Պարզեցրու. $${k}(${cx(a)}${sgnT(b)})-${m}(${cx(c)}${sgnT(d)})$`, ans,
+    bad:[ { v:LE_m([[k*a - m*c, 'x'], [k*b + m*d, '']]), why:"մինուսը տարածում է միայն երկրորդ փակագծի առաջին անդամի վրա" },
+          { v:LE_m([[k*a + m*c, 'x'], [k*b + m*d, '']]), why:"երկրորդ փակագծի առջևի մինուսը անտեսում է" },
+          { v:LE_m([[k*a - m*c, 'x'], [k*b - d, '']]), why:`երկրորդ փակագծում $${m}$-ով բազմապատկում է միայն առաջին անդամը` } ],
+    rationale:`$${k}(${cx(a)}${sgnT(b)})=${LE_p([[k*a, 'x'], [k*b, '']])}$, $-${m}(${cx(c)}${sgnT(d)})=${LE_p([[-m*c, 'x'], [-m*d, '']])}$: Միացնում ենք նման անդամները. ${ans}:`,
+    vars:{ k, m, a, b, c, d } };
+}, verify(v){ return `$${LE_p([[v.k * v.a - v.m * v.c, 'x'], [-(v.m * v.d) + v.k * v.b, '']])}$`; }},
+
+{ level:2, subtopic:"Պարզեցնել, ապա հաշվել արժեքը", bloom:"Վերլուծություն", badgeClass:"lvl-2", gen(){
+  let k, b, c, x; do { k = rand(2, 9); b = randNZ(-9, 9); c = randNZ(-9, 9); x = rand(37, 199); } while (k*b + c === 0 || k*b - c === 0 || b + c === 0);
+  const ans = k*b + c;
+  return { q:`Հաշվիր $${k}(x${sgnT(b)})-(${k}x${sgnT(-c)})$ արտահայտության արժեքը, եթե $x=${x}$:`, ans,
+    bad:[ { v:k*b - c, why:"երկրորդ փակագծի նշանը փոխում է միայն առաջին անդամի համար" },
+          { v:b + c, why:`փակագիծը բացելիս $${b}$-ը չի բազմապատկում $${k}$-ով` },
+          { v:2*k*x + k*b - c, why:"երկրորդ փակագծի առջևի մինուսը անտեսում է" } ],
+    rationale:`Նախ պարզեցնում ենք. $${k}x${sgnT(k*b)}-${k}x${sgnT(c)}=${ans}$: $x$-ով անդամները կրճատվում են, ուստի պատասխանը կախված չէ $x$-ից։ Տեղադրել պետք չէ։`,
+    vars:{ k, b, c, x } };
+}, verify(v){ return v.k * (v.x + v.b) - (v.k * v.x - v.c); }},
+
+{ level:2, subtopic:"Ընդհանուր արտադրիչը փակագծից դուրս", bloom:"Կիրառում", badgeClass:"lvl-2", gen(){
+  let g, a, b; do { g = rand(2, 7); a = rand(1, 6); b = randNZ(-9, 9); } while (gcd(a, Math.abs(b)) !== 1);
+  const ans = `$${g}(${cx(a)}${sgnT(b)})$`;
+  const bads = [`$${g}(${cx(g*a)}${sgnT(b)})$`, `$${g}(${cx(a)}${sgnT(g*b)})$`, `$${g}x(${a}${sgnT(b)})$`];
+  return { q:`Ընդհանուր արտադրիչը դուրս բեր փակագծից. $${cx(g*a)}${sgnT(g*b)}$`, ans,
+    bad:[ { v:bads[0], why:"բաժանում է միայն երկրորդ անդամը" },
+          { v:bads[1], why:"բաժանում է միայն առաջին անդամը" },
+          { v:bads[2], why:"$x$-ն էլ է դուրս բերում, թեև երկրորդ անդամում $x$ չկա" } ],
+    rationale:`Երկու անդամներն էլ բաժանվում են $${g}$-ի. $${cx(g*a)}=${g}\\cdot ${cx(a)}$, $${g*b}=${g}\\cdot ${par(b)}$: Ստուգում՝ փակագիծը բացելով ստանում ենք սկզբնական արտահայտությունը։`,
+    vars:{ g, a, b } };
+}, verify(v){ return '$' + v.g + '(' + LE_p([[v.a, 'x'], [v.b, '']]) + ')$'; }},
+
+{ level:2, subtopic:"Երկու փոփոխականով նման անդամներ", bloom:"Կիրառում", badgeClass:"lvl-2", gen(){
+  let a, b, c, d; do { a = rand(2, 9); c = rand(1, 9); b = randNZ(-9, 9); d = randNZ(-9, 9); } while (a === c || b + d === 0 || b === d || a - c + b + d === 0);
+  const ans = LE_m([[a - c, 'x'], [b + d, 'y']]);
+  return { q:`Պարզեցրու. $${a}x${sgnCx(b, 'y')}${sgnCx(-c)}${sgnCx(d, 'y')}$`, ans,
+    bad:[ { v:LE_m([[a + c, 'x'], [b + d, 'y']]), why:"$x$-ով երկրորդ անդամի մինուսը կորցնում է" },
+          { v:LE_m([[a - c, 'x'], [b - d, 'y']]), why:"$y$-ով երկրորդ անդամի նշանը փոխում է" },
+          { v:`$${cx(a - c + b + d, 'xy')}$`, why:"$x$-ով և $y$-ով անդամները համարում է նման և միացնում" } ],
+    rationale:`Նման են միայն նույն տառով անդամները. $${a}x${sgnCx(-c)}=${cx(a - c)}$, $${cx(b, 'y')}${sgnCx(d, 'y')}=${cx(b + d, 'y')}$: Արդյունքը՝ ${ans}:`,
+    vars:{ a, b, c, d } };
+}, verify(v){ return `$${LE_p([[v.a - v.c, 'x'], [v.d + v.b, 'y']])}$`; }},
+
+{ level:2, subtopic:"Կոտորակային գործակիցներ", bloom:"Կիրառում", badgeClass:"lvl-2", gen(){
+  let a, p, b, q, s, vals;
+  do { p = rand(2, 6); q = rand(2, 6); a = rand(1, p - 1); b = rand(1, q - 1); s = randEl([1, -1]);
+       vals = [(a*q + s*b*p) / (p*q), (a + s*b) / (p + q), (a + s*b) / (p*q), (a*q - s*b*p) / (p*q)]; }
+  while (p === q || gcd(a, p) !== 1 || gcd(b, q) !== 1 || vals[0] === 0 || a + s*b === 0 || a*q - s*b*p === 0 || new Set(vals.map(x => x.toFixed(9))).size < 4);
+  const ans = `$${LE_fx(a*q + s*b*p, p*q)}$`;
+  return { q:`Պարզեցրու. $\\frac{${a}}{${p}}x${s > 0 ? '+' : '-'}\\frac{${b}}{${q}}x$`, ans,
+    bad:[ { v:`$${LE_fx(a + s*b, p + q)}$`, why:"գումարում է առանձին համարիչները և հայտարարները" },
+          { v:`$${LE_fx(a + s*b, p*q)}$`, why:"ընդհանուր հայտարարի բերում է, բայց համարիչները չի բազմապատկում լրացուցիչ արտադրիչներով" },
+          { v:`$${LE_fx(a*q - s*b*p, p*q)}$`, why:"գործողության նշանը շփոթում է" } ],
+    rationale:`$x$-ը դուրս ենք բերում և գործակիցները գումարում ընդհանուր հայտարարով. $\\left(\\frac{${a}}{${p}}${s > 0 ? '+' : '-'}\\frac{${b}}{${q}}\\right)x=\\frac{${a*q}${s > 0 ? '+' : '-'}${b*p}}{${p*q}}x=${LE_fx(a*q + s*b*p, p*q)}$:`,
+    vars:{ a, p, b, q, s } };
+}, verify(v){ const n = v.a * v.q + v.s * v.b * v.p, d = v.p * v.q, g = gcd(Math.abs(n), d); return `$${LE_fx(n / g, d / g)}$`; }},
+
+/* ============================ LEVEL 3 ============================ */
+
+{ level:3, subtopic:"Արժեքը առանց փոփոխականների արժեքների", bloom:"Վերլուծություն", badgeClass:"lvl-4", gen(){
+  let S, k, c; do { S = randNZ(-12, 15); k = rand(2, 9); c = randNZ(-9, 9); } while (k*S + c === 0 || !LE_ok([k*S + c, S + c, k*S, k*(S + c), 2*k*S + c]));
+  const ans = k*S + c;
+  return { q:`Հայտնի է, որ $a+b=${S}$: Գտիր $${k}a+${k}b${sgnT(c)}$ արտահայտության արժեքը:`, ans,
+    bad:[ { v:S + c, why:`չի նկատում, որ $${k}a+${k}b=${k}(a+b)$, և $${k}$-ով չի բազմապատկում` },
+          { v:k*S, why:"ազատ անդամը մոռանում է" },
+          { v:k*(S + c), why:"ազատ անդամն էլ է բազմապատկում ընդհանուր արտադրիչով" },
+          { v:2*k*S + c, why:`$${k}$-ով բազմապատկում է երկու անգամ (առանձին $a$-ի և $b$-ի համար)` } ],
+    rationale:`Ընդհանուր արտադրիչը դուրս ենք բերում. $${k}a+${k}b${sgnT(c)}=${k}(a+b)${sgnT(c)}=${k}\\cdot ${par(S)}${sgnT(c)}=${ans}$:`,
+    vars:{ S, k, c } };
+}, verify(v){ return v.c + v.S * v.k; }},
+
+{ level:3, subtopic:"Բազմաքայլ պարզեցում", bloom:"Վերլուծություն", badgeClass:"lvl-4", gen(){
+  let k, a, b, c, d, m, X, C;
+  do { k = rand(2, 5); a = rand(1, 5); b = randNZ(-6, 6); c = rand(1, 9); d = rand(1, 9); m = randNZ(-6, 6); X = k*a - c + m; C = k*b + d; }
+  while (X === 0 || C === 0 || k*b - d === 0 || k*a + c + m === 0 || k*a - c === 0 || a - c + m === 0);
+  const ans = LE_m([[X, 'x'], [C, '']]);
+  return { q:`Պարզեցրու. $${k}(${cx(a)}${sgnT(b)})-(${cx(c)}-${d})${sgnCx(m)}$`, ans,
+    bad:[ { v:LE_m([[X, 'x'], [k*b - d, '']]), why:`$-(-${d})$-ը չի դարձնում $+${d}$` },
+          { v:LE_m([[k*a + c + m, 'x'], [C, '']]), why:"փակագծի առջևի մինուսը տարածում է միայն ազատ անդամի վրա" },
+          { v:LE_m([[k*a - c, 'x'], [C, '']]), why:`վերջին $${cx(m)}$ անդամը մոռանում է` },
+          { v:LE_m([[a - c + m, 'x'], [C, '']]), why:`$${k}$-ով բազմապատկում է միայն ազատ անդամը` } ],
+    rationale:`Բացում ենք փակագծերը. $${LE_p([[k*a, 'x'], [k*b, '']])}${sgnCx(-c)}+${d}${sgnCx(m)}$: $x$-ով անդամներ. $${k*a}${sgnT(-c)}${sgnT(m)}=${X}$, ազատ անդամներ. $${k*b}+${d}=${C}$: Արդյունքը՝ ${ans}:`,
+    vars:{ k, a, b, c, d, m } };
+}, verify(v){ return `$${LE_p([[v.m + v.k * v.a - v.c, 'x'], [v.d + v.k * v.b, '']])}$`; }},
+
+{ level:3, subtopic:"Աստիճաններով նման անդամներ", bloom:"Վերլուծություն", badgeClass:"lvl-4", gen(){
+  let a, b, c, d, e; do { a = rand(2, 9); c = rand(1, 9); b = randNZ(-9, 9); d = randNZ(-9, 9); e = randNZ(-9, 9); }
+  while (a === c || b + d === 0 || b === d || a + c === 0 || a - c + b + d === 0);
+  const ans = LE_m([[a - c, 'x^{2}'], [b + d, 'x'], [e, '']]);
+  return { q:`Պարզեցրու. $${a}x^{2}${sgnCx(b)}${sgnCx(-c, 'x^{2}')}${sgnCx(d)}${sgnT(e)}$`, ans,
+    bad:[ { v:LE_m([[a - c + b + d, 'x^{2}'], [e, '']]), why:"$x^{2}$-ով և $x$-ով անդամները համարում է նման" },
+          { v:LE_m([[a + c, 'x^{2}'], [b + d, 'x'], [e, '']]), why:"$x^{2}$-ով երկրորդ անդամի մինուսը կորցնում է" },
+          { v:LE_m([[a - c, 'x^{4}'], [b + d, 'x^{2}'], [e, '']]), why:"նման անդամները միացնելիս ցուցիչները գումարում է" } ],
+    rationale:`Նման են նույն աստիճանով անդամները. $x^{2}$՝ $${a}${sgnT(-c)}=${a - c}$, $x$՝ $${b}${sgnT(d)}=${b + d}$: Ցուցիչները չեն փոխվում։ Արդյունքը՝ ${ans}:`,
+    vars:{ a, b, c, d, e } };
+}, verify(v){ return `$${LE_p([[v.a - v.c, 'x^{2}'], [v.d + v.b, 'x'], [v.e, '']])}$`; }},
+
+{ level:3, subtopic:"Արժեքը բացասական թվով (քառակուսի)", bloom:"Վերլուծություն", badgeClass:"lvl-4", gen(){
+  let a, b, c, k; do { a = rand(2, 5); b = rand(1, 9); c = randNZ(-9, 9); k = rand(2, 6); }
+  while (!LE_ok([a*k*k + b*k + c, -a*k*k + b*k + c, a*k*k - b*k + c, -2*a*k + b*k + c]));
+  const ans = a*k*k + b*k + c;
+  return { q:`Հաշվիր $${a}x^{2}-${cx(b)}${sgnT(c)}$ արտահայտության արժեքը, եթե $x=-${k}$:`, ans,
+    bad:[ { v:-a*k*k + b*k + c, why:`$(-${k})^{2}$-ը համարում է $-${k*k}$ (փակագիծ չի դնում)` },
+          { v:a*k*k - b*k + c, why:`$-${b === 1 ? '' : b}\\cdot(-${k})$-ի նշանը սխալ է որոշում` },
+          { v:-2*a*k + b*k + c, why:"քառակուսին շփոթում է կրկնապատկման հետ" } ],
+    rationale:`Տեղադրում ենք փակագծերով. $${a}\\cdot(-${k})^{2}-${b}\\cdot(-${k})${sgnT(c)}=${a}\\cdot ${k*k}+${b*k}${sgnT(c)}=${ans}$:`,
+    vars:{ a, b, c, k } };
+}, verify(v){ const x = -v.k; return v.a * x * x - v.b * x + v.c; }},
+
+{ level:3, subtopic:"Նույնաբար հավասար արտահայտություն", bloom:"Գնահատում", badgeClass:"lvl-4", gen(){
+  let k, b; do { k = rand(2, 9); b = randNZ(-9, 9); } while (k*b === -1 || k*b === 1 || b === k*b - 1);
+  const ans = LE_m([[k - 1, 'x'], [k*b, '']]);
+  return { q:`Ո՞ր արտահայտությունն է նույնաբար հավասար $${k}(x${sgnT(b)})-x$ արտահայտությանը:`, ans,
+    bad:[ { v:LE_m([[k, 'x'], [k*b, '']]), why:"վերջին $-x$ անդամը չի հաշվում" },
+          { v:LE_m([[k - 1, 'x'], [b, '']]), why:`փակագիծը բացելիս $${b}$-ը չի բազմապատկում $${k}$-ով` },
+          { v:LE_m([[k - 1, 'x'], [k*b - 1, '']]), why:"$-x$-ը հանում է ազատ անդամից, ոչ թե $x$-ով անդամից" } ],
+    rationale:`$${k}(x${sgnT(b)})-x=${k}x${sgnT(k*b)}-x=${LE_p([[k - 1, 'x'], [k*b, '']])}$: Նույնաբար հավասար են այն արտահայտությունները, որոնք փոփոխականի ցանկացած արժեքի դեպքում ունեն նույն արժեքը։`,
+    vars:{ k, b } };
+}, verify(v){ return `$${LE_p([[v.k - 1, 'x'], [v.b * v.k, '']])}$`; }}
 ]});
 
 
@@ -6086,6 +6450,268 @@ tasks: [
 ]});
 
 
+/* ===== math/num_expressions.js ===== */
+/* Թվային արտահայտություններ. գործողությունների կարգ, կոտորակներ, խառը թվեր, աստիճաններ (5–7)։
+   Աղբյուր՝ Գլխավոր բազա (MATH-05/06 կոտորակներ, ALG-07-T01 աստիճաններ) + օգտատիրոջ նյութերի քաղվածքներ
+   (2026-10-03. «մնացածի մասը գումարում են», «բազմահարկ կոտորակներ»)։
+   Կոտորակային բոլոր արժեքները՝ ճշգրիտ ռացիոնալ թվաբանությամբ (NE_q), ցուցադրումը՝ կրճատված։
+   verify()-ը հաշվում է անկախ՝ float-ով (validator-ը համեմատում է parseNum-ով)։ */
+
+const NE_q = (n, d = 1) => { if (d < 0) { n = -n; d = -d; } const g = gcd(Math.abs(n), d) || 1; return [n / g, d / g]; };
+const NE_add = (x, y) => NE_q(x[0] * y[1] + y[0] * x[1], x[1] * y[1]);
+const NE_sub = (x, y) => NE_q(x[0] * y[1] - y[0] * x[1], x[1] * y[1]);
+const NE_mul = (x, y) => NE_q(x[0] * y[0], x[1] * y[1]);
+const NE_div = (x, y) => NE_q(x[0] * y[1], x[1] * y[0]);
+const NE_pow = (x, n) => NE_q(Math.pow(x[0], n), Math.pow(x[1], n));
+const NE_val = (x) => x[0] / x[1];
+const NE_t = (x) => x[1] === 1 ? `${x[0]}` : `${x[0] < 0 ? '-' : ''}\\frac{${Math.abs(x[0])}}{${x[1]}}`;
+const NE_f = (x) => `$${NE_t(x)}$`;
+const NE_fr = (a, b) => `\\frac{${a}}{${b}}`;
+// խառը թիվ (միայն դրական). 2\frac{1}{3}
+const NE_mix = (x) => { if (x[0] <= 0 || x[1] === 1) return NE_f(x); const w = Math.floor(x[0] / x[1]), r = x[0] - w * x[1]; return `$${w ? w : ''}\\frac{${r}}{${x[1]}}$`; };
+// բոլոր արժեքները (ans + bad) տարբեր են ըստ արժեքի
+const NE_distinct = (xs) => { const v = xs.filter(x => x !== null).map(x => (Array.isArray(x) ? NE_val(x) : x).toFixed(9)); return new Set(v).size === v.length; };
+const NE_D = [2, 3, 4, 5, 6, 8, 9, 10, 12];
+const NE_frac = () => { const d = randEl(NE_D); let n; do { n = rand(1, d - 1); } while (gcd(n, d) !== 1); return [n, d]; };
+
+TOPIC({
+subject: "math",
+id: "num_expressions",
+theory: "expressions.html",
+grades: [5, 6, 7],
+title: "Թվային արտահայտություններ. կոտորակներ և աստիճաններ",
+icon: "🧮",
+desc: "Գործողությունների կարգ, փակագծեր, կոտորակներ և խառը թվեր, կոտորակի աստիճան, բազմահարկ կոտորակներ, բացասական թվերի աստիճաններ",
+tasks: [
+
+/* ============================ LEVEL 1 ============================ */
+
+{ level:1, subtopic:"Գործողությունների կարգ (առանց փակագծերի)", bloom:"Կիրառում", badgeClass:"lvl-1", gen(){
+  let a, b, c, d; do { a = rand(10, 60); b = rand(2, 9); c = rand(2, 9); d = rand(1, a + b * c - 1); }
+  while (!NE_distinct([a + b*c - d, (a + b)*c - d, a + b*(c - d), a + b + c - d]));
+  const ans = a + b * c - d;
+  return { q:`Հաշվիր. $${a}+${b}\\cdot${c}-${d}$`, ans,
+    bad:[ { v:(a + b) * c - d, why:"գործողությունները կատարում է ձախից աջ՝ գումարումը բազմապատկումից առաջ" },
+          { v:a + b * (c - d), why:"նախ հանում է, հետո բազմապատկում (աջից ձախ)" },
+          { v:a + b + c - d, why:"բազմապատկման նշանը կարդում է որպես գումարում" } ],
+    rationale:`Նախ բազմապատկում ենք, հետո գումարում և հանում ձախից աջ. $${b}\\cdot${c}=${b*c}$, $${a}+${b*c}=${a + b*c}$, $${a + b*c}-${d}=${ans}$:`,
+    vars:{ a, b, c, d } };
+}, verify(v){ return v.a - v.d + v.c * v.b; }},
+
+{ level:1, subtopic:"Փակագծերով արտահայտություն", bloom:"Կիրառում", badgeClass:"lvl-1", gen(){
+  let a, b, c, d; do { a = rand(2, 9); b = rand(2, 20); c = rand(2, 20); d = rand(1, a * (b + c) - 1); }
+  while (!NE_distinct([a*(b + c) - d, a*b + c - d, a*(b + c - d), a + b + c - d]));
+  const ans = a * (b + c) - d;
+  return { q:`Հաշվիր. $${a}\\cdot(${b}+${c})-${d}$`, ans,
+    bad:[ { v:a * b + c - d, why:"փակագիծը բացելիս բազմապատկում է միայն առաջին գումարելին" },
+          { v:a * (b + c - d), why:"հանելին «տանում է» փակագծի ներս" },
+          { v:a + b + c - d, why:"բազմապատկման նշանը անտեսում է" } ],
+    rationale:`Նախ փակագիծը. $${b}+${c}=${b + c}$, հետո բազմապատկում. $${a}\\cdot${b + c}=${a*(b + c)}$, վերջում հանում. $${a*(b + c)}-${d}=${ans}$:`,
+    vars:{ a, b, c, d } };
+}, verify(v){ return v.a * v.b + v.a * v.c - v.d; }},
+
+{ level:1, subtopic:"Աստիճանը գործողությունների կարգում", bloom:"Կիրառում", badgeClass:"lvl-1", gen(){
+  let a, b, c, n; do { a = rand(1, 30); b = rand(2, 5); c = rand(2, 5); n = b <= 3 ? randEl([2, 3]) : 2; }
+  while (!NE_distinct([a + c*b**n, a + (c*b)**n, a + c*b*n, (a + c)*b**n]));
+  const ans = a + c * b ** n;
+  return { q:`Հաշվիր. $${a}+${c}\\cdot${b}^{${n}}$`, ans,
+    bad:[ { v:a + (c * b) ** n, why:"աստիճանը կիրառում է ամբողջ արտադրյալի վրա, ոչ միայն հիմքի" },
+          { v:a + c * b * n, why:"աստիճանը շփոթում է ցուցիչով բազմապատկման հետ" },
+          { v:(a + c) * b ** n, why:"գործողությունները կատարում է ձախից աջ" } ],
+    rationale:`Աստիճանը կատարվում է առաջինը. $${b}^{${n}}=${b ** n}$, հետո բազմապատկում. $${c}\\cdot${b ** n}=${c * b ** n}$, վերջում գումարում. $${a}+${c * b ** n}=${ans}$:`,
+    vars:{ a, b, c, n } };
+}, verify(v){ let p = 1; for (let i = 0; i < v.n; i++) p *= v.b; return p * v.c + v.a; }},
+
+{ level:1, subtopic:"Տարբեր հայտարարով գումար և հանում", bloom:"Կիրառում", badgeClass:"lvl-1", gen(){
+  let x, y, z, ans, nn, L, b1, b2, b3, b4;
+  do { x = NE_frac(); y = NE_frac(); z = NE_frac(); ans = NE_sub(NE_add(x, y), z);
+       nn = x[0] + y[0] - z[0]; L = lcm(lcm(x[1], y[1]), z[1]);
+       b1 = nn > 0 ? NE_q(nn, x[1] + y[1] + z[1]) : null; b2 = nn > 0 ? NE_q(nn, L) : null;
+       b3 = NE_add(NE_add(x, y), z); b4 = NE_add(NE_sub(x, y), z); }
+  while (ans[0] <= 0 || nn <= 0 || x[1] === y[1] && y[1] === z[1] || !NE_distinct([ans, b1, b2, b3, b4]));
+  return { q:`Հաշվիր. $${NE_fr(...x)}+${NE_fr(...y)}-${NE_fr(...z)}$`, ans:NE_f(ans),
+    bad:[ { v:b1 && NE_f(b1), why:"գումարում է առանձին համարիչները և հայտարարները" },
+          { v:b2 && NE_f(b2), why:"բերում է ընդհանուր հայտարարի, բայց համարիչները չի բազմապատկում լրացուցիչ արտադրիչներով" },
+          { v:NE_f(b3), why:"չի նկատում հանման նշանը և գումարում է բոլորը" },
+          { v:NE_f(b4), why:"նշանները փոխում է տեղերով (հանում է երկրորդը, գումարում երրորդը)" } ],
+    rationale:`Ընդհանուր հայտարարը՝ $${L}$: $${NE_fr(x[0]*L/x[1], L)}+${NE_fr(y[0]*L/y[1], L)}-${NE_fr(z[0]*L/z[1], L)}=${NE_fr(x[0]*L/x[1] + y[0]*L/y[1] - z[0]*L/z[1], L)}${ans[1] === L ? '' : '=' + NE_t(ans)}$:`,
+    vars:{ x, y, z } };
+}, verify(v){ return v.x[0]/v.x[1] + v.y[0]/v.y[1] - v.z[0]/v.z[1]; }},
+
+{ level:1, subtopic:"Խառը թվերի հանում (ամբողջի փոխառությամբ)", bloom:"Կիրառում", badgeClass:"lvl-1", gen(){
+  let m, n, x, y, X, Y, ans, b1, b2, b3, b4;
+  do { m = rand(3, 9); n = rand(1, m - 1); x = NE_frac(); y = NE_frac();
+       X = NE_add([m, 1], x); Y = NE_add([n, 1], y); ans = NE_sub(X, Y);
+       b1 = NE_add([m - n, 1], NE_sub(y, x));         // կոտորակները հանում է հակառակ կարգով
+       b2 = NE_add(ans, [1, 1]);                      // փոխառնում է, բայց ամբողջ մասը չի փոքրացնում
+       b3 = NE_add([m - n, 1], NE_add(x, y));         // կոտորակային մասերը գումարում է
+       b4 = NE_add(X, Y); }
+  while (NE_val(x) >= NE_val(y) || m - n < 2 || !NE_distinct([ans, b1, b2, b3, b4]));
+  return { q:`Հաշվիր. $${m}${NE_fr(...x)}-${n}${NE_fr(...y)}$`, ans:NE_mix(ans),
+    bad:[ { v:NE_mix(b1), why:"կոտորակային մասերը հանում է «մեծից փոքրը»՝ հակառակ կարգով" },
+          { v:NE_mix(b2), why:"կոտորակի համար 1 ամբողջ է փոխառնում, բայց ամբողջ մասը չի փոքրացնում" },
+          { v:NE_mix(b3), why:"ամբողջ մասերը հանում է, իսկ կոտորակային մասերը՝ գումարում" },
+          { v:NE_mix(b4), why:"հանելու փոխարեն գումարում է" } ],
+    rationale:`$${NE_fr(...x)}\\lt ${NE_fr(...y)}$, ուստի $${m}$-ից փոխառնում ենք 1 ամբողջ. $${m}${NE_fr(...x)}=${m - 1}${NE_fr(x[0] + x[1], x[1])}$: Կամ անկանոն կոտորակներով. $${NE_t(X)}-${NE_t(Y)}=${NE_t(ans)}$, այսինքն՝ ${NE_mix(ans)}:`,
+    vars:{ m, n, x, y } };
+}, verify(v){ return v.m + v.x[0]/v.x[1] - v.n - v.y[0]/v.y[1]; }},
+
+/* ============================ LEVEL 2 ============================ */
+
+{ level:2, subtopic:"Բազմապատկում և բաժանում մեկ արտահայտությունում", bloom:"Կիրառում", badgeClass:"lvl-2", gen(){
+  let x, y, z, ans, b1, b2, b3, b4;
+  do { x = NE_frac(); y = NE_frac(); z = NE_frac(); ans = NE_div(NE_mul(x, y), z);
+       b1 = NE_mul(NE_mul(x, y), z); b2 = NE_mul(NE_div(x, y), z); b3 = NE_q(ans[1], ans[0]); b4 = NE_mul(x, y); }
+  while (!NE_distinct([ans, b1, b2, b3, b4]));
+  return { q:`Հաշվիր. $${NE_fr(...x)}\\cdot${NE_fr(...y)}:${NE_fr(...z)}$`, ans:NE_f(ans),
+    bad:[ { v:NE_f(b1), why:"բաժանման փոխարեն բազմապատկում է (երրորդ կոտորակը չի շրջում)" },
+          { v:NE_f(b2), why:"շրջում է սխալ կոտորակը (երկրորդը՝ երրորդի փոխարեն)" },
+          { v:NE_f(b3), why:"ճիշտ հաշվում է, բայց վերջում պատասխանը շրջում է" },
+          { v:NE_f(b4), why:"կանգ է առնում միջանկյալ արդյունքի վրա և բաժանումը չի կատարում" } ],
+    rationale:`Բաժանումը փոխարինում ենք բաժանարարի հակադարձով բազմապատկմամբ. $${NE_fr(...x)}\\cdot${NE_fr(...y)}\\cdot${NE_fr(z[1], z[0])}=${NE_t(ans)}$:`,
+    vars:{ x, y, z } };
+}, verify(v){ return v.x[0]/v.x[1] * (v.y[0]/v.y[1]) / (v.z[0]/v.z[1]); }},
+
+{ level:2, subtopic:"Գործողությունների կարգ կոտորակներով", bloom:"Կիրառում", badgeClass:"lvl-2", gen(){
+  let x, y, z, ans, b1, b2, b3;
+  do { x = NE_frac(); y = NE_frac(); z = NE_frac(); ans = NE_add(x, NE_mul(y, z));
+       b1 = NE_mul(NE_add(x, y), z); b2 = NE_add(NE_add(x, y), z); b3 = NE_add(NE_mul(x, y), z); }
+  while (!NE_distinct([ans, b1, b2, b3]));
+  return { q:`Հաշվիր. $${NE_fr(...x)}+${NE_fr(...y)}\\cdot${NE_fr(...z)}$`, ans:NE_f(ans),
+    bad:[ { v:NE_f(b1), why:"գործողությունները կատարում է ձախից աջ՝ գումարումը բազմապատկումից առաջ" },
+          { v:NE_f(b2), why:"բազմապատկման նշանը անտեսում է և գումարում է բոլոր կոտորակները" },
+          { v:NE_f(b3), why:"բազմապատկում է առաջին երկու կոտորակը, ոչ թե վերջին երկուսը" } ],
+    rationale:`Նախ բազմապատկում. $${NE_fr(...y)}\\cdot${NE_fr(...z)}=${NE_t(NE_mul(y, z))}$, հետո գումարում. $${NE_fr(...x)}+${NE_t(NE_mul(y, z))}=${NE_t(ans)}$:`,
+    vars:{ x, y, z } };
+}, verify(v){ return v.y[0]*v.z[0]/(v.y[1]*v.z[1]) + v.x[0]/v.x[1]; }},
+
+{ level:2, subtopic:"Կոտորակի աստիճան", bloom:"Կիրառում", badgeClass:"lvl-2", gen(){
+  let a, b, n, s, ans, b1, b2, b3, b4;
+  do { b = rand(2, 7); a = rand(2, 6); n = randEl([2, 3]); s = randEl([1, -1]);
+       ans = NE_pow(NE_q(s * a, b), n);
+       b1 = NE_q(Math.pow(s * a, n), b); b2 = NE_q(s * n * a, b); b3 = s < 0 ? NE_q(-ans[0], ans[1]) : null; b4 = NE_q(s * a, Math.pow(b, n)); }
+  while (gcd(a, b) !== 1 || !NE_distinct([ans, b1, b2, b3, b4]));
+  const base = s < 0 ? `\\left(-${NE_fr(a, b)}\\right)` : `\\left(${NE_fr(a, b)}\\right)`;
+  return { q:`Հաշվիր. $${base}^{${n}}$`, ans:NE_f(ans),
+    bad:[ { v:NE_f(b1), why:"աստիճան է բարձրացնում միայն համարիչը" },
+          { v:NE_f(b2), why:"աստիճանը շփոթում է ցուցիչով բազմապատկման հետ" },
+          { v:b3 && NE_f(b3), why:n % 2 ? "կենտ ցուցիչի դեպքում բացասական հիմքի նշանը կորցնում է" : "զույգ ցուցիչի դեպքում նշանը թողնում է բացասական" },
+          { v:NE_f(b4), why:"աստիճան է բարձրացնում միայն հայտարարը" } ],
+    rationale:`Կոտորակը աստիճան բարձրացնելիս աստիճան են բարձրացնում և՛ համարիչը, և՛ հայտարարը${s < 0 ? (n % 2 ? ', իսկ կենտ ցուցիչը պահպանում է մինուսը' : ', իսկ զույգ ցուցիչը մինուսը վերացնում է') : ''}. $${base}^{${n}}=${NE_t(ans)}$:`,
+    vars:{ a, b, n, s } };
+}, verify(v){ return Math.pow(v.s * v.a / v.b, v.n); }},
+
+{ level:2, subtopic:"Տասնորդական և սովորական կոտորակներ միասին", bloom:"Կիրառում", badgeClass:"lvl-2", gen(){
+  const DEC = [[1,2,'0{,}5'],[1,4,'0{,}25'],[3,4,'0{,}75'],[1,5,'0{,}2'],[2,5,'0{,}4'],[3,5,'0{,}6'],[4,5,'0{,}8'],[3,2,'1{,}5'],[5,2,'2{,}5'],[1,8,'0{,}125']];
+  let D, y, op, ans, b1, b2, b3, b4;
+  do { D = randEl(DEC); y = NE_frac(); op = randEl([1, -1]);
+       const d = NE_q(D[0], D[1]); ans = op > 0 ? NE_add(d, y) : NE_sub(d, y);
+       b1 = op > 0 ? NE_q(D[0] + y[0], D[1] + y[1]) : (D[0] - y[0] > 0 ? NE_q(D[0] - y[0], D[1] + y[1]) : null);
+       b2 = op > 0 ? NE_add(d, NE_q(y[0], 10)) : NE_sub(d, NE_q(y[0], 10));
+       b3 = op > 0 ? NE_sub(d, y) : NE_add(d, y);
+       b4 = op > 0 ? NE_add(d, NE_q(y[0], D[1] * y[1])) : NE_sub(d, NE_q(y[0], D[1] * y[1])); }
+  while (!NE_distinct([ans, b1, b2, b3, b4]));
+  return { q:`Հաշվիր և գրիր սովորական կոտորակով. $${D[2]}${op > 0 ? '+' : '-'}${NE_fr(...y)}$`, ans:NE_f(ans),
+    bad:[ { v:b1 && NE_f(b1), why:"տասնորդականը կոտորակ դարձնելուց հետո գումարում է առանձին համարիչները և հայտարարները" },
+          { v:NE_f(b2), why:`$${NE_fr(...y)}$-ը համարում է $0{,}${y[0]}$ (համարիչը գրում է ստորակետից հետո)` },
+          { v:NE_f(b3), why:"գործողության նշանը շփոթում է" },
+          { v:NE_f(b4), why:"ընդհանուր հայտարարի բերելիս լրացուցիչ արտադրիչով բազմապատկում է միայն հայտարարը" } ],
+    rationale:`$${D[2]}=${NE_fr(D[0], D[1])}$: Ապա $${NE_fr(D[0], D[1])}${op > 0 ? '+' : '-'}${NE_fr(...y)}=${NE_t(ans)}$:`,
+    vars:{ dn:D[0], dd:D[1], y, op } };
+}, verify(v){ return v.dn / v.dd + v.op * v.y[0] / v.y[1]; }},
+
+{ level:2, subtopic:"Զրո ցուցիչ և բացասական հիմք", bloom:"Հասկացում", badgeClass:"lvl-2", gen(){
+  let a, c, d, n, m; do { a = rand(2, 12); c = rand(2, 9); d = rand(2, 9); n = randEl([2, 4, 6]); m = randEl([3, 5, 7]); }
+  while (!NE_distinct([c + 1 + d, c + a + d, c + d, -c + 1 + d, c + 1 - d]));
+  const ans = c + 1 + d;
+  return { q:`Հաշվիր. $${c}\\cdot(-1)^{${n}}+${a}^{0}-(-1)^{${m}}\\cdot${d}$`, ans,
+    bad:[ { v:c + a + d, why:`$${a}^{0}$-ն համարում է $${a}$ (կարծում է՝ զրո ցուցիչը թիվը չի փոխում)` },
+          { v:c + d, why:`$${a}^{0}$-ն համարում է $0$` },
+          { v:-c + 1 + d, why:"կարծում է, որ բացասական հիմքի ցանկացած աստիճան բացասական է" },
+          { v:c + 1 - d, why:"կենտ ցուցիչով $(-1)$-ի աստիճանը համարում է $1$" } ],
+    rationale:`$(-1)^{${n}}=1$ (զույգ ցուցիչ), $${a}^{0}=1$, $(-1)^{${m}}=-1$ (կենտ ցուցիչ)։ Ուրեմն $${c}+1-(-1)\\cdot${d}=${c}+1+${d}=${ans}$:`,
+    vars:{ a, c, d, n, m } };
+}, verify(v){ return v.c * Math.pow(-1, v.n) + 1 - Math.pow(-1, v.m) * v.d; }},
+
+/* ============================ LEVEL 3 ============================ */
+
+{ level:3, subtopic:"Բազմահարկ կոտորակ", bloom:"Վերլուծություն", badgeClass:"lvl-4", gen(){
+  let x, y, z, ans, b1, b2, b3, b4;
+  do { x = NE_frac(); y = NE_frac(); z = NE_frac(); ans = NE_div(NE_add(x, y), z);
+       b1 = NE_mul(NE_add(x, y), z); b2 = NE_div(NE_q(x[0] + y[0], x[1] + y[1]), z); b3 = NE_add(x, NE_div(y, z)); b4 = NE_q(ans[1], ans[0]); }
+  while (!NE_distinct([ans, b1, b2, b3, b4]));
+  return { q:`Հաշվիր. $$\\dfrac{${NE_fr(...x)}+${NE_fr(...y)}}{${NE_fr(...z)}}$$`, ans:NE_f(ans),
+    bad:[ { v:NE_f(b1), why:"երկար գիծը կարդում է որպես բազմապատկում, ոչ թե բաժանում" },
+          { v:NE_f(b2), why:"վերևում գումարում է առանձին համարիչները և հայտարարները" },
+          { v:NE_f(b3), why:"բաժանում է միայն երկրորդ գումարելին (երկար գիծը կարդում է որպես կարճ)" },
+          { v:NE_f(b4), why:"համարիչը և հայտարարը տեղերով է փոխում" } ],
+    rationale:`Երկար գիծը բաժանում է. նախ համարիչը՝ $${NE_fr(...x)}+${NE_fr(...y)}=${NE_t(NE_add(x, y))}$, հետո բաժանում՝ $${NE_t(NE_add(x, y))}:${NE_fr(...z)}=${NE_t(NE_add(x, y))}\\cdot${NE_fr(z[1], z[0])}=${NE_t(ans)}$:`,
+    vars:{ x, y, z } };
+}, verify(v){ return (v.x[0]/v.x[1] + v.y[0]/v.y[1]) * v.z[1] / v.z[0]; }},
+
+{ level:3, subtopic:"Բազմաքայլ արտահայտություն (աստիճան և կոտորակ)", bloom:"Վերլուծություն", badgeClass:"lvl-4", gen(){
+  let a, b, c, z, ans, b1, b2, b3, b4;
+  do { b = rand(2, 5); a = rand(1, b - 1); c = rand(2, 9) * b; z = NE_frac();
+       const sq = NE_q(a * a, b * b); ans = NE_sub(NE_mul(sq, [c, 1]), z);
+       b1 = NE_sub(NE_mul(NE_q(a * a, b), [c, 1]), z); b2 = NE_sub(NE_pow(NE_q(a * c, b), 2), z);
+       b3 = NE_mul(sq, NE_sub([c, 1], z)); b4 = NE_sub(NE_mul(NE_q(2 * a, b), [c, 1]), z); }
+  while (!NE_distinct([ans, b1, b2, b3, b4]) || ans[0] <= 0);
+  return { q:`Հաշվիր. $\\left(${NE_fr(a, b)}\\right)^{2}\\cdot${c}-${NE_fr(...z)}$`, ans:NE_f(ans),
+    bad:[ { v:NE_f(b1), why:"քառակուսի է բարձրացնում միայն համարիչը" },
+          { v:NE_f(b2), why:`քառակուսին կիրառում է $${NE_fr(a, b)}\\cdot${c}$ արտադրյալի վրա` },
+          { v:NE_f(b3), why:"հանումը կատարում է բազմապատկումից առաջ" },
+          { v:NE_f(b4), why:"քառակուսին շփոթում է կրկնապատկման հետ" } ],
+    rationale:`Հերթականությունը. աստիճան → բազմապատկում → հանում. $\\left(${NE_fr(a, b)}\\right)^{2}=${NE_fr(a*a, b*b)}$, $${NE_fr(a*a, b*b)}\\cdot${c}=${NE_t(NE_mul(NE_q(a*a, b*b), [c, 1]))}$, $${NE_t(NE_mul(NE_q(a*a, b*b), [c, 1]))}-${NE_fr(...z)}=${NE_t(ans)}$:`,
+    vars:{ a, b, c, z } };
+}, verify(v){ return v.a * v.a / (v.b * v.b) * v.c - v.z[0] / v.z[1]; }},
+
+{ level:3, subtopic:"Հարմար հաշվարկ (բաշխական օրենք)", bloom:"Վերլուծություն", badgeClass:"lvl-4", gen(){
+  let a, b, c, d, ans, b1, b2, b3, b4;
+  do { b = rand(3, 9); a = rand(1, b - 1); const s = b * rand(2, 9); c = rand(2, s - 2); d = s - c;
+       ans = NE_q(a * (c + d), b); b1 = NE_q(a * c * d, b); b2 = NE_q(a * (c + d), 1); b3 = NE_add(NE_q(a * c, b), [d, 1]); b4 = NE_q(a * (c + d), 2 * b); }
+  while (gcd(a, b) !== 1 || c === d || c % b === 0 || !NE_distinct([ans, b1, b2, b3, b4]));
+  return { q:`Հաշվիր հարմար եղանակով. $${NE_fr(a, b)}\\cdot${c}+${NE_fr(a, b)}\\cdot${d}$`, ans:NE_f(ans),
+    bad:[ { v:NE_f(b1), why:"ընդհանուր արտադրիչը դուրս բերելիս փակագծում բազմապատկում է, ոչ թե գումարում" },
+          { v:NE_f(b2), why:"մոռանում է բաժանել հայտարարի վրա" },
+          { v:NE_f(b3), why:"երկրորդ արտադրյալում մոռանում է բազմապատկել կոտորակով" },
+          { v:NE_f(b4), why:"հայտարարը հաշվում է երկու անգամ (յուրաքանչյուր արտադրյալի համար)" } ],
+    rationale:`Ընդհանուր արտադրիչը դուրս ենք բերում. $${NE_fr(a, b)}\\cdot(${c}+${d})=${NE_fr(a, b)}\\cdot${c + d}=${NE_t(ans)}$:`,
+    vars:{ a, b, c, d } };
+}, verify(v){ return v.a * v.c / v.b + v.a * v.d / v.b; }},
+
+{ level:3, subtopic:"Բացասական թվերի աստիճաններ", bloom:"Վերլուծություն", badgeClass:"lvl-4", gen(){
+  let a, b, c; do { a = rand(2, 6); b = rand(2, 6); c = rand(1, 4); }
+  while (!NE_distinct([-a*a + b*b + c**3, a*a + b*b + c**3, -a*a - b*b + c**3, -a*a + b*b - c**3, -a*a + b*b + 3*c]));
+  const ans = -a * a + b * b + c ** 3;
+  return { q:`Հաշվիր. $-${a}^{2}+(-${b})^{2}-(-${c})^{3}$`, ans,
+    bad:[ { v:a * a + b * b + c ** 3, why:`$-${a}^{2}$-ը կարդում է որպես $(-${a})^{2}$ (աստիճանը վերաբերում է միայն ${a}-ին)` },
+          { v:-a * a - b * b + c ** 3, why:`$(-${b})^{2}$-ը համարում է բացասական` },
+          { v:-a * a + b * b - c ** 3, why:`$-(-${c})^{3}$-ի կրկնակի մինուսը չի հաշվում` },
+          { v:-a * a + b * b + 3 * c, why:"խորանարդը շփոթում է եռապատկման հետ" } ],
+    rationale:`$-${a}^{2}=-${a*a}$ (աստիճանը միայն ${a}-ինն է), $(-${b})^{2}=${b*b}$, $(-${c})^{3}=-${c**3}$, ուստի $-(-${c})^{3}=${c**3}$: Արդյունքը՝ $-${a*a}+${b*b}+${c**3}=${ans}$:`,
+    vars:{ a, b, c } };
+}, verify(v){ return Math.pow(-v.b, 2) - Math.pow(v.a, 2) - Math.pow(-v.c, 3); }},
+
+{ level:3, subtopic:"Արտահայտություն՝ բառերով տրված", bloom:"Համադրում", badgeClass:"lvl-4", gen(){
+  let t, a, b, c, ans, bads;
+  do { t = rand(0, 2); a = rand(2, 9); b = rand(2, 9); c = rand(2, 9);
+    if (t === 0) { ans = (a + b) ** 2; bads = [a*a + b*b, a + b*b, 2*(a + b)]; }
+    else if (t === 1) { ans = a*a - b*b; bads = [(a - b) ** 2, a*a - b, 2*a - 2*b]; }
+    else { ans = a * (b + c); bads = [a*b + c, a + b + c, a*b*c]; } }
+  while (t === 1 && a <= b || !NE_distinct([ans, ...bads]));
+  const Q = [`$${a}$ և $${b}$ թվերի գումարի քառակուսին`, `$${a}$ և $${b}$ թվերի քառակուսիների տարբերությունը`, `$${a}$ թվի և $${b}$-ի ու $${c}$-ի գումարի արտադրյալը`][t];
+  const W = [["գումարի քառակուսին շփոթում է քառակուսիների գումարի հետ", "քառակուսի է բարձրացնում միայն երկրորդ թիվը", "քառակուսին շփոթում է կրկնապատկման հետ"],
+             ["քառակուսիների տարբերությունը շփոթում է տարբերության քառակուսու հետ", "քառակուսի է բարձրացնում միայն առաջին թիվը", "քառակուսին շփոթում է կրկնապատկման հետ"],
+             ["բազմապատկում է միայն առաջին գումարելին (փակագիծ չի դնում)", "արտադրյալի փոխարեն գումարում է", "«գումարը» բաց է թողնում և բազմապատկում է երեքը"]][t];
+  const E = [`(${a}+${b})^{2}=${a + b}^{2}`, `${a}^{2}-${b}^{2}=${a*a}-${b*b}`, `${a}\\cdot(${b}+${c})=${a}\\cdot${b + c}`][t];
+  return { q:`Գտիր ${Q}:`, ans,
+    bad: bads.map((v, i) => ({ v, why:W[i] })),
+    rationale:`Գրառումը՝ $${E}=${ans}$:`,
+    vars:{ t, a, b, c } };
+}, verify(v){ return [ (v.a + v.b) * (v.a + v.b), (v.a - v.b) * (v.a + v.b), v.a * v.b + v.a * v.c ][v.t]; }}
+]});
+
+
 /* ===== math/numbers_to_20.js ===== */
 /* Աղբյուր՝ Բազա 1-4 v12, 1-ին դասարան, Գլ. 2–4 (1.2.9–1.4.6),
    Ս. Մկրտչյան «Մաթեմատիկա 1»։ 1.1.x (գույն, ձև, տարածական դիրք) բաց է
@@ -6851,10 +7477,10 @@ tasks:[
 { level:1, subtopic:"Տոկոսը որպես կրճատված կոտորակ", bloom:"Հասկացում", badgeClass:"lvl-1", gen(){
   let p,g; do { p=rand(5,95); g=gcd(p,100); } while(g<2);
   return { q:`Ներկայացրու $${p}\\%$-ը որպես կրճատված սովորական կոտորակ:`, ans:`$\\frac{${p/g}}{${100/g}}$`,
-    bad:[{v:`$\\frac{${p}}{100}$`,why:"գրում է կոտորակը՝ առանց կրճատելու"},
+    bad:[{v:`$\\frac{${p}}{100}$`,format:true,why:"գրում է կոտորակը՝ առանց կրճատելու (արժեքը նույնն է, բայց պահանջված է կրճատված տեսքը)"},
          {v:`$\\frac{${p/g}}{100}$`,why:"կրճատում է միայն համարիչը"},
          {v:`$\\frac{${p}}{${100/g}}$`,why:"կրճատում է միայն հայտարարը"}],
-    rationale:`$${p}\\%=\\frac{${p}}{100}$: Ամենամեծ ընդհանուր բաժանարար$(${p},100)=${g}$, ուստի կրճատած տեսքը՝ $\\frac{${p/g}}{${100/g}}$:`,
+    rationale:`$${p}\\%=\\frac{${p}}{100}$: $${p}$-ի և $100$-ի ամենամեծ ընդհանուր բաժանարարը՝ $${g}$, ուստի կրճատած տեսքը՝ $\\frac{${p/g}}{${100/g}}$:`,
     vars:{p} }; },
   verify(v){ const g=gcd(v.p,100); return `$\\frac{${v.p/g}}{${100/g}}$`; } },
 
@@ -6958,7 +7584,8 @@ tasks:[
   return { q:`Ապրանքն արժեր ${c} դրամ ինքնարժեք, վաճառվեց ${s} դրամով: Քանի՞ տոկոս շահույթ ստացվեց (ինքնարժեքի նկատմամբ):`, ans:p,
     bad:[{v:fix(Math.round((s-c)/s*1000)/10),why:"շահույթը հաշվում է վաճառքի գնից, ոչ թե ինքնարժեքից"},
          {v:s-c,why:"դրամային տարբերությունը տալիս է որպես տոկոս"},
-         {v:fix(Math.round(s/c*1000)/10),why:"հարաբերությունը հաշվում է, բայց մոռանում հանել 100%-ը"}],
+         {v:fix(Math.round(s/c*1000)/10),why:"հարաբերությունը հաշվում է, բայց մոռանում հանել 100%-ը"},
+         {v:fix(p/100),why:"հաշվում է շահույթի և ինքնարժեքի հարաբերությունը, բայց չի բազմապատկում 100-ով"}],
     rationale:`Շահույթը՝ $${s}-${c}=${s-c}$ դրամ: Տոկոսը ինքնարժեքից. $\\frac{${s-c}}{${c}}\\cdot100\\%=${p}\\%$:`,
     vars:{c,s} }; },
   verify(v){ return (v.s-v.c)/v.c*100; } },
@@ -6972,7 +7599,22 @@ tasks:[
          {v:Math.min(p1,p2),why:"վերցնում է միայն փոքր զեղչը"}],
     rationale:`Դիցուք գինը 100 էր. առաջին զեղչից հետո՝ $${100-p1}$, երկրորդից հետո՝ $${100-p1}\\cdot${fix((100-p2)/100)}=${fix((100-p1)*(100-p2)/100)}$: Ընդհանուր զեղչը՝ $100-${fix((100-p1)*(100-p2)/100)}=${ans}\\%$:`,
     vars:{p1,p2} }; },
-  verify(v){ return fix(Math.round((100-(100-v.p1)*(100-v.p2)/100)*10)/10); } }
+  verify(v){ return fix(Math.round((100-(100-v.p1)*(100-v.p2)/100)*10)/10); } },
+
+/* Օգտատիրոջ նյութից (Տեքստային խնդիրների տիպեր, տիպ 4). «Երկու թվերի գումարը 80 է, մեկը մյուսի 60%-ն է» */
+{ level:3, subtopic:"Երկու թիվ՝ գումարով և տոկոսային կապով", bloom:"Վերլուծություն", badgeClass:"lvl-4", gen(){
+  let p, B, s, S, bads;
+  do { p = randEl([10, 20, 25, 30, 40, 50, 60, 75, 80]); B = rand(2, 30) * 20; s = B * p / 100; S = B + s;
+       bads = [S * p / 100, S - S * p / 100, S / 2, s]; }
+  while (!Number.isInteger(s) || bads.some(x => !Number.isInteger(x * 10)) || new Set([B, ...bads]).size < 5);
+  return { q:`Երկու թվերի գումարը ${S} է, իսկ փոքր թիվը մեծի ${p}%-ն է: Գտիր մեծ թիվը:`, ans:B,
+    bad:[ {v:fix(bads[0]), why:"տոկոսը հաշվում է գումարից, ոչ թե մեծ թվից"},
+          {v:fix(bads[1]), why:"գումարից հանում է գումարի տոկոսը (հիմքը շփոթում է)"},
+          {v:fix(bads[2]), why:"թվերը համարում է հավասար"},
+          {v:s, why:"ճիշտ է լուծում, բայց պատասխանում է փոքր թվով"}],
+    rationale:`Մեծ թիվը՝ $100\\%$, փոքրը՝ $${p}\\%$, միասին՝ $${100 + p}\\%$, որը $${S}$ է: Մեծ թիվը՝ $${S}:${fix((100 + p) / 100)}=${B}$ (ստուգում. $${B}+${s}=${S}$):`,
+    vars:{p, S} }; },
+  verify(v){ return Math.round(v.S * 100 / (100 + v.p)); } }
 ]});
 
 
@@ -7802,7 +8444,7 @@ tasks: [
     bad:[{v:`$${b}:${a}$`,why:"հարաբերության կողմերը տեղերով է փոխում"},
          {v:`$${x}:${y}$`,why:"չի կրճատում ընդհանուր բաժանարարով"},
          {v:`$${a+1}:${b}$`,why:"հաշվարկային սխալ կրճատելիս"}],
-    rationale:`Ամենամեծ ընդհանուր բաժանարար$(${x},${y})=${g}$: Բաժանելով երկուսն էլ $${g}$-ի. $${x}:${y}=${a}:${b}$:`,
+    rationale:`$${x}$-ի և $${y}$-ի ամենամեծ ընդհանուր բաժանարարը՝ $${g}$: Բաժանելով երկուսն էլ $${g}$-ի. $${x}:${y}=${a}:${b}$:`,
     vars:{x,y} }; },
   verify(v){ const g=gcd(v.x,v.y); return `$${v.x/g}:${v.y/g}$`; } },
 
@@ -8592,7 +9234,7 @@ tasks: [
     bad:[{v:`$\\dfrac{${a}}{${b}}$`,why:"կրճատելիս սխալմամբ ջնջում է $x$-ը էլ"},
          {v:`$\\dfrac{${num}x}{${b}}$`,why:"ընդհանուր արտադրիչը կրճատում է միայն հայտարարից"},
          {v:`$\\dfrac{${a}x}{${den}}$`,why:"ընդհանուր արտադրիչը կրճատում է միայն համարիչից"}],
-    rationale:`Ամենամեծ ընդհանուր բաժանարար$(${num},${den})=${k}$: Բաժանելով երկուսն էլ $${k}$-ի. $\\dfrac{${num}x}{${den}}=\\dfrac{${a}x}{${b}}$:`,
+    rationale:`$${num}$-ի և $${den}$-ի ամենամեծ ընդհանուր բաժանարարը՝ $${k}$: Բաժանելով երկուսն էլ $${k}$-ի. $\\dfrac{${num}x}{${den}}=\\dfrac{${a}x}{${b}}$:`,
     vars:{num,den} }; },
   verify(v){ const g=gcd(v.num,v.den); return `$\\dfrac{${v.num/g}x}{${v.den/g}}$`; } },
 
@@ -8617,7 +9259,8 @@ tasks: [
   verify(v){ return `$\\dfrac{x${sgnT(v.k)}}{x${sgnT(v.m)}}$`; } },
 
 { level:2, subtopic:"Բազմապատկում ռացիոնալ արտահայտություններով", bloom:"Կիրառում", badgeClass:"lvl-2", gen(){
-  const a=rand(2,9), b=rand(2,9), c=rand(2,9);
+  // a/b՝ կրճատված (գրքում պատասխանը միշտ կրճատված է), b≠c, որ սխալ տարբերակը չհամընկնի պատասխանին
+  let a,b,c; do { a=rand(2,9); b=rand(2,9); c=rand(2,9); } while (gcd(a,b)!==1 || b===c);
   return { q:`Հաշվիր. $\\dfrac{${a}x}{${c}}\\cdot\\dfrac{${c}}{${b}x}$`, ans:`$\\dfrac{${a}}{${b}}$`,
     bad:[{v:`$\\dfrac{${a*c}x}{${b*c}x}$`,why:"կատարում է բազմապատկումը, բայց չի պարզեցնում ընդհանուր արտադրիչները"},
          {v:`$\\dfrac{${a}}{${b}}x^2$`,why:"մոռանում է, որ $x$-երը իրար հակադարձ դիրքում կրճատվում են"},
@@ -8627,7 +9270,7 @@ tasks: [
   verify(v){ return `$\\dfrac{${v.a}}{${v.b}}$`; } },
 
 { level:2, subtopic:"Բաժանում ռացիոնալ արտահայտություններով", bloom:"Կիրառում", badgeClass:"lvl-2", gen(){
-  const a=rand(2,9), b=rand(2,9);
+  let a,b; do { a=rand(2,13); b=rand(2,13); } while (gcd(a,b)!==1);   // պատասխանը՝ կրճատված կոտորակ
   return { q:`Հաշվիր. $\\dfrac{${a}}{x}:\\dfrac{${b}}{x}$`, ans:`$\\dfrac{${a}}{${b}}$`,
     bad:[{v:`$\\dfrac{${a*b}}{x^2}$`,why:"բաժանման փոխարեն ուղղակի բազմապատկում է"},
          {v:`$\\dfrac{${b}}{${a}}$`,why:"շրջում է սխալ կոտորակը (առաջինի փոխարեն երկրորդը պիտի շրջվեր)"},
